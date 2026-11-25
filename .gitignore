@@ -29,3 +29,4 @@ outputs/*/kaggle_job.zip
 .dev
 # local settings of the coding agent
 .claude/
+plan.md

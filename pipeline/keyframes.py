@@ -176,7 +176,8 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
                     tmp.write_text(json.dumps(scores, ensure_ascii=False), encoding="utf-8")
                     return scores
 
-                judge_units.append(Unit("keyframes", f"{s['id']}_c{i}_judge", fp, "json", produce))
+                # optional: the judge measures. If the model cannot be reached the pictures are still there, and a person picks.
+                judge_units.append(Unit("keyframes", f"{s['id']}_c{i}_judge", fp, "json", produce, optional=True))
         judged = run_units(ctx, judge_units, plan_only)
 
     # 4. pick
@@ -187,19 +188,28 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
             res = made[f"{sid}_card"]
             index[sid] = {"file": res.path.name if res.path else None, "key": res.key, "blocked": p["blocked"], "candidate": None}
             continue
-        scores = {i: judged[f"{sid}_c{i}_judge"].meta for i in range(1, p["n"] + 1) if f"{sid}_c{i}_judge" in judged}
+        numbers = range(1, p["n"] + 1)
+        scores = {i: judged[f"{sid}_c{i}_judge"].meta for i in numbers
+                  if f"{sid}_c{i}_judge" in judged and judged[f"{sid}_c{i}_judge"].meta.get("total") is not None}
+        unscored = [i for i in numbers if i not in scores] if qa.get("judge") else []
         pick, by = s["keyframe"].get("pick"), "human"
         if not pick:
-            if len(scores) > 1:
-                pick, by = max(scores, key=lambda i: scores[i].get("total", 0)), "judge"
+            if p["n"] == 1:
+                pick, by = 1, "only candidate"
+            elif not qa.get("judge"):
+                pick, by = 1, "first candidate (judge off)"
+            elif unscored:  # a pick between a scored and an unscored picture would not be a comparison
+                pick, by = 1, "first candidate (judge incomplete)"
             else:
-                pick, by = 1, "only candidate" if p["n"] == 1 else "first candidate (judge off)"
+                pick, by = max(scores, key=lambda i: scores[i]["total"]), "judge"
         res = made[f"{sid}_c{pick}"]
         index[sid] = {"file": res.path.name if res.path else None, "key": res.key, "blocked": [], "candidate": pick,
-                      "picked_by": by, "scores": {str(i): v for i, v in scores.items()}, "prompt": p["prompt"]}
+                      "picked_by": by, "scores": {str(i): v for i, v in scores.items()}, "unscored": unscored, "prompt": p["prompt"]}
         flagged = scores.get(pick, {})
         if flagged.get("text_in_image") or flagged.get("total", 5) < 3:
             ctx.say(f"  look at {sid}: judge total {flagged.get('total')}, text in image: {flagged.get('text_in_image')}. {flagged.get('notes', '')}")
+        if unscored and not plan_only:
+            ctx.say(f"  look at {sid}: the judge has not scored candidate {', '.join(map(str, unscored))}. The next run tries again.")
     state["keyframes"] = index
     if not plan_only:
         write_index(ctx, "keyframes", index)

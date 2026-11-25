@@ -63,7 +63,8 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
                 tmp.write_text(json.dumps(result, ensure_ascii=False), encoding="utf-8")
                 return result
 
-            check_units.append(Unit("narration", f"{sid}_listen", fp, "json", produce))
+            # optional: the check measures. If the model cannot be reached the line is still spoken, and a person listens.
+            check_units.append(Unit("narration", f"{sid}_listen", fp, "json", produce, optional=True))
         checks = run_units(ctx, check_units)
 
     floor = qa.get("roundtrip_min", 0.6)
@@ -72,10 +73,12 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
         entry = {"file": res.path.name if res.path else None, "key": res.key,
                  "seconds": res.meta.get("seconds") or script["lines"][sid]["estimate_s"]}
         check = checks.get(f"{sid}_listen")
-        if check:
+        if check and "score" in check.meta:
             entry.update(heard=check.meta["heard"], roundtrip=check.meta["score"])
             if check.meta["score"] < floor:
                 ctx.say(f"  listen to {sid}: the model heard \"{check.meta['heard'][:70]}\" (match {check.meta['score']:.2f}, floor {floor})")
+        elif check:
+            ctx.say(f"  listen to {sid} yourself: the listening check did not run. The next run tries again.")
         index[sid] = entry
     state["narration"] = index
     if not plan_only:

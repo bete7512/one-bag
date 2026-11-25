@@ -29,6 +29,9 @@ TARGET = {"lufs": -14.0, "true_peak": -1.5, "lra": 11.0}  # -1.5 leaves room for
 VOICE_LUFS, MUSIC_LUFS = -16.0, -24.0  # levels before ducking: the score starts 8 dB under the voice
 MAX_CROP_LOSS = 0.45
 MAX_SLOWDOWN = 1.25
+TAIL_MIN_S = 0.75        # a hold shorter than this is not seen as a freeze
+TAIL_PUSH_PER_S = 0.012  # after a clip ends its last frame keeps moving: about 1% closer each second
+TAIL_PUSH_MAX = 0.08
 SUBTITLE_STYLE = 2  # bump when the look of the subtitles changes
 
 
@@ -105,12 +108,29 @@ def fit_graph(src_w: int, src_h: int, width: int, height: int) -> tuple[str, str
 
 
 def render_scene(ctx: Ctx, clip: Path, out: Path, *, width: int, height: int, frames: int, fps: int, cues: list, margin_v: int) -> dict:
+    """One shot at one export size, exactly `frames` long, subtitles burned in.
+
+    A generated clip is a few seconds long and a shot lasts as long as its narration. A clip that
+    is too short is slowed by at most MAX_SLOWDOWN. What is still missing is the tail: the clip's
+    last frame goes on as a slow push in, so the picture never freezes while the voice is speaking.
+    """
     info = media_info(clip)
     have = max(1, round(info["duration"] * fps))
-    slow = 1.0 if have >= frames else min(MAX_SLOWDOWN, frames / have)  # a short clip is slowed a little, then its last frame is held
-    hold = max(0.0, frames / fps - info["duration"] * slow) + 0.5
+    slow = 1.0 if have >= frames else min(MAX_SLOWDOWN, frames / have)
+    tail = max(0.0, frames / fps - info["duration"] * slow)
     fit, mode = fit_graph(info["width"], info["height"], width, height)
-    graph = f"[0:v]setpts={slow:.5f}*(PTS-STARTPTS),fps={fps},tpad=stop_mode=clone:stop_duration={hold:.3f},{fit}"
+    graph = f"[0:v]setpts={slow:.5f}*(PTS-STARTPTS),fps={fps},tpad=stop_mode=clone:stop_duration={tail + 0.5:.3f}"
+    kind = "none" if tail == 0 else "hold" if tail < TAIL_MIN_S else "push"
+    if kind == "push":
+        # The whole shot goes through one zoom filter: zoom 1 while the clip plays, then an eased push in over
+        # its last frame. Both parts are resampled the same way, so nothing changes at the point where they meet.
+        w0, h0 = info["width"], info["height"]
+        start = round(info["duration"] * slow * fps)
+        ease = f"(1-cos(PI*(on-{start})/{max(1, frames - start)}))/2"
+        zoom = f"if(lt(on,{start}),1,1+{min(TAIL_PUSH_MAX, TAIL_PUSH_PER_S * tail):.4f}*{ease})"
+        graph += (f",scale={3 * w0}:{3 * h0}:flags=lanczos,zoompan=z='{zoom}':x='(iw-iw/zoom)/2':y='(ih-ih/zoom)/2'"
+                  f":d=1:s={w0}x{h0}:fps={fps}")
+    graph += f",{fit}"
     work = work_dir(ctx)
     ass = None
     if cues:
@@ -123,7 +143,7 @@ def render_scene(ctx: Ctx, clip: Path, out: Path, *, width: int, height: int, fr
     finally:
         if ass:
             ass.unlink(missing_ok=True)
-    return {"fit": mode, "slowdown": round(slow, 3), "held_s": round(max(0.0, hold - 0.5), 3)}
+    return {"fit": mode, "slowdown": round(slow, 3), "tail": kind, "tail_s": round(tail, 3)}
 
 
 def render_card(ctx: Ctx, out: Path, *, lines: list[str], width: int, height: int, frames: int, fps: int) -> dict:
@@ -241,6 +261,7 @@ def run(ctx: Ctx, state: dict, mode: str = "film", plan_only: bool = False) -> d
     card_lines = sb["end_card"]["lines"]
     card_frames = round(timeline["end_card_s"] * fps)
     files: dict[str, str] = {}
+    tails: dict[str, dict] = {}      # shots whose clip ended before the shot did, and how the rest was covered
 
     if mode == "radio":
         exp = fmt["exports"][0]
@@ -285,6 +306,10 @@ def run(ctx: Ctx, state: dict, mode: str = "film", plan_only: bool = False) -> d
             units.append(Unit("assemble", f"{name}_endcard", fp, "mp4",
                               lambda tmp, W=W, H=H: render_card(ctx, tmp, lines=card_lines, width=W, height=H, frames=card_frames, fps=fps)))
             scenes = run_units(ctx, units, plan_only)
+            for t in timeline["shots"]:
+                meta = scenes[f"{name}_{t['id']}{suffix}"].meta
+                if meta.get("tail_s"):
+                    tails[t["id"]] = {"tail": meta["tail"], "tail_s": meta["tail_s"], "slowdown": meta.get("slowdown")}
             order = [scenes[u.id] for u in units]
             fp = {"v": V, "scenes": [r.key for r in order], "mix": mix.key}
             final = run_units(ctx, [Unit("assemble", f"film_{name}{suffix}", fp, "mp4",
@@ -295,7 +320,7 @@ def run(ctx: Ctx, state: dict, mode: str = "film", plan_only: bool = False) -> d
                 shutil.copy2(final.path, ctx.out / files[name])
 
     index = {"mode": mode, "language": lang, "total_s": total, "files": files, "timeline": timeline, "mix": mix.meta,
-             "cues": [[a, b, lines] for a, b, lines in absolute], "end_card": card_lines}
+             "cues": [[a, b, lines] for a, b, lines in absolute], "end_card": card_lines, "tails": tails}
     state["assemble"] = index
     if not plan_only:
         if files:

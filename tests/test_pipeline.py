@@ -12,25 +12,43 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from pipeline import cli, core, keyframes, music, providers
+from pipeline import assemble, cli, core, keyframes, music, providers
 from pipeline.blindtest import sign_test
 from pipeline.narration import similarity
 
 REPO = Path(__file__).resolve().parent.parent
 
+ETHICS_DRAFT = """# Ethics (test copy: no consent is recorded)
+
+| ID | Person | What appears in the film | How consent was given | Date (YYYY-MM-DD) |
+|---|---|---|---|---|
+| consent-author | The author | A drawn character | | |
+| consent-friend | The friend | A drawn character | | |
+"""
+
 
 def make_project(folder: Path, small: bool = True) -> Path:
-    """A throwaway copy of the project: the contract and the docs, not the outputs."""
+    """A throwaway copy of the project, set back to a first draft.
+
+    The tests describe how the pipeline behaves, so they must give the same answer whether the real
+    film is a draft or ready for release. The copy keeps the real shots, and goes back to: nobody's
+    consent recorded, the audience still marked DRAFT, no score chosen.
+    """
     for name in ("schema", "kaggle"):
         shutil.copytree(REPO / name, folder / name)
-    for name in ("storyboard.json", "ETHICS.md"):
-        shutil.copy2(REPO / name, folder / name)
+    shutil.copy2(REPO / "storyboard.json", folder / "storyboard.json")
+    (folder / "ETHICS.md").write_text(ETHICS_DRAFT, encoding="utf-8")
+    sb = read_sb(folder)
+    sb["audience"] = "DRAFT, a test audience."
+    sb["music"]["chosen"] = None
+    for character in sb["characters"]:
+        if character["real_person"]:
+            character["consent"]["status"] = "pending"
     if small:  # tiny frames keep the full run fast; the logic is the same
-        sb = read_sb(folder)
         sb["format"]["master"] = {"width": 256, "height": 256}
         sb["format"]["exports"] = [{"name": "vertical", "width": 180, "height": 320, "subtitle_margin_v": 40},
                                    {"name": "horizontal", "width": 320, "height": 180, "subtitle_margin_v": 10}]
-        write_sb(folder, sb)
+    write_sb(folder, sb)
     return folder
 
 
@@ -59,7 +77,7 @@ class Project(unittest.TestCase):
 class StoryboardTests(Project):
     def test_repo_storyboard_is_valid(self):
         sb, problems = core.load_storyboard(REPO)
-        self.assertEqual(len(sb["shots"]), 10)
+        self.assertTrue(8 <= len(sb["shots"]) <= 12, len(sb["shots"]))   # what the brief asks for
         self.assertFalse([p for p in problems if p[0] == "error"])
 
     def test_every_shot_has_a_reason(self):
@@ -124,17 +142,22 @@ class ConsentGateTests(Project):
         self.assertFalse(any(u.startswith("ref_") for u in drawn))                       # no reference sheet of a person either
 
         sb = read_sb(self.root)                                                          # consent recorded for the author only
+        others = set()
         for c in sb["characters"]:
-            if c["consent"]["record"] == "consent-author":
+            if c["consent"].get("record") == "consent-author":
                 c["consent"]["status"] = "recorded"
+            elif c["real_person"]:
+                others.add(c["id"])
         write_sb(self.root, sb)
         with open(self.root / "ETHICS.md", "a", encoding="utf-8") as fh:
             fh.write("\n| consent-author | me | a drawn character | my own statement | 2026-11-25 |\n")
         ctx = self.ctx(mock=False)
         with mock.patch.object(providers, "image", fake_image), mock.patch.object(providers, "text", fake_text):
             index = keyframes.run(ctx, {})
-        self.assertEqual({sid for sid, k in index.items() if k["blocked"]}, {"s06"})     # only the shot with the friend is still held
-        self.assertIn("ref_boy", drawn)
+        still_held = {s["id"] for s in sb["shots"] if others & set(s["characters"])}     # only shots with someone else in them
+        self.assertEqual({sid for sid, k in index.items() if k["blocked"]}, still_held)
+        sheets = {f"ref_{c['id']}" for c in sb["characters"] if c.get("reference_prompt") and c["consent"]["status"] == "recorded"}
+        self.assertTrue(sheets and sheets <= set(drawn), sheets)                         # the author's reference sheet is drawn now
 
 
 class CacheTests(Project):
@@ -202,6 +225,18 @@ class RunLogTests(Project):
             core.model_call(ctx, stage="keyframes", unit="s01_c1", provider="mock", model="m", params={}, seed=1, fn=rejected)
         self.assertEqual(len(attempts), 1)
 
+    def test_waits_between_attempts_are_long_enough_for_a_busy_model(self):
+        ctx, waits = self.ctx(), []
+        ctx.sleep = waits.append
+
+        def busy():
+            raise core.ProviderError("HTTP 503", 503, retryable=True)
+
+        with self.assertRaises(core.PipelineError):
+            core.model_call(ctx, stage="keyframes", unit="s05_c1_judge", provider="mock", model="m", params={}, seed=None, fn=busy)
+        self.assertEqual(waits, [10.0, 30.0, 90.0])
+        self.assertEqual(len(core.read_jsonl(ctx.runlog)), 4)
+
     def test_mock_runs_never_touch_the_real_run_log(self):
         ctx = self.ctx()
         providers.tts(ctx, "narration", "s01", "ሰላም", voice="Charon", style="calm")
@@ -211,10 +246,12 @@ class RunLogTests(Project):
 
 class TimingTests(unittest.TestCase):
     def test_subtitles_fit_two_lines_of_forty_characters(self):
-        for shot in read_sb(REPO)["shots"]:
-            if not shot["narration"]:
+        sb = read_sb(REPO)
+        for shot in sb["shots"]:
+            subtitle = (shot["narration"] or {}).get(sb["language"]["subtitles"])
+            if not subtitle:
                 continue
-            cues = core.subtitle_cues(shot["narration"]["en"], 2.0, 6.0)
+            cues = core.subtitle_cues(subtitle, 2.0, 6.0)
             self.assertAlmostEqual(cues[0][0], 2.0)
             self.assertAlmostEqual(cues[-1][1], 8.0, places=2)
             for start, end, lines in cues:
@@ -224,12 +261,13 @@ class TimingTests(unittest.TestCase):
 
     def test_picture_follows_the_voice(self):
         sb = read_sb(REPO)
-        timeline = core.plan_timeline(sb, {"s01": 9.0})
+        fmt, spoken = sb["format"], sb["shots"][0]["min_duration_s"] + 2.0        # a line longer than the shot's minimum
+        timeline = core.plan_timeline(sb, {sb["shots"][0]["id"]: spoken})
         first, second = timeline["shots"][0], timeline["shots"][1]
-        self.assertAlmostEqual(first["duration"], 0.4 + 9.0 + 0.5, places=1)      # longer than its 7 s minimum
-        self.assertEqual(second["duration"], sb["shots"][1]["min_duration_s"])    # no narration: its minimum
+        self.assertAlmostEqual(first["duration"], fmt["lead_in_s"] + spoken + fmt["tail_s"], places=1)   # the voice sets the length
+        self.assertEqual(second["duration"], sb["shots"][1]["min_duration_s"])    # nothing spoken yet: its minimum
         self.assertAlmostEqual(second["start"], first["duration"], places=3)
-        self.assertEqual(first["frames"], round(first["duration"] * 24))
+        self.assertEqual(first["frames"], round(first["duration"] * fmt["fps"]))
 
 
 class ProviderParsingTests(unittest.TestCase):
@@ -339,6 +377,92 @@ class RequestShapeTests(Project):
         self.assertEqual((out, meta["usage"]), ('{"artifacts": 4}', {"input_tokens": 9, "output_tokens": 3}))
 
 
+class ChecksThatOnlyMeasureTests(Project):
+    """The picture judge and the listening check measure. A model that cannot be reached must not cost the film."""
+
+    def busy(self, units: set):
+        """The text provider, except that it fails for the named units the way a busy model does."""
+        from unittest import mock
+        answer = providers.text
+
+        def text(ctx, stage, unit, prompt, **kw):
+            if unit in units:
+                raise core.PipelineError(f"gemini call for {unit} failed: HTTP 503")
+            return answer(ctx, stage, unit, prompt, **kw)
+
+        return mock.patch.object(providers, "text", text)
+
+    def test_an_optional_unit_that_fails_does_not_stop_the_run(self):
+        def broken(tmp):
+            raise core.PipelineError("the model is busy")
+
+        ctx = self.ctx()
+        units = [core.Unit("unit_test", "check", {"a": 1}, "json", broken, optional=True),
+                 core.Unit("unit_test", "thing", {"a": 1}, "txt", lambda tmp: tmp.write_text("x", encoding="utf-8") and None)]
+        results = core.run_units(ctx, units)
+        self.assertEqual((results["check"].path, results["check"].failed), (None, "the model is busy"))
+        self.assertTrue(results["thing"].path.exists())
+        self.assertEqual(list((ctx.out / "unit_test").glob("check__*")), [])     # nothing cached: the next run tries again
+
+    def test_keyframes_are_made_when_the_judge_cannot_be_reached(self):
+        sb = read_sb(self.root)
+        sb["qa"].update(keyframe_candidates=2, judge=True)
+        first = sb["shots"][0]
+        first["keyframe"] = {k: v for k, v in first["keyframe"].items() if k not in ("pick", "candidates")}
+        write_sb(self.root, sb)
+        sid = first["id"]
+        with self.busy({f"{sid}_c2_judge"}):
+            index = keyframes.run(self.ctx(), {})
+        self.assertEqual((index[sid]["candidate"], index[sid]["picked_by"], index[sid]["unscored"]), (1, "first candidate (judge incomplete)", [2]))
+        self.assertTrue(index[sid]["file"])                                     # the picture is there all the same
+        index = keyframes.run(self.ctx(), {})                                   # the model answers again
+        self.assertEqual((index[sid]["picked_by"], index[sid]["unscored"]), ("judge", []))
+
+    def test_lines_are_spoken_when_the_listening_check_cannot_be_reached(self):
+        from pipeline import narration, script
+        ctx, state = self.ctx(), {}
+        script.run(ctx, state)
+        sid = next(iter(state["script"]["lines"]))
+        with self.busy({f"{sid}_listen"}):
+            index = narration.run(ctx, state)
+        self.assertTrue(index[sid]["file"])
+        self.assertNotIn("roundtrip", index[sid])
+        self.assertTrue(all("roundtrip" in line for other, line in index.items() if other != sid))
+
+
+class SceneTests(Project):
+    """A generated clip lasts a few seconds. A shot lasts as long as its narration."""
+
+    def scene(self, clip_s: float, frames: int) -> tuple[dict, Path]:
+        clip, scene = self.root / "clip.mp4", self.root / "scene.mp4"
+        core.ff(["-f", "lavfi", "-i", f"testsrc2=size=128x128:rate=24:duration={clip_s}", "-pix_fmt", "yuv420p", str(clip)])
+        meta = assemble.render_scene(self.ctx(), clip, scene, width=180, height=320, frames=frames, fps=24, cues=[], margin_v=40)
+        return meta, scene
+
+    def difference(self, scene: Path, first: int, second: int) -> float:
+        """Mean difference between two frames of a video, counted from frame 0, on a scale of 0 to 255."""
+        grabbed = []
+        for n in (first, second):
+            raw = self.root / "frame.raw"
+            core.ff(["-i", str(scene), "-vf", f"select=eq(n\\,{n})", "-frames:v", "1", "-f", "rawvideo", "-pix_fmt", "gray", str(raw)])
+            grabbed.append(raw.read_bytes())
+        return sum(abs(a - b) for a, b in zip(*grabbed)) / len(grabbed[0])
+
+    def test_a_clip_shorter_than_its_shot_keeps_moving(self):
+        meta, scene = self.scene(clip_s=1, frames=96)                 # one second of clip for a four second shot
+        self.assertEqual((meta["slowdown"], meta["tail"]), (1.25, "push"))
+        self.assertAlmostEqual(meta["tail_s"], 4.0 - 1.25, places=2)
+        self.assertAlmostEqual(core.media_info(scene)["duration"], 4.0, places=2)
+        self.assertGreater(self.difference(scene, 27, 28), 2.0)       # the clip itself moves (slowed to 30 frames)
+        self.assertLess(self.difference(scene, 29, 30), 0.5)          # no jump where it hands over to its last frame
+        self.assertGreater(self.difference(scene, 40, 90), 2.0)       # and the picture is still moving long after
+
+    def test_a_clip_as_long_as_its_shot_is_left_alone(self):
+        meta, scene = self.scene(clip_s=2, frames=48)
+        self.assertEqual((meta["slowdown"], meta["tail"], meta["tail_s"]), (1.0, "none", 0.0))
+        self.assertAlmostEqual(core.media_info(scene)["duration"], 2.0, places=2)
+
+
 class SmallToolTests(unittest.TestCase):
     def test_sign_test(self):
         self.assertAlmostEqual(sign_test(5, 5), 0.0625)
@@ -401,18 +525,27 @@ class EndToEndTests(Project):
         self.assertEqual((built, calls), (set(), []))
 
         sb = read_sb(self.root)                                      # one narration line changed
-        sb["shots"][3]["narration"]["am"] += " በጣም።"
+        spoken = next(s for s in sb["shots"] if s["narration"])
+        spoken["narration"][sb["language"]["narration"]] += " በጣም።"
         write_sb(self.root, sb)
         built, calls = self.film()
-        self.assertEqual(sorted(c["unit"] for c in calls), ["s04", "s04_listen"])
-        self.assertEqual(built, {"s04", "s04_listen", "mix", "vertical_s04", "horizontal_s04", "film_vertical", "film_horizontal"})
+        sid = spoken["id"]
+        films = {"film_vertical", "film_horizontal"}
+        self.assertEqual(sorted(c["unit"] for c in calls), [sid, f"{sid}_listen"])                 # speak it, listen to it
+        rebuilt = {sid, f"{sid}_listen", "mix", f"vertical_{sid}", f"horizontal_{sid}"} | films
+        self.assertLessEqual(rebuilt, built)
+        self.assertLessEqual(built, rebuilt | {f"{sid}_kenburns"})   # its clip too, when the longer line makes the shot longer
 
-        sb["shots"][6]["keyframe"]["prompt"] += " A wooden chair in the corner."   # one keyframe prompt changed
+        drawn = sb["shots"][-1]                                      # one keyframe prompt changed, in another shot
+        self.assertNotEqual(drawn["id"], sid)
+        drawn["keyframe"]["prompt"] += " A wooden chair in the corner."
         write_sb(self.root, sb)
         built, calls = self.film()
-        self.assertEqual(sorted(c["unit"] for c in calls), ["s07_c1", "s07_c1_judge", "s07_c2", "s07_c2_judge"])
-        self.assertEqual(built, {"s07_c1", "s07_c2", "s07_c1_judge", "s07_c2_judge", "s07_kenburns",
-                                 "vertical_s07", "horizontal_s07", "film_vertical", "film_horizontal"})
+        kid, n = drawn["id"], drawn["keyframe"].get("candidates", sb["qa"]["keyframe_candidates"])
+        pictures = {f"{kid}_c{i}" for i in range(1, n + 1)}
+        pictures |= {f"{unit}_judge" for unit in pictures} if sb["qa"]["judge"] else set()
+        self.assertEqual({c["unit"] for c in calls}, pictures)
+        self.assertEqual(built, pictures | {f"{kid}_kenburns", f"vertical_{kid}", f"horizontal_{kid}"} | films)
 
     def test_radio_cut(self):
         with contextlib.redirect_stdout(io.StringIO()):

@@ -27,10 +27,12 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
 
+from . import pricing
+
 ROOT = Path(__file__).resolve().parent.parent
 STAGES = ["script", "narration", "keyframes", "shots", "music", "assemble"]
 # Bump a stage's number when its logic changes in a way that changes its output, so old cache entries stop matching.
-STAGE_VERSION = {"script": 1, "narration": 1, "keyframes": 1, "shots": 1, "music": 1, "assemble": 1}
+STAGE_VERSION = {"script": 1, "narration": 1, "keyframes": 1, "shots": 1, "music": 1, "assemble": 2}
 
 
 class PipelineError(Exception):
@@ -65,6 +67,14 @@ class Ctx:
     sleep: Callable[[float], None] = time.sleep
     quiet: bool = False
     pause_s: float = 0.0  # wait after each real model call, for free tiers with a low calls-per-minute limit
+    _prices: dict | None = field(default=None, repr=False)
+
+    @property
+    def prices(self) -> dict:
+        """List prices from pricing.json, read once."""
+        if self._prices is None:
+            self._prices = pricing.load(self.root)
+        return self._prices
 
     @property
     def out(self) -> Path:
@@ -258,6 +268,7 @@ class Unit:
     fingerprint: dict
     ext: str
     produce: Callable[[Path], dict | None] | None = None  # None: made outside this machine (a GPU job)
+    optional: bool = False  # a check that only measures: if it fails the run goes on, and the next run tries it again
 
 
 @dataclass
@@ -268,6 +279,7 @@ class Result:
     hit: bool
     reason: str
     meta: dict
+    failed: str = ""  # why an optional unit could not be built this time
 
 
 class Cache:
@@ -325,12 +337,22 @@ def run_units(ctx: Ctx, units: list[Unit], plan_only: bool = False) -> dict[str,
         cache.dir.mkdir(parents=True, exist_ok=True)
         tmp = path.with_name(f"tmp-{uuid.uuid4().hex[:8]}-{path.name}")  # keeps the extension: ffmpeg picks the format from it
         t0 = time.time()
+        failed = ""
         try:
             meta = u.produce(tmp) or {}
             os.replace(tmp, path)  # atomic: a stopped run never leaves a half-written file under the final name
+        except PipelineError as e:
+            if not u.optional:
+                raise
+            failed = str(e)
         finally:
             if tmp.exists():
                 tmp.unlink()
+        if failed:  # nothing is cached, so the next run tries again
+            results[u.id] = Result(u.id, None, key, False, reason, {}, failed=failed)
+            ctx.say(f"  [{u.stage}] {u.id:<22} FAILED, the run goes on without it: {failed[:160]}")
+            log_event(ctx, stage=u.stage, unit=u.id, key=key, event="failed", reason=failed[:300])
+            continue
         cache.commit(u, key, path, meta)
         results[u.id] = Result(u.id, path, key, False, reason, meta)
         ctx.say(f"  [{u.stage}] {u.id:<22} MISS ({reason}) built in {time.time() - t0:.1f}s")
@@ -352,8 +374,14 @@ def _append(path: Path, rec: dict) -> None:
 
 
 def log_run(ctx: Ctx, **rec: Any) -> None:
-    """One line per model call in runs.jsonl."""
-    _append(ctx.runlog, {"ts": now(), "run_id": ctx.run_id, **rec})
+    """One line per model call in runs.jsonl.
+
+    `cost_usd` is what the call would cost at list price (pricing.json): nothing was paid on the
+    free tiers. It is 0 for a failed attempt and for a mock call, and null when the price is not known.
+    """
+    rec = {"ts": now(), "run_id": ctx.run_id, **rec}
+    rec["cost_usd"] = pricing.cost_usd(rec, ctx.prices) if rec.get("status") == "ok" and not ctx.mock else 0.0
+    _append(ctx.runlog, rec)
 
 
 def log_event(ctx: Ctx, **rec: Any) -> None:
@@ -367,10 +395,12 @@ def read_jsonl(path: Path) -> list[dict]:
     return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
 
 
+RETRY_WAITS = (10.0, 30.0, 90.0)  # seconds before attempts 2, 3 and 4, unless the provider says how long to wait
+
+
 def model_call(ctx: Ctx, *, stage: str, unit: str, provider: str, model: str, params: dict, seed: int | None,
                fn: Callable[[], tuple[Any, dict]], attempts: int = 4) -> tuple[Any, dict]:
     """Run one model call with retries. Every attempt, failed or not, is one line in the run log."""
-    delay = 2.0
     for attempt in range(1, attempts + 1):
         t0 = time.time()
         base = {"stage": stage, "unit": unit, "provider": provider, "model": model, "params": params, "seed": seed, "attempt": attempt}
@@ -380,10 +410,9 @@ def model_call(ctx: Ctx, *, stage: str, unit: str, provider: str, model: str, pa
             log_run(ctx, **base, status="error", http_status=e.status, latency_s=round(time.time() - t0, 3), error=str(e)[:400])
             if not e.retryable or attempt == attempts:
                 raise PipelineError(f"{provider} call for {unit} failed: {e}") from None
-            wait = min(e.retry_after or delay, 90.0)
+            wait = min(e.retry_after or RETRY_WAITS[min(attempt, len(RETRY_WAITS)) - 1], 90.0)
             ctx.say(f"  [{stage}] {unit}: {e} Waiting {wait:.0f}s, then attempt {attempt + 1} of {attempts}.")
             ctx.sleep(wait)
-            delay *= 2
             continue
         log_run(ctx, **base, status="ok", latency_s=round(time.time() - t0, 3), **meta)
         if ctx.pause_s:

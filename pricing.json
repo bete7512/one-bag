@@ -1,11 +1,36 @@
 {
-  "_how_to_use": "List prices for the 'list price' column of COSTS.md. The pipeline was run on free tiers, so nothing was paid: this column says what the same calls would cost at list price. Fill in usd only from the provider's own pricing page, with the date you checked. A model with no entry, or usd null, shows as n/a.",
-  "_units": "per_image | per_megapixel | per_1k_chars | per_1m_tokens (usd_in, usd_out) | per_gpu_minute",
+  "_how_to_use": "List prices behind the cost_usd field of runs.jsonl and the list-price column of COSTS.md. Every call ran on a free tier, so nothing was paid: these numbers say what the same calls cost at list price. Each price is copied from the provider's own pricing page on the date in 'checked'. A model with no entry, or with a null price, gives a cost of null (shown as n/a).",
+  "_units": "per_1m_tokens (usd_in, usd_out; output includes thinking tokens) | per_audio_second (usd_out per second of audio, usd_in per 1M input tokens) | per_512_tile (usd_out per output tile, usd_in per reference image, usd_step per step) | per_gpu_minute (usd per GPU)",
   "models": {
-    "gemini-3.8-flash": {"unit": "per_1m_tokens", "usd_in": null, "usd_out": null, "source": "https://ai.google.dev/gemini-api/docs/pricing", "checked": null},
-    "gemini-3.8-flash-tts": {"unit": "per_1k_chars", "usd": null, "source": "https://ai.google.dev/gemini-api/docs/pricing", "checked": null, "note": "If the page prices speech per token, convert once and write the conversion here."},
-    "@cf/black-forest-labs/flux-2-klein-4b": {"unit": "per_image", "usd": null, "source": "https://developers.cloudflare.com/workers-ai/platform/pricing/", "checked": null},
-    "@cf/black-forest-labs/flux-1-schnell": {"unit": "per_image", "usd": null, "source": "https://developers.cloudflare.com/workers-ai/platform/pricing/", "checked": null},
-    "kaggle_gpu": {"unit": "per_gpu_minute", "usd": null, "source": "price of a comparable rented T4, for example a public cloud's on-demand page", "checked": null}
+    "gemini-3.8-flash": {
+      "unit": "per_1m_tokens", "usd_in": 0.75, "usd_out": 3.75,
+      "source": "https://ai.google.dev/gemini-api/docs/pricing", "checked": "2026-11-25",
+      "note": "Paid tier, standard. The page gives these prices through 31 December 2026 and 1.50 / 7.50 from 1 January 2027."
+    },
+    "gemini-3.5-flash-lite": {
+      "unit": "per_1m_tokens", "usd_in": 0.30, "usd_out": 2.50,
+      "source": "https://ai.google.dev/gemini-api/docs/pricing", "checked": "2026-11-25",
+      "note": "Paid tier, standard. One input price for text, image, video and audio."
+    },
+    "gemini-3.8-flash-tts": {
+      "unit": "per_audio_second", "usd_in": 0.50, "usd_out": 0.000225,
+      "source": "https://ai.google.dev/gemini-api/docs/pricing", "checked": "2026-11-25",
+      "note": "The page prices audio output at 9.00 USD per 1M tokens, says that audio tokens correspond to 25 tokens per second, and gives 0.00225 USD per 10 s of audio: 0.000225 per second. Text input is 0.50 USD per 1M tokens and is counted when the response reports input tokens. Prices through 31 December 2026."
+    },
+    "@cf/black-forest-labs/flux-2-klein-4b": {
+      "unit": "per_512_tile", "usd_out": 0.000287, "usd_in": 0.000059,
+      "source": "https://developers.cloudflare.com/workers-ai/platform/pricing/", "checked": "2026-11-25",
+      "note": "0.000287 USD (26.05 neurons) per output 512x512 tile and 0.000059 USD (5.37 neurons) per input 512x512 tile. A 1024x1024 picture is four output tiles. Each reference image is sent smaller than 512x512 and is counted as one input tile. 1,000 neurons cost 0.011 USD, and 10,000 a day are free."
+    },
+    "@cf/black-forest-labs/flux-1-schnell": {
+      "unit": "per_512_tile", "usd_out": 0.0000528, "usd_step": 0.0001056, "default_steps": 4,
+      "source": "https://developers.cloudflare.com/workers-ai/platform/pricing/", "checked": "2026-11-25",
+      "note": "0.0000528 USD (4.80 neurons) per 512x512 tile plus 0.0001056 USD (9.60 neurons) per step."
+    },
+    "kaggle_gpu": {
+      "unit": "per_gpu_minute", "usd": null,
+      "source": "the on-demand price of one rented NVIDIA T4, from a public cloud's pricing page", "checked": null,
+      "note": "Kaggle's GPUs are free. This entry stays null, and GPU work shows as n/a, until a price has been read from a provider's page."
+    }
   }
 }

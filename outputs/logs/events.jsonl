@@ -1,0 +1,30 @@
+{"ts": "2026-11-25T10:46:32Z", "run_id": "20261125T104632Z-cf26db", "stage": "keyframes", "unit": "s01_card", "key": "1942cb12f4ca2fc2", "event": "built", "reason": "new", "seconds": 0.3}
+{"ts": "2026-11-25T10:46:38Z", "run_id": "20261125T104632Z-cf26db", "stage": "keyframes", "unit": "s02_c1", "key": "799b4d69fc00d0d3", "event": "built", "reason": "new", "seconds": 6.49}
+{"ts": "2026-11-25T10:46:46Z", "run_id": "20261125T104632Z-cf26db", "stage": "keyframes", "unit": "s02_c2", "key": "a159c086c27e4a9a", "event": "built", "reason": "new", "seconds": 7.31}
+{"ts": "2026-11-25T10:46:46Z", "run_id": "20261125T104632Z-cf26db", "stage": "keyframes", "unit": "s03_card", "key": "7fc8ee7cb5038260", "event": "built", "reason": "new", "seconds": 0.16}
+{"ts": "2026-11-25T10:46:46Z", "run_id": "20261125T104632Z-cf26db", "stage": "keyframes", "unit": "s04_card", "key": "179c455ae2a73378", "event": "built", "reason": "new", "seconds": 0.3}
+{"ts": "2026-11-25T10:46:56Z", "run_id": "20261125T104632Z-cf26db", "stage": "keyframes", "unit": "s05_c1", "key": "b95301d26bf04787", "event": "built", "reason": "new", "seconds": 9.56}
+{"ts": "2026-11-25T10:47:04Z", "run_id": "20261125T104632Z-cf26db", "stage": "keyframes", "unit": "s05_c2", "key": "b7e31ad4278e280e", "event": "built", "reason": "new", "seconds": 8.59}
+{"ts": "2026-11-25T10:47:05Z", "run_id": "20261125T104632Z-cf26db", "stage": "keyframes", "unit": "s06_card", "key": "db352b6f5d5f76f0", "event": "built", "reason": "new", "seconds": 0.35}
+{"ts": "2026-11-25T10:47:11Z", "run_id": "20261125T104632Z-cf26db", "stage": "keyframes", "unit": "s07_c1", "key": "bce79789ee7ff8e7", "event": "built", "reason": "new", "seconds": 6.63}
+{"ts": "2026-11-25T10:47:19Z", "run_id": "20261125T104632Z-cf26db", "stage": "keyframes", "unit": "s07_c2", "key": "fdb81586439f308f", "event": "built", "reason": "new", "seconds": 7.82}
+{"ts": "2026-11-25T10:47:19Z", "run_id": "20261125T104632Z-cf26db", "stage": "keyframes", "unit": "s08_card", "key": "e23d8013defbef5c", "event": "built", "reason": "new", "seconds": 0.17}
+{"ts": "2026-11-25T10:47:20Z", "run_id": "20261125T104632Z-cf26db", "stage": "keyframes", "unit": "s09_card", "key": "5434473160e237b7", "event": "built", "reason": "new", "seconds": 0.35}
+{"ts": "2026-11-25T10:47:20Z", "run_id": "20261125T104632Z-cf26db", "stage": "keyframes", "unit": "s10_card", "key": "fa7a3a3e056b6995", "event": "built", "reason": "new", "seconds": 0.19}
+{"ts": "2026-11-25T10:49:04Z", "run_id": "20261125T104632Z-cf26db", "stage": "keyframes", "unit": "s02_c1_judge", "key": "3a181c25edffffa3", "event": "built", "reason": "new", "seconds": 104.05}
+{"ts": "2026-11-25T10:51:29Z", "run_id": "20261125T104632Z-cf26db", "stage": "keyframes", "unit": "s02_c2_judge", "key": "6dc2c7d4ae5fdcb1", "event": "built", "reason": "new", "seconds": 144.87}
+{"ts": "2026-11-25T10:58:27Z", "run_id": "20261125T105827Z-7dbbde", "stage": "keyframes", "unit": "s01_card", "key": "1942cb12f4ca2fc2", "event": "hit"}
+{"ts": "2026-11-25T10:58:27Z", "run_id": "20261125T105827Z-7dbbde", "stage": "keyframes", "unit": "s02_c1", "key": "799b4d69fc00d0d3", "event": "hit"}
+{"ts": "2026-11-25T10:58:27Z", "run_id": "20261125T105827Z-7dbbde", "stage": "keyframes", "unit": "s02_c2", "key": "a159c086c27e4a9a", "event": "hit"}
+{"ts": "2026-11-25T10:58:27Z", "run_id": "20261125T105827Z-7dbbde", "stage": "keyframes", "unit": "s03_card", "key": "7fc8ee7cb5038260", "event": "hit"}
+{"ts": "2026-11-25T10:58:27Z", "run_id": "20261125T105827Z-7dbbde", "stage": "keyframes", "unit": "s04_card", "key": "179c455ae2a73378", "event": "hit"}
+{"ts": "2026-11-25T10:58:27Z", "run_id": "20261125T105827Z-7dbbde", "stage": "keyframes", "unit": "s05_c1", "key": "b95301d26bf04787", "event": "hit"}
+{"ts": "2026-11-25T10:58:27Z", "run_id": "20261125T105827Z-7dbbde", "stage": "keyframes", "unit": "s05_c2", "key": "b7e31ad4278e280e", "event": "hit"}
+{"ts": "2026-11-25T10:58:27Z", "run_id": "20261125T105827Z-7dbbde", "stage": "keyframes", "unit": "s06_card", "key": "db352b6f5d5f76f0", "event": "hit"}
+{"ts": "2026-11-25T10:58:27Z", "run_id": "20261125T105827Z-7dbbde", "stage": "keyframes", "unit": "s07_c1", "key": "bce79789ee7ff8e7", "event": "hit"}
+{"ts": "2026-11-25T10:58:27Z", "run_id": "20261125T105827Z-7dbbde", "stage": "keyframes", "unit": "s07_c2", "key": "fdb81586439f308f", "event": "hit"}
+{"ts": "2026-11-25T10:58:27Z", "run_id": "20261125T105827Z-7dbbde", "stage": "keyframes", "unit": "s08_card", "key": "e23d8013defbef5c", "event": "hit"}
+{"ts": "2026-11-25T10:58:27Z", "run_id": "20261125T105827Z-7dbbde", "stage": "keyframes", "unit": "s09_card", "key": "5434473160e237b7", "event": "hit"}
+{"ts": "2026-11-25T10:58:27Z", "run_id": "20261125T105827Z-7dbbde", "stage": "keyframes", "unit": "s10_card", "key": "fa7a3a3e056b6995", "event": "hit"}
+{"ts": "2026-11-25T10:58:27Z", "run_id": "20261125T105827Z-7dbbde", "stage": "keyframes", "unit": "s02_c1_judge", "key": "3a181c25edffffa3", "event": "hit"}
+{"ts": "2026-11-25T10:58:27Z", "run_id": "20261125T105827Z-7dbbde", "stage": "keyframes", "unit": "s02_c2_judge", "key": "6dc2c7d4ae5fdcb1", "event": "hit"}

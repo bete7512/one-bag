@@ -1,47 +1,22 @@
 """Measured cost: read runs.jsonl and say what each stage took.
 
-Latency and GPU minutes come straight from the run log. The list-price column uses pricing.json.
-A price that has not been filled in and checked is shown as "n/a": an invented price would be
-worse than a missing one.
+Latency and GPU minutes come straight from the run log. So does the list price: each line carries
+the `cost_usd` worked out when the call was made (see pricing.py). A call whose price was not
+known then is priced from pricing.json now, and shown as "n/a" if it is still unknown: an invented
+price would be worse than a missing one.
 """
 from __future__ import annotations
 
-import json
 from collections import defaultdict
 
+from . import pricing
 from .core import STAGES, Ctx, read_jsonl
 
 BEGIN, END = "<!-- costs:begin (written by `python -m pipeline costs --write`) -->", "<!-- costs:end -->"
 
 
-def list_price(run: dict, prices: dict) -> float | None:
-    """List-price equivalent of one call in USD, or None when its price is unknown."""
-    key = "kaggle_gpu" if run.get("provider") == "kaggle" else run.get("model")
-    p = prices.get(key)
-    if not p:
-        return None
-    params, unit = run.get("params", {}), p.get("unit")
-    try:
-        if unit == "per_image":
-            return float(p["usd"])
-        if unit == "per_megapixel":
-            return float(p["usd"]) * float(params.get("megapixels", 0))
-        if unit == "per_1k_chars":
-            return float(p["usd"]) * float(params.get("chars", 0)) / 1000
-        if unit == "per_gpu_minute":
-            return float(p["usd"]) * float(run.get("gpu_minutes", 0))
-        if unit == "per_1m_tokens":
-            usage = run.get("usage") or {}
-            return (float(p["usd_in"]) * (usage.get("input_tokens") or 0) + float(p["usd_out"]) * (usage.get("output_tokens") or 0)) / 1e6
-    except (KeyError, TypeError, ValueError):
-        return None
-    return None
-
-
 def summarise(ctx: Ctx) -> tuple[str, dict]:
     runs = read_jsonl(ctx.runlog)
-    pricing_path = ctx.root / "pricing.json"
-    prices = json.loads(pricing_path.read_text(encoding="utf-8")).get("models", {}) if pricing_path.exists() else {}
     rows: dict = defaultdict(lambda: {"calls": 0, "ok": 0, "errors": 0, "latency_s": 0.0, "gpu_minutes": 0.0, "usd": 0.0, "unpriced": 0})
     for r in runs:
         row = rows[(r.get("stage", "?"), r.get("provider", "?"), r.get("model", "?"))]
@@ -49,7 +24,12 @@ def summarise(ctx: Ctx) -> tuple[str, dict]:
         row["ok" if r.get("status") == "ok" else "errors"] += 1
         row["latency_s"] += r.get("latency_s") or 0.0
         row["gpu_minutes"] += r.get("gpu_minutes") or 0.0
-        usd = list_price(r, prices) if r.get("status") == "ok" else 0.0
+        if r.get("status") != "ok":
+            usd = 0.0
+        elif r.get("cost_usd") is not None:
+            usd = r["cost_usd"]                      # the price on the day of the call
+        else:
+            usd = pricing.cost_usd(r, ctx.prices)    # a line written before its price was known
         if usd is None:
             row["unpriced"] += 1
         else:

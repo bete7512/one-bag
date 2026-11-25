@@ -110,6 +110,26 @@ def image_ext(raw: bytes) -> str:
     return "jpg"
 
 
+def wav_seconds(data: bytes) -> float | None:
+    """Length of WAV audio held in memory. Speech is priced by the second, so this goes into the run log."""
+    try:
+        with wave.open(io.BytesIO(data), "rb") as w:
+            return round(w.getnframes() / float(w.getframerate()), 3)
+    except (wave.Error, EOFError):
+        return None
+
+
+def _usage(data: Any) -> dict:
+    """Token counts of a speech response, when the API reports them. The key names are read tolerantly."""
+    usage = data.get("usage") or data.get("usageMetadata") if isinstance(data, dict) else None
+    if not isinstance(usage, dict):
+        return {}
+    def first(*names: str) -> Any:
+        return next((usage[n] for n in names if isinstance(usage.get(n), (int, float))), None)
+    return {"usage": {"input_tokens": first("total_input_tokens", "input_tokens", "promptTokenCount"),
+                      "output_tokens": first("total_output_tokens", "output_tokens", "candidatesTokenCount")}}
+
+
 def _find_audio(node: Any) -> tuple[str, str] | None:
     """Find the last audio payload in a response, whatever nesting the API uses this month."""
     found = None
@@ -159,18 +179,19 @@ def tts(ctx: Ctx, stage: str, unit: str, text: str, *, voice: str, style: str, m
             "generation_config": {"speech_config": [{"voice": voice}]},
         }
         resp = _post(f"{GEMINI}/interactions", {"x-goog-api-key": _env("GEMINI_API_KEY")}, json_body=body)
-        found = _find_audio(_json(resp))
+        data = _json(resp)
+        found = _find_audio(data)
         if not found:
             raise ProviderError("the response held no audio: " + " ".join(resp.text.split())[:200])
         raw = base64.b64decode(found[0])
         if not raw.startswith(b"RIFF"):  # headerless PCM: wrap it
             rate = re.search(r"rate=(\d+)", found[1] or "")
             raw = pcm_to_wav(raw, int(rate.group(1)) if rate else 24000)
-        return raw, {"audio_bytes": len(raw)}
+        return raw, {"audio_bytes": len(raw), "audio_seconds": wav_seconds(raw), **_usage(data)}
 
     def mock() -> tuple[bytes, dict]:
         raw = pcm_to_wav(_mock_speech(text), note=text)
-        return raw, {"audio_bytes": len(raw)}
+        return raw, {"audio_bytes": len(raw), "audio_seconds": wav_seconds(raw)}
 
     return model_call(ctx, stage=stage, unit=unit, provider="mock" if ctx.mock else "gemini", model=model,
                       params=params, seed=None, fn=mock if ctx.mock else real)
@@ -205,7 +226,8 @@ def text(ctx: Ctx, stage: str, unit: str, prompt: str, *, kind: str, parts: list
         except (KeyError, IndexError, TypeError):
             raise ProviderError("the response held no text: " + " ".join(resp.text.split())[:200]) from None
         usage = data.get("usageMetadata", {})
-        return out.strip(), {"usage": {"input_tokens": usage.get("promptTokenCount"), "output_tokens": usage.get("candidatesTokenCount")}}
+        return out.strip(), {"usage": {"input_tokens": usage.get("promptTokenCount"), "output_tokens": usage.get("candidatesTokenCount"),
+                                       "thoughts_tokens": usage.get("thoughtsTokenCount")}}  # thinking is billed as output
 
     def mock() -> tuple[str, dict]:
         if kind == "transcribe":

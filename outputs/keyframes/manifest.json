@@ -1,0 +1,369 @@
+{
+ "units": {
+  "s01_card": {
+   "key": "1942cb12f4ca2fc2",
+   "file": "s01_card__1942cb12f4ca2fc2.png",
+   "fingerprint": {
+    "v": 1,
+    "card": "The bag",
+    "why": [
+     "boy"
+    ],
+    "w": 1024,
+    "h": 1024
+   },
+   "meta": {},
+   "created": "2026-11-25T10:46:32Z"
+  },
+  "s02_c1": {
+   "key": "799b4d69fc00d0d3",
+   "file": "s02_c1__799b4d69fc00d0d3.png",
+   "fingerprint": {
+    "v": 1,
+    "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture. Extreme wide view of a narrow road crossing high green highland country in daylight, patchwork fields and stands of eucalyptus, one small bus far away on the road, low cloud on the far hills.",
+    "seed": 102,
+    "model": "@cf/black-forest-labs/flux-2-klein-4b",
+    "w": 1024,
+    "h": 1024,
+    "refs": []
+   },
+   "meta": {
+    "seed": 102,
+    "seed_applied": true
+   },
+   "created": "2026-11-25T10:46:38Z"
+  },
+  "s02_c2": {
+   "key": "a159c086c27e4a9a",
+   "file": "s02_c2__a159c086c27e4a9a.png",
+   "fingerprint": {
+    "v": 1,
+    "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture. Extreme wide view of a narrow road crossing high green highland country in daylight, patchwork fields and stands of eucalyptus, one small bus far away on the road, low cloud on the far hills.",
+    "seed": 103,
+    "model": "@cf/black-forest-labs/flux-2-klein-4b",
+    "w": 1024,
+    "h": 1024,
+    "refs": []
+   },
+   "meta": {
+    "seed": 103,
+    "seed_applied": true
+   },
+   "created": "2026-11-25T10:46:46Z"
+  },
+  "s03_card": {
+   "key": "7fc8ee7cb5038260",
+   "file": "s03_card__7fc8ee7cb5038260.png",
+   "fingerprint": {
+    "v": 1,
+    "card": "Taxi across the city",
+    "why": [
+     "boy"
+    ],
+    "w": 1024,
+    "h": 1024
+   },
+   "meta": {},
+   "created": "2026-11-25T10:46:46Z"
+  },
+  "s04_card": {
+   "key": "179c455ae2a73378",
+   "file": "s04_card__179c455ae2a73378.png",
+   "fingerprint": {
+    "v": 1,
+    "card": "Autobus Tera",
+    "why": [
+     "boy"
+    ],
+    "w": 1024,
+    "h": 1024
+   },
+   "meta": {},
+   "created": "2026-11-25T10:46:46Z"
+  },
+  "s05_c1": {
+   "key": "b95301d26bf04787",
+   "file": "s05_c1__b95301d26bf04787.png",
+   "fingerprint": {
+    "v": 1,
+    "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture. Point of view inside a crowd at nightfall: dark silhouettes crossing close to the camera in both directions, overexposed lamps and headlights flaring, streaks of amber and white light, nothing in sharp focus.",
+    "seed": 105,
+    "model": "@cf/black-forest-labs/flux-2-klein-4b",
+    "w": 1024,
+    "h": 1024,
+    "refs": []
+   },
+   "meta": {
+    "seed": 105,
+    "seed_applied": true
+   },
+   "created": "2026-11-25T10:46:56Z"
+  },
+  "s05_c2": {
+   "key": "b7e31ad4278e280e",
+   "file": "s05_c2__b7e31ad4278e280e.png",
+   "fingerprint": {
+    "v": 1,
+    "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture. Point of view inside a crowd at nightfall: dark silhouettes crossing close to the camera in both directions, overexposed lamps and headlights flaring, streaks of amber and white light, nothing in sharp focus.",
+    "seed": 106,
+    "model": "@cf/black-forest-labs/flux-2-klein-4b",
+    "w": 1024,
+    "h": 1024,
+    "refs": []
+   },
+   "meta": {
+    "seed": 106,
+    "seed_applied": true
+   },
+   "created": "2026-11-25T10:47:04Z"
+  },
+  "s06_card": {
+   "key": "db352b6f5d5f76f0",
+   "file": "s06_card__db352b6f5d5f76f0.png",
+   "fingerprint": {
+    "v": 1,
+    "card": "Follow him",
+    "why": [
+     "boy",
+     "friend"
+    ],
+    "w": 1024,
+    "h": 1024
+   },
+   "meta": {},
+   "created": "2026-11-25T10:47:05Z"
+  },
+  "s07_c1": {
+   "key": "bce79789ee7ff8e7",
+   "file": "s07_c1__bce79789ee7ff8e7.png",
+   "fingerprint": {
+    "v": 1,
+    "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture. A small bare rented room at night: one narrow bed with a canvas bag on it, a single bare bulb, peeling painted walls, a small window with the lights of buses outside.",
+    "seed": 107,
+    "model": "@cf/black-forest-labs/flux-2-klein-4b",
+    "w": 1024,
+    "h": 1024,
+    "refs": []
+   },
+   "meta": {
+    "seed": 107,
+    "seed_applied": true
+   },
+   "created": "2026-11-25T10:47:11Z"
+  },
+  "s07_c2": {
+   "key": "fdb81586439f308f",
+   "file": "s07_c2__fdb81586439f308f.png",
+   "fingerprint": {
+    "v": 1,
+    "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture. A small bare rented room at night: one narrow bed with a canvas bag on it, a single bare bulb, peeling painted walls, a small window with the lights of buses outside.",
+    "seed": 108,
+    "model": "@cf/black-forest-labs/flux-2-klein-4b",
+    "w": 1024,
+    "h": 1024,
+    "refs": []
+   },
+   "meta": {
+    "seed": 108,
+    "seed_applied": true
+   },
+   "created": "2026-11-25T10:47:19Z"
+  },
+  "s08_card": {
+   "key": "e23d8013defbef5c",
+   "file": "s08_card__e23d8013defbef5c.png",
+   "fingerprint": {
+    "v": 1,
+    "card": "Awake",
+    "why": [
+     "boy"
+    ],
+    "w": 1024,
+    "h": 1024
+   },
+   "meta": {},
+   "created": "2026-11-25T10:47:19Z"
+  },
+  "s09_card": {
+   "key": "5434473160e237b7",
+   "file": "s09_card__5434473160e237b7.png",
+   "fingerprint": {
+    "v": 1,
+    "card": "Morning bus",
+    "why": [
+     "boy"
+    ],
+    "w": 1024,
+    "h": 1024
+   },
+   "meta": {},
+   "created": "2026-11-25T10:47:20Z"
+  },
+  "s10_card": {
+   "key": "fa7a3a3e056b6995",
+   "file": "s10_card__fa7a3a3e056b6995.png",
+   "fingerprint": {
+    "v": 1,
+    "card": "Now",
+    "why": [
+     "man"
+    ],
+    "w": 1024,
+    "h": 1024
+   },
+   "meta": {},
+   "created": "2026-11-25T10:47:20Z"
+  },
+  "s02_c1_judge": {
+   "key": "3a181c25edffffa3",
+   "file": "s02_c1_judge__3a181c25edffffa3.json",
+   "fingerprint": {
+    "v": 1,
+    "image": "799b4d69fc00d0d3",
+    "refs": [],
+    "shot": "Extreme wide view of a narrow road crossing high green highland country in daylight, patchwork fields and stands of eucalyptus, one small bus far away on the road, low cloud on the far hills.",
+    "who": "none",
+    "model": "gemini-3.8-flash"
+   },
+   "meta": {
+    "character_match": 3,
+    "prompt_adherence": 4,
+    "artifacts": 4,
+    "text_in_image": false,
+    "notes": "Accurately illustrates the highland landscape, road, and bus in a clean style.",
+    "total": 4.0
+   },
+   "created": "2026-11-25T10:49:04Z"
+  },
+  "s02_c2_judge": {
+   "key": "6dc2c7d4ae5fdcb1",
+   "file": "s02_c2_judge__6dc2c7d4ae5fdcb1.json",
+   "fingerprint": {
+    "v": 1,
+    "image": "a159c086c27e4a9a",
+    "refs": [],
+    "shot": "Extreme wide view of a narrow road crossing high green highland country in daylight, patchwork fields and stands of eucalyptus, one small bus far away on the road, low cloud on the far hills.",
+    "who": "none",
+    "model": "gemini-3.8-flash"
+   },
+   "meta": {
+    "character_match": 3,
+    "prompt_adherence": 4,
+    "artifacts": 4,
+    "text_in_image": false,
+    "notes": "The watercolor scene accurately captures the highland road, eucalyptus trees, and distant bus.",
+    "total": 4.0
+   },
+   "created": "2026-11-25T10:51:29Z"
+  }
+ },
+ "entries": {
+  "1942cb12f4ca2fc2": {
+   "unit": "s01_card",
+   "file": "s01_card__1942cb12f4ca2fc2.png",
+   "meta": {}
+  },
+  "799b4d69fc00d0d3": {
+   "unit": "s02_c1",
+   "file": "s02_c1__799b4d69fc00d0d3.png",
+   "meta": {
+    "seed": 102,
+    "seed_applied": true
+   }
+  },
+  "a159c086c27e4a9a": {
+   "unit": "s02_c2",
+   "file": "s02_c2__a159c086c27e4a9a.png",
+   "meta": {
+    "seed": 103,
+    "seed_applied": true
+   }
+  },
+  "7fc8ee7cb5038260": {
+   "unit": "s03_card",
+   "file": "s03_card__7fc8ee7cb5038260.png",
+   "meta": {}
+  },
+  "179c455ae2a73378": {
+   "unit": "s04_card",
+   "file": "s04_card__179c455ae2a73378.png",
+   "meta": {}
+  },
+  "b95301d26bf04787": {
+   "unit": "s05_c1",
+   "file": "s05_c1__b95301d26bf04787.png",
+   "meta": {
+    "seed": 105,
+    "seed_applied": true
+   }
+  },
+  "b7e31ad4278e280e": {
+   "unit": "s05_c2",
+   "file": "s05_c2__b7e31ad4278e280e.png",
+   "meta": {
+    "seed": 106,
+    "seed_applied": true
+   }
+  },
+  "db352b6f5d5f76f0": {
+   "unit": "s06_card",
+   "file": "s06_card__db352b6f5d5f76f0.png",
+   "meta": {}
+  },
+  "bce79789ee7ff8e7": {
+   "unit": "s07_c1",
+   "file": "s07_c1__bce79789ee7ff8e7.png",
+   "meta": {
+    "seed": 107,
+    "seed_applied": true
+   }
+  },
+  "fdb81586439f308f": {
+   "unit": "s07_c2",
+   "file": "s07_c2__fdb81586439f308f.png",
+   "meta": {
+    "seed": 108,
+    "seed_applied": true
+   }
+  },
+  "e23d8013defbef5c": {
+   "unit": "s08_card",
+   "file": "s08_card__e23d8013defbef5c.png",
+   "meta": {}
+  },
+  "5434473160e237b7": {
+   "unit": "s09_card",
+   "file": "s09_card__5434473160e237b7.png",
+   "meta": {}
+  },
+  "fa7a3a3e056b6995": {
+   "unit": "s10_card",
+   "file": "s10_card__fa7a3a3e056b6995.png",
+   "meta": {}
+  },
+  "3a181c25edffffa3": {
+   "unit": "s02_c1_judge",
+   "file": "s02_c1_judge__3a181c25edffffa3.json",
+   "meta": {
+    "character_match": 3,
+    "prompt_adherence": 4,
+    "artifacts": 4,
+    "text_in_image": false,
+    "notes": "Accurately illustrates the highland landscape, road, and bus in a clean style.",
+    "total": 4.0
+   }
+  },
+  "6dc2c7d4ae5fdcb1": {
+   "unit": "s02_c2_judge",
+   "file": "s02_c2_judge__6dc2c7d4ae5fdcb1.json",
+   "meta": {
+    "character_match": 3,
+    "prompt_adherence": 4,
+    "artifacts": 4,
+    "text_in_image": false,
+    "notes": "The watercolor scene accurately captures the highland road, eucalyptus trees, and distant bus.",
+    "total": 4.0
+   }
+  }
+ }
+}

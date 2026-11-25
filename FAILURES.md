@@ -4,17 +4,24 @@ What broke, what was tried, what fixed it. An entry is added the moment somethin
 
 ## From real runs
 
-None yet. Template:
+### F01  The text model answered "high demand" and the keyframe stage stopped  (25 Nov 2026)
+
+Stage and model: keyframes, the picture judge. `gemini-3.8-flash` on the free tier of the Gemini API.
+
+What happened: the six pictures for the three shots without people were made in 6 to 9 seconds each. The judge then scored two of them, slowly: 104 s and 144 s per call. The third judge call failed four times in two and a half minutes with
 
 ```
-### F__  <what broke>  (date)
-Stage and model:
-What happened:       (the exact error, and the runs.jsonl line)
-What I tried:        (each attempt, in order)
-What fixed it, or the workaround:
-What it cost:        (time, quota, GPU minutes)
-What I would do differently:
+HTTP 503 {"error": {"code": 503, "message": "This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.", "status": "UNAVAILABLE"}}
 ```
+
+and the stage stopped with `gemini call for s05_c1_judge failed`. The four attempts are in `runs.jsonl` under run `20261125T104632Z-cf26db`. The same model had already been slow in the smoke test half an hour earlier: 138 s and 42 s for a one-word answer.
+
+What it showed: a busy provider, and two weaknesses of the pipeline.
+
+1. The waits between attempts were 2, 4 and 8 seconds. That is far too short for an overloaded model, and one attempt alone hung for 127 s before it failed.
+2. A failed judge call stopped the whole stage, although the judge only measures. The six pictures were already in the cache, and a person makes the final pick anyway.
+
+Status: open. The fixes and what they changed are added below as they are made.
 
 ## From the offline build (coding agent, 25 Nov 2026)
 

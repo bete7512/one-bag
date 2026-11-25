@@ -61,14 +61,21 @@ def run(ctx: Ctx, state: dict | None = None) -> dict:
     keyframes = get_index(ctx, state, "keyframes", required=False)
     blocked = [sid for sid, k in keyframes.items() if k.get("blocked")]
     check("must", "pictures: no shot is waiting for consent", not blocked, ", ".join(blocked) or "all shots have a picture")
+    unscored = [sid for sid, k in keyframes.items() if k.get("unscored")]
+    check("note", "pictures: the judge scored every candidate", not unscored, ", ".join(unscored) or "all scored")
     shots = get_index(ctx, state, "shots", per_lang=True, required=False)
     fallback = [sid for sid, s in shots.items() if s.get("source") == "kenburns_fallback"]
     check("note", "motion: shots asked for Wan but still on the Ken Burns fallback", not fallback, ", ".join(fallback) or "none")
+    pushed = {sid: t for sid, t in film.get("tails", {}).items() if t.get("tail") == "push"}
+    check("note", "motion: every generated clip lasts as long as its shot", not pushed,
+          ", ".join(f"{sid} ends on a {t['tail_s']:.1f} s push over its last frame" for sid, t in pushed.items()) or "none is shorter")
     music = get_index(ctx, state, "music", required=False)
     check("note", "music: a generated score is chosen", music.get("source") == "acestep", music.get("source", "?"))
     narration = get_index(ctx, state, "narration", per_lang=True, required=False)
     floor = sb.get("qa", {}).get("roundtrip_min", 0.6)
     weak = [f"{sid} ({n['roundtrip']:.2f})" for sid, n in narration.items() if n.get("roundtrip") is not None and n["roundtrip"] < floor]
+    if sb.get("qa", {}).get("roundtrip"):
+        weak += [f"{sid} (not checked)" for sid, n in narration.items() if n.get("roundtrip") is None]
     check("note", "narration: every line passed the listening check", not weak, ", ".join(weak) or "all lines at or above the floor")
 
     passed = all(c["ok"] for c in checks if c["level"] == "must")
