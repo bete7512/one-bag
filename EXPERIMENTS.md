@@ -2,7 +2,7 @@
 
 One entry per experiment: a hypothesis, the one thing changed, how it is measured, the result, the decision. Change one thing at a time and keep the seed fixed, or the result cannot be read.
 
-**Status on 25 Nov 2026, 21:45: E12 and E15 to E23 have been run. E01 to E11, E13 and E14 have not.** Each hypothesis is written down before its run on purpose, so the result cannot bend it. A result is filled in only from a real run, with the evidence it points to (`runs.jsonl` lines, a listening sheet, a blind-test result).
+**Status on 25 Nov 2026, 22:00: E08, E12 and E15 to E23 have been run. E01 to E07, E09 to E11, E13 and E14 have not.** Each hypothesis is written down before its run on purpose, so the result cannot bend it. A result is filled in only from a real run, with the evidence it points to (`runs.jsonl` lines, a listening sheet, a blind-test result).
 
 ## Plan
 
@@ -15,7 +15,7 @@ One entry per experiment: a hypothesis, the one thing changed, how it is measure
 | E05 | A reference sheet keeps the young man recognisably the same person across shots. | Keyframes with and without `reference_prompt`, same seeds | Judge `character_match`; 3 viewers answer "same person?" | | |
 | E06 | FLUX.2 klein follows the prompt better than FLUX.1 schnell at the same seed. | `models.image`, shots s01, s04, s08 | Judge scores; my own side-by-side | | |
 | E07 | Two candidates per shot are enough: a third rarely wins. | `qa.keyframe_candidates` 2 against 3 | How often candidate 3 is picked; image quota used | | |
-| E08 | Wan 2.2 fits a 16 GB T4 at 480x832 with 81 frames, and not at 720p. | `video.max_area` and `video.num_frames` | Peak memory and latency per clip from the job results | | |
+| E08 | Wan 2.2 fits a 16 GB T4 at 480x832 with 81 frames, and not at 720p. | `video.max_area` and `video.num_frames` | Peak memory and latency per clip from the job results | It fits at the small size: 13.45 GB at the peak for 608 x 608 and 81 frames, 821 s a clip. 720p was not tried: 1.6 GB are left. The second clip of the job was killed (F07). | The settings stay. One clip per job until the fix for several is proven. |
 | E09 | A motion-only prompt gives a steadier clip than one that describes the subject again. | `motion.prompt` for s03, same keyframe and seed | Side-by-side; flicker and drift noted | | |
 | E10 | Viewers prefer a Wan clip to a pan over the still for the same shot. | `motion.backend` for the shots that have a Wan clip | Blind A/B with at least five people (`blindtest`) | | |
 | E11 | A longer, more specific music caption gives a score that leaves more room for the voice. | `music.caption` short against long, same seeds | Listening under the narration at low volume; my choice and why | | |
@@ -77,6 +77,36 @@ One caution about the measure itself. The listener named a koto and a guzheng. I
 Decision: none yet. All six candidates wait for my ear. If none sounds right, the next change is the model's own vocabulary: ask for "lyre" or "harp" with no country in the description.
 
 What it changed: I expected the music model to follow a named instrument the way an image model follows a named object. It does not know this one. A description steers the mood, the tempo and the family of the sound, and the rest has to be chosen by listening.
+
+### E08  Wan 2.2 on a free T4  (25 Nov 2026)
+
+Hypothesis: Wan 2.2 TI2V-5B fits a 16 GB T4 at an area of 480 x 832 with 81 frames, and not at 720p. The model card asks for a 24 GB GPU.
+
+Changed: nothing against the plan. The first run used the small settings from the storyboard: `max_area` 399,360, 81 frames, 30 steps, guidance 5.0, with the transformer in float16.
+
+Held fixed: the keyframe of shot s02, its motion prompt and seed 202.
+
+Evidence: `outputs/shots/s02_wan__a5009af75983891d.mp4`. `runs.jsonl`, provider `kaggle`, unit `s02_wan`, run `20261125T184325Z-5d49c1`. The numbers are the job's own, from its `results.json`.
+
+Result:
+
+| | |
+|---|---:|
+| Clip | 608 x 608, 81 frames, 3.4 s at 24 fps |
+| Peak GPU memory | 13.45 GB |
+| Time for the clip | 820.7 s |
+| Time to load the model | 248.1 s |
+| GPU minutes logged, with both T4s of the session counted | 27.4 |
+| List price of that time on rented T4s | 0.16 USD |
+| Blank or not-a-number frames in float16 | none |
+
+The clip is what the prompt asked for: the bus comes down the road and its dust grows behind it. The painted look of the keyframe holds over all 81 frames.
+
+Three limits showed. A T4 gives about 15 GB, so 1.6 GB are left and 720p was not tried: it has two and a half times the pixels. The second clip of the same job never ran (F07 in `FAILURES.md`). And the clip is small: the vertical film enlarges it 3.2 times, where a pan over the still is enlarged 1.9 times. Side by side at full size the moving shot is clearly softer than the shots around it.
+
+Decision: the settings stay. In the film the clip plays slowed to 4.2 s and the last 2.8 s of the shot are a slow push over its last frame. Whether a softer moving shot is better than a sharp pan is not mine to decide by looking at stills: it is the blind pair in the second user test (E10).
+
+What it changed: the question was whether it would run at all on a free GPU. It does, at 14 minutes a clip. The price is not memory or time but sharpness, which the plan had not listed.
 
 ### E12  The ducking, measured instead of heard  (25 Nov 2026)
 

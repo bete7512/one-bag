@@ -161,6 +161,28 @@
     "source": "kenburns"
    },
    "created": "2026-11-25T17:30:59Z"
+  },
+  "s02_wan": {
+   "key": "a5009af75983891d",
+   "file": "s02_wan__a5009af75983891d.mp4",
+   "fingerprint": {
+    "v": 1,
+    "keyframe": "0b3a6020b6a33a0f",
+    "prompt": "The small bus moves slowly along the road and its dust drifts away. Slow pan to the right.",
+    "negative": "text, letters, signs with writing, watermark, logo, photorealistic, extra fingers",
+    "seed": 202,
+    "model": "Wan-AI/Wan2.2-TI2V-5B-Diffusers",
+    "max_area": 399360,
+    "num_frames": 81,
+    "steps": 30,
+    "guidance": 5.0
+   },
+   "meta": {
+    "seconds": 3.375,
+    "source": "kaggle",
+    "latency_s": 820.7
+   },
+   "created": "2026-11-25T18:43:31Z"
   }
  },
  "entries": {
@@ -234,6 +256,15 @@
    "meta": {
     "seconds": 10.0,
     "source": "kenburns"
+   }
+  },
+  "a5009af75983891d": {
+   "unit": "s02_wan",
+   "file": "s02_wan__a5009af75983891d.mp4",
+   "meta": {
+    "seconds": 3.375,
+    "source": "kaggle",
+    "latency_s": 820.7
    }
   }
  }

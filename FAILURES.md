@@ -164,6 +164,32 @@ What it cost: 55 minutes from the first push to the right result, where the work
 
 What would be done differently: a command that sends work should build what it sends. It should not trust what an earlier command left on disk.
 
+### F07  The second Wan clip was killed  (25 Nov 2026)
+
+Stage and model: shots. Wan 2.2 TI2V-5B through Diffusers on Kaggle, two T4s, a job of two clips (s02 and s05).
+
+What happened: the first clip was made. The log then ends:
+
+```
+[1/2] s02_wan: ok in 820.7s, peak 13.45 GB
+Killed
+```
+
+Kaggle reported the run as an error. `Killed` with no Python error is the system ending a process that has used up the machine's main memory. It is not the GPU: the GPU peak of the clip before was 13.45 GB, under the card's limit, and a GPU that runs out raises an error that the script catches and logs.
+
+What was kept: the first clip. The job writes its report after every clip, so the clip was fetched and is in the film.
+
+What I think the cause is, from the order of the script and not from a measurement: with model offloading, each large part waits in main memory while another is on the GPU. To encode the prompt of the second clip the text encoder goes back to the GPU and the transformer comes back to main memory. For a moment both are there, with the decoder and the frames of the first clip.
+
+What was done:
+
+1. The clip that was lost was sent again as a job of its own, which is the order that had just worked. [Result to be added when the run ends.]
+2. For a job of several clips the script now encodes every prompt before the first clip and then drops the text encoder for good (`kaggle/wan22_i2v.py`). This is not proven yet: no job of several clips has run since.
+
+What it cost: the 14 minutes of the second clip were never spent. The cost is the second trip through Kaggle's queue.
+
+What would be done differently: watch the machine's main memory as well as the GPU's. The script records GPU memory per clip and nothing about the other.
+
 ## From the offline build (coding agent, 25 Nov 2026)
 
 These happened while the pipeline was first written, before any real model call. They are kept because each one changed the code.

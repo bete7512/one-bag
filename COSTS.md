@@ -16,8 +16,9 @@ The table between the markers is written by `make costs` from `runs.jsonl`: one 
 | keyframes | cloudflare | `@cf/black-forest-labs/flux-2-klein-4b` | 80 | 0 | 929.3 | 11.6 | 0.0 | 0.0950 |
 | keyframes | gemini | `gemini-3.5-flash-lite` | 16 | 4 | 66.2 | 4.1 | 0.0 | 0.0069 |
 | keyframes | gemini | `gemini-3.8-flash` | 22 | 20 | 1072.7 | 48.8 | 0.0 | 0.0000 + 2 n/a |
-| music | gemini | `gemini-3.5-flash-lite` | 5 | 2 | 15.3 | 3.1 | 0.0 | 0.0026 |
-| music | kaggle | `acestep-v15-turbo` | 3 | 0 | 22.3 | 7.4 | 0.4 | n/a |
+| shots | kaggle | `Wan-AI/Wan2.2-TI2V-5B-Diffusers` | 1 | 0 | 820.7 | 820.7 | 13.7 | 0.1596 |
+| music | gemini | `gemini-3.5-flash-lite` | 9 | 3 | 28.3 | 3.1 | 0.0 | 0.0055 |
+| music | kaggle | `acestep-v15-turbo` | 6 | 0 | 45.0 | 7.5 | 0.8 | 0.0087 |
 | experiment | anthropic | `claude-opus-5-5` | 44 | 12 | 194.6 | 4.4 | 0.0 | 0.4638 |
 | experiment | gemini | `gemini-3.5-flash-lite` | 22 | 7 | 81.7 | 3.7 | 0.0 | 0.0137 |
 | smoke | anthropic | `claude-opus-5-5` | 4 | 3 | 11.1 | 2.8 | 0.0 | 0.0002 |
@@ -25,9 +26,9 @@ The table between the markers is written by `make costs` from `runs.jsonl`: one 
 | smoke | gemini | `gemini-3.5-flash-lite` | 2 | 0 | 3.9 | 2.0 | 0.0 | 0.0000 |
 | smoke | gemini | `gemini-3.8-flash` | 2 | 0 | 180.0 | 90.0 | 0.0 | n/a |
 | smoke | gemini | `gemini-3.8-flash-tts` | 1 | 0 | 4.7 | 4.7 | 0.0 | n/a |
-| **Total** | | | 351 | 61 | 3530.5 | | 0.4 | 2.0291 + 8 n/a |
+| **Total** | | | 359 | 62 | 4387.0 | | 14.4 | 2.2003 + 5 n/a |
 
-Source: `runs.jsonl`, 351 model calls. List price is what the calls would cost without the free tiers. Really paid: 1.8843 USD, for the calls to models that have no free tier. Everything else ran free. 8 call(s) are n/a and not in the sums: their price, or the usage it applies to, was not known when they were logged.
+Source: `runs.jsonl`, 359 model calls. List price is what the calls would cost without the free tiers. Really paid: 1.8843 USD, for the calls to models that have no free tier. Everything else ran free. 5 call(s) are n/a and not in the sums: their price, or the usage it applies to, was not known when they were logged.
 <!-- costs:end -->
 
 The list-price column answers "what would the same calls cost without the free tier". It uses `pricing.json`, where a price is only filled in from the provider's own pricing page, with the date. Until then it shows n/a.
@@ -54,12 +55,14 @@ From the job's own `results.json`, the run log (`provider: kaggle`) and `outputs
 | Job | GPU | Whole session | Model load | Per item | Peak GPU memory | Failed attempts |
 |---|---|---|---|---|---|---|
 | Score, ACE-Step 1.5 turbo, 3 candidates of 80 s | 2 x Tesla T4 on Kaggle | 229 s from push to done | 61.7 s | 9.2, 6.5 and 6.6 s | 6.4 GB | 2 before it: no internet, then a run that never left the queue (F02) |
+| Score, second description, 3 candidates of 80 s | 2 x Tesla T4 on Kaggle | about 4 minutes from push to done | not kept | 10.1, 6.2 and 6.4 s | 6.4 GB | 1 before it: the job that was sent was an old one (F06) |
+| Moving shot, Wan 2.2 TI2V-5B, 81 frames at 608 x 608 | 2 x Tesla T4 on Kaggle, one used | about 20 minutes once it had left the queue | 248.1 s | 820.7 s | 13.45 GB | the second clip of the same job was killed (F07) |
 
 The session time is mostly not generation: building ACE-Step's own Python environment and downloading the model take about three of the four minutes. The three candidates together took 22 seconds of GPU. At that speed a second set with another caption costs four minutes, so the score can be iterated like a prompt.
 
-What the same GPU time costs when rented: one T4 is 0.35 USD an hour on demand at Google Cloud (its GPU pricing page, read on 2026-11-25, the GPU alone). The 22 seconds of generation on two T4s come to 0.004 USD, and the whole session of 229 seconds to 0.045 USD. The three lines of that run were logged before the price was read, so they show n/a in the table above: the log is not rewritten.
+What the same GPU time costs when rented: one T4 is 0.35 USD an hour on demand at Google Cloud (its GPU pricing page, read on 2026-11-25, the GPU alone). The 22 seconds of generation on two T4s come to 0.004 USD, and the whole session of 229 seconds to 0.045 USD. The three lines of that run were logged before the price was read and carry no cost of their own. The log is not rewritten: the table works their price out from the GPU minutes they hold.
 
-No clip has been made with Wan 2.2 yet. The first job, two shots, was sent to Kaggle on the evening of 25 Nov.
+Kaggle's queue was the larger cost on the first evening: the two jobs of 20:22 and 20:30 waited 39 and about 45 minutes before they started. A clip from Wan 2.2 costs 0.16 USD at the list price of two rented T4s for the 13.7 minutes it takes, and a set of three scores 0.004 USD.
 
 ## Frontier comparison
 

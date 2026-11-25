@@ -20,9 +20,15 @@ Memory is the problem this file is built around. The model card asks for a 24 GB
   is encoded and the transformer loaded. Left to itself, the pipeline keeps the text encoder there.
 * The storyboard's `video` settings start small (480x832 area, 81 frames), decoding is tiled, and
   the peak memory of every clip is recorded, so the next settings come from a measurement.
+* The machine's own memory is the second limit. The first run made one clip (13.45 GB on the GPU) and
+  was then killed by the system while it started the second: to encode the next prompt the text
+  encoder goes back to the GPU and the transformer comes back to main memory, and for a moment both
+  are there. So when a job has more than one clip, every prompt is encoded before the first clip and
+  the text encoder is then dropped for good. A job of one clip keeps the order that is known to work.
 
 results.json is rewritten after every clip. If the session dies half way, what finished is kept.
 """
+import gc
 import json
 import os
 import shutil
@@ -93,6 +99,26 @@ def main() -> None:
     report = {"stage": "shots", "job_id": uuid.uuid4().hex, "job_created": manifest.get("created"),
               "model": manifest["model"], "gpu": ", ".join(gpus),
               "settings": settings, "model_load_s": load_s, "results": []}
+    def encode(j: dict) -> tuple:
+        with torch.no_grad():
+            return pipe.encode_prompt(prompt=j["prompt"], negative_prompt=j.get("negative") or None,
+                                      do_classifier_free_guidance=settings["guidance"] > 1, max_sequence_length=512)
+
+    encoded: dict[str, tuple] = {}
+    if len(manifest["jobs"]) > 1:  # all prompts first, then the text encoder leaves memory for good
+        try:
+            for j in manifest["jobs"]:
+                encoded[j["unit"]] = tuple(None if e is None else e.to("cpu") for e in encode(j))
+            pipe.maybe_free_model_hooks()
+            pipe.text_encoder = None
+            gc.collect()
+            torch.cuda.empty_cache()
+            print(f"{len(encoded)} prompts encoded, text encoder released", flush=True)
+        except Exception as e:  # noqa: BLE001  fall back to encoding each prompt when its clip comes up
+            traceback.print_exc()
+            print(f"could not encode the prompts ahead: {type(e).__name__}. Encoding one by one.", flush=True)
+            encoded = {}
+
     for n, j in enumerate(manifest["jobs"], start=1):
         rec = {"unit": j["unit"], "key": j["key"], "fingerprint": j["fingerprint"], "seed": j["seed"],
                "params": {**{k: settings[k] for k in ("max_area", "num_frames", "steps", "guidance")}, "dtype": str(dtype).replace("torch.", "")}}
@@ -105,10 +131,11 @@ def main() -> None:
             mod = pipe.vae_scale_factor_spatial * pipe.transformer.config.patch_size[1]
             height = round(np.sqrt(settings["max_area"] * aspect)) // mod * mod
             width = round(np.sqrt(settings["max_area"] / aspect)) // mod * mod
-            with torch.no_grad():
-                embeds, negative_embeds = pipe.encode_prompt(prompt=j["prompt"], negative_prompt=j.get("negative") or None,
-                                                             do_classifier_free_guidance=settings["guidance"] > 1, max_sequence_length=512)
-            pipe.maybe_free_model_hooks()  # the text encoder leaves the GPU before anything else is loaded
+            if j["unit"] in encoded:
+                embeds, negative_embeds = encoded.pop(j["unit"])
+            else:
+                embeds, negative_embeds = encode(j)
+                pipe.maybe_free_model_hooks()  # the text encoder leaves the GPU before anything else is loaded
             frames = pipe(image=image.resize((width, height)), prompt_embeds=embeds, negative_prompt_embeds=negative_embeds,
                           height=height, width=width, num_frames=settings["num_frames"],
                           num_inference_steps=settings["steps"], guidance_scale=settings["guidance"],
@@ -117,9 +144,13 @@ def main() -> None:
             if not np.isfinite(pixels).all() or float(pixels.std()) < 0.01:
                 raise RuntimeError(f"the clip is blank or not a number ({dtype}): this data type does not suit the model on this GPU")
             name = f"{j['unit']}__{j['key']}.mp4"
-            export_to_video(frames, str(out / name), fps=settings.get("fps", 24))
+            try:  # a higher quality than the default 5: the first clip came out at under 1 Mbit/s and showed blocks when enlarged
+                export_to_video(frames, str(out / name), fps=settings.get("fps", 24), quality=9)
+            except TypeError:
+                export_to_video(frames, str(out / name), fps=settings.get("fps", 24))
             rec.update(status="ok", file=name)
             rec["params"].update(width=width, height=height)
+            del frames, pixels
         except Exception as e:  # noqa: BLE001  one failed clip must not lose the others
             traceback.print_exc()
             rec.update(status="error", error=f"{type(e).__name__}: {e}"[:400])
@@ -128,6 +159,8 @@ def main() -> None:
         rec["latency_s"] = round(time.time() - t0, 1)
         rec["peak_mem_gb"] = round(max(torch.cuda.max_memory_allocated(i) for i in range(torch.cuda.device_count())) / 2**30, 2)
         report["results"].append(rec)
+        gc.collect()
+        torch.cuda.empty_cache()
         (out / "results.json").write_text(json.dumps(report, ensure_ascii=False, indent=1), encoding="utf-8")
         print(f"[{n}/{len(manifest['jobs'])}] {j['unit']}: {rec['status']} in {rec['latency_s']}s, peak {rec.get('peak_mem_gb')} GB", flush=True)
 
