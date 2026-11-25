@@ -782,13 +782,16 @@ class JudgeTests(Project):
                                              usage=types.SimpleNamespace(input_tokens=1200, output_tokens=300))
 
         fake = types.ModuleType("anthropic")
-        fake.Anthropic = lambda **kw: types.SimpleNamespace(beta=types.SimpleNamespace(messages=Messages()))
+        made = []
+        fake.Anthropic = lambda **kw: made.append(kw) or types.SimpleNamespace(beta=types.SimpleNamespace(messages=Messages()))
         for name in ("RateLimitError", "BadRequestError", "AuthenticationError", "PermissionDeniedError", "NotFoundError", "APIStatusError", "APIConnectionError"):
             setattr(fake, name, type(name, (Exception,), {}))
-        with mock.patch.dict(sys.modules, {"anthropic": fake}), mock.patch.dict(os.environ, {"ANTHROPIC_API_KEY": "test-claude"}):
+        keys = {"ANTHROPIC_API_KEY": "test-claude", "ANTHROPIC_WORKSPACE_ID": "wrkspc_test"}
+        with mock.patch.dict(sys.modules, {"anthropic": fake}), mock.patch.dict(os.environ, keys):
             out, meta = providers.text(self.ctx(mock=False), "keyframes", "s01_c1_judge", "Find what is wrong.", kind="judge",
                                        parts=[("image/jpeg", b"img")], schema=keyframes.JUDGE_SCHEMA, model="claude-opus-5-5")
         request = sent[0]
+        self.assertEqual(made[0], {"max_retries": 0, "default_headers": {"anthropic-workspace-id": "wrkspc_test"}})   # our retries, and the workspace
         self.assertEqual((request["model"], request["fallbacks"], request["betas"]), ("claude-opus-5-5", "default", ["server-side-fallback-2026-07-01"]))
         self.assertEqual([block["type"] for block in request["messages"][0]["content"]], ["image", "text"])
         self.assertEqual(request["output_config"], {"format": {"type": "json_schema", "schema": keyframes.JUDGE_SCHEMA}})

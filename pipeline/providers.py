@@ -271,7 +271,8 @@ def _claude(model: str, prompt: str, parts: list[tuple[str, bytes]], system: str
         request["system"] = system
     if schema:
         request["output_config"] = {"format": {"type": "json_schema", "schema": schema}}
-    client = anthropic.Anthropic(max_retries=0)
+    workspace = os.environ.get("ANTHROPIC_WORKSPACE_ID", "").strip()  # needed with a key that is not scoped to one workspace
+    client = anthropic.Anthropic(max_retries=0, default_headers={"anthropic-workspace-id": workspace} if workspace else None)
     try:
         response = client.beta.messages.create(betas=["server-side-fallback-2026-07-01"], fallbacks="default", **request)
     except anthropic.RateLimitError as e:
