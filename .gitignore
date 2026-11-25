@@ -42,3 +42,10 @@ outputs/*/kaggle_output/
 plan.md
 # the two test mixes of E12: rebuilt by `python experiments/e12_ducking.py`, 15 MB each
 outputs/experiments/E12/*.wav
+
+# The cut is not committed while it is a rough cut: a push publishes it on the public page.
+# Remove these five lines for the release commit, when the lines are confirmed and the films are final.
+outputs/film_*.mp4
+outputs/radio_cut.mp4
+outputs/qc_report.json
+outputs/assemble/
