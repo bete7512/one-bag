@@ -5,9 +5,65 @@
  "chosen": null,
  "seconds": 80,
  "candidates": {
-  "candidate_1": null,
-  "candidate_2": null,
-  "candidate_3": null
+  "candidate_1": "candidate_1__6a8caa01ab689a83.flac",
+  "candidate_2": "candidate_2__9c9ed61784100577.flac",
+  "candidate_3": "candidate_3__eabfd29dfe4bd373.flac"
  },
- "heard": {}
+ "heard": {
+  "candidate_1": {
+   "vocals": false,
+   "instruments": [
+    "koto",
+    "shakuhachi flute"
+   ],
+   "tempo": "slow",
+   "mood": [
+    "melancholic",
+    "reflective",
+    "serene"
+   ],
+   "busy_moments": [
+    {
+     "at_s": 7,
+     "what": "flute entrance"
+    }
+   ],
+   "notes": "A delicate, atmospheric koto and flute cue that stays supportive of dialogue with one notable shift at the seven-second mark."
+  },
+  "candidate_2": {
+   "vocals": false,
+   "instruments": [
+    "guzheng",
+    "bells"
+   ],
+   "tempo": "slow",
+   "mood": [
+    "serene",
+    "meditative",
+    "melancholic"
+   ],
+   "busy_moments": [],
+   "notes": "This sparse, slow-tempo track with a gentle guzheng melody and delicate bells provides a serene, unobtrusive background suitable for quiet narration."
+  },
+  "candidate_3": {
+   "vocals": false,
+   "instruments": [
+    "kalimba",
+    "chimes"
+   ],
+   "tempo": "slow",
+   "mood": [
+    "mysterious",
+    "calm",
+    "reflective"
+   ],
+   "busy_moments": [
+    {
+     "at_s": 29,
+     "what": "percussion entry"
+    }
+   ],
+   "notes": "The sparse kalimba opening works well under dialogue, but the second half with percussion may compete with voiceovers."
+  }
+ }
 }

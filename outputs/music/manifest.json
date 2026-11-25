@@ -14,11 +14,11 @@
    "created": "2026-11-25T11:41:28Z"
   },
   "candidate_1": {
-   "key": "60136c244c5c865f",
-   "file": "candidate_1__60136c244c5c865f.flac",
+   "key": "6a8caa01ab689a83",
+   "file": "candidate_1__6a8caa01ab689a83.flac",
    "fingerprint": {
     "v": 1,
-    "caption": "Slow, sparse instrumental. A solo krar (Ethiopian lyre) plucks a gentle pentatonic melody in the tizita mood, a soft washint flute answers, warm low drone underneath. Intimate room sound, nostalgic and tender, a lot of space between notes. No drums, no vocals.",
+    "caption": "Solo krar, the Ethiopian six-string lyre, plucked slowly. A sparse pentatonic melody in the tizita mood. One instrument only, in a quiet room. No drums, no vocals.",
     "bpm": 66,
     "keyscale": "",
     "duration_s": 80,
@@ -28,16 +28,16 @@
    "meta": {
     "seconds": 80.0,
     "source": "kaggle",
-    "latency_s": 9.2
+    "latency_s": 10.1
    },
-   "created": "2026-11-25T13:24:46Z"
+   "created": "2026-11-25T18:17:50Z"
   },
   "candidate_2": {
-   "key": "5e84c28c48f1a1a3",
-   "file": "candidate_2__5e84c28c48f1a1a3.flac",
+   "key": "9c9ed61784100577",
+   "file": "candidate_2__9c9ed61784100577.flac",
    "fingerprint": {
     "v": 1,
-    "caption": "Slow, sparse instrumental. A solo krar (Ethiopian lyre) plucks a gentle pentatonic melody in the tizita mood, a soft washint flute answers, warm low drone underneath. Intimate room sound, nostalgic and tender, a lot of space between notes. No drums, no vocals.",
+    "caption": "Solo krar, the Ethiopian six-string lyre, plucked slowly. A sparse pentatonic melody in the tizita mood. One instrument only, in a quiet room. No drums, no vocals.",
     "bpm": 66,
     "keyscale": "",
     "duration_s": 80,
@@ -47,16 +47,16 @@
    "meta": {
     "seconds": 80.0,
     "source": "kaggle",
-    "latency_s": 6.5
+    "latency_s": 6.2
    },
-   "created": "2026-11-25T13:24:46Z"
+   "created": "2026-11-25T18:17:50Z"
   },
   "candidate_3": {
-   "key": "d847c6abd8ee5d1d",
-   "file": "candidate_3__d847c6abd8ee5d1d.flac",
+   "key": "eabfd29dfe4bd373",
+   "file": "candidate_3__eabfd29dfe4bd373.flac",
    "fingerprint": {
     "v": 1,
-    "caption": "Slow, sparse instrumental. A solo krar (Ethiopian lyre) plucks a gentle pentatonic melody in the tizita mood, a soft washint flute answers, warm low drone underneath. Intimate room sound, nostalgic and tender, a lot of space between notes. No drums, no vocals.",
+    "caption": "Solo krar, the Ethiopian six-string lyre, plucked slowly. A sparse pentatonic melody in the tizita mood. One instrument only, in a quiet room. No drums, no vocals.",
     "bpm": 66,
     "keyscale": "",
     "duration_s": 80,
@@ -66,79 +66,97 @@
    "meta": {
     "seconds": 80.0,
     "source": "kaggle",
-    "latency_s": 6.6
+    "latency_s": 6.4
    },
-   "created": "2026-11-25T13:24:46Z"
+   "created": "2026-11-25T18:17:50Z"
   },
   "candidate_1_heard": {
-   "key": "d26d16a4576e1def",
-   "file": "candidate_1_heard__d26d16a4576e1def.json",
+   "key": "91394f22e287e9f2",
+   "file": "candidate_1_heard__91394f22e287e9f2.json",
    "fingerprint": {
     "v": 1,
     "hear": 1,
-    "audio": "e4a070710584cafb",
+    "audio": "85be0d974ec737a4",
     "model": "gemini-3.5-flash-lite"
    },
    "meta": {
     "vocals": false,
     "instruments": [
-     "music box",
-     "piano"
+     "koto",
+     "shakuhachi flute"
     ],
     "tempo": "slow",
     "mood": [
-     "nostalgic",
      "melancholic",
-     "gentle"
+     "reflective",
+     "serene"
     ],
-    "busy_moments": [],
-    "notes": "This delicate music box cue creates a fragile, nostalgic atmosphere that easily leaves room for narration."
+    "busy_moments": [
+     {
+      "at_s": 7,
+      "what": "flute entrance"
+     }
+    ],
+    "notes": "A delicate, atmospheric koto and flute cue that stays supportive of dialogue with one notable shift at the seven-second mark."
    },
-   "created": "2026-11-25T13:24:50Z"
+   "created": "2026-11-25T18:17:56Z"
   },
   "candidate_2_heard": {
-   "key": "7de065e07947ad8e",
-   "file": "candidate_2_heard__7de065e07947ad8e.json",
+   "key": "3a9e1e9d485283a6",
+   "file": "candidate_2_heard__3a9e1e9d485283a6.json",
    "fingerprint": {
     "v": 1,
     "hear": 1,
-    "audio": "0dbd7a8d188caf9a",
+    "audio": "dfc5ad6d4af95ff7",
     "model": "gemini-3.5-flash-lite"
    },
    "meta": {
     "vocals": false,
     "instruments": [
-     "zither"
+     "guzheng",
+     "bells"
     ],
     "tempo": "slow",
-    "mood": "meditative, gentle, tranquil",
+    "mood": [
+     "serene",
+     "meditative",
+     "melancholic"
+    ],
     "busy_moments": [],
-    "notes": "This calm, acoustic zither piece provides an unobtrusive backing track well-suited for voiceover."
+    "notes": "This sparse, slow-tempo track with a gentle guzheng melody and delicate bells provides a serene, unobtrusive background suitable for quiet narration."
    },
-   "created": "2026-11-25T13:25:40Z"
+   "created": "2026-11-25T18:17:59Z"
   },
   "candidate_3_heard": {
-   "key": "a8903573f87052c9",
-   "file": "candidate_3_heard__a8903573f87052c9.json",
+   "key": "cb21480b0c352a2e",
+   "file": "candidate_3_heard__cb21480b0c352a2e.json",
    "fingerprint": {
     "v": 1,
     "hear": 1,
-    "audio": "6c697c8e5aa89e9e",
+    "audio": "1b188885ae7419a9",
     "model": "gemini-3.5-flash-lite"
    },
    "meta": {
     "vocals": false,
     "instruments": [
-     "music box",
-     "chimes",
-     "strings"
+     "kalimba",
+     "chimes"
     ],
     "tempo": "slow",
-    "mood": "calm, mysterious, nostalgic",
-    "busy_moments": [],
-    "notes": "A very quiet, delicate bed that will sit under narration easily without masking the voice."
+    "mood": [
+     "mysterious",
+     "calm",
+     "reflective"
+    ],
+    "busy_moments": [
+     {
+      "at_s": 29,
+      "what": "percussion entry"
+     }
+    ],
+    "notes": "The sparse kalimba opening works well under dialogue, but the second half with percussion may compete with voiceovers."
    },
-   "created": "2026-11-25T13:25:45Z"
+   "created": "2026-11-25T18:18:16Z"
   }
  },
  "entries": {
@@ -223,6 +241,100 @@
     "mood": "calm, mysterious, nostalgic",
     "busy_moments": [],
     "notes": "A very quiet, delicate bed that will sit under narration easily without masking the voice."
+   }
+  },
+  "6a8caa01ab689a83": {
+   "unit": "candidate_1",
+   "file": "candidate_1__6a8caa01ab689a83.flac",
+   "meta": {
+    "seconds": 80.0,
+    "source": "kaggle",
+    "latency_s": 10.1
+   }
+  },
+  "9c9ed61784100577": {
+   "unit": "candidate_2",
+   "file": "candidate_2__9c9ed61784100577.flac",
+   "meta": {
+    "seconds": 80.0,
+    "source": "kaggle",
+    "latency_s": 6.2
+   }
+  },
+  "eabfd29dfe4bd373": {
+   "unit": "candidate_3",
+   "file": "candidate_3__eabfd29dfe4bd373.flac",
+   "meta": {
+    "seconds": 80.0,
+    "source": "kaggle",
+    "latency_s": 6.4
+   }
+  },
+  "91394f22e287e9f2": {
+   "unit": "candidate_1_heard",
+   "file": "candidate_1_heard__91394f22e287e9f2.json",
+   "meta": {
+    "vocals": false,
+    "instruments": [
+     "koto",
+     "shakuhachi flute"
+    ],
+    "tempo": "slow",
+    "mood": [
+     "melancholic",
+     "reflective",
+     "serene"
+    ],
+    "busy_moments": [
+     {
+      "at_s": 7,
+      "what": "flute entrance"
+     }
+    ],
+    "notes": "A delicate, atmospheric koto and flute cue that stays supportive of dialogue with one notable shift at the seven-second mark."
+   }
+  },
+  "3a9e1e9d485283a6": {
+   "unit": "candidate_2_heard",
+   "file": "candidate_2_heard__3a9e1e9d485283a6.json",
+   "meta": {
+    "vocals": false,
+    "instruments": [
+     "guzheng",
+     "bells"
+    ],
+    "tempo": "slow",
+    "mood": [
+     "serene",
+     "meditative",
+     "melancholic"
+    ],
+    "busy_moments": [],
+    "notes": "This sparse, slow-tempo track with a gentle guzheng melody and delicate bells provides a serene, unobtrusive background suitable for quiet narration."
+   }
+  },
+  "cb21480b0c352a2e": {
+   "unit": "candidate_3_heard",
+   "file": "candidate_3_heard__cb21480b0c352a2e.json",
+   "meta": {
+    "vocals": false,
+    "instruments": [
+     "kalimba",
+     "chimes"
+    ],
+    "tempo": "slow",
+    "mood": [
+     "mysterious",
+     "calm",
+     "reflective"
+    ],
+    "busy_moments": [
+     {
+      "at_s": 29,
+      "what": "percussion entry"
+     }
+    ],
+    "notes": "The sparse kalimba opening works well under dialogue, but the second half with percussion may compete with voiceovers."
    }
   }
  }

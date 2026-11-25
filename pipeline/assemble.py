@@ -25,10 +25,11 @@ from .core import (STAGE_VERSION, Ctx, PipelineError, Unit, ff, ff_capture, get_
 
 ENCODE = ["-c:v", "libx264", "-crf", "18", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-video_track_timescale", "12288", "-an"]
 DUCK = {"threshold": 0.02, "ratio": 6, "attack": 300, "release": 1500}  # the starting point the brief suggests
-TARGET = {"lufs": -14.0, "true_peak": -1.5, "lra": 11.0}  # -1.5 leaves room for the AAC encoder under -1 dBTP
+TARGET = {"lufs": -14.0, "true_peak": -1.7}  # the AAC encoder adds to the peaks (0.2 to 0.7 dB measured here): this keeps the film under -1 dBTP
 VOICE_LUFS, MUSIC_LUFS = -16.0, -24.0  # levels before ducking: the score starts 8 dB under the voice
 LINE_GAIN_MAX = 12.0     # dB: a narration line is never moved further than this to reach the voice level
 BLOCK = 1024             # samples per block on both inputs of the ducking compressor
+LIMIT = {"attack": 5, "release": 50, "margin_db": 0.3}  # the peak limiter before the last gain: milliseconds and dB
 MAX_CROP_LOSS = 0.45
 MAX_SLOWDOWN = 1.25
 TAIL_MIN_S = 0.75        # a hold shorter than this is not seen as a freeze
@@ -195,40 +196,37 @@ def join_and_mux(ctx: Ctx, scenes: list[Path], mix: Path, out: Path) -> dict:
 # ----------------------------------------------------------------------------- sound
 
 
-def loudnorm_measure(src: Path) -> dict:
-    spec = f"loudnorm=I={TARGET['lufs']}:TP={TARGET['true_peak']}:LRA={TARGET['lra']}"
-    err = ff_capture(["-i", str(src), "-af", spec + ":print_format=json", "-f", "null", "-"])
-    found = re.search(r"\{[^{}]*\"input_i\"[^{}]*\}", err, re.S)
-    return json.loads(found.group(0)) if found else {}
+def to_target(src: Path, dst: Path) -> dict:
+    """Bring a mix to the target loudness with one fixed gain, and say what was done, as measured.
 
+    The brief suggests FFmpeg's loudnorm in two passes. Its second pass applies one fixed gain only when the
+    peaks stay under the true-peak target after it. With a voice as peaky as this one they do not, and loudnorm
+    then rides the gain up and down without saying so (E12). So the steps are done here, in the open: measure
+    with the same EBU R128 meter, limit the peaks that are in the way once, measure again, and apply one gain.
 
-def loudnorm_two_pass(src: Path, dst: Path) -> str:
-    """Bring a mix to the target loudness with one fixed gain. Returns how it was done: linear, limited+linear or copy.
-
-    FFmpeg's loudnorm only applies a fixed gain when the peaks stay under the true-peak target after it.
-    When they would not, it switches to riding the gain up and down without saying so, which changes the
-    balance between voice and score that the mix has just set. So the few peaks that are in the way are
-    limited first, and the fixed gain is applied after.
+    The limiter makes the mix a little quieter, so that gain may fall short of the target by a few tenths of a
+    LU. That is accepted. Limiting harder to win them back squeezes the voice, and its flattened peaks then
+    overshoot in the AAC encoder: four rounds of it put the film's true peak at -0.8 dB.
     """
-    m = loudnorm_measure(src)
-    if not m or "inf" in str(m.get("input_i")):  # silence: nothing to normalise
+    level = loudness(src)
+    if level["lufs"] < -70:  # silence: nothing to normalise
         shutil.copy2(src, dst)
-        return "copy"
-    how, limited = "linear", src.with_name(src.stem + "-limited.wav")
+        return {"how": "copy"}
+    limited = src.with_name(src.stem + "-limited.wav")
+    cur, ceiling = src, None
     try:
-        gain = TARGET["lufs"] - float(m["input_i"])
-        if float(m["input_tp"]) + gain > TARGET["true_peak"]:
-            ceiling = TARGET["true_peak"] - gain - 0.5  # dBFS: after the gain the peaks sit half a dB under the target
-            ff(["-i", str(src), "-af", f"alimiter=limit={10 ** (ceiling / 20):.4f}:attack=5:release=50:level=false",
+        gain = TARGET["lufs"] - level["lufs"]
+        if level["true_peak_db"] + gain > TARGET["true_peak"]:
+            ceiling = TARGET["true_peak"] - gain - LIMIT["margin_db"]  # dBFS: with the planned gain the peaks would sit just under the target
+            ff(["-i", str(src), "-af", f"alimiter=limit={min(1.0, 10 ** (ceiling / 20)):.4f}:attack={LIMIT['attack']}:release={LIMIT['release']}:level=false",
                 "-ar", "48000", "-c:a", "pcm_f32le", str(limited)])
-            src, how, m = limited, "limited+linear", loudnorm_measure(limited)
-        spec = (f"loudnorm=I={TARGET['lufs']}:TP={TARGET['true_peak']}:LRA={TARGET['lra']}"
-                f":measured_I={m['input_i']}:measured_TP={m['input_tp']}:measured_LRA={m['input_lra']}"
-                f":measured_thresh={m['input_thresh']}:offset={m['target_offset']}:linear=true")
-        ff(["-i", str(src), "-af", spec, "-ar", "48000", "-c:a", "pcm_s16le", str(dst)])
+            cur, level = limited, loudness(limited)
+            gain = min(TARGET["lufs"] - level["lufs"], TARGET["true_peak"] - level["true_peak_db"])  # never a peak over the target
+        ff(["-i", str(cur), "-af", f"volume={gain:.2f}dB", "-ar", "48000", "-c:a", "pcm_s16le", str(dst)])
     finally:
         limited.unlink(missing_ok=True)
-    return how
+    return {"how": "limited once, then one fixed gain" if ceiling is not None else "one fixed gain", "gain_db": round(gain, 2),
+            "ceiling_db": round(ceiling, 2) if ceiling is not None else None}
 
 
 def build_mix(ctx: Ctx, out: Path, placed: list[tuple[Path, float]], music: Path, total: float, gain_db: float) -> dict:
@@ -264,13 +262,13 @@ def build_mix(ctx: Ctx, out: Path, placed: list[tuple[Path, float]], music: Path
         ff(["-i", str(voice), "-stream_loop", "-1", "-i", str(music), "-filter_complex", mixgraph, "-map", "[mix]",
             "-t", f"{total:.3f}", "-ar", "48000", "-c:a", "pcm_f32le", str(premix)])
         # 3. loudness for the platforms, last
-        how = loudnorm_two_pass(premix, out)
+        done = to_target(premix, out)
     finally:
         voice.unlink(missing_ok=True)
         premix.unlink(missing_ok=True)
     level = loudness(out)
     return {"lufs": level["lufs"], "true_peak_db": level["true_peak_db"], "line_gains_db": [round(g, 2) for g in gains],
-            "music_gain_db": round(music_gain, 2), "normalised": how}
+            "music_gain_db": round(music_gain, 2), "normalised": done}
 
 
 # ----------------------------------------------------------------------------- the stage
@@ -303,7 +301,7 @@ def run(ctx: Ctx, state: dict, mode: str = "film", plan_only: bool = False) -> d
               if t["narration_start"] is not None and narration[t["id"]]["file"]]
     mix_fp = {"v": V, "lines": [[narration[t["id"]]["key"], t["narration_start"]] for t in timeline["shots"] if t["narration_start"] is not None],
               "music": music["key"], "gain_db": sb["music"].get("gain_db", 0), "total": total, "duck": DUCK, "target": TARGET,
-              "levels": [VOICE_LUFS, MUSIC_LUFS]}
+              "levels": [VOICE_LUFS, MUSIC_LUFS], "line_gain_max": LINE_GAIN_MAX, "block": BLOCK, "limit": LIMIT}
     mix = run_units(ctx, [Unit("assemble", f"mix{suffix}", mix_fp, "wav",
                                lambda tmp: build_mix(ctx, tmp, placed, music_dir / music["file"], total, sb["music"].get("gain_db", 0)))],
                     plan_only)[f"mix{suffix}"]

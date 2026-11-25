@@ -190,6 +190,25 @@ def fetch(ctx: Ctx, stage: str, kernel: str) -> int:
     return (shots if stage == "shots" else music).ingest(ctx, reports[0].parent)
 
 
+def refresh_job(ctx: Ctx, stage: str) -> None:
+    """Write the job again from the storyboard as it is now, so what is sent is never an older job.
+
+    The job folder on disk is written by the stage. Sending it as found once sent a job that had been
+    exported hours before a change to the storyboard: Kaggle spent 45 minutes on results that already existed.
+    """
+    from . import music, shots
+    manifest = ctx.out / stage / "kaggle_job" / "manifest.json"
+    before = manifest.stat().st_mtime_ns if manifest.exists() else None
+    {"music": music.run, "shots": shots.run}[stage](ctx, {})  # the stage writes the job when a unit is missing, and keeps its stamp if nothing changed
+    if not manifest.exists() or manifest.stat().st_mtime_ns == before:  # not written just now: whatever lies there is an old job
+        for stale in (manifest.parent, manifest.parent.with_suffix(".zip")):
+            if stale.is_dir():
+                shutil.rmtree(stale)
+            elif stale.exists():
+                stale.unlink()
+        raise PipelineError(f"nothing in the {stage} stage is waiting for a GPU: every unit is in the cache. Nothing was sent to Kaggle.")
+
+
 def run(ctx: Ctx, action: str, stage: str, wait_for_it: bool = True) -> int:
     if ctx.mock:
         raise PipelineError("Kaggle jobs are real GPU work: run this without --mock")
@@ -202,6 +221,7 @@ def run(ctx: Ctx, action: str, stage: str, wait_for_it: bool = True) -> int:
         ctx.say((log.stdout + log.stderr).strip()[-6000:])
         return 0
     if action == "run":
+        refresh_job(ctx, stage)
         upload(ctx, stage, dataset)
         push(ctx, stage, dataset, kernel)
         if not wait_for_it:

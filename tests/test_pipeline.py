@@ -852,6 +852,32 @@ class KaggleRunTests(Project):
             "results": [{"unit": job["unit"], "key": job["key"], "fingerprint": job["fingerprint"], "seed": job["seed"], "params": {},
                          "status": "ok", "file": name, "latency_s": 90.0, "peak_mem_gb": 3.1}]}), encoding="utf-8")
 
+    def test_the_job_that_is_sent_is_the_job_of_the_storyboard_as_it_is_now(self):
+        from pipeline import kagglerun
+        music.run(self.ctx(mock=False), {})                  # a job is written, and then the storyboard changes
+        sb = read_sb(self.root)
+        sb["music"]["caption"] = "Solo krar, plucked slowly. One instrument only, in a quiet room. No drums, no vocals."
+        write_sb(self.root, sb)
+        ctx = self.ctx(mock=False)
+        self.assertEqual(kagglerun.run(ctx, "run", "music", wait_for_it=False), 0)
+        sent = json.loads((ctx.out / "music" / "kaggle_job" / "manifest.json").read_text(encoding="utf-8"))
+        self.assertIn("Solo krar", json.dumps(sent))                                   # the new caption went out, not the old job
+        self.assertIn(repr(sent["created"]), (self.state / "kernel" / "launch.py").read_text())
+
+    def test_nothing_is_sent_when_nothing_waits_for_a_gpu(self):
+        from pipeline import kagglerun
+        sb = read_sb(self.root)
+        sb["music"]["seeds"] = sb["music"]["seeds"][:1]      # one candidate, so one result fills the cache
+        write_sb(self.root, sb)
+        ctx = self.ctx(mock=False)
+        music.run(ctx, {})
+        self.results(ctx, kagglerun.job_manifest(ctx, "music")["created"])
+        self.assertEqual(kagglerun.run(ctx, "run", "music"), 0)
+        pushes = len([c for c in core.read_jsonl(self.state / "calls.jsonl") if c[:2] == ["kernels", "push"]])
+        with self.assertRaisesRegex(core.PipelineError, "waiting for a GPU.*Nothing was sent"):
+            kagglerun.run(ctx, "run", "music")
+        self.assertEqual(len([c for c in core.read_jsonl(self.state / "calls.jsonl") if c[:2] == ["kernels", "push"]]), pushes)
+
     def test_a_push_that_kaggle_refuses_is_not_reported_as_running(self):
         from pipeline import kagglerun
         ctx = self.ctx(mock=False)
