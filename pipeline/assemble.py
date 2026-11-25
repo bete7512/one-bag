@@ -86,6 +86,17 @@ def card_event(lines: list[str], width: int, height: int, start: float, end: flo
     return (start, end, "Card", text)
 
 
+HOLD_S = 2.5  # the last words of a line stay on screen this long after the voice stops, when the shot lasts that long
+
+
+def hold_last(cues: list, limit: float) -> list:
+    """Keep the last cue of a line up after the voice has stopped, so it can be read, but never past `limit` (the end of its shot)."""
+    if cues:
+        start, end, lines = cues[-1]
+        cues[-1] = (start, round(max(end, min(limit, end + HOLD_S)), 3), lines)
+    return cues
+
+
 def srt_time(t: float) -> str:
     ms = int(round(t * 1000))
     return f"{ms // 3600000:02d}:{ms // 60000 % 60:02d}:{ms // 1000 % 60:02d},{ms % 1000:03d}"
@@ -94,11 +105,16 @@ def srt_time(t: float) -> str:
 # ----------------------------------------------------------------------------- picture
 
 
-def fit_graph(src_w: int, src_h: int, width: int, height: int) -> tuple[str, str]:
-    """Filter steps that take a `src` clip to exactly width x height. Returns (graph, mode)."""
+def fit_graph(src_w: int, src_h: int, width: int, height: int, focus_y: float = 0.5) -> tuple[str, str]:
+    """Filter steps that take a `src` clip to exactly width x height. Returns (graph, mode).
+
+    `focus_y` says where the subject sits, from 0 (top) to 1 (bottom). A crop that takes height away keeps
+    the part around it: the wide film cuts a square picture to its middle band, and a standing figure loses its head there.
+    """
     src_ar, out_ar = src_w / src_h, width / height
     loss = 1 - min(src_ar / out_ar, out_ar / src_ar)
-    cover = f"scale={width}:{height}:force_original_aspect_ratio=increase:flags=lanczos,crop={width}:{height}"
+    cover = (f"scale={width}:{height}:force_original_aspect_ratio=increase:flags=lanczos,"
+             f"crop={width}:{height}:(iw-{width})/2:(ih-{height})*{min(1.0, max(0.0, focus_y)):.3f}")
     if loss <= MAX_CROP_LOSS:
         return cover, "crop"
     graph = (f"split[bgsrc][fgsrc];[bgsrc]{cover},boxblur=24:4,eq=brightness=-0.10[bg];"
@@ -107,7 +123,8 @@ def fit_graph(src_w: int, src_h: int, width: int, height: int) -> tuple[str, str
     return graph, "blur_fill"
 
 
-def render_scene(ctx: Ctx, clip: Path, out: Path, *, width: int, height: int, frames: int, fps: int, cues: list, margin_v: int) -> dict:
+def render_scene(ctx: Ctx, clip: Path, out: Path, *, width: int, height: int, frames: int, fps: int, cues: list, margin_v: int,
+                 focus_y: float = 0.5) -> dict:
     """One shot at one export size, exactly `frames` long, subtitles burned in.
 
     A generated clip is a few seconds long and a shot lasts as long as its narration. A clip that
@@ -118,7 +135,7 @@ def render_scene(ctx: Ctx, clip: Path, out: Path, *, width: int, height: int, fr
     have = max(1, round(info["duration"] * fps))
     slow = 1.0 if have >= frames else min(MAX_SLOWDOWN, frames / have)
     tail = max(0.0, frames / fps - info["duration"] * slow)
-    fit, mode = fit_graph(info["width"], info["height"], width, height)
+    fit, mode = fit_graph(info["width"], info["height"], width, height, focus_y)
     graph = f"[0:v]setpts={slow:.5f}*(PTS-STARTPTS),fps={fps},tpad=stop_mode=clone:stop_duration={tail + 0.5:.3f}"
     kind = "none" if tail == 0 else "hold" if tail < TAIL_MIN_S else "push"
     if kind == "push":
@@ -246,8 +263,10 @@ def run(ctx: Ctx, state: dict, mode: str = "film", plan_only: bool = False) -> d
         line = script["lines"].get(t["id"])
         if line and t["narration_start"] is not None:
             inside = narration[t["id"]].get("pauses")
-            cues[t["id"]] = subtitle_cues(line["subtitle"], t["narration_start"] - t["start"], t["narration_s"], pauses=inside)
-            absolute += subtitle_cues(line["subtitle"], t["narration_start"], t["narration_s"], pauses=inside)
+            cues[t["id"]] = hold_last(subtitle_cues(line["subtitle"], t["narration_start"] - t["start"], t["narration_s"], pauses=inside),
+                                      t["duration"] - 0.3)
+            absolute += hold_last(subtitle_cues(line["subtitle"], t["narration_start"], t["narration_s"], pauses=inside),
+                                  t["start"] + t["duration"] - 0.3)
 
     narr_dir, music_dir = ctx.out / "narration", ctx.out / "music"
     placed = [(narr_dir / narration[t["id"]]["file"], t["narration_start"]) for t in timeline["shots"]
@@ -289,18 +308,20 @@ def run(ctx: Ctx, state: dict, mode: str = "film", plan_only: bool = False) -> d
     else:
         shots = get_index(ctx, state, "shots", per_lang=True)
         shots_dir = ctx.out / "shots"
+        focus_of = {shot["id"]: shot["keyframe"].get("focus_y", 0.5) for shot in sb["shots"]}
         for exp in fmt["exports"]:
             name, W, H = exp["name"], exp["width"], exp["height"]
             margin = exp.get("subtitle_margin_v", round(H * 0.08))
             units = []
             for t in timeline["shots"]:
                 sid, clip = t["id"], shots[t["id"]]
+                focus = focus_of.get(sid, 0.5)
                 fp = {"v": V, "clip": clip["key"], "size": [W, H], "frames": t["frames"], "fps": fps, "cues": cues.get(sid, []),
-                      "margin_v": margin, "style": SUBTITLE_STYLE}
+                      "margin_v": margin, "style": SUBTITLE_STYLE, "focus_y": focus}
 
-                def produce(tmp: Path, sid: str = sid, clip: dict = clip, frames: int = t["frames"]) -> dict:
+                def produce(tmp: Path, sid: str = sid, clip: dict = clip, frames: int = t["frames"], focus: float = focus) -> dict:
                     return render_scene(ctx, shots_dir / clip["file"], tmp, width=W, height=H, frames=frames, fps=fps,
-                                        cues=cues.get(sid, []), margin_v=margin)
+                                        cues=cues.get(sid, []), margin_v=margin, focus_y=focus)
 
                 units.append(Unit("assemble", f"{name}_{sid}{suffix}", fp, "mp4", produce))
             fp = {"v": V, "card": card_lines, "size": [W, H], "frames": card_frames, "fps": fps, "style": SUBTITLE_STYLE}

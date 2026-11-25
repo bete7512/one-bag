@@ -265,6 +265,24 @@ class TimingTests(unittest.TestCase):
         self.assertAlmostEqual(timed[0][1], 15.12, places=2)                         # the cue changes as the long pause ends
         self.assertEqual((timed[0][0], timed[-1][1], timed[1][0]), (10.0, 19.0, timed[0][1]))
 
+    def test_the_last_words_of_a_line_stay_up_after_the_voice_stops(self):
+        from pipeline import assemble
+        cues = [(0.4, 5.6, ["If I met that boy today, I would tell", "him just one thing:"]), (5.6, 6.4, ["experience it."])]
+        self.assertEqual(assemble.hold_last(list(cues), 9.7)[-1], (5.6, 8.9, ["experience it."]))   # 2.5 s more, the shot lasts that long
+        self.assertEqual(assemble.hold_last(list(cues), 7.0)[-1], (5.6, 7.0, ["experience it."]))   # never past the end of its shot
+        self.assertEqual(assemble.hold_last(list(cues), 6.0)[-1], (5.6, 6.4, ["experience it."]))   # and never shorter than the voice
+        self.assertEqual(assemble.hold_last([], 5.0), [])
+
+    def test_the_wide_film_keeps_the_part_of_the_picture_the_shot_points_at(self):
+        from pipeline import assemble
+        middle, mode = assemble.fit_graph(1024, 1024, 1920, 1080)
+        head, _ = assemble.fit_graph(1024, 1024, 1920, 1080, focus_y=0.15)
+        self.assertEqual(mode, "crop")
+        self.assertIn("crop=1920:1080:(iw-1920)/2:(ih-1080)*0.500", middle)          # the middle band, as before
+        self.assertIn("crop=1920:1080:(iw-1920)/2:(ih-1080)*0.150", head)            # higher up, where a standing figure has its head
+        tall, _ = assemble.fit_graph(1024, 1024, 1080, 1920, focus_y=0.15)
+        self.assertIn("crop=1080:1920:(iw-1080)/2:", tall)                           # the tall film loses width only, so nothing moves
+
     def test_what_follows_a_colon_waits_for_its_own_cue(self):
         cues = core.subtitle_cues("If I met that boy today, I would tell him just one thing: experience it.", 0.0, 6.0, pauses=[[1.9, 2.4], [4.3, 5.3]])
         self.assertEqual(cues[-1][2], ["experience it."])                            # the last word is not shown before it is said

@@ -550,6 +550,12 @@
               "minimum": 1,
               "maximum": 4,
               "description": "Human override: 1-based candidate to use, whatever the judge scored."
+            },
+            "focus_y": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Where the subject sits in the picture, from 0 (top) to 1 (bottom). An export that crops the height of the picture keeps the part around it. Default 0.5, the middle."
             }
           }
         },
