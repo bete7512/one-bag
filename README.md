@@ -20,11 +20,12 @@ Be clear about what is proven and what is not. Last updated 25 November 2026, 15
 | Narration (Gemini TTS), one request for all lines | yes | one smoke call. The first full take waits for the final lines |
 | Narration listening check | yes | not yet |
 | Keyframes (FLUX.2 klein on Workers AI) | yes | yes: 12 pictures for the three shots without people |
-| Keyframe judge | yes | yes, on two models (E15) |
+| Keyframe judge | yes | yes, on three models (E15, E17) |
+| Subtitle check | yes | yes: it found two draft subtitles that differ from their lines (E18) |
 | Keyframe border check | yes | yes: it caught the white border on the first pictures (E16) |
 | Shots: Ken Burns (FFmpeg) | yes, real FFmpeg | not applicable |
 | Shots: Wan 2.2 on Kaggle | export, upload and ingest | not yet |
-| Music: ACE-Step on Kaggle | export, upload and ingest | first run failed before the model loaded (F02) |
+| Music: ACE-Step on Kaggle | export, upload and ingest | yes: three candidates on the third run (F02), each described by a listening model |
 | Assembly, ducking, loudness, both ratios | yes, real FFmpeg | not applicable |
 | Final-cut check | yes | not applicable |
 
@@ -60,19 +61,20 @@ Keys go in `.env`, which is git-ignored. Nothing in this repository contains a s
 | `GEMINI_API_KEY` | Google AI Studio | speech, and the checks |
 | `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN` | Cloudflare dashboard, a token with Workers AI permission | pictures |
 | `KAGGLE_API_TOKEN` | kaggle.com/settings/api, "Generate New Token" | running the GPU jobs from the command line. Optional: they can be run by hand |
+| `ANTHROPIC_API_KEY` | platform.claude.com, a key with credit | the picture judge and the subtitle check, while `models.judge` names a Claude model. Optional: remove that line from the storyboard and both run on the free Gemini model |
 
 ## The stages
 
 | # | Stage | Model | Where it runs | Reads | Writes |
 |---|---|---|---|---|---|
-| 1 | `script` | Gemini 3.5 Flash-Lite, only for a missing subtitle | Gemini API | `storyboard.json` | `outputs/script/` |
+| 1 | `script` | Gemini 3.5 Flash-Lite for a missing subtitle, Claude Opus 5.5 to check a written one | Gemini API, Claude API | `storyboard.json` | `outputs/script/` |
 | 2 | `narration` | Gemini 3.8 Flash TTS, then a listening check by Gemini 3.5 Flash-Lite | Gemini API | script | one WAV per shot |
-| 3 | `keyframes` | FLUX.2 klein 4B, then a border check and a judge (Gemini 3.5 Flash-Lite) | Cloudflare Workers AI | storyboard | reference sheets, candidates, the pick |
+| 3 | `keyframes` | FLUX.2 klein 4B, then a border check and a judge (Claude Opus 5.5) | Cloudflare Workers AI, Claude API | storyboard | reference sheets, candidates, the pick |
 | 4 | `shots` | Wan 2.2 TI2V-5B, or Ken Burns | Kaggle GPU, or FFmpeg here | keyframes, narration timing | one clip per shot |
 | 5 | `music` | ACE-Step 1.5, or a placeholder drone | Kaggle GPU, or FFmpeg here | storyboard | score candidates |
 | 6 | `assemble` | none (FFmpeg) | here | everything above | both films, subtitles |
 
-The model ids are in `storyboard.json` under `models`. They changed once already: the checks started on Gemini 3.8 Flash and moved to Flash-Lite after the first afternoon (F01 and E15).
+The model ids are in `storyboard.json` under `models`. They changed twice on the first day. The checks started on Gemini 3.8 Flash and moved to Flash-Lite when it proved overloaded (F01 and E15). The picture judge then moved to Claude Opus 5.5, the one model here that is paid for, after it named faults the others had scored as perfect (E17).
 
 The two GPU models do not run on my laptop. The pipeline writes a job folder, and `python -m pipeline kaggle run shots` uploads it to Kaggle, runs it on a free GPU, waits, downloads the result and puts the clips into the cache with the seconds the GPU measured. Until then every shot falls back to a pan and zoom over its keyframe, so a full film always assembles. The same job can be run by hand in a notebook. See `kaggle/README.md`.
 
@@ -95,14 +97,14 @@ python -m pipeline film
 [assemble]  film_vertical  MISS (changed: mix, scenes)
 ```
 
-Everything else prints `HIT`. In the offline test this is asserted: one changed line makes exactly two model calls (speak it, listen to it), and one changed keyframe prompt regenerates only that shot.
+Everything else prints `HIT`. In the offline test this is asserted: one changed line makes exactly three model calls (check its subtitle, speak it, listen to it), and one changed keyframe prompt regenerates only that shot.
 
 What is kept decides what a change costs. The model's own answers are stored untouched: every picture in `outputs/keyframes/original/`, every narration take in `outputs/narration/takes/`. What the film uses is cut from those by FFmpeg. So a new crop or a new way of cutting a take calls no model.
 
 ## What makes it more than the floor
 
 - **A consent gate in code.** A shot that shows a real person is not generated until that person's consent is a dated row in `ETHICS.md` and marked in the storyboard. `make release` also refuses drafts and unconfirmed lines.
-- **Quality gates that measure.** Every keyframe candidate is measured for a paper border and scored by a vision model, and the best full-frame one is kept, with a human override. Each narration line is transcribed back and compared with the script. The finished films are measured: length, both ratios, loudness, true peak, subtitle line length, the AI end card. A gate that cannot reach its model never stops a run: the picture is still made, and the next run asks again.
+- **Quality gates that measure.** Every keyframe candidate is measured for a paper border and scored by a vision model that is asked what is wrong with it, and the best full-frame one is kept, with a human override. Each written subtitle is checked against its Amharic line by a model that translates the line literally. Each narration line is transcribed back and compared with the script. The finished films are measured: length, both ratios, loudness, true peak, subtitle line length, the AI end card. A gate that cannot reach its model never stops a run: the picture is still made, and the next run asks again.
 - **A guard for the free tiers.** The limits that apply to this project are in `pricing.json`, and the run log is the counter. A request that would go over a daily limit is not sent, and `make plan` says how many speech requests are left today. The speech tier allows ten requests a day, so the narration is spoken in one request and cut into lines here.
 - **The cost of every call.** Each line of `runs.jsonl` carries `cost_usd`, the list price of that call, from prices copied off the providers' pages with the date. Nothing was paid: it says what the same work costs without the free tiers.
 - **GPU jobs from the command line.** `python -m pipeline kaggle run music` uploads the job, runs it on Kaggle, and brings the result back with the seconds and the peak memory the GPU measured.
@@ -142,7 +144,7 @@ Model outputs are kept in `outputs/`, because they cost quota or GPU time and ar
 
 ## What it costs
 
-Money: nothing, on the free tiers. The limits are quota and GPU time: ten speech requests a day, about 96 pictures a day, 30 GPU hours a week. `make costs` reads `runs.jsonl` and writes the measured table into `COSTS.md`, with the list price of every call. The first 57 calls would have cost 0.02 USD.
+Money: speech, pictures, the light checks and the GPU run on free tiers. The picture judge and the subtitle check run on Claude Opus 5.5, which is paid for: 0.25 USD on the first day. The limits that shape the work are quota and GPU time: ten speech requests a day, about 96 pictures a day, 30 GPU hours a week. `make costs` reads `runs.jsonl` and writes the measured table into `COSTS.md`, with the list price of every call and what was really paid.
 
 ## How this was built
 

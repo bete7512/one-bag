@@ -1,0 +1,100 @@
+{
+ "language": "am",
+ "subtitles": "en",
+ "lines": {
+  "s01": {
+   "text": "በ2019 ከአንኮበር በአንድ ሻንጣ ወጣሁ። ጥቂት ልብስ። ጥቂት መጻሕፍት።",
+   "subtitle": "In 2019 I left Ankober with one bag. Some clothes. Some books.",
+   "machine_translated": false,
+   "estimate_s": 5.83,
+   "subtitle_check": {
+    "faithful": true,
+    "literal": "In 2019 I left Ankober with one suitcase. A few clothes. A few books.",
+    "differences": []
+   }
+  },
+  "s03": {
+   "text": "ከላምበረት ከጓደኛዬ ጋር ታክሲ ይዘን አዲስ አበባን አቋረጥን። እሱ ከተማዋን ያውቃታል። እኔ አላውቃትም ነበር።",
+   "subtitle": "At Lamberet my friend and I took a taxi across Addis Ababa. He knew the city. I did not.",
+   "machine_translated": false,
+   "estimate_s": 9.0,
+   "subtitle_check": {
+    "faithful": false,
+    "literal": "From Lamberet, my friend and I took a taxi and crossed Addis Ababa. He knows the city. I did not know it.",
+    "differences": [
+     "'from Lamberet' (the starting point) becomes 'at Lamberet'",
+     "'he knows the city' (present) becomes 'he knew the city' (past)"
+    ]
+   }
+  },
+  "s04": {
+   "text": "አውቶቡስ ተራ ወረድን። ፍርሃቱ የመጣው እዚያ ነው።",
+   "subtitle": "We got out at Autobus Tera. That is where the fear came.",
+   "machine_translated": false,
+   "estimate_s": 4.0,
+   "subtitle_check": {
+    "faithful": true,
+    "literal": "We got off at Autobus Tera. It was there that the fear came.",
+    "differences": []
+   }
+  },
+  "s05": {
+   "text": "ብዙ ሰው። ብዙ ጫጫታ። በብርሃን የተሞላች ከተማ።",
+   "subtitle": "So many people. So much sound. A city full of light.",
+   "machine_translated": false,
+   "estimate_s": 3.67,
+   "subtitle_check": {
+    "faithful": true,
+    "literal": "Many people. Much noise. A city filled with light.",
+    "differences": []
+   }
+  },
+  "s06": {
+   "text": "ሻንጣዬን አጥብቄ ይዤ በሕዝቡ መሃል ተከተልኩት፤ በመናኸሪያው አቅራቢያ ማደሪያ እየፈለግን።",
+   "subtitle": "I held my bag and followed him through the crowd, looking for a room near the station.",
+   "machine_translated": false,
+   "estimate_s": 7.67,
+   "subtitle_check": {
+    "faithful": true,
+    "literal": "Holding my suitcase tightly, I followed him through the crowd, as we looked for a place to stay near the bus station.",
+    "differences": []
+   }
+  },
+  "s07": {
+   "text": "ጠዋት አውቶቡስ ወደ ባሕር ዳር፣ ወደ ዩኒቨርሲቲ ይወስደኛል።",
+   "subtitle": "In the morning a bus would take me to Bahir Dar, to the university.",
+   "machine_translated": false,
+   "estimate_s": 4.83,
+   "subtitle_check": {
+    "faithful": false,
+    "literal": "In the morning a bus takes me to Bahir Dar, to the university.",
+    "differences": [
+     "Tense changed: the spoken line uses the present/future imperfective ('takes' or 'will take me'), but the subtitle's 'would take me' makes it a past habit or a conditional."
+    ]
+   }
+  },
+  "s08": {
+   "text": "ያን ሌሊት እንቅልፍ አልወሰደኝም።",
+   "subtitle": "That night I could not sleep.",
+   "machine_translated": false,
+   "estimate_s": 2.83,
+   "subtitle_check": {
+    "faithful": true,
+    "literal": "That night sleep did not take me.",
+    "differences": []
+   }
+  },
+  "s10": {
+   "text": "ዛሬ ያንን ልጅ ማናገር ብችል እንዲህ እለው ነበር፦ አትፍራ። በሕይወት ውስጥ ብዙ የምትማረው ነገር አለ።",
+   "subtitle": "If I could speak to that boy now, I would tell him: do not be scared. There is a lot to learn in life.",
+   "machine_translated": false,
+   "estimate_s": 8.17,
+   "subtitle_check": {
+    "faithful": true,
+    "literal": "If I could speak to that child today, I would tell him this: Don't be afraid. There are many things you will learn in life.",
+    "differences": []
+   }
+  }
+ },
+ "estimate_total_s": 46.0
+}

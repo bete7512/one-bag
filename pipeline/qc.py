@@ -58,6 +58,9 @@ def run(ctx: Ctx, state: dict | None = None) -> dict:
     check("must", "end card: says the film was made with AI, for 2 s or more",
           any(" AI" in f" {line}" for line in film["end_card"]) and film["timeline"]["end_card_s"] >= 2, " / ".join(film["end_card"]))
 
+    script = get_index(ctx, state, "script", per_lang=True, required=False).get("lines", {})
+    doubtful = [sid for sid, line in script.items() if line.get("subtitle_check", {}).get("faithful") is False]
+    check("note", "subtitles: each one says what its line says", not doubtful, ", ".join(doubtful) or "none in doubt")
     keyframes = get_index(ctx, state, "keyframes", required=False)
     blocked = [sid for sid, k in keyframes.items() if k.get("blocked")]
     check("must", "pictures: no shot is waiting for consent", not blocked, ", ".join(blocked) or "all shots have a picture")

@@ -46,6 +46,10 @@ def run(ctx: Ctx) -> Path:
         line, spoken = script.get(sid), narration.get(sid, {})
         if line:
             block.append(f"<p class='line'>{e(line['text'])}<br><i>{e(line['subtitle'] or '')}</i></p>")
+            checked = line.get("subtitle_check")
+            if checked:
+                block.append(f"<p class='{'ok' if checked['faithful'] else 'bad'}'>Subtitle check: {'says what the line says' if checked['faithful'] else 'differs: ' + e('; '.join(checked['differences']))}"
+                             f"<br><small>Literal: {e(checked['literal'])}</small></p>")
             if spoken.get("file"):
                 heard = f"<br>Listening check heard: {e(spoken['heard'])} (match {spoken['roundtrip']:.2f})" if spoken.get("roundtrip") is not None else ""
                 block.append(f"<p><audio controls preload='none' src='narration/{e(spoken['file'])}'></audio> {spoken.get('seconds', 0):.1f} s{heard}</p>")

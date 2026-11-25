@@ -340,6 +340,11 @@ def text(ctx: Ctx, stage: str, unit: str, prompt: str, *, kind: str, parts: list
             scores = {"elements": [], "border": False, "text_in_image": False, "wrong_setting": "", "anatomy": "",
                       "character_match": 3 + h % 3, "prompt_adherence": 3 + (h >> 3) % 3, "artifacts": 3 + (h >> 6) % 3, "notes": "mock judge"}
             return json.dumps(scores), {"usage": {}}
+        if kind == "describe_music":
+            return json.dumps({"vocals": False, "instruments": ["mock instrument"], "tempo": "slow", "mood": "mock, calm, plain",
+                               "busy_moments": [], "notes": "mock listener"}), {"usage": {}}
+        if kind == "subtitle_check":
+            return json.dumps({"literal": "mock literal translation", "faithful": True, "differences": []}), {"usage": {}}
         return "[mock translation] " + prompt.splitlines()[-1][:60], {"usage": {}}
 
     return model_call(ctx, stage=stage, unit=unit, provider="mock" if ctx.mock else "anthropic" if on_claude else "gemini", model=model,

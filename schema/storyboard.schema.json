@@ -241,6 +241,10 @@
           "type": "number",
           "minimum": 0,
           "maximum": 1
+        },
+        "subtitle_check": {
+          "type": "boolean",
+          "description": "Have a model translate each line literally and compare it with its written subtitle."
         }
       }
     },

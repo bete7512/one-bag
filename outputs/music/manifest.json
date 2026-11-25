@@ -12,6 +12,133 @@
     "seconds": 80
    },
    "created": "2026-11-25T11:41:28Z"
+  },
+  "candidate_1": {
+   "key": "60136c244c5c865f",
+   "file": "candidate_1__60136c244c5c865f.flac",
+   "fingerprint": {
+    "v": 1,
+    "caption": "Slow, sparse instrumental. A solo krar (Ethiopian lyre) plucks a gentle pentatonic melody in the tizita mood, a soft washint flute answers, warm low drone underneath. Intimate room sound, nostalgic and tender, a lot of space between notes. No drums, no vocals.",
+    "bpm": 66,
+    "keyscale": "",
+    "duration_s": 80,
+    "seed": 11,
+    "model": "acestep-v15-turbo"
+   },
+   "meta": {
+    "seconds": 80.0,
+    "source": "kaggle",
+    "latency_s": 9.2
+   },
+   "created": "2026-11-25T13:24:46Z"
+  },
+  "candidate_2": {
+   "key": "5e84c28c48f1a1a3",
+   "file": "candidate_2__5e84c28c48f1a1a3.flac",
+   "fingerprint": {
+    "v": 1,
+    "caption": "Slow, sparse instrumental. A solo krar (Ethiopian lyre) plucks a gentle pentatonic melody in the tizita mood, a soft washint flute answers, warm low drone underneath. Intimate room sound, nostalgic and tender, a lot of space between notes. No drums, no vocals.",
+    "bpm": 66,
+    "keyscale": "",
+    "duration_s": 80,
+    "seed": 22,
+    "model": "acestep-v15-turbo"
+   },
+   "meta": {
+    "seconds": 80.0,
+    "source": "kaggle",
+    "latency_s": 6.5
+   },
+   "created": "2026-11-25T13:24:46Z"
+  },
+  "candidate_3": {
+   "key": "d847c6abd8ee5d1d",
+   "file": "candidate_3__d847c6abd8ee5d1d.flac",
+   "fingerprint": {
+    "v": 1,
+    "caption": "Slow, sparse instrumental. A solo krar (Ethiopian lyre) plucks a gentle pentatonic melody in the tizita mood, a soft washint flute answers, warm low drone underneath. Intimate room sound, nostalgic and tender, a lot of space between notes. No drums, no vocals.",
+    "bpm": 66,
+    "keyscale": "",
+    "duration_s": 80,
+    "seed": 33,
+    "model": "acestep-v15-turbo"
+   },
+   "meta": {
+    "seconds": 80.0,
+    "source": "kaggle",
+    "latency_s": 6.6
+   },
+   "created": "2026-11-25T13:24:46Z"
+  },
+  "candidate_1_heard": {
+   "key": "d26d16a4576e1def",
+   "file": "candidate_1_heard__d26d16a4576e1def.json",
+   "fingerprint": {
+    "v": 1,
+    "hear": 1,
+    "audio": "e4a070710584cafb",
+    "model": "gemini-3.5-flash-lite"
+   },
+   "meta": {
+    "vocals": false,
+    "instruments": [
+     "music box",
+     "piano"
+    ],
+    "tempo": "slow",
+    "mood": [
+     "nostalgic",
+     "melancholic",
+     "gentle"
+    ],
+    "busy_moments": [],
+    "notes": "This delicate music box cue creates a fragile, nostalgic atmosphere that easily leaves room for narration."
+   },
+   "created": "2026-11-25T13:24:50Z"
+  },
+  "candidate_2_heard": {
+   "key": "7de065e07947ad8e",
+   "file": "candidate_2_heard__7de065e07947ad8e.json",
+   "fingerprint": {
+    "v": 1,
+    "hear": 1,
+    "audio": "0dbd7a8d188caf9a",
+    "model": "gemini-3.5-flash-lite"
+   },
+   "meta": {
+    "vocals": false,
+    "instruments": [
+     "zither"
+    ],
+    "tempo": "slow",
+    "mood": "meditative, gentle, tranquil",
+    "busy_moments": [],
+    "notes": "This calm, acoustic zither piece provides an unobtrusive backing track well-suited for voiceover."
+   },
+   "created": "2026-11-25T13:25:40Z"
+  },
+  "candidate_3_heard": {
+   "key": "a8903573f87052c9",
+   "file": "candidate_3_heard__a8903573f87052c9.json",
+   "fingerprint": {
+    "v": 1,
+    "hear": 1,
+    "audio": "6c697c8e5aa89e9e",
+    "model": "gemini-3.5-flash-lite"
+   },
+   "meta": {
+    "vocals": false,
+    "instruments": [
+     "music box",
+     "chimes",
+     "strings"
+    ],
+    "tempo": "slow",
+    "mood": "calm, mysterious, nostalgic",
+    "busy_moments": [],
+    "notes": "A very quiet, delicate bed that will sit under narration easily without masking the voice."
+   },
+   "created": "2026-11-25T13:25:45Z"
   }
  },
  "entries": {
@@ -20,6 +147,82 @@
    "file": "placeholder__1a4d0a5a87ef8a02.wav",
    "meta": {
     "seconds": 80
+   }
+  },
+  "60136c244c5c865f": {
+   "unit": "candidate_1",
+   "file": "candidate_1__60136c244c5c865f.flac",
+   "meta": {
+    "seconds": 80.0,
+    "source": "kaggle",
+    "latency_s": 9.2
+   }
+  },
+  "5e84c28c48f1a1a3": {
+   "unit": "candidate_2",
+   "file": "candidate_2__5e84c28c48f1a1a3.flac",
+   "meta": {
+    "seconds": 80.0,
+    "source": "kaggle",
+    "latency_s": 6.5
+   }
+  },
+  "d847c6abd8ee5d1d": {
+   "unit": "candidate_3",
+   "file": "candidate_3__d847c6abd8ee5d1d.flac",
+   "meta": {
+    "seconds": 80.0,
+    "source": "kaggle",
+    "latency_s": 6.6
+   }
+  },
+  "d26d16a4576e1def": {
+   "unit": "candidate_1_heard",
+   "file": "candidate_1_heard__d26d16a4576e1def.json",
+   "meta": {
+    "vocals": false,
+    "instruments": [
+     "music box",
+     "piano"
+    ],
+    "tempo": "slow",
+    "mood": [
+     "nostalgic",
+     "melancholic",
+     "gentle"
+    ],
+    "busy_moments": [],
+    "notes": "This delicate music box cue creates a fragile, nostalgic atmosphere that easily leaves room for narration."
+   }
+  },
+  "7de065e07947ad8e": {
+   "unit": "candidate_2_heard",
+   "file": "candidate_2_heard__7de065e07947ad8e.json",
+   "meta": {
+    "vocals": false,
+    "instruments": [
+     "zither"
+    ],
+    "tempo": "slow",
+    "mood": "meditative, gentle, tranquil",
+    "busy_moments": [],
+    "notes": "This calm, acoustic zither piece provides an unobtrusive backing track well-suited for voiceover."
+   }
+  },
+  "a8903573f87052c9": {
+   "unit": "candidate_3_heard",
+   "file": "candidate_3_heard__a8903573f87052c9.json",
+   "meta": {
+    "vocals": false,
+    "instruments": [
+     "music box",
+     "chimes",
+     "strings"
+    ],
+    "tempo": "slow",
+    "mood": "calm, mysterious, nostalgic",
+    "busy_moments": [],
+    "notes": "A very quiet, delicate bed that will sit under narration easily without masking the voice."
    }
   }
  }

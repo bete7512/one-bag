@@ -46,7 +46,16 @@ fatal: unable to access 'https://github.com/ACE-Step/ACE-Step-1.5.git/': Could n
 
 What was checked: the settings Kaggle stored for that run, read back with `kaggle kernels pull -m`, say `"enable_internet": true`, `"enable_gpu": true` and `"machine_shape": "NvidiaTeslaT4"`. So the request for internet was sent and stored, and the session still had none.
 
-Status: open. The likely cause is an account whose phone number is not verified: Kaggle gives such accounts no internet in notebooks. To be confirmed by verifying the phone and running the same job again.
+What was tried, in order:
+
+1. The phone number of the Kaggle account was verified, and the same job pushed again. That run never started: it stayed "queued" for 35 minutes, where the first one had started within a minute.
+2. The job was pushed a third time. Queued for 2 seconds, running after 33, complete after 229: three score candidates of 80 seconds each, made in 9.2, 6.5 and 6.6 seconds on two T4s, with 6.4 GB of GPU memory at the peak. The model took 61.7 seconds to load.
+
+What fixed it: the verified phone number. With it the session had internet, and the job script, which had been rewritten that afternoon from the upstream documentation, ran without a change. Why the second push never left the queue is not known: nothing in its status or its log said.
+
+What it cost: an hour of wall time, most of it waiting on the queued run, and no GPU quota to speak of.
+
+What would be done differently: verify the phone before the first push, and stop waiting on a queued run after five minutes instead of thirty-five.
 
 What the run did prove: Kaggle's Python is 3.13 (the job script builds ACE-Step's own environment for that reason), and a dataset is mounted at `/kaggle/input/datasets/<owner>/<name>/`, not at `/kaggle/input/<name>/`. The job scripts search for their manifest instead of assuming a path, so this cost nothing.
 
@@ -69,7 +78,11 @@ Two more attempts the same afternoon, one tiny call each:
 1. A new key from the organisation that shows a monthly credit. It was refused for another reason: `This API key is not scoped to a workspace, so this request must include the anthropic-workspace-id header`. The pipeline now sends that header when `ANTHROPIC_WORKSPACE_ID` is set.
 2. A third key, scoped to a workspace. The first error came back: `Your credit balance is too low`. So the key and its workspace are accepted, and the credit that the Console shows for the organisation cannot be spent by this key today.
 
-Status: left open after three attempts. The film does not need this model, and the cause is on the billing side, where nothing in the repository can fix it. With usable credit, `python experiments/e17_judges.py` runs the missing step of E17: it skips every answer it already has.
+What fixed it: nothing in the repository. Two hours later the organisation's monthly credit showed as available and a key made inside that organisation worked: one test call answered in 4 seconds. The missing step of E17 then ran with `python experiments/e17_judges.py`, which skipped every answer it already had.
+
+What it cost: three refused attempts and about an hour of the author's time in the provider's console. No money: a refused call is not charged.
+
+What would be done differently: before writing code against a paid provider, make one tiny call with the key that will be used. The message of a billing error does not say which organisation the key belongs to, and that was the whole problem.
 
 ## From the offline build (coding agent, 25 Nov 2026)
 

@@ -1,0 +1,240 @@
+{
+ "units": {
+  "s01_subtitle_check": {
+   "key": "5487e22aaf101201",
+   "file": "s01_subtitle_check__5487e22aaf101201.json",
+   "fingerprint": {
+    "v": 1,
+    "check": 1,
+    "text": "በ2019 ከአንኮበር በአንድ ሻንጣ ወጣሁ። ጥቂት ልብስ። ጥቂት መጻሕፍት።",
+    "subtitle": "In 2019 I left Ankober with one bag. Some clothes. Some books.",
+    "from": "am",
+    "to": "en",
+    "model": "claude-opus-5-5"
+   },
+   "meta": {
+    "literal": "In 2019 I left Ankober with one suitcase. A few clothes. A few books.",
+    "faithful": true,
+    "differences": []
+   },
+   "created": "2026-11-25T13:19:12Z"
+  },
+  "s03_subtitle_check": {
+   "key": "0f7ff0864f7326b2",
+   "file": "s03_subtitle_check__0f7ff0864f7326b2.json",
+   "fingerprint": {
+    "v": 1,
+    "check": 1,
+    "text": "ከላምበረት ከጓደኛዬ ጋር ታክሲ ይዘን አዲስ አበባን አቋረጥን። እሱ ከተማዋን ያውቃታል። እኔ አላውቃትም ነበር።",
+    "subtitle": "At Lamberet my friend and I took a taxi across Addis Ababa. He knew the city. I did not.",
+    "from": "am",
+    "to": "en",
+    "model": "claude-opus-5-5"
+   },
+   "meta": {
+    "literal": "From Lamberet, my friend and I took a taxi and crossed Addis Ababa. He knows the city. I did not know it.",
+    "faithful": false,
+    "differences": [
+     "'from Lamberet' (the starting point) becomes 'at Lamberet'",
+     "'he knows the city' (present) becomes 'he knew the city' (past)"
+    ]
+   },
+   "created": "2026-11-25T13:19:18Z"
+  },
+  "s04_subtitle_check": {
+   "key": "b53bb5adfd6a8ded",
+   "file": "s04_subtitle_check__b53bb5adfd6a8ded.json",
+   "fingerprint": {
+    "v": 1,
+    "check": 1,
+    "text": "አውቶቡስ ተራ ወረድን። ፍርሃቱ የመጣው እዚያ ነው።",
+    "subtitle": "We got out at Autobus Tera. That is where the fear came.",
+    "from": "am",
+    "to": "en",
+    "model": "claude-opus-5-5"
+   },
+   "meta": {
+    "literal": "We got off at Autobus Tera. It was there that the fear came.",
+    "faithful": true,
+    "differences": []
+   },
+   "created": "2026-11-25T13:19:20Z"
+  },
+  "s05_subtitle_check": {
+   "key": "7632695e5da2ba15",
+   "file": "s05_subtitle_check__7632695e5da2ba15.json",
+   "fingerprint": {
+    "v": 1,
+    "check": 1,
+    "text": "ብዙ ሰው። ብዙ ጫጫታ። በብርሃን የተሞላች ከተማ።",
+    "subtitle": "So many people. So much sound. A city full of light.",
+    "from": "am",
+    "to": "en",
+    "model": "claude-opus-5-5"
+   },
+   "meta": {
+    "literal": "Many people. Much noise. A city filled with light.",
+    "faithful": true,
+    "differences": []
+   },
+   "created": "2026-11-25T13:19:23Z"
+  },
+  "s06_subtitle_check": {
+   "key": "75befae85109b5d8",
+   "file": "s06_subtitle_check__75befae85109b5d8.json",
+   "fingerprint": {
+    "v": 1,
+    "check": 1,
+    "text": "ሻንጣዬን አጥብቄ ይዤ በሕዝቡ መሃል ተከተልኩት፤ በመናኸሪያው አቅራቢያ ማደሪያ እየፈለግን።",
+    "subtitle": "I held my bag and followed him through the crowd, looking for a room near the station.",
+    "from": "am",
+    "to": "en",
+    "model": "claude-opus-5-5"
+   },
+   "meta": {
+    "literal": "Holding my suitcase tightly, I followed him through the crowd, as we looked for a place to stay near the bus station.",
+    "faithful": true,
+    "differences": []
+   },
+   "created": "2026-11-25T13:19:27Z"
+  },
+  "s07_subtitle_check": {
+   "key": "739bbb537e9069af",
+   "file": "s07_subtitle_check__739bbb537e9069af.json",
+   "fingerprint": {
+    "v": 1,
+    "check": 1,
+    "text": "ጠዋት አውቶቡስ ወደ ባሕር ዳር፣ ወደ ዩኒቨርሲቲ ይወስደኛል።",
+    "subtitle": "In the morning a bus would take me to Bahir Dar, to the university.",
+    "from": "am",
+    "to": "en",
+    "model": "claude-opus-5-5"
+   },
+   "meta": {
+    "literal": "In the morning a bus takes me to Bahir Dar, to the university.",
+    "faithful": false,
+    "differences": [
+     "Tense changed: the spoken line uses the present/future imperfective ('takes' or 'will take me'), but the subtitle's 'would take me' makes it a past habit or a conditional."
+    ]
+   },
+   "created": "2026-11-25T13:19:31Z"
+  },
+  "s08_subtitle_check": {
+   "key": "c6f9c72f314870f2",
+   "file": "s08_subtitle_check__c6f9c72f314870f2.json",
+   "fingerprint": {
+    "v": 1,
+    "check": 1,
+    "text": "ያን ሌሊት እንቅልፍ አልወሰደኝም።",
+    "subtitle": "That night I could not sleep.",
+    "from": "am",
+    "to": "en",
+    "model": "claude-opus-5-5"
+   },
+   "meta": {
+    "literal": "That night sleep did not take me.",
+    "faithful": true,
+    "differences": []
+   },
+   "created": "2026-11-25T13:19:34Z"
+  },
+  "s10_subtitle_check": {
+   "key": "f04e8fa959ee6463",
+   "file": "s10_subtitle_check__f04e8fa959ee6463.json",
+   "fingerprint": {
+    "v": 1,
+    "check": 1,
+    "text": "ዛሬ ያንን ልጅ ማናገር ብችል እንዲህ እለው ነበር፦ አትፍራ። በሕይወት ውስጥ ብዙ የምትማረው ነገር አለ።",
+    "subtitle": "If I could speak to that boy now, I would tell him: do not be scared. There is a lot to learn in life.",
+    "from": "am",
+    "to": "en",
+    "model": "claude-opus-5-5"
+   },
+   "meta": {
+    "literal": "If I could speak to that child today, I would tell him this: Don't be afraid. There are many things you will learn in life.",
+    "faithful": true,
+    "differences": []
+   },
+   "created": "2026-11-25T13:19:39Z"
+  }
+ },
+ "entries": {
+  "5487e22aaf101201": {
+   "unit": "s01_subtitle_check",
+   "file": "s01_subtitle_check__5487e22aaf101201.json",
+   "meta": {
+    "literal": "In 2019 I left Ankober with one suitcase. A few clothes. A few books.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "0f7ff0864f7326b2": {
+   "unit": "s03_subtitle_check",
+   "file": "s03_subtitle_check__0f7ff0864f7326b2.json",
+   "meta": {
+    "literal": "From Lamberet, my friend and I took a taxi and crossed Addis Ababa. He knows the city. I did not know it.",
+    "faithful": false,
+    "differences": [
+     "'from Lamberet' (the starting point) becomes 'at Lamberet'",
+     "'he knows the city' (present) becomes 'he knew the city' (past)"
+    ]
+   }
+  },
+  "b53bb5adfd6a8ded": {
+   "unit": "s04_subtitle_check",
+   "file": "s04_subtitle_check__b53bb5adfd6a8ded.json",
+   "meta": {
+    "literal": "We got off at Autobus Tera. It was there that the fear came.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "7632695e5da2ba15": {
+   "unit": "s05_subtitle_check",
+   "file": "s05_subtitle_check__7632695e5da2ba15.json",
+   "meta": {
+    "literal": "Many people. Much noise. A city filled with light.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "75befae85109b5d8": {
+   "unit": "s06_subtitle_check",
+   "file": "s06_subtitle_check__75befae85109b5d8.json",
+   "meta": {
+    "literal": "Holding my suitcase tightly, I followed him through the crowd, as we looked for a place to stay near the bus station.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "739bbb537e9069af": {
+   "unit": "s07_subtitle_check",
+   "file": "s07_subtitle_check__739bbb537e9069af.json",
+   "meta": {
+    "literal": "In the morning a bus takes me to Bahir Dar, to the university.",
+    "faithful": false,
+    "differences": [
+     "Tense changed: the spoken line uses the present/future imperfective ('takes' or 'will take me'), but the subtitle's 'would take me' makes it a past habit or a conditional."
+    ]
+   }
+  },
+  "c6f9c72f314870f2": {
+   "unit": "s08_subtitle_check",
+   "file": "s08_subtitle_check__c6f9c72f314870f2.json",
+   "meta": {
+    "literal": "That night sleep did not take me.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "f04e8fa959ee6463": {
+   "unit": "s10_subtitle_check",
+   "file": "s10_subtitle_check__f04e8fa959ee6463.json",
+   "meta": {
+    "literal": "If I could speak to that child today, I would tell him this: Don't be afraid. There are many things you will learn in life.",
+    "faithful": true,
+    "differences": []
+   }
+  }
+ }
+}

@@ -48,7 +48,7 @@ EDITABLE = (r"audience", r"intent", r"music\.chosen", r"music\.chosen_reason",
             r"shots\.s\d\d\.narration\.[a-z]{2,3}", r"shots\.s\d\d\.review\.confirmed", r"shots\.s\d\d\.keyframe\.pick")
 # What the page may load besides itself: files the cache named, so a request cannot reach anything else on disk.
 PICTURE = re.compile(r"/media/keyframes/([a-z0-9_]+__[0-9a-f]{16})\.jpg")
-SOUND = re.compile(r"/media/(narration|music)/([a-z0-9_]+__[0-9a-f]{16}\.wav)")
+SOUND = re.compile(r"/media/(narration|music)/([a-z0-9_]+__[0-9a-f]{16}\.(?:wav|flac))")
 
 
 class Refused(PipelineError):
@@ -541,7 +541,7 @@ class Handler(BaseHTTPRequestHandler):
                 else:
                     self.answer(404, "not drawn yet")
             elif sound and (desk.out / sound[1] / sound[2]).exists():
-                self.answer(200, (desk.out / sound[1] / sound[2]).read_bytes(), "audio/wav", keep=True)
+                self.answer(200, (desk.out / sound[1] / sound[2]).read_bytes(), "audio/flac" if sound[2].endswith(".flac") else "audio/wav", keep=True)
             else:
                 self.answer(404, "not found")
         except PipelineError as err:  # a storyboard broken by hand, or no FFmpeg: say so in the browser

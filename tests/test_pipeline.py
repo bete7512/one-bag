@@ -443,6 +443,44 @@ class ChecksThatOnlyMeasureTests(Project):
         self.assertTrue(all("roundtrip" in line for other, line in index.items() if other != sid))
 
 
+class SubtitleCheckTests(Project):
+    """The film is graded on accurate subtitles, and the people who read them cannot hear whether they are."""
+
+    def test_a_subtitle_that_differs_from_its_line_is_reported_and_stops_nothing(self):
+        from unittest import mock
+        from pipeline import script
+        answer = providers.text
+        sid = next(s["id"] for s in read_sb(self.root)["shots"] if s["narration"])
+
+        def strict(ctx, stage, unit, prompt, **kw):
+            if unit == f"{sid}_subtitle_check":
+                return json.dumps({"literal": "He knows the city.", "faithful": False, "differences": ["tense: knows, not knew"]}), {}
+            return answer(ctx, stage, unit, prompt, **kw)
+
+        with mock.patch.object(providers, "text", strict):
+            index = script.run(self.ctx(), {})
+        self.assertEqual(index["lines"][sid]["subtitle_check"], {"faithful": False, "literal": "He knows the city.", "differences": ["tense: knows, not knew"]})
+        others = [line["subtitle_check"]["faithful"] for other, line in index["lines"].items() if other != sid]
+        self.assertTrue(others and all(others))
+
+    def test_the_check_can_be_switched_off_and_cannot_stop_the_stage(self):
+        from unittest import mock
+        from pipeline import script
+
+        def unreachable(ctx, stage, unit, prompt, **kw):
+            raise core.PipelineError("the model is busy")
+
+        with mock.patch.object(providers, "text", unreachable):
+            index = script.run(self.ctx(), {})                       # every check fails: the lines are still settled
+        self.assertTrue(all("subtitle_check" not in line and line["subtitle"] for line in index["lines"].values()))
+        sb = read_sb(self.root)
+        sb["qa"]["subtitle_check"] = False
+        write_sb(self.root, sb)
+        ctx = self.ctx()
+        script.run(ctx, {})
+        self.assertEqual([r for r in core.read_jsonl(ctx.runlog) if r["unit"].endswith("_subtitle_check")], [])
+
+
 class TakeTests(Project):
     """The free speech tier counts requests, not lines: the lines missing from the cache are spoken in one request."""
 
@@ -928,7 +966,10 @@ class IngestTests(Project):
         self.assertEqual(music.ingest(ctx, results), 0)     # a second ingest of the same results adds nothing
         runs = [r for r in core.read_jsonl(ctx.runlog) if r["provider"] == "kaggle"]
         self.assertEqual([(r["unit"], r["status"], r["latency_s"]) for r in runs], [("candidate_1", "ok", 42.0), ("candidate_2", "error", 5.0)])
-        self.assertEqual(music.run(ctx, {})["source"], "acestep")
+        index = music.run(ctx, {})
+        self.assertEqual(index["source"], "acestep")
+        self.assertTrue(index["file"].endswith(".flac"))                          # kept lossless, at half the size
+        self.assertEqual(index["heard"]["candidate_1"]["vocals"], False)          # and a listener has said what is in it
 
 
 @unittest.skipIf(os.environ.get("HERITAGE_FAST_TESTS"), "full mock film skipped")
@@ -965,8 +1006,8 @@ class EndToEndTests(Project):
         built, calls = self.film()
         sid = spoken["id"]
         films = {"film_vertical", "film_horizontal"}
-        self.assertEqual(sorted(c["unit"] for c in calls), [sid, f"{sid}_listen"])                 # speak it, listen to it
-        rebuilt = {sid, f"{sid}_listen", "mix", f"vertical_{sid}", f"horizontal_{sid}"} | films
+        self.assertEqual(sorted(c["unit"] for c in calls), [sid, f"{sid}_listen", f"{sid}_subtitle_check"])   # check its subtitle, speak it, listen to it
+        rebuilt = {sid, f"{sid}_listen", f"{sid}_subtitle_check", "mix", f"vertical_{sid}", f"horizontal_{sid}"} | films
         self.assertLessEqual(rebuilt, built)
         self.assertLessEqual(built, rebuilt | {f"{sid}_kenburns"})   # its clip too, when the longer line makes the shot longer
 

@@ -82,7 +82,7 @@ A successful line also carries what its price depends on: token counts for text,
 | A server error, a network error or a timeout | Up to four attempts, with waits of 10, 30 and 90 seconds, or the provider's `Retry-After` when given. Every attempt is one line in `runs.jsonl`. The first waits were 2, 4 and 8 seconds, which an overloaded model outlasted (F01). |
 | A free-tier limit | The limits that apply to this project are in `pricing.json`, and the run log is the counter. Before each request the day's use is read: over a daily limit the request is not sent and the message says when the allowance resets, and a per-minute limit is waited out. |
 | A rejected request (HTTP 400, 401, 403, 404) | No retry. The error names the likely cause (wrong model id, bad key, no access). |
-| A check cannot reach its model | The picture judge and the listening check only measure, so they are optional units: the stage goes on without the score, the final-cut check lists what is unscored, and the next run tries again. |
+| A check cannot reach its model | The picture judge, the subtitle check and the listening check only measure, so they are optional units: the stage goes on without the result, the final-cut check lists what is missing, and the next run tries again. |
 | A provider changes its response shape | Responses are parsed tolerantly: the audio or image is searched for in the JSON, not read from one fixed path. |
 | A stopped run | Files are written under a temporary name and renamed when complete, so a half-written file is never used. The next run continues from the cache. |
 | A picture comes back with a paper border | Each candidate's four sides are measured for bare paper. The pick prefers the candidate with the fewest, and the final-cut check lists a pick that still has a border. |
@@ -101,6 +101,7 @@ Request shapes were taken from each provider's documentation on 25 Nov 2026. The
 |---|---|
 | Speech | `POST https://generativelanguage.googleapis.com/v1beta/interactions`, model `gemini-3.8-flash-tts`, style given as a `speech_metadata` annotation, a prebuilt voice. A take sends each line as its own content item. Returns WAV, 24 kHz mono. No seed parameter is documented, so speech is logged with `seed: null`. |
 | Text, vision, listening | `POST .../v1beta/models/gemini-3.5-flash-lite:generateContent`, with images or audio as inline parts. |
+| Picture judge, subtitle check | `claude-opus-5-5` through the Anthropic SDK, with a JSON schema for the answer. Used while `models.judge` names it. It takes pictures and text, not audio, so the listening check stays on Gemini. |
 | Images | `POST https://api.cloudflare.com/client/v4/accounts/<id>/ai/run/@cf/black-forest-labs/flux-2-klein-4b` as a multipart form (prompt, width, height, up to four reference images under 512 px). `flux-1-schnell` takes JSON instead, and the client handles both. |
 | Video | Wan 2.2 TI2V-5B through Diffusers in `kaggle/wan22_i2v.py`, run on Kaggle by `pipeline/kagglerun.py`. |
 | Music | ACE-Step 1.5 through its Python API in `kaggle/acestep_music.py`, run the same way. |

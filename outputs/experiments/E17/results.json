@@ -43,6 +43,46 @@
     "latency_s": 1.903,
     "cost_usd": 0.001054,
     "attempts": 3
+   },
+   "claude-opus-5-5": {
+    "elements": [
+     {
+      "name": "narrow road crossing highland country",
+      "visible": true
+     },
+     {
+      "name": "high green highland country in daylight",
+      "visible": true
+     },
+     {
+      "name": "patchwork fields",
+      "visible": true
+     },
+     {
+      "name": "stands of eucalyptus",
+      "visible": true
+     },
+     {
+      "name": "one small bus far away on the road",
+      "visible": true
+     },
+     {
+      "name": "low cloud on the far hills",
+      "visible": false
+     }
+    ],
+    "border": false,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 3,
+    "artifacts": 4,
+    "notes": "Add low cloud or mist sitting on the far hills (the clouds are only high in the sky), push the bus much farther down the road so it reads as tiny and distant, narrow the foreground road, and shift the look from thin watercolour washes to more opaque gouache.",
+    "total": 3.4,
+    "latency_s": 9.578,
+    "cost_usd": 0.019944,
+    "attempts": 1
    }
   }
  },
@@ -94,6 +134,50 @@
     "latency_s": 2.576,
     "cost_usd": 0.001099,
     "attempts": 1
+   },
+   "claude-opus-5-5": {
+    "elements": [
+     {
+      "name": "narrow road",
+      "visible": true
+     },
+     {
+      "name": "high green highland country",
+      "visible": true
+     },
+     {
+      "name": "daylight",
+      "visible": true
+     },
+     {
+      "name": "patchwork fields",
+      "visible": true
+     },
+     {
+      "name": "stands of eucalyptus",
+      "visible": true
+     },
+     {
+      "name": "one small bus far away on the road",
+      "visible": true
+     },
+     {
+      "name": "low cloud on the far hills",
+      "visible": false
+     }
+    ],
+    "border": true,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 3,
+    "artifacts": 3,
+    "notes": "Repaint so the image runs fully to all four edges with no ragged unpainted paper margin, and bring the clouds down so they sit low on the far hills instead of high in the sky.",
+    "total": 1.5,
+    "latency_s": 6.935,
+    "cost_usd": 0.018404,
+    "attempts": 1
    }
   }
  },
@@ -133,6 +217,50 @@
     "latency_s": 6.208,
     "cost_usd": 0.000967,
     "attempts": 3
+   },
+   "claude-opus-5-5": {
+    "elements": [
+     {
+      "name": "point of view inside a crowd",
+      "visible": true
+     },
+     {
+      "name": "nightfall",
+      "visible": true
+     },
+     {
+      "name": "dark silhouettes crossing close to camera in both directions",
+      "visible": false
+     },
+     {
+      "name": "overexposed lamps flaring",
+      "visible": true
+     },
+     {
+      "name": "headlights flaring",
+      "visible": false
+     },
+     {
+      "name": "streaks of amber and white light",
+      "visible": false
+     },
+     {
+      "name": "nothing in sharp focus",
+      "visible": false
+     }
+    ],
+    "border": true,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "Legs of the foreground walkers are muddled and merge into one another, and some background figures melt into blobs.",
+    "character_match": 3,
+    "prompt_adherence": 2,
+    "artifacts": 2,
+    "notes": "Repaint edge to edge with no white paper margin or rounded corners. Make the near figures dark, blurred silhouettes crossing in both directions instead of everyone walking away from camera, and add headlights and streaking amber and white light.",
+    "total": -0.5,
+    "latency_s": 4.6,
+    "cost_usd": 0.014336,
+    "attempts": 1
    }
   }
  },
@@ -172,6 +300,50 @@
     "latency_s": 6.634,
     "cost_usd": 0.000972,
     "attempts": 2
+   },
+   "claude-opus-5-5": {
+    "elements": [
+     {
+      "name": "point of view inside a crowd",
+      "visible": true
+     },
+     {
+      "name": "nightfall",
+      "visible": true
+     },
+     {
+      "name": "dark silhouettes crossing close to camera in both directions",
+      "visible": false
+     },
+     {
+      "name": "overexposed lamps flaring",
+      "visible": true
+     },
+     {
+      "name": "headlights flaring",
+      "visible": false
+     },
+     {
+      "name": "streaks of amber and white light",
+      "visible": true
+     },
+     {
+      "name": "nothing in sharp focus",
+      "visible": false
+     }
+    ],
+    "border": true,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 3,
+    "artifacts": 3,
+    "notes": "Repaint edge to edge with no paper margin or rounded ragged corners, make the near figures blurred silhouettes crossing in both directions rather than all walking away from camera, and add flaring headlights.",
+    "total": 1.5,
+    "latency_s": 3.725,
+    "cost_usd": 0.013456,
+    "attempts": 1
    }
   }
  },
@@ -214,6 +386,50 @@
     "total": 3.5,
     "latency_s": 3.019,
     "cost_usd": 0.000909,
+    "attempts": 1
+   },
+   "claude-opus-5-5": {
+    "elements": [
+     {
+      "name": "small bare rented room at night",
+      "visible": true
+     },
+     {
+      "name": "one narrow bed",
+      "visible": true
+     },
+     {
+      "name": "canvas bag on the bed",
+      "visible": true
+     },
+     {
+      "name": "single bare bulb",
+      "visible": true
+     },
+     {
+      "name": "peeling painted walls",
+      "visible": true
+     },
+     {
+      "name": "small window",
+      "visible": true
+     },
+     {
+      "name": "lights of buses outside",
+      "visible": true
+     }
+    ],
+    "border": true,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 3,
+    "notes": "Content matches the description, but the painting sits inside a white paper margin with ragged unpainted edges on all sides; regenerate so the painting fills the frame edge to edge.",
+    "total": 2.7,
+    "latency_s": 3.613,
+    "cost_usd": 0.012792,
     "attempts": 1
    }
   }
@@ -266,6 +482,50 @@
     "latency_s": 9.075,
     "cost_usd": 0.000971,
     "attempts": 1
+   },
+   "claude-opus-5-5": {
+    "elements": [
+     {
+      "name": "small bare rented room at night",
+      "visible": true
+     },
+     {
+      "name": "one narrow bed",
+      "visible": true
+     },
+     {
+      "name": "canvas bag on the bed",
+      "visible": true
+     },
+     {
+      "name": "single bare bulb",
+      "visible": true
+     },
+     {
+      "name": "peeling painted walls",
+      "visible": true
+     },
+     {
+      "name": "small window",
+      "visible": true
+     },
+     {
+      "name": "lights of buses outside",
+      "visible": true
+     }
+    ],
+    "border": true,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 4,
+    "artifacts": 3,
+    "notes": "Repaint so the image runs to all four edges, with no white paper margin or ragged unpainted rim; the room, bed, bag, bulb, walls and bus window are all correct.",
+    "total": 2.1,
+    "latency_s": 3.694,
+    "cost_usd": 0.012832,
+    "attempts": 1
    }
   }
  },
@@ -312,6 +572,50 @@
     "total": 5.0,
     "latency_s": 2.875,
     "cost_usd": 0.001054,
+    "attempts": 1
+   },
+   "claude-opus-5-5": {
+    "elements": [
+     {
+      "name": "narrow road crossing highland country",
+      "visible": true
+     },
+     {
+      "name": "high green highland country",
+      "visible": true
+     },
+     {
+      "name": "daylight",
+      "visible": true
+     },
+     {
+      "name": "patchwork fields",
+      "visible": true
+     },
+     {
+      "name": "stands of eucalyptus",
+      "visible": true
+     },
+     {
+      "name": "one small bus far away on the road",
+      "visible": true
+     },
+     {
+      "name": "low cloud on the far hills",
+      "visible": false
+     }
+    ],
+    "border": false,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 4,
+    "artifacts": 5,
+    "notes": "Bring low cloud down so it rests on the far hills, and push the bus farther down the road so it reads as far away.",
+    "total": 4.4,
+    "latency_s": 5.93,
+    "cost_usd": 0.017964,
     "attempts": 1
    }
   }
@@ -360,6 +664,50 @@
     "latency_s": 5.783,
     "cost_usd": 0.001041,
     "attempts": 2
+   },
+   "claude-opus-5-5": {
+    "elements": [
+     {
+      "name": "narrow road",
+      "visible": true
+     },
+     {
+      "name": "high green highland country",
+      "visible": true
+     },
+     {
+      "name": "daylight",
+      "visible": true
+     },
+     {
+      "name": "patchwork fields",
+      "visible": true
+     },
+     {
+      "name": "stands of eucalyptus",
+      "visible": true
+     },
+     {
+      "name": "one small bus far away on the road",
+      "visible": true
+     },
+     {
+      "name": "low cloud on the far hills",
+      "visible": false
+     }
+    ],
+    "border": false,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 4,
+    "artifacts": 5,
+    "notes": "Bring the clouds down so low cloud visibly drapes the far hilltops, and consider pushing the bus a little farther away for a truly extreme wide feel.",
+    "total": 4.4,
+    "latency_s": 5.996,
+    "cost_usd": 0.017464,
+    "attempts": 1
    }
   }
  },
@@ -403,6 +751,54 @@
     "latency_s": 2.697,
     "cost_usd": 0.00096,
     "attempts": 1
+   },
+   "claude-opus-5-5": {
+    "elements": [
+     {
+      "name": "point of view inside a crowd",
+      "visible": true
+     },
+     {
+      "name": "nightfall",
+      "visible": true
+     },
+     {
+      "name": "dark silhouettes crossing close to camera",
+      "visible": true
+     },
+     {
+      "name": "figures moving in both directions",
+      "visible": false
+     },
+     {
+      "name": "overexposed lamps flaring",
+      "visible": true
+     },
+     {
+      "name": "headlights flaring",
+      "visible": false
+     },
+     {
+      "name": "streaks of amber and white light",
+      "visible": true
+     },
+     {
+      "name": "nothing in sharp focus",
+      "visible": false
+     }
+    ],
+    "border": true,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "Legs of the foreground walkers overlap and blur into muddled shapes, especially around the central couple and the brown-jacket man.",
+    "character_match": 3,
+    "prompt_adherence": 3,
+    "artifacts": 3,
+    "notes": "Repaint full-bleed without the white paper margin and ragged edges, add headlights, and make the figures soft dark silhouettes crossing in both directions instead of a crisp couple walking away down the street.",
+    "total": 0.5,
+    "latency_s": 7.776,
+    "cost_usd": 0.021156,
+    "attempts": 1
    }
   }
  },
@@ -441,6 +837,50 @@
     "total": -0.1,
     "latency_s": 2.305,
     "cost_usd": 0.000937,
+    "attempts": 1
+   },
+   "claude-opus-5-5": {
+    "elements": [
+     {
+      "name": "point of view inside a crowd",
+      "visible": true
+     },
+     {
+      "name": "nightfall",
+      "visible": true
+     },
+     {
+      "name": "dark silhouettes crossing close to camera in both directions",
+      "visible": true
+     },
+     {
+      "name": "overexposed lamps flaring",
+      "visible": true
+     },
+     {
+      "name": "headlights flaring",
+      "visible": false
+     },
+     {
+      "name": "streaks of amber and white light",
+      "visible": false
+     },
+     {
+      "name": "nothing in sharp focus",
+      "visible": false
+     }
+    ],
+    "border": true,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "Some background figures blur into melted, indistinct shapes; one figure at left has hands awkwardly merged behind the back.",
+    "character_match": 3,
+    "prompt_adherence": 3,
+    "artifacts": 3,
+    "notes": "Repaint full-bleed without the ragged paper edges, add headlight flares and amber/white light streaks, and soften the foreground figures so nothing reads as sharply defined.",
+    "total": 0.5,
+    "latency_s": 6.545,
+    "cost_usd": 0.014076,
     "attempts": 1
    }
   }
@@ -485,6 +925,50 @@
     "latency_s": 2.965,
     "cost_usd": 0.000999,
     "attempts": 1
+   },
+   "claude-opus-5-5": {
+    "elements": [
+     {
+      "name": "small bare rented room at night",
+      "visible": true
+     },
+     {
+      "name": "one narrow bed",
+      "visible": true
+     },
+     {
+      "name": "canvas bag on the bed",
+      "visible": true
+     },
+     {
+      "name": "single bare bulb",
+      "visible": true
+     },
+     {
+      "name": "peeling painted walls",
+      "visible": true
+     },
+     {
+      "name": "small window",
+      "visible": true
+     },
+     {
+      "name": "lights of buses outside",
+      "visible": true
+     }
+    ],
+    "border": true,
+    "text_in_image": true,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 4,
+    "artifacts": 3,
+    "notes": "Every element is present, but repaint so the image runs edge to edge without the ragged white paper margin, and remove the signature-like scribble in the bottom-right corner.",
+    "total": 0.6,
+    "latency_s": 4.761,
+    "cost_usd": 0.015212,
+    "attempts": 1
    }
   }
  },
@@ -528,6 +1012,50 @@
     "latency_s": 2.853,
     "cost_usd": 0.000999,
     "attempts": 2
+   },
+   "claude-opus-5-5": {
+    "elements": [
+     {
+      "name": "small bare rented room at night",
+      "visible": true
+     },
+     {
+      "name": "one narrow bed",
+      "visible": true
+     },
+     {
+      "name": "canvas bag on the bed",
+      "visible": true
+     },
+     {
+      "name": "single bare bulb",
+      "visible": true
+     },
+     {
+      "name": "peeling painted walls",
+      "visible": true
+     },
+     {
+      "name": "small window",
+      "visible": true
+     },
+     {
+      "name": "lights of buses outside",
+      "visible": false
+     }
+    ],
+    "border": true,
+    "text_in_image": false,
+    "wrong_setting": "The vehicles outside the window are cars (a red car and a white car), not buses.",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 3,
+    "artifacts": 4,
+    "notes": "Extend the painting to all four edges to remove the ragged paper margin, and replace the cars outside the window with the glowing lights of buses.",
+    "total": 0.9,
+    "latency_s": 5.898,
+    "cost_usd": 0.017052,
+    "attempts": 1
    }
   }
  }

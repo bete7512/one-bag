@@ -12,7 +12,7 @@ Record the screen with your voice. Rehearse once with a timer.
 | 3:00 | **Live.** Edit one narration line of one shot in `storyboard.json` and save | "I am changing one line of shot s04." |
 | 3:15 | `python -m pipeline plan` | The plan names the one line and the units that depend on it. No model is called. |
 | 3:35 | `python -m pipeline film` | Everything prints HIT except that shot. Pause the recording while it runs if you need to. |
-| 4:10 | `tail -n 2 runs.jsonl` | Two new model calls: the line spoken, and the listening check. Nothing else. |
+| 4:10 | `tail -n 3 runs.jsonl` | Three new model calls: the subtitle checked against the new line, the line spoken, and the listening check. Nothing else. |
 | 4:30 | `FAILURES.md`, one entry | One thing that broke and what you did about it. |
 | 4:50 | The final-cut check output | Length, both ratios, loudness, end card: measured, not assumed. |
 

@@ -19,6 +19,7 @@
   },
   "models": {
     "text": "gemini-3.5-flash-lite",
+    "judge": "claude-opus-5-5",
     "tts": "gemini-3.8-flash-tts",
     "image": "@cf/black-forest-labs/flux-2-klein-4b",
     "video": "Wan-AI/Wan2.2-TI2V-5B-Diffusers",
@@ -55,7 +56,7 @@
   ],
   "video": {"max_area": 399360, "num_frames": 81, "steps": 30, "guidance": 5.0},
   "voice": {"name": "Charon", "style": "calm, warm and unhurried, like telling a memory to family"},
-  "qa": {"keyframe_candidates": 2, "judge": true, "roundtrip": true, "roundtrip_min": 0.6},
+  "qa": {"keyframe_candidates": 2, "judge": true, "roundtrip": true, "roundtrip_min": 0.6, "subtitle_check": true},
   "music": {
     "caption": "Slow, sparse instrumental. A solo krar (Ethiopian lyre) plucks a gentle pentatonic melody in the tizita mood, a soft washint flute answers, warm low drone underneath. Intimate room sound, nostalgic and tender, a lot of space between notes. No drums, no vocals.",
     "bpm": 66,

@@ -211,6 +211,8 @@ def run(ctx: Ctx) -> Path:
     flow = "".join(f"<div><b>{n}. {e(name)}</b>{e(stage_models[name].split('/')[-1])}<br><span class='soft'>{e(STAGE_NOTES[name])}</span></div>"
                    for n, name in enumerate(STAGES, start=1))
     table, total = measured(ctx)
+    paid = sum((r.get("cost_usd") or 0.0) for r in read_jsonl(ctx.runlog) if (ctx.prices.get(r.get("model")) or {}).get("paid"))
+    paid_line = f"Really paid: {paid:.2f} USD, for the one model that has no free tier." if paid else "Nothing was paid."
     failures, experiments = journal(ctx.root / "FAILURES.md", "F"), journal(ctx.root / "EXPERIMENTS.md", "E")
     link = (lambda name: f"<a href='{repo}/blob/main/{name}'>{name}</a>") if repo else (lambda name: f"<code>{name}</code>")
     recorded = sorted({c["consent"]["record"] for c in sb["characters"] if c["real_person"] and c["consent"]["status"] == "recorded"})
@@ -239,7 +241,7 @@ def run(ctx: Ctx) -> Path:
 <p>The details are in {link('ARCHITECTURE.md')}, and the one command is <code>make film</code>.</p>
 
 <h2>What it took</h2>
-<p>Every attempt to call a model is one line in {link('runs.jsonl')}: {total['calls']} attempts so far, {total['failed']} of them failed. The list price of all of it is {total['usd']:.2f} USD. The film is made on free tiers, so the price says what the same work costs without them.</p>
+<p>Every attempt to call a model is one line in {link('runs.jsonl')}: {total['calls']} attempts so far, {total['failed']} of them failed. The list price of all of it is {total['usd']:.2f} USD. Most of the film is made on free tiers, so that price says what the same work costs without them. {paid_line}</p>
 {table}
 <p>The limits of those free tiers, and what happened at each, are in {link('COSTS.md')}.</p>
 
