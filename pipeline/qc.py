@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import json
 
-from .core import Ctx, PipelineError, get_index, loudness, media_info
+from .core import READ_CPS, Ctx, PipelineError, get_index, loudness, media_info
 from .keyframes import LOOK_UNDER
 
 
@@ -78,6 +78,9 @@ def run(ctx: Ctx, state: dict | None = None) -> dict:
           any(" AI" in f" {line}" for line in film["end_card"]) and film["timeline"]["end_card_s"] >= 2, " / ".join(film["end_card"]))
 
     script = get_index(ctx, state, "script", per_lang=True, required=False).get("lines", {})
+    fast = [f"{' '.join(lines)[:24]}... ({len(' '.join(lines)) / (b - a):.0f} a second)" for a, b, lines in cues
+            if b - a > 0 and len(" ".join(lines)) / (b - a) > READ_CPS + 2]
+    check("note", f"subtitles: every cue can be read at about {READ_CPS} characters a second", not fast, "; ".join(fast) or f"{len(cues)} cues, none faster")
     doubtful = [sid for sid, line in script.items() if line.get("subtitle_check", {}).get("faithful") is False]
     check("note", "subtitles: each one says what its line says", not doubtful, ", ".join(doubtful) or "none in doubt")
     keyframes = get_index(ctx, state, "keyframes", required=False)

@@ -15,6 +15,7 @@ Units in pricing.json:
 * per_512_tile      usd_out per 512x512 tile of the generated image, plus usd_in per reference
                     image (each is sent smaller than one tile) and usd_step per step.
 * per_gpu_minute    usd per minute, times the number of GPUs the job ran on.
+* per_1k_heard_chars  usd per 1,000 characters of the text a speech model wrote down from an audio.
 """
 from __future__ import annotations
 
@@ -71,6 +72,10 @@ def cost_usd(run: dict, prices: dict) -> float | None:
             if run.get("gpu_minutes") is None:
                 return None
             usd = price["usd"] * run["gpu_minutes"] * max(1, run.get("gpu_count") or 1)
+        elif unit == "per_1k_heard_chars":
+            if run.get("heard_chars") is None:
+                return None
+            usd = price["usd"] * run["heard_chars"] / 1000
         else:
             return None
     except (KeyError, TypeError, ValueError):

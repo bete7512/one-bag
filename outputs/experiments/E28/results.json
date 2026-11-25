@@ -1,0 +1,156 @@
+{
+ "before:s01": {
+  "group": "before",
+  "shot": "s01",
+  "file": "s01_c2__c1f50861356037a5.png",
+  "jacket": "charcoal grey",
+  "trousers": "olive green",
+  "footwear": "plastic sandals",
+  "backpack": "sage green",
+  "notes": "Seen from behind facing a cream minibus. He wears a dark charcoal grey jacket over a white shirt, olive green trousers with rolled cuffs, and dark grey backless footwear with bare heels showing, which look like plastic sandals or slides. The backpack is a muted greyish green, closest to sage green, and slightly lighter than the trousers.",
+  "cost_usd": 0.014364
+ },
+ "before:s03": {
+  "group": "before",
+  "shot": "s03",
+  "file": "s03_c1__ee31f0ae68e8ee42.png",
+  "jacket": "charcoal grey",
+  "trousers": "cream",
+  "footwear": "leather sandals",
+  "backpack": "not in the picture",
+  "notes": "The young man sits in a worn bus seat, seen from behind, looking out at the mountains. His jacket is a dark charcoal grey with a slight blue tint, and his rolled-up trousers are light cream or beige. He wears dark brown leather strap sandals. A brown strap hangs at his side and may belong to the backpack, but the backpack itself cannot be seen.",
+  "cost_usd": 0.014224
+ },
+ "before:s04": {
+  "group": "before",
+  "shot": "s04",
+  "file": "s04_c2__d142fd534d9e387f.png",
+  "jacket": "navy blue",
+  "trousers": "grey",
+  "footwear": "leather sandals",
+  "backpack": "tan",
+  "notes": "Seen from behind, standing at the kerb facing a busy street of minibuses at dusk. He wears a dark navy jacket and light grey (slightly blue-tinted) trousers. He has brown sandals that look like leather, and he carries a tan or khaki backpack on both shoulders.",
+  "cost_usd": 0.012264
+ },
+ "before:s06": {
+  "group": "before",
+  "shot": "s06",
+  "file": "s06_c1__c29e7a087507b09c.png",
+  "jacket": "navy blue",
+  "trousers": "olive green",
+  "footwear": "closed shoes",
+  "backpack": "sage green",
+  "notes": "The backpack carrier is the young man on the left of the central pair, seen from behind. He wears a dark navy jacket over a white undershirt and dark greenish-grey trousers with rolled cuffs. His footwear is hard to read: one shoe looks blue-grey and the other brownish, and they could be plastic sandals or slip-ons rather than closed shoes. The backpack is a muted grey-green (sage/olive) with a front pocket.",
+  "cost_usd": 0.017584
+ },
+ "before:s07": {
+  "group": "before",
+  "shot": "s07",
+  "file": "s07_c1__d62578691f0e970b.png",
+  "jacket": "not in the picture",
+  "trousers": "not in the picture",
+  "footwear": "not in the picture",
+  "backpack": "sage green",
+  "notes": "Only the backpack is visible, resting on the floor beside a simple wooden bed in a sparse room lit by a bare bulb. No person appears in this frame. The backpack is a muted, greyish green, closest to sage green.",
+  "cost_usd": 0.008964
+ },
+ "before:s08": {
+  "group": "before",
+  "shot": "s08",
+  "file": "s08_c2__8444d896dce33c95.png",
+  "jacket": "navy blue",
+  "trousers": "sage green",
+  "footwear": "closed shoes",
+  "backpack": "charcoal grey",
+  "notes": "The young man with curly hair on the right, standing at the back of the queue by the buses. His jacket is a very dark blue that sits between navy and charcoal. His backpack is a dark grey-green that reads closest to charcoal grey. He wears dark closed shoes like sneakers. Seen from behind.",
+  "cost_usd": 0.013724
+ },
+ "before:s09": {
+  "group": "before",
+  "shot": "s09",
+  "file": "s09_c2__e9b76be6bc42b274.png",
+  "jacket": "not in the picture",
+  "trousers": "blue",
+  "footwear": "closed shoes",
+  "backpack": "brown",
+  "notes": "He wears a short-sleeved beige polo shirt rather than a jacket, so no jacket is visible. His trousers are blue jeans and his shoes are brown closed shoes. The light brown backpack stands on the balcony floor beside him rather than on his back, which may be the frame where he is older.",
+  "cost_usd": 0.013044
+ },
+ "after:s01": {
+  "group": "after",
+  "shot": "s01",
+  "file": "s01_c1__5bb3c96c2022ebe2.png",
+  "jacket": "grey",
+  "trousers": "sage green",
+  "footwear": "plastic sandals",
+  "backpack": "olive green",
+  "notes": "Seen from behind, standing before a white minibus with bundles on the roof rack. He wears a medium grey jacket over a white shirt, muted light-green trousers with rolled cuffs (between sage and olive; sage is the closer match), and dark navy clog-style plastic sandals. The backpack is olive/khaki green with front pockets and buckles.",
+  "cost_usd": 0.012844
+ },
+ "after:s03": {
+  "group": "after",
+  "shot": "s03",
+  "file": "s03_c2__409093ecfb1ecac9.png",
+  "jacket": "charcoal grey",
+  "trousers": "olive green",
+  "footwear": "plastic sandals",
+  "backpack": "olive green",
+  "notes": "The young man sits on a worn bus bench, seen from behind, looking out of the window at the hills. He wears a dark grey jacket over a white collar and olive green trousers with rolled cuffs. On his bare feet are dark blue buckled slide sandals that look like moulded plastic or rubber. His olive green backpack with a front pocket rests on the seat beside him.",
+  "cost_usd": 0.013504
+ },
+ "after:s04": {
+  "group": "after",
+  "shot": "s04",
+  "file": "s04_c3__d3b3f4b37d55f24d.png",
+  "jacket": "grey",
+  "trousers": "olive green",
+  "footwear": "plastic sandals",
+  "backpack": "olive green",
+  "notes": "Young man seen from behind, standing at the kerb of a busy evening street. He wears a grey jacket over a white collar, rolled-up olive green trousers and blue plastic slide sandals. He carries an olive green backpack on his back.",
+  "cost_usd": 0.008964
+ },
+ "after:s06": {
+  "group": "after",
+  "shot": "s06",
+  "file": "s06_c4__f195e254d29f4ee5.png",
+  "jacket": "grey",
+  "trousers": "olive green",
+  "footwear": "plastic sandals",
+  "backpack": "olive green",
+  "notes": "Seen from behind, the curly-haired young man carries the backpack and stands beside a young man in a denim jacket. He wears a grey jacket, olive green trousers with rolled cuffs, and blue plastic flip-flop sandals. The backpack is olive green.",
+  "cost_usd": 0.012104
+ },
+ "after:s07": {
+  "group": "after",
+  "shot": "s07",
+  "file": "s07_c1__6804ae92d447730e.png",
+  "jacket": "not in the picture",
+  "trousers": "not in the picture",
+  "footwear": "not in the picture",
+  "backpack": "olive green",
+  "notes": "No person in this frame: it shows an empty room with a made bed, two windows onto a night city and a ceiling bulb. Only the backpack is visible. It is olive green and stands on the floor beside the bed.",
+  "cost_usd": 0.008844
+ },
+ "after:s08": {
+  "group": "after",
+  "shot": "s08",
+  "file": "s08_c2__7f87a6b866f66299.png",
+  "jacket": "charcoal grey",
+  "trousers": "olive green",
+  "footwear": "plastic sandals",
+  "backpack": "olive green",
+  "notes": "Young man seen from behind in the centre, queuing at a bus station. He wears a dark grey jacket over a white shirt, olive green trousers rolled at the ankles, and blue plastic sandals. His backpack is olive green with brown leather straps and buckles. The jacket sits between grey and charcoal grey; charcoal grey was chosen.",
+  "cost_usd": 0.012584
+ },
+ "after:s09": {
+  "group": "after",
+  "shot": "s09",
+  "file": "s09_c4__9995843beab34983.png",
+  "jacket": "not in the picture",
+  "trousers": "blue",
+  "footwear": "closed shoes",
+  "backpack": "olive green",
+  "notes": "The man is seen from behind, looking over a wall at a hillside town. He wears no jacket, only a short-sleeved cream or off-white polo shirt. He has light blue jeans and brown closed shoes that look like sneakers. The olive green backpack stands on the ground beside him rather than on his back, which fits the frame where the backpack stands beside him.",
+  "cost_usd": 0.012424
+ }
+}

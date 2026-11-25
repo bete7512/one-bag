@@ -308,10 +308,10 @@ def run(ctx: Ctx, state: dict, mode: str = "film", plan_only: bool = False) -> d
     for t in timeline["shots"]:
         line = script["lines"].get(t["id"])
         if line and t["narration_start"] is not None:
-            inside = narration[t["id"]].get("pauses")
-            cues[t["id"]] = hold_last(subtitle_cues(line["subtitle"], t["narration_start"] - t["start"], t["narration_s"], pauses=inside),
+            heard = {"pauses": narration[t["id"]].get("pauses"), "spoken": line["text"], "words": narration[t["id"]].get("words")}
+            cues[t["id"]] = hold_last(subtitle_cues(line["subtitle"], t["narration_start"] - t["start"], t["narration_s"], **heard),
                                       t["duration"] - 0.3)
-            absolute += hold_last(subtitle_cues(line["subtitle"], t["narration_start"], t["narration_s"], pauses=inside),
+            absolute += hold_last(subtitle_cues(line["subtitle"], t["narration_start"], t["narration_s"], **heard),
                                   t["start"] + t["duration"] - 0.3)
 
     narr_dir, music_dir = ctx.out / "narration", ctx.out / "music"

@@ -160,6 +160,11 @@
           "minLength": 1,
           "description": "Model for the keyframe judge, when it should differ from `text`. An id that starts with claude- is called through the Claude API."
         },
+        "listener": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Model for the listening check, when it should differ from `text`. An id that starts with addis- is a speech model of Addis AI: it also returns the time of each word, and the subtitles are timed from that."
+        },
         "tts": {
           "type": "string",
           "minLength": 1

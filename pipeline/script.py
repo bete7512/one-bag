@@ -18,7 +18,7 @@ from . import providers
 from .core import STAGE_VERSION, Ctx, PipelineError, Unit, estimate_seconds, run_units, shot_text, write_index
 
 
-CHECK_VERSION = 1  # bump when the question changes
+CHECK_VERSION = 2  # bump when the question changes
 CHECK_PROMPT = """A short film is narrated in the language with the code "{lang}" and subtitled in "{sub}". Check one subtitle against the line it stands for.
 
 Spoken line: {text}
@@ -26,7 +26,7 @@ Subtitle: {subtitle}
 
 Report as JSON:
 - literal: a plain, literal translation of the spoken line into the subtitle's language.
-- faithful: true if the subtitle says what the line says, with nothing added, dropped or changed in meaning. A subtitle may be shorter and plainer than the line. A different tense, a different number or a different person is a change in meaning.
+- faithful: true if the subtitle says what the line says, with nothing added, dropped or changed in meaning. A subtitle may be shorter and plainer than the line. A different tense, a different number or a different person is a change in meaning. Words in round brackets that explain a date or a name to a reader of the subtitle's language are not an addition, as long as what they say is correct: if it is wrong, report it as a difference.
 - differences: each difference in meaning, as a short phrase. An empty list if there are none."""
 CHECK_SCHEMA = {"type": "object", "additionalProperties": False, "required": ["literal", "faithful", "differences"],
                 "properties": {"literal": {"type": "string"}, "faithful": {"type": "boolean"},

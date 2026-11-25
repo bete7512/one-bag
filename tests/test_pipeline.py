@@ -46,6 +46,7 @@ def make_project(folder: Path, small: bool = True) -> Path:
     sb["music"].pop("chosen_reason", None)
     sb["voice"] = {"name": "Charon", "style": "calm, warm storyteller"}
     sb["models"]["tts"] = "gemini-3.8-flash-tts"  # the tests describe the default speech provider, whichever voice the real film uses
+    sb["models"].pop("listener", None)            # and the default listener, the text model
     for shot in sb["shots"]:
         for choice in ("pick", "reference"):
             shot["keyframe"].pop(choice, None)
@@ -280,13 +281,52 @@ class TimingTests(unittest.TestCase):
     def test_a_subtitle_changes_where_the_voice_pauses(self):
         text = "It was night when I reached Lamberet. My friend was waiting for me. So many people, lights on the buildings, so many cars."
         by_length = core.subtitle_cues(text, 10.0, 9.0)
-        self.assertEqual(len(by_length), 2)
-        self.assertAlmostEqual(by_length[0][1], 15.02, places=1)                     # shared out by length alone
+        self.assertEqual([" ".join(lines) for _, _, lines in by_length], core.sentences(text))   # one sentence a cue: each is long enough to read
+        self.assertAlmostEqual(by_length[0][1], 12.81, places=1)                     # shared out by the letters alone
         # the voice stops for a breath at 2.0 s, for a full second after the second sentence at 4.2 s, and for a breath at 7.0 s
         timed = core.subtitle_cues(text, 10.0, 9.0, pauses=[[2.0, 2.3], [4.2, 5.2], [7.0, 7.3]])
         self.assertEqual([lines for _, _, lines in timed], [lines for _, _, lines in by_length])
-        self.assertAlmostEqual(timed[0][1], 15.12, places=2)                         # the cue changes as the long pause ends
+        self.assertAlmostEqual(timed[0][1], 12.22, places=2)                         # each change is at the pause nearest to where the letters put it,
+        self.assertAlmostEqual(timed[1][1], 15.12, places=2)                         # just before the voice starts again
         self.assertEqual((timed[0][0], timed[-1][1], timed[1][0]), (10.0, 19.0, timed[0][1]))
+
+    def test_a_subtitle_sentence_is_up_while_its_sentence_is_said(self):
+        spoken = "አውቶቡስ ተራ ስንደርስ ደላሎች ከበቡን። «አልጋ ትፈልጋላችሁ?» «አልጋ?» ከየአቅጣጫው። ግራ ገባን። በመጨረሻ አንዱን መረጥን።"
+        subtitle = 'At Autobus Tera the brokers closed in on us. "Do you want a bed?" "A bed?" From every side. We were lost. In the end we picked one.'
+        # what a speech model heard, with its mishearings, a word it split in two, and times that overlap a little
+        heard = [("አውቶቡስ", 0.02, 1.04), ("ተራ", 0.82, 1.44), ("ስንልስ", 1.22, 2.08), ("ደላሎች", 1.94, 2.72), ("ከበቡን", 2.58, 3.28), ("አልጋ", 3.22, 3.76),
+                 ("ትፈልጋላችሁ", 3.62, 4.48), ("አልጋ", 4.42, 5.04), ("ከያ", 5.14, 5.5), ("አቅጣጫው", 5.5, 6.16), ("ግራ", 5.86, 6.24), ("ገባን", 6.18, 6.80),
+                 ("በመጨረሻ", 6.66, 7.28), ("አንዱን", 7.54, 8.16), ("መረጠን", 7.86, 8.48)]
+        words = [{"text": w, "start": a, "end": b} for w, a, b in heard]
+        ends = core.sentence_ends_heard(spoken, words, 8.42)
+        self.assertEqual(len(ends), 6)
+        for (stop, go), want in zip(ends, (3.25, 4.45, 5.04, 6.01, 6.73, 8.42)):
+            self.assertAlmostEqual(stop, want, places=2)
+        self.assertEqual(ends[2], (5.04, 5.14))                                      # a real gap: the voice stops, then goes on
+        cues = core.subtitle_cues(subtitle, 0.0, 8.42, spoken=spoken, words=words, pauses=[[4.78, 5.04], [7.27, 7.54]])
+        self.assertEqual([" ".join(lines) for _, _, lines in cues],
+                         ["At Autobus Tera the brokers closed in on us.", '"Do you want a bed?" "A bed?"', "From every side. We were lost.", "In the end we picked one."])
+        self.assertEqual([round(end, 2) for _, end, _ in cues], [3.25, 5.06, 6.73, 8.42])   # the pause at 7.27 s is inside the last sentence and moves nothing
+        # without the words the letters and the pauses are all there is: the same sentences, timed less well
+        guessed = core.subtitle_cues(subtitle, 0.0, 8.42, spoken=spoken, pauses=[[4.78, 5.04], [7.27, 7.54]])
+        self.assertGreater(abs(guessed[0][1] - 3.25), 0.3)
+        # a line whose sentences cannot be paired with the subtitle's falls back to the subtitle's own letters
+        self.assertEqual(core.subtitle_cues(subtitle, 0.0, 8.42, spoken="አንድ ዓረፍተ ነገር ብቻ።", words=words), core.subtitle_cues(subtitle, 0.0, 8.42))
+        self.assertIsNone(core.sentence_ends_heard(spoken, [], 8.42))
+
+    def test_sentences_are_found_in_both_scripts(self):
+        self.assertEqual(core.sentences("ሰው፣ መብራት፣ መኪና፤ ሁሉም በአንድ ጊዜ። «አልጋ?» አንድ ነገር እላለሁ፦ አትሽሽ።"),
+                         ["ሰው፣ መብራት፣ መኪና፤ ሁሉም በአንድ ጊዜ።", "«አልጋ?»", "አንድ ነገር እላለሁ፦", "አትሽሽ።"])
+        self.assertEqual(core.sentences('It is 3.5 km. "A bed?" I tell them one thing: stay.'), ["It is 3.5 km.", '"A bed?"', "I tell them one thing:", "stay."])
+        self.assertEqual(core.fold("አሥራ ሁለት፤ ተነሣሁ ፀሐይ"), core.fold("አስራ ሁለት ተነሳሁ ጸሀይ"))            # written differently, said the same
+
+    def test_two_lines_of_a_cue_are_balanced(self):
+        self.assertEqual(core.wrap_cue("At Autobus Tera the brokers closed in on us."), ["At Autobus Tera the", "brokers closed in on us."])   # not "... in on / us."
+        self.assertEqual(core.wrap_cue("I reached Lamberet after dark. My friend was there, waiting for me."),
+                         ["I reached Lamberet after dark.", "My friend was there, waiting for me."])                              # rather after a full stop
+        self.assertEqual(core.wrap_cue("Just one backpack."), ["Just one backpack."])
+        short = core.subtitle_cues("One. Two. Three words here. And a last sentence to end it.", 0.0, 4.0)
+        self.assertEqual([" ".join(lines) for _, _, lines in short], ["One. Two. Three words here.", "And a last sentence to end it."])        # too short to stand alone
 
     def test_the_last_words_of_a_line_stay_up_after_the_voice_stops(self):
         from pipeline import assemble
@@ -740,6 +780,49 @@ class TakeTests(Project):
         self.assertEqual({k: asked[0][2][k] for k in ("text", "voice_id", "language", "output_format")},
                          {"text": "ሰላም ለሁላችሁ።", "voice_id": "am-hamen", "language": "am", "output_format": "wav_44100"})
 
+    def test_a_speech_model_that_listens_returns_the_time_of_each_word(self):
+        from unittest import mock
+        asked = []
+
+        class Answer:
+            text = ""
+            def json(self):
+                return {"data": {"text": "ሰላም ለሁላችሁ", "backend": "turbo", "usage": {"characters": 9},
+                                 "words": [{"text": "ሰላም", "start": 0.1, "end": 0.6}, {"text": "ለሁላችሁ", "start": 0.55, "end": 1.2}]}}
+
+        def request(method, url, headers=None, json_body=None, files=None, timeout=300):
+            asked.append((method, url, [name for name, _ in files]))
+            return Answer()
+
+        wav = providers.pcm_to_wav(b"\x10\x00" * 24000)
+        with mock.patch.object(providers, "_request", request), mock.patch.dict(os.environ, {"ADDIS_API_KEY": "sk_test"}):
+            got, meta = providers._addis_words(wav, "am")
+        self.assertEqual((got["text"], [w["text"] for w in got["words"]], got["words"][1]["start"]), ("ሰላም ለሁላችሁ", ["ሰላም", "ለሁላችሁ"], 0.55))
+        self.assertEqual((meta["heard_chars"], meta["audio_seconds"]), (9, 1.0))
+        method, url, fields = asked[0]
+        self.assertEqual((method, url.split("?")[0], fields), ("POST", providers.ADDIS + "/scribe/transcribe", ["audio"]))
+        self.assertTrue(all(part in url for part in ("language=am", "timestamps=word", "format=json")))
+
+    def test_the_listener_can_be_a_speech_model_and_the_plan_reads_what_it_heard(self):
+        from pipeline import narration, script
+        sb = read_sb(self.root)
+        sb["models"]["listener"] = "addis-scribe"
+        sb["voice"]["one_take"] = False
+        write_sb(self.root, sb)
+        ctx, state = self.ctx(), {}
+        script.run(ctx, state)
+        index = narration.run(ctx, state)
+        listened = [r for r in core.read_jsonl(ctx.runlog) if r["unit"].endswith("_listen")]
+        self.assertEqual({r["model"] for r in listened}, {"addis-scribe"})
+        self.assertEqual(len(listened), len(index))
+        for sid, line in index.items():
+            self.assertEqual((line["roundtrip"], line["heard_by"]), (1.0, "addis-scribe"))
+            self.assertEqual(" ".join(w["text"] for w in line["words"]), line["heard"])
+            self.assertLessEqual(line["words"][-1]["end"], line["seconds"] + 0.01)
+        planned = narration.run(self.ctx(), {"script": state["script"]}, plan_only=True)   # a plan asks nobody: it reads the answers in the cache
+        self.assertEqual({sid: line.get("words") for sid, line in planned.items()}, {sid: line["words"] for sid, line in index.items()})
+        self.assertEqual(len([r for r in core.read_jsonl(ctx.runlog) if r["unit"].endswith("_listen")]), len(listened))
+
     def test_the_narration_can_be_spoken_by_an_addis_voice(self):
         sb = read_sb(self.root)
         sb["models"]["tts"] = "addis-voices-2"
@@ -947,6 +1030,7 @@ class ListPriceTests(unittest.TestCase):
               "speech-model": {"unit": "per_audio_second", "usd_in": 0.50, "usd_out": 0.000225},
               "image-model": {"unit": "per_512_tile", "usd_out": 0.000287, "usd_in": 0.000059},
               "step-model": {"unit": "per_512_tile", "usd_out": 0.0000528, "usd_step": 0.0001056, "default_steps": 4},
+              "listening-model": {"unit": "per_1k_heard_chars", "usd": 0.0224},
               "kaggle_gpu": {"unit": "per_gpu_minute", "usd": None}}
 
     def cost(self, **run):
@@ -958,11 +1042,13 @@ class ListPriceTests(unittest.TestCase):
         self.assertEqual(self.cost(model="speech-model", audio_seconds=8.0), 0.0018)
         self.assertEqual(self.cost(model="image-model", params={"width": 1024, "height": 1024, "refs": 1}), 0.001207)   # 4 tiles out, 1 in
         self.assertEqual(self.cost(model="step-model", params={"width": 1024, "height": 1024}), 0.000634)               # 4 tiles, 4 steps
+        self.assertEqual(self.cost(model="listening-model", heard_chars=70), 0.001568)                                  # by the characters written down
 
     def test_what_is_not_known_is_not_priced(self):
         self.assertIsNone(self.cost(model="a model with no entry", usage={"input_tokens": 1, "output_tokens": 1}))
         self.assertIsNone(self.cost(model="thinking-model", usage={"input_tokens": 8, "output_tokens": 1}))   # thinking tokens not logged
         self.assertIsNone(self.cost(model="speech-model"))                                                    # length not logged
+        self.assertIsNone(self.cost(model="listening-model"))                                                 # what was heard not logged
         self.assertIsNone(self.cost(provider="kaggle", model="any", gpu_minutes=12.5, gpu_count=2))           # no price read yet
 
     def test_a_failed_api_call_costs_nothing(self):

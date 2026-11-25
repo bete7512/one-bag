@@ -101,6 +101,13 @@
       "source": "https://addisassistant.com/pricing and https://docs.addisassistant.com/docs/capabilities/text-to-speech",
       "checked": "2026-11-26",
       "note": "Addis AI, Addis Voices 2. The pricing page gives 0.032 USD per generated minute as an indicative price, and the documentation 5 ETB per generated minute: 0.000533 USD per second. Pay as you go. A new account starts with a sign-up credit of 3.17 USD and no card. No daily limit on requests is stated."
+    },
+    "addis-scribe": {
+      "unit": "per_1k_heard_chars",
+      "usd": 0.0224,
+      "source": "https://docs.addisassistant.com/docs/capabilities/speech-to-text and the usage the API reports with each answer",
+      "checked": "2026-11-26",
+      "note": "Addis AI, speech to text with word times. Each answer reports its own price: 3.5 ETB per 1,000 characters written down. In USD at the rate the provider's pricing page uses for speech (5 ETB a minute given as 0.032 USD): 0.0224 USD per 1,000 characters. Paid from the same sign-up credit as the voice."
     }
   }
 }

@@ -228,6 +228,31 @@ def _addis_tts(text: str, voice: str, language: str) -> tuple[bytes, dict]:
     return raw, {"audio_bytes": len(raw), "audio_seconds": audio_seconds(raw), "clip_id": clip.get("id"), "reported_usage": clip.get("usage")}
 
 
+def _addis_words(wav: bytes, language: str) -> tuple[dict, dict]:
+    """What an Addis AI speech model hears in an audio, with the time of each word."""
+    url = f"{ADDIS}/scribe/transcribe?language={language}&timestamps=word&format=json&request_id={uuid.uuid4().hex}"
+    data = _json(_request("POST", url, {"x-api-key": _env("ADDIS_API_KEY")}, files=[("audio", ("line.wav", wav, "audio/wav"))]))
+    found = data.get("data", data) if isinstance(data, dict) else {}
+    words = [{"text": str(w.get("text", "")).strip(), "start": float(w["start"]), "end": float(w["end"])}
+             for w in (found.get("words") or []) if isinstance(w, dict) and "start" in w and "end" in w]
+    if not words:  # an answer that is still being worked on has no words yet: that is worth another try
+        raise ProviderError("the answer held no word times: " + json.dumps(data, ensure_ascii=False)[:400], retryable=True)
+    return ({"text": str(found.get("text", "")).strip(), "words": words},
+            {"audio_seconds": audio_seconds(wav), "heard_chars": len(str(found.get("text", ""))), "backend": found.get("backend"), "reported_usage": found.get("usage")})
+
+
+def words(ctx: Ctx, stage: str, unit: str, wav: bytes, *, language: str, model: str = "addis-scribe") -> tuple[dict, dict]:
+    """The words heard in one spoken line and when each is said: {"text": ..., "words": [{"text", "start", "end"}, ...]}."""
+    def mock() -> tuple[dict, dict]:
+        said, total = (wav_note(wav) or "").split(), audio_seconds(wav) or 1.0
+        step = total / max(1, len(said))
+        return {"text": " ".join(said), "words": [{"text": w, "start": round(i * step, 3), "end": round((i + 1) * step, 3)} for i, w in enumerate(said)]}, {}
+
+    return model_call(ctx, stage=stage, unit=unit, provider="mock" if ctx.mock else "addis", model=model,
+                      params={"language": language, "audio_sha": sha(wav.hex())[:12], "timestamps": "word"}, seed=None,
+                      fn=mock if ctx.mock else (lambda: _addis_words(wav, language)))
+
+
 def tts(ctx: Ctx, stage: str, unit: str, text: str, *, voice: str, style: str, model: str | None = None,
         seed: int | None = None) -> tuple[bytes, dict]:
     """Text to speech. Returns WAV bytes. A model id that starts with `addis-` goes to Addis AI, any other to the Gemini API."""

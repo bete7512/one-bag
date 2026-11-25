@@ -1,0 +1,227 @@
+{
+ "summary": {
+  "lines": 8,
+  "lines_compared_on_the_same_audio": 8,
+  "text_model_mean_match": 0.839,
+  "speech_model_mean_match": 0.959,
+  "text_model_lowest": 0.723,
+  "speech_model_lowest": 0.885,
+  "sentence_ends_compared": 18,
+  "mean_difference_s": 0.26,
+  "largest_difference_s": 0.53,
+  "ends_more_than_half_a_second_apart": 1
+ },
+ "lines": {
+  "s01": {
+   "same_audio": true,
+   "seconds": 7.2,
+   "text_model": {
+    "heard": "እስከ መጋቢት 12 በኩልቀን ላይ ካንኮበር ተነሳው አንዴ የጀርባ ቦርሳ ብቻ ይዤ አንድ ጓደኛዬ የሸኘኝ",
+    "match": 0.754
+   },
+   "speech_model": {
+    "heard": "መስከረም ሁለት ሺህ አስራ ሁለት እኩለ ቀን ላይ ካንኮበር ተነሣሁ አንድ የጀርባ ቦርሳ ብቻ ይዤ አንድ ጓደኛዬ ሸኘኝ",
+    "match": 0.98,
+    "model": "addis-scribe"
+   },
+   "sentences": 4,
+   "ends_by_letters_and_pauses": [
+    1.95,
+    4.01,
+    5.79
+   ],
+   "ends_by_heard_words": [
+    2.13,
+    4.21,
+    6.13
+   ],
+   "difference_s": [
+    -0.18,
+    -0.2,
+    -0.34
+   ]
+  },
+  "s02": {
+   "same_audio": true,
+   "seconds": 3.92,
+   "text_model": {
+    "heard": "እስካደብረ ብርሃንድስ ፒስታ መንገድ ከዚያ በኋላ አስፋልት",
+    "match": 0.933
+   },
+   "speech_model": {
+    "heard": "እስከ ደብረ ብርሃን ድረስ ፒስታ መንገድ ከዚያ በኋላ አስ",
+    "match": 0.96,
+    "model": "addis-scribe"
+   },
+   "sentences": 2,
+   "ends_by_letters_and_pauses": [
+    2.53
+   ],
+   "ends_by_heard_words": [
+    2.48
+   ],
+   "difference_s": [
+    0.05
+   ]
+  },
+  "s03": {
+   "same_audio": true,
+   "seconds": 5.54,
+   "text_model": {
+    "heard": "በመሰረቱ ፈውል ተካመትኩ ውጩ ደነና ተራራ ብቻ እይታው አስገረቀኝ።",
+    "match": 0.723
+   },
+   "speech_model": {
+    "heard": "በመስኮት በኩል ተቀመጥኩ ውጭው ደንና ተራራ ብቻ እይታው አስደነቀኝ",
+    "match": 0.976,
+    "model": "addis-scribe"
+   },
+   "sentences": 3,
+   "ends_by_letters_and_pauses": [
+    1.73,
+    3.98
+   ],
+   "ends_by_heard_words": [
+    2.05,
+    4.16
+   ],
+   "difference_s": [
+    -0.32,
+    -0.18
+   ]
+  },
+  "s04": {
+   "same_audio": true,
+   "seconds": 7.37,
+   "text_model": {
+    "heard": "ላምባሪ ቲያትር አለስቁት ከመሸ በኋላ ነው ጓደኛዬ እዚያው ጠበቀኝ ሰው መውራት መኪና ሁሉም በአንድ ጊዜ",
+    "match": 0.866
+   },
+   "speech_model": {
+    "heard": "ላምበለት የደረስኩት ከመሸ በኋላ ነው ጓደኛዬ እዚያው ጠበቀኝ ሰው መብራት መኪና ሁሉም በአንድ ጊዜ",
+    "match": 0.984,
+    "model": "addis-scribe"
+   },
+   "sentences": 3,
+   "ends_by_letters_and_pauses": [
+    2.27,
+    4.7
+   ],
+   "ends_by_heard_words": [
+    2.56,
+    4.53
+   ],
+   "difference_s": [
+    -0.29,
+    0.17
+   ]
+  },
+  "s06": {
+   "same_audio": true,
+   "seconds": 8.42,
+   "text_model": {
+    "heard": "አውቶቡስ ተራ ስንደርስ ደላሎች ከበቡን አልጋ ትፈልጋላችሁ? አልጋ ኪያቅ ፓቻው ገባን በመጨረሻ አንዱን መረጥን።",
+    "match": 0.906
+   },
+   "speech_model": {
+    "heard": "አውቶቡስ ተራ ስንልስ ደላሎች ከበቡን አልጋ ትፈልጋላችሁ አልጋ ከያአቅጣጫው ግራ ገባን በመጨረሻ አንዱን መረጠን",
+    "match": 0.95,
+    "model": "addis-scribe"
+   },
+   "sentences": 6,
+   "ends_by_letters_and_pauses": [
+    2.72,
+    4.78,
+    5.24,
+    5.7,
+    6.38
+   ],
+   "ends_by_heard_words": [
+    3.25,
+    4.45,
+    5.04,
+    6.01,
+    6.73
+   ],
+   "difference_s": [
+    -0.53,
+    0.33,
+    0.2,
+    -0.31,
+    -0.35
+   ]
+  },
+  "s07": {
+   "same_audio": true,
+   "seconds": 5.06,
+   "text_model": {
+    "heard": "ከፉ ልባለ አንዳልጋ፣ በጣም ጥሩ አይደለምት። መጥፎም አይደለም። ግን እሱህ",
+    "match": 0.831
+   },
+   "speech_model": {
+    "heard": "ክፍሉ ባለ አንድ አልጋ በጣም ጥሩ አይደለምት መጥፎም አይደለም ግን ንፁህ",
+    "match": 0.989,
+    "model": "addis-scribe"
+   },
+   "sentences": 3,
+   "ends_by_letters_and_pauses": [
+    1.59,
+    4.34
+   ],
+   "ends_by_heard_words": [
+    1.97,
+    4.24
+   ],
+   "difference_s": [
+    -0.38,
+    0.1
+   ]
+  },
+  "s08": {
+   "same_audio": true,
+   "seconds": 3.58,
+   "text_model": {
+    "heard": "ጣት ራጅም ሰልፍ ተሰልፈን ትኬት ኮራድን።",
+    "match": 0.784
+   },
+   "speech_model": {
+    "heard": "ጠዋት ረጅም ሰልፍ ተሰንፈን ትኬት ኰረድን",
+    "match": 0.885,
+    "model": "addis-scribe"
+   },
+   "sentences": 1,
+   "ends_by_letters_and_pauses": [],
+   "ends_by_heard_words": [],
+   "difference_s": []
+  },
+  "s09": {
+   "same_audio": true,
+   "seconds": 9.09,
+   "text_model": {
+    "heard": "ዛሬ አብራንን የመጀመሪያ ሌሊት ሳስታውስ ከቤቱ ለሚወጣው ሁሉ አንድ ነገር ላለው የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል አትሺሽ አጣጠሞው",
+    "match": 0.917
+   },
+   "speech_model": {
+    "heard": "ዛሬያንን የመጀመሪያ ሌሊት ሳስታውስ ከቤቱ ለሚወጣ ሁሉ አንድ ነገር እላለሁ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል አትሺሽ አታጥሞ",
+    "match": 0.951,
+    "model": "addis-scribe"
+   },
+   "sentences": 4,
+   "ends_by_letters_and_pauses": [
+    5.23,
+    7.85,
+    8.4
+   ],
+   "ends_by_heard_words": [
+    5.52,
+    8.0,
+    8.77
+   ],
+   "difference_s": [
+    -0.29,
+    -0.15,
+    -0.37
+   ]
+  }
+ }
+}

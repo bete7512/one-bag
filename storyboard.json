@@ -20,6 +20,7 @@
   "models": {
     "text": "gemini-3.5-flash-lite",
     "judge": "claude-opus-5-5",
+    "listener": "addis-scribe",
     "tts": "addis-voices-2",
     "image": "@cf/black-forest-labs/flux-2-klein-4b",
     "video": "Wan-AI/Wan2.2-TI2V-5B-Diffusers",
@@ -33,7 +34,7 @@
     {
       "id": "boy",
       "label": "The author in 2019",
-      "description": "A slim Ethiopian young man of about nineteen with dark brown skin and short black curly hair, wearing a plain dark jacket over a light shirt, plain trousers and moulded plastic sandals with a closed toe and a buckle strap, carrying one simple backpack.",
+      "description": "A slim Ethiopian young man of about nineteen with dark brown skin and short black curly hair. He wears a charcoal grey jacket over a white shirt, olive green trousers rolled at the ankle, and dark blue moulded plastic sandals with a closed toe and a buckle strap on bare feet. He carries one olive green canvas backpack.",
       "reference_prompt": "One single full-length figure on a plain warm background, seen from behind, standing in a neutral pose with his backpack on his shoulders, his feet and sandals in view. Only one figure in the picture.",
       "seed": 7001,
       "real_person": true,
@@ -89,24 +90,27 @@
       "characters": ["boy"],
       "min_duration_s": 8,
       "keyframe": {
-        "prompt": "Midday in a small town in the Ethiopian highlands. One young man seen from behind, in the centre, a simple backpack on his shoulders, stands facing an old boxy country bus with its door open and bundles tied on its roof rack. Low houses with rusty corrugated tin roofs and mud-plastered walls, tall thin eucalyptus trees, red-brown dusty ground, high bright sun, short shadows. Nobody else in the foreground.",
+        "prompt": "Midday in a small town in the Ethiopian highlands. An old boxy country bus is parked across the picture, seen from its side: a row of windows, an open door, bundles tied on its roof rack. In front of it, in the centre, one young man seen from behind stands facing the open door, his backpack on his shoulders. Low houses with rusty corrugated tin roofs and mud-plastered walls, tall thin eucalyptus trees, red-brown dusty ground, high bright sun, short shadows. Nobody else in the foreground.",
         "seed": 101,
-        "focus_y": 0.15
+        "candidates": 4,
+        "pick": 1,
+        "reference": false,
+        "focus_y": 0.45
       },
       "motion": {"backend": "kenburns", "camera": "push_in", "prompt": "He shifts the backpack on his shoulders and steps toward the bus door. Fixed camera."},
       "narration": {
         "am": "መስከረም ሁለት ሺህ አሥራ ሁለት። እኩለ ቀን ላይ ከአንኮበር ተነሳሁ። አንድ የጀርባ ቦርሳ ብቻ ይዤ። አንድ ጓደኛዬ ሸኘኝ።",
-        "en": "Meskerem 2012. At midday I left Ankober. Just one backpack. A friend saw me off."
+        "en": "Meskerem 2012 (late 2019). At midday I left Ankober. Just one backpack. A friend saw me off."
       },
       "review": {"confirmed": false, "note": "Rewritten on 25 and 26 Nov after the first listeners and the author's own comments: no word for \"was\" left, the month before the year, the order night, morning, today. Written by the coding agent, whom the author told to decide the wording. Not confirmed by the author yet."}
     },
     {
       "id": "s02",
       "title": "The gravel road",
-      "reason": "The journey itself, and the scale of it: one small bus on a gravel road under forested mountains. He said the view was amazing, so the shot is wide and takes its time.",
+      "reason": "The journey itself, and the scale of it: one small bus on a gravel road under forested mountains. He said the view was amazing, so the shot is wide. It lasts no longer than its generated clip can move.",
       "size": "extreme wide",
       "characters": [],
-      "min_duration_s": 6,
+      "min_duration_s": 4.75,
       "keyframe": {
         "prompt": "Extreme wide view from high above: a pale gravel road winds along steep green mountainsides in the Ethiopian highlands. One tiny country bus on the road trails a long plume of dust. Dense dark green juniper and eucalyptus forest on the slopes, layer after layer of mountains fading into blue haze, early afternoon light. No people.",
         "seed": 102,
@@ -122,23 +126,23 @@
     {
       "id": "s03",
       "title": "The window seat",
-      "reason": "The same journey from where he sat. Nobody travelled with him, so the shot is his alone: a window, and what was outside it.",
-      "size": "pov",
+      "reason": "The same journey from where he sat. Nobody travelled with him, so the shot is his alone: he at the window, his backpack on the seat beside him, and the mountains outside.",
+      "size": "medium",
       "characters": ["boy"],
       "min_duration_s": 7,
       "keyframe": {
-        "prompt": "Inside an old country bus, seen from the seat directly behind him: in the foreground the back of a young passenger's head and his shoulders in a dark jacket, above the worn back of his seat. He is turned to the large side window beside him, so his face cannot be seen. Through the window, steep forested mountain slopes of the Ethiopian highlands in afternoon light. More worn seats and windows ahead of him.",
+        "prompt": "Inside an old country bus, the view runs along its left wall: a row of large side windows and, under them, the worn backs of passenger seats one behind another, getting smaller toward the far end of the bus. In the nearest seat a young passenger sits by the window, seen from behind and a little to the side: the back of his head, his shoulders and his arm above the worn back of his seat. He is turned to the window beside him, so his face cannot be seen. His backpack rests on the empty seat beside him. Through the windows, steep forested mountain slopes of the Ethiopian highlands in afternoon light.",
         "seed": 103,
-        "candidates": 3,
-        "pick": 1,
+        "candidates": 4,
+        "pick": 2,
         "reference": false,
-        "focus_x": {"vertical": 0.25},
+        "focus_x": {"vertical": 0.45},
         "focus_y": 0.35
       },
       "motion": {"backend": "kenburns", "camera": "pan_left", "prompt": "Forest and mountain slopes slide slowly past the window. Slight shake of a moving bus.", "seed": 203},
       "narration": {
         "am": "በመስኮት በኩል ተቀመጥኩ። ውጪው ደንና ተራራ ብቻ። እይታው አስደነቀኝ።",
-        "en": "I sat by the window. Outside, only forest and mountains. The view amazed me."
+        "en": "I sat by the window. Outside, only forest and mountain. The view amazed me."
       },
       "review": {"confirmed": false, "note": "Rewritten on 25 and 26 Nov after the first listeners and the author's own comments: no word for \"was\" left, the month before the year, the order night, morning, today. Written by the coding agent, whom the author told to decide the wording. Not confirmed by the author yet."}
     },
@@ -150,10 +154,12 @@
       "characters": ["boy"],
       "min_duration_s": 9,
       "keyframe": {
-        "prompt": "A wide night view of a busy avenue on the edge of Addis Ababa, Ethiopia, painted from the roadside: dense traffic of cars and blue and white minibus taxis with white headlights and red tail lights, pavements packed with people as dark shapes, tall concrete buildings with hundreds of lit windows, street lamps. Small in the lower part of the frame, seen from behind, one young man with a backpack stands at the roadside and looks at it all.",
+        "prompt": "A wide night view of a busy avenue on the edge of Addis Ababa, Ethiopia, painted from the roadside: dense traffic of cars and blue and white minibus taxis with white headlights and red tail lights, pavements packed with people as dark shapes, tall concrete buildings with hundreds of lit windows, street lamps. Small in the lower part of the frame, seen from behind, one young man with his backpack on his shoulders stands at the roadside and looks at it all.",
         "seed": 104,
+        "candidates": 3,
+        "pick": 3,
         "reference": false,
-        "focus_y": 0.75
+        "focus_y": 0.5
       },
       "motion": {"backend": "kenburns", "camera": "pull_out", "prompt": "Traffic moves slowly along the avenue: cars and minibuses roll forward and their headlights pass. The young man stands still with his back to us. The camera does not move.", "seed": 204},
       "narration": {
@@ -190,8 +196,10 @@
       "keyframe": {
         "prompt": "Night in the yard of a big crowded bus station in Addis Ababa. In the centre, seen from behind, two young men stand close together: the shorter one with a backpack, the other in a blue denim jacket with nothing on his back. Around them five men in a half circle lean in and gesture with open hands. The five are painted as dark silhouettes against the bright yard lamps, with no faces to be seen. Behind them rows of parked long-distance buses and dust hanging in the light.",
         "seed": 106,
-        "focus_x": {"vertical": 0.3},
-        "focus_y": 0.35
+        "candidates": 4,
+        "pick": 4,
+        "reference": false,
+        "focus_y": 0.45
       },
       "motion": {"backend": "kenburns", "camera": "push_in", "prompt": "The men around them gesture and step closer. Slow push in."},
       "narration": {
@@ -208,10 +216,12 @@
       "characters": [],
       "min_duration_s": 8,
       "keyframe": {
-        "prompt": "A small plain rented room at night in Addis Ababa: one narrow single bed with one pillow and a clean sheet, neatly made, bare painted walls, a single bulb, a simple backpack on the floor beside the bed, one small window. Modest and clean.",
+        "prompt": "A small plain rented room at night in Addis Ababa: one narrow single bed with one pillow and a clean sheet, neatly made, bare painted walls, a single bulb, an olive green canvas backpack on the floor beside the bed, one small window. Modest and clean.",
         "seed": 107,
-        "focus_x": {"vertical": 0.75},
-        "focus_y": 0.7
+        "candidates": 3,
+        "pick": 1,
+        "focus_x": {"vertical": 0.95},
+        "focus_y": 0.65
       },
       "motion": {"backend": "kenburns", "camera": "push_in", "prompt": "Very slow push in toward the bed and the backpack."},
       "narration": {
@@ -228,33 +238,35 @@
       "characters": ["boy"],
       "min_duration_s": 5.5,
       "keyframe": {
-        "prompt": "Early morning in the open yard of a bus station in Addis Ababa, Ethiopia, soft gold light and long shadows. One single-file queue of men and women, all seen from behind and standing one behind another, runs in a long curve across the yard to a small ticket window in a low building. A young man with a backpack, a dark jacket and grey-green trousers is the last person in the queue, nearest to us, seen from behind. Long-distance buses are parked along one side.",
+        "prompt": "Early morning in the open yard of a bus station in Addis Ababa, Ethiopia, soft gold light and long shadows. One single-file queue of men and women, all seen from behind and standing one behind another, runs in a long curve across the yard to a small ticket window in a low building. A young man with his backpack on his shoulders is the last person in the queue, nearest to us, seen from behind. Long-distance buses are parked along one side.",
         "seed": 108,
-        "candidates": 3,
+        "candidates": 4,
         "pick": 2,
         "reference": false,
-        "focus_y": 0.65
+        "focus_y": 0.55
       },
       "motion": {"backend": "kenburns", "camera": "pan_left", "prompt": "The queue shuffles forward a step. Slow pan along the line."},
       "narration": {
         "am": "ጠዋት ረጅም ሰልፍ ተሰልፈን ትኬት ቆረጥን።",
         "en": "In the morning we stood in a long queue and got the ticket."
       },
-      "review": {"confirmed": false, "note": "Draft written on 2026-11-25 from the story Bete told by voice that day. He has not read this line yet. To check: that his friend stood in the queue with him, and where the ticket was for."}
+      "review": {"confirmed": false, "note": "Written by the coding agent on 25 Nov from the author's words that day: \"in morning we got ticjet via long que\". The film does not say where the ticket was for. Not confirmed by the author yet."}
     },
     {
       "id": "s09",
       "title": "Now",
-      "reason": "The answer to the whole night, in two words of his. The same city, seen calmly by the man that boy became, with the same kind of backpack at his feet.",
+      "reason": "The answer to the whole night, in two words of his. The same city, seen calmly by the man that boy became, with the old backpack on the wall beside him.",
       "size": "medium",
       "characters": ["man"],
-      "min_duration_s": 10,
+      "min_duration_s": 11.5,
       "keyframe": {
-        "prompt": "Golden hour. One man alone, seen from behind, stands at the railing of a balcony and looks out over the wide city of Addis Ababa: low tin-roofed houses mixed with mid-rise concrete and glass buildings, and eucalyptus-covered hills on the horizon. A simple backpack rests on the floor beside his feet and nothing is on his back. Calm warm light.",
+        "prompt": "Golden hour. A wide view from the back of a balcony: its bare floor in the foreground, a low wall across the picture, and beyond the wall the wide city of Addis Ababa: low tin-roofed houses mixed with mid-rise concrete and glass buildings, eucalyptus-covered hills on the horizon and a wide sky. In the middle of the picture one man alone, seen from behind, stands at the wall. His whole figure from head to feet is small in the frame and takes half of the picture's height. An old, worn olive green canvas backpack stands on the floor against his leg. Nothing is on his back. Calm warm light.",
         "seed": 109,
-        "focus_y": 0.25
+        "candidates": 4,
+        "pick": 4,
+        "focus_y": 0.7
       },
-      "motion": {"backend": "kenburns", "camera": "push_in", "prompt": "A light wind moves his shirt and the first city lights come on far away. He stands still. Slow push in.", "seed": 209},
+      "motion": {"backend": "kenburns", "camera": "pull_out", "prompt": "A light wind moves his shirt and the first city lights come on far away. He stands still. Slow pull out.", "seed": 209},
       "narration": {
         "am": "ዛሬ ያንን የመጀመሪያ ሌሊት ሳስታውስ፣ ከቤቱ ለሚወጣ ሁሉ አንድ ነገር እላለሁ፦ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። አትሽሽ። አጣጥመው።",
         "en": "Today, remembering that first night, I tell all who leave home one thing: the first night is always confusing. Do not run from it. Savour it."

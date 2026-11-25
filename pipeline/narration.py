@@ -3,10 +3,15 @@
 One file per shot keeps the edit simple: picture follows the voice, shot by shot, and a changed
 line replaces one file.
 
-One request per take, not per line. The free speech tier counts requests (ten a day when this was
-written), so the lines that are missing from the cache are spoken in a single request with a long
-pause after each, and the answer is cut into one file per line here. One changed line is still one
-request for that line. The model's answer is kept in narration/takes/, so cutting it again costs nothing.
+Two ways to ask for the lines, chosen in the storyboard (`voice.one_take`):
+
+* One request per take. The free speech tier of the Gemini API counts requests (ten a day when this
+  was written), so the lines that are missing from the cache are spoken in a single request with a
+  long pause after each, and the answer is cut into one file per line here. The model's answer is
+  kept in narration/takes/, so cutting it again costs nothing.
+* One request per line. Each line is asked for alone, with the same seed when the model takes one.
+  This is what the film uses: lines cut from takes of different sittings differed in pitch (E25).
+  A voice of Addis AI is always asked line by line, because it has no pause tag, style or seed.
 
 A take is cut at its longest pauses when they stand out clearly. When they do not, a line is kept
 only where a second method agrees on where it is: what is said in each phrase, matched to the
@@ -14,25 +19,26 @@ script. The first real take showed why. The voice paused inside a line as long a
 and after some lines it read the pause tag aloud. Where the two methods disagree nothing is guessed:
 that line is spoken again in a request of its own.
 
-The listening check is a round trip. The text model hears each file and writes down what it
-heard, and that is compared with the script. A low score points at a line worth a human listen:
-names and places are where text-to-speech goes wrong most often, and a cut in the wrong place
-shows up here too. It measures, it does not decide.
+The listening check is a round trip. A model hears each file and writes down what it heard, and
+that is compared with the script. The listener is the text model, or a speech model named in
+`models.listener`. A speech model also says when each word is spoken, and the subtitles are timed
+from that (E27). A low score points at a line worth a human listen: names and places are where
+text-to-speech goes wrong most often, and a cut in the wrong place shows up here too. It measures,
+it does not decide.
 """
 from __future__ import annotations
 
 import json
 import re
 import shutil
-import unicodedata
 import uuid
 import wave
 from difflib import SequenceMatcher
 from pathlib import Path
 
 from . import providers
-from .core import (STAGE_VERSION, Ctx, PipelineError, Unit, estimate_seconds, ff, ff_capture, file_sha, free_tier_use, get_index, is_cached,
-                   now, run_units, sha, wav_seconds, write_index)
+from .core import (STAGE_VERSION, Ctx, PipelineError, Unit, estimate_seconds, ff, ff_capture, file_sha, fold, free_tier_use, get_index,
+                   is_cached, now, run_units, sha, wav_seconds, write_index)
 
 SILENCE = {"noise_db": -38, "min_s": 0.25}  # what counts as a pause when a take is cut
 MIN_CUT_MARGIN = 1.5                        # the pauses used as cuts must be this many times longer than any pause left inside a line
@@ -47,9 +53,8 @@ LISTEN_PROMPT = ("This audio is narration in {language}. Transcribe it exactly a
 
 
 def normalise(text: str) -> str:
-    """Lower case, no punctuation, single spaces: so only the words are compared."""
-    kept = "".join(" " if unicodedata.category(ch)[0] in "PSZ" else ch for ch in text.lower())
-    return re.sub(r"\s+", " ", kept).strip()
+    """Lower case, no punctuation, single spaces, one spelling for Ethiopic letters that sound the same: so only the words are compared."""
+    return fold(text)
 
 
 def similarity(script: str, heard: str) -> float:
@@ -330,25 +335,38 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
             if res.path:
                 spoken[uid.removesuffix("_tight")] = res
 
+    # The listening check. The listener is the text model, which is given the audio and asked to write it down, or a speech
+    # model (`models.listener`), which also says when each word is spoken: the subtitles are timed from that.
+    # In a plan nothing is asked: answers already in the cache are read, so the plan times the subtitles as the run did.
     checks = {}
-    if qa.get("roundtrip") and not plan_only:
+    listener = sb["models"].get("listener") or sb["models"]["text"]
+    if qa.get("roundtrip"):
         check_units = []
         for sid, res in spoken.items():
+            if not res.path:
+                continue
             text = script["lines"][sid]["text"]
             prompt = LISTEN_PROMPT.format(language=LANGUAGE_NAMES.get(lang, lang))
-            fp = {"v": STAGE_VERSION["narration"], "audio": file_sha(res.path), "text": text, "model": sb["models"]["text"],  # the sound itself
-                  "question": sha(prompt)[:12]}
+            fp = {"v": STAGE_VERSION["narration"], "audio": file_sha(res.path), "text": text, "model": listener}  # the sound itself
+            if listener.startswith("addis-"):
+                fp["lang"] = lang
+            else:
+                fp["question"] = sha(prompt)[:12]
 
             def produce(tmp: Path, sid: str = sid, text: str = text, wav: Path = res.path, prompt: str = prompt) -> dict:
-                heard, _ = providers.text(ctx, "narration", f"{sid}_listen", prompt, kind="transcribe",
-                                          parts=[("audio/wav", wav.read_bytes())], temperature=0.0)
-                result = {"heard": heard, "score": similarity(text, heard)}
+                if listener.startswith("addis-"):
+                    got, _ = providers.words(ctx, "narration", f"{sid}_listen", wav.read_bytes(), language=lang, model=listener)
+                    result = {"heard": got["text"], "score": similarity(text, got["text"]), "words": got["words"]}
+                else:
+                    heard, _ = providers.text(ctx, "narration", f"{sid}_listen", prompt, kind="transcribe",
+                                              parts=[("audio/wav", wav.read_bytes())], temperature=0.0)
+                    result = {"heard": heard, "score": similarity(text, heard)}
                 tmp.write_text(json.dumps(result, ensure_ascii=False), encoding="utf-8")
                 return result
 
             # optional: the check measures. If the model cannot be reached the line is still spoken, and a person listens.
             check_units.append(Unit("narration", f"{sid}_listen", fp, "json", produce, optional=True))
-        checks = run_units(ctx, check_units)
+        checks = run_units(ctx, check_units, plan_only)
 
     floor = qa.get("roundtrip_min", 0.6)
     index = {}
@@ -362,10 +380,12 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
             entry["pauses"] = [[round(a, 2), round(b, 2)] for a, b in pauses(res.path)[0]]
         check = checks.get(f"{sid}_listen")
         if check and "score" in check.meta:
-            entry.update(heard=check.meta["heard"], roundtrip=check.meta["score"])
-            if check.meta["score"] < floor:
+            entry.update(heard=check.meta["heard"], roundtrip=check.meta["score"], heard_by=listener)
+            if check.meta.get("words"):
+                entry["words"] = check.meta["words"]
+            if check.meta["score"] < floor and not plan_only:
                 ctx.say(f"  listen to {sid}: the model heard \"{check.meta['heard'][:70]}\" (match {check.meta['score']:.2f}, floor {floor})")
-        elif check:
+        elif check and not plan_only:
             ctx.say(f"  listen to {sid} yourself: the listening check did not run. The next run tries again.")
         index[sid] = entry
     state["narration"] = index

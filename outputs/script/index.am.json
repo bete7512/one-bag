@@ -4,12 +4,12 @@
  "lines": {
   "s01": {
    "text": "መስከረም ሁለት ሺህ አሥራ ሁለት። እኩለ ቀን ላይ ከአንኮበር ተነሳሁ። አንድ የጀርባ ቦርሳ ብቻ ይዤ። አንድ ጓደኛዬ ሸኘኝ።",
-   "subtitle": "Meskerem 2012. At midday I left Ankober. Just one backpack. A friend saw me off.",
+   "subtitle": "Meskerem 2012 (late 2019). At midday I left Ankober. Just one backpack. A friend saw me off.",
    "machine_translated": false,
    "estimate_s": 9.5,
    "subtitle_check": {
     "faithful": true,
-    "literal": "Meskerem 2012. At midday I set out from Ankober. Carrying only one backpack. A friend of mine saw me off.",
+    "literal": "Meskerem two thousand twelve. At midday I set out from Ankober. Carrying only one backpack. A friend of mine saw me off.",
     "differences": []
    }
   },
@@ -20,18 +20,18 @@
    "estimate_s": 5.17,
    "subtitle_check": {
     "faithful": true,
-    "literal": "As far as Debre Birhan, a gravel road. After that, asphalt.",
+    "literal": "Up to Debre Birhan, a gravel road. After that, asphalt.",
     "differences": []
    }
   },
   "s03": {
    "text": "በመስኮት በኩል ተቀመጥኩ። ውጪው ደንና ተራራ ብቻ። እይታው አስደነቀኝ።",
-   "subtitle": "I sat by the window. Outside, only forest and mountains. The view amazed me.",
+   "subtitle": "I sat by the window. Outside, only forest and mountain. The view amazed me.",
    "machine_translated": false,
    "estimate_s": 5.67,
    "subtitle_check": {
     "faithful": true,
-    "literal": "I sat by the window. Outside, only forest and mountain. The view amazed me.",
+    "literal": "I sat by the window. Outside was only forest and mountain. The view amazed me.",
     "differences": []
    }
   },
@@ -42,7 +42,7 @@
    "estimate_s": 8.17,
    "subtitle_check": {
     "faithful": true,
-    "literal": "It was after dark that I arrived at Lamberet. My friend waited for me right there. People, lights, cars; all at once.",
+    "literal": "It was after dark that I reached Lamberet. My friend waited for me right there. People, lights, cars; all at once.",
     "differences": []
    }
   },
@@ -64,7 +64,7 @@
    "estimate_s": 5.83,
    "subtitle_check": {
     "faithful": true,
-    "literal": "The room is a single-bed room. It is not very good; it is not bad either. But clean.",
+    "literal": "The room has one bed. It is not very good; it is not bad either. But clean.",
     "differences": []
    }
   },
@@ -75,7 +75,7 @@
    "estimate_s": 3.5,
    "subtitle_check": {
     "faithful": true,
-    "literal": "In the morning we stood in a long line and bought tickets.",
+    "literal": "In the morning we stood in a long line and bought a ticket.",
     "differences": []
    }
   },
@@ -86,7 +86,7 @@
    "estimate_s": 11.0,
    "subtitle_check": {
     "faithful": true,
-    "literal": "Today, when I remember that first night, I say one thing to everyone who leaves home: the first night is always confusing. Do not flee. Savour it.",
+    "literal": "Today, when I remember that first night, I say one thing to everyone who leaves home: the first night is always confusing. Don't run away. Savour it.",
     "differences": []
    }
   }

@@ -1,0 +1,83 @@
+{
+ "wanted": {
+  "jacket": "charcoal grey",
+  "trousers": "olive green",
+  "footwear": "plastic sandals",
+  "backpack": "olive green"
+ },
+ "before_commit": "531e84a",
+ "summary": {
+  "before": {
+   "jacket": {
+    "shots_where_seen": 5,
+    "as_described": 2,
+    "different_answers": {
+     "charcoal grey": 2,
+     "navy blue": 3
+    }
+   },
+   "trousers": {
+    "shots_where_seen": 5,
+    "as_described": 2,
+    "different_answers": {
+     "olive green": 2,
+     "cream": 1,
+     "grey": 1,
+     "sage green": 1
+    }
+   },
+   "footwear": {
+    "shots_where_seen": 5,
+    "as_described": 1,
+    "different_answers": {
+     "plastic sandals": 1,
+     "leather sandals": 2,
+     "closed shoes": 2
+    }
+   },
+   "backpack": {
+    "shots_where_seen": 6,
+    "as_described": 0,
+    "different_answers": {
+     "sage green": 3,
+     "tan": 1,
+     "charcoal grey": 1,
+     "brown": 1
+    }
+   }
+  },
+  "after": {
+   "jacket": {
+    "shots_where_seen": 5,
+    "as_described": 2,
+    "different_answers": {
+     "grey": 3,
+     "charcoal grey": 2
+    }
+   },
+   "trousers": {
+    "shots_where_seen": 5,
+    "as_described": 4,
+    "different_answers": {
+     "sage green": 1,
+     "olive green": 4
+    }
+   },
+   "footwear": {
+    "shots_where_seen": 5,
+    "as_described": 5,
+    "different_answers": {
+     "plastic sandals": 5
+    }
+   },
+   "backpack": {
+    "shots_where_seen": 7,
+    "as_described": 7,
+    "different_answers": {
+     "olive green": 7
+    }
+   }
+  }
+ },
+ "list_price_usd": 0.1754
+}

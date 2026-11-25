@@ -20,10 +20,12 @@ import shutil
 import subprocess
 import textwrap
 import time
+import unicodedata
 import uuid
 import wave
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
+from difflib import SequenceMatcher
 from pathlib import Path
 from typing import Any, Callable
 
@@ -519,52 +521,175 @@ def plan_timeline(sb: dict, narration_s: dict[str, float]) -> dict:
     return {"fps": fps, "shots": shots, "end_card_start": round(t, 4), "end_card_s": end, "total_s": round(t + end, 4)}
 
 
-def subtitle_cues(text: str, start: float, duration: float, max_chars: int = 40, max_lines: int = 2,
-                  pauses: list | None = None) -> list[tuple[float, float, list[str]]]:
-    """Split one narration line into cues of at most two lines of 40 characters.
+MIN_CUE_S = 1.5   # a subtitle cue stays up at least this long
+READ_CPS = 20     # and long enough to be read at this many characters a second
+SNAP_S = 0.7      # a sentence end that is worked out from the text moves to a measured pause this near to it
+_SENTENCE = re.compile(r".+?(?:[.!?:\u1362\u1366\u1367]+[\"'\u201d\u2019\u00bb)]*(?=\s)|$)", re.S)
 
-    A colon ends a cue, so what follows it is not shown before it is said. The time is shared out by the
-    length of each cue. `pauses` are the silences measured inside the spoken line, in seconds from its start:
-    when they are given, each change of cue moves to the pause that fits it best, so a subtitle changes
-    when the voice does and not in the middle of a phrase.
+
+# Ethiopic letters that are written differently and said the same: the script may use one and a listener another
+_SAME_SOUND = {src + i: dst + i for src, dst in ((0x1210, 0x1200), (0x1280, 0x1200), (0x1220, 0x1230), (0x12D0, 0x12A0), (0x1340, 0x1338)) for i in range(8)}
+
+
+def fold(text: str) -> str:
+    """Lower case, no punctuation, single spaces, one spelling for letters that sound the same: so only the words are compared."""
+    kept = "".join(" " if unicodedata.category(ch)[0] in "PSZ" else ch for ch in text.lower().translate(_SAME_SOUND))
+    return re.sub(r"\s+", " ", kept).strip()
+
+
+def sentences(text: str) -> list[str]:
+    """A line as its sentences. A full stop, a question mark, an exclamation mark and a colon end one, in Latin and in
+    Ethiopic script, and a closing quotation mark stays with its sentence. A comma and a semicolon do not."""
+    return [m.group(0).strip() for m in _SENTENCE.finditer(text.strip()) if m.group(0).strip()]
+
+
+def wrap_cue(text: str, max_chars: int = 40) -> list[str]:
+    """The lines of one cue. Two lines are broken where they come out nearest in length, and rather after a
+    punctuation mark, so that no line is a single left-over word."""
+    lines = textwrap.wrap(text, width=max_chars, break_long_words=False) or [""]
+    if len(lines) != 2:
+        return lines
+    words, best = text.split(), None
+    for i in range(1, len(words)):
+        first, second = " ".join(words[:i]), " ".join(words[i:])
+        if len(first) <= max_chars and len(second) <= max_chars:
+            score = abs(len(first) - len(second)) - (8 if first[-1] in ".,!?:;\"\u201d" else 0)
+            if best is None or score < best[0]:
+                best = (score, [first, second])
+    return best[1] if best else lines
+
+
+def sentence_ends(weights: list[float], duration: float, pauses: list | None = None) -> list[tuple[float, float]]:
+    """Where each sentence of a spoken line ends, in seconds from the start of the line, as (the voice stops, the voice goes on).
+
+    The speaking time is shared out by `weights`, the number of letters in each sentence, and the measured pauses
+    are put back where they fall. An end that comes out within SNAP_S of a measured pause is that pause.
     """
-    def lines_of(t: str) -> list[str]:
-        return textwrap.wrap(t, width=max_chars, break_long_words=False) or [""]
-
-    chunks: list[str] = []
-    for part in re.split(r"(?<=:)\s+", text.strip()):
-        cur = ""
-        for sentence in re.split(r"(?<=[.!?;])\s+", part):
-            cand = f"{cur} {sentence}".strip()
-            if len(lines_of(cand)) <= max_lines:
-                cur = cand
-                continue
-            if cur:
-                chunks.append(cur)
-            lines = lines_of(sentence)
-            groups = [" ".join(lines[i:i + max_lines]) for i in range(0, len(lines), max_lines)]
-            chunks.extend(groups[:-1])
-            cur = groups[-1]
-        if cur:
-            chunks.append(cur)
-    total = sum(len(c) for c in chunks) or 1
-    ends, used = [], 0.0  # where each cue ends, in seconds from the start of the line
-    for c in chunks[:-1]:
-        used += duration * len(c) / total
-        ends.append(used)
-    free = sorted((float(a), float(b)) for a, b in (pauses or []) if 0.2 < a and b < duration - 0.2)
-    last = 0.0
-    for i, guess in enumerate(ends):
-        # the longest pause near the guess wins: a pause between sentences is longer than a breath inside one
-        near = [(b - a - 0.5 * abs((a + b) / 2 - guess), a, b) for a, b in free if b > last + 0.3 and abs((a + b) / 2 - guess) <= 2.5]
+    silences = sorted((float(a), float(b)) for a, b in (pauses or []) if 0.1 < a and b < duration - 0.1)
+    speech = max(0.1, duration - sum(b - a for a, b in silences))
+    total, said, ends, free, last = sum(weights) or 1, 0.0, [], list(silences), 0.0
+    for w in weights[:-1]:
+        said += speech * w / total
+        at = said                                   # from speaking time to time in the audio: the pauses before it are added
+        for a, b in silences:
+            if a < at:
+                at += b - a
+        near = [(max(a - at, at - b, 0.0), a, b) for a, b in free if b > last and max(a - at, at - b, 0.0) <= SNAP_S]
         if near:
-            _, a, b = max(near)
-            ends[i] = max(a, b - 0.08)  # the next cue comes up just before the voice starts again
-            free = [p for p in free if p[0] > b]
-        ends[i] = max(ends[i], last + 0.3)
-        last = ends[i]
-    edges = [0.0, *[min(e, duration) for e in ends], duration]
-    return [(round(start + edges[i], 3), round(start + edges[i + 1], 3), lines_of(c)) for i, c in enumerate(chunks)]
+            _, a, b = min(near)
+            stop, go = a, b
+            free = [p for p in free if p[0] >= b]
+        else:
+            stop = go = at
+        stop = min(max(stop, last + 0.2), duration)
+        go = min(max(go, stop), duration)
+        ends.append((stop, go))
+        last = go
+    return [*ends, (duration, duration)]
+
+
+GAP_COST = 0.7    # in the match of script words to heard words: the cost of a word with no partner
+
+
+def sentence_ends_heard(spoken: str, words: list[dict], duration: float) -> list[tuple[float, float]] | None:
+    """Where each sentence of a spoken line ends, from the words a listening model heard and the time of each.
+
+    The words of the script are matched to the heard words in order, by how alike they are, so a word that was
+    misheard, dropped or split in two moves nothing. A sentence ends where its last matched word ends, and the
+    next begins where the following heard word begins. None when some sentence has no matched word at all.
+    """
+    said = [fold(s).split() for s in sentences(spoken)]
+    script = [w for s in said for w in s]
+    heard = [fold(w.get("text", "")) for w in words]
+    if not script or not heard:
+        return None
+    n, m = len(script), len(heard)
+    cost = [[0.0] * (m + 1) for _ in range(n + 1)]
+    for i in range(1, n + 1):
+        cost[i][0] = i * GAP_COST
+    for j in range(1, m + 1):
+        cost[0][j] = j * GAP_COST
+    for i in range(1, n + 1):
+        for j in range(1, m + 1):
+            alike = SequenceMatcher(None, script[i - 1], heard[j - 1]).ratio()
+            cost[i][j] = min(cost[i - 1][j - 1] + 1 - alike, cost[i - 1][j] + GAP_COST, cost[i][j - 1] + GAP_COST)
+    partner, i, j = {}, n, m  # script word -> heard word, read back from the end
+    while i > 0 and j > 0:
+        alike = SequenceMatcher(None, script[i - 1], heard[j - 1]).ratio()
+        if abs(cost[i][j] - (cost[i - 1][j - 1] + 1 - alike)) < 1e-9:
+            partner[i - 1] = j - 1
+            i, j = i - 1, j - 1
+        elif abs(cost[i][j] - (cost[i - 1][j] + GAP_COST)) < 1e-9:
+            i -= 1
+        else:
+            j -= 1
+    ends, first = [], 0
+    for k, sentence in enumerate(said):
+        mine = [partner[x] for x in range(first, first + len(sentence)) if x in partner]
+        first += len(sentence)
+        if not mine:
+            return None
+        if k == len(said) - 1:
+            ends.append((duration, duration))
+            break
+        last = max(mine)
+        stop = min(float(words[last]["end"]), duration)
+        go = min(float(words[last + 1]["start"]), duration) if last + 1 < m else stop
+        if go < stop:  # the times of two neighbouring words overlap a little: the change is in the middle
+            stop = go = (stop + go) / 2
+        if ends and stop < ends[-1][1] + 0.1:
+            return None
+        ends.append((round(stop, 3), round(go, 3)))
+    return ends
+
+
+def subtitle_cues(text: str, start: float, duration: float, max_chars: int = 40, max_lines: int = 2,
+                  pauses: list | None = None, spoken: str | None = None, words: list | None = None) -> list[tuple[float, float, list[str]]]:
+    """Split one narration line into cues of at most two lines of 40 characters, each on screen while it is said.
+
+    The subtitle is taken sentence by sentence. `spoken` is the line as it is narrated: when it has as many sentences
+    as the subtitle, each subtitle sentence gets the time of its spoken sentence. That time comes from `words`, the
+    words a listening model heard with the time of each. Without them it is worked out from the number of letters
+    said and from `pauses`, the silences measured inside the line, and without `spoken` from the subtitle's own letters.
+    Sentences share a cue until the cue is up for MIN_CUE_S and can be read at READ_CPS, as long as they fit in two
+    lines. A colon always ends a cue, so what follows it is not shown before it is said.
+    """
+    def letters(t: str) -> int:
+        return max(1, sum(ch.isalnum() for ch in t))
+
+    subs = sentences(text) or [text.strip()]
+    said = sentences(spoken) if spoken else []
+    ends = sentence_ends_heard(spoken, words, duration) if words and len(said) == len(subs) else None
+    if not ends:
+        ends = sentence_ends([letters(x) for x in (said if len(said) == len(subs) else subs)], duration, pauses)
+    spans, begin = [], 0.0  # per sentence: (text, it comes up, the voice stops, the next one comes up)
+    for sentence, (stop, go) in zip(subs, ends):
+        lines = textwrap.wrap(sentence, width=max_chars, break_long_words=False) or [""]
+        parts = [" ".join(lines[i:i + max_lines]) for i in range(0, len(lines), max_lines)]
+        share, t = sum(letters(x) for x in parts), begin
+        for n, part in enumerate(parts):  # a sentence too long for one cue is shown in parts, its time shared by their length
+            last_part = n == len(parts) - 1
+            upto = stop if last_part else t + (stop - begin) * letters(part) / share
+            spans.append((part, t, upto, go if last_part else upto))
+            t = upto
+        begin = max(go - 0.08, stop) if go > stop else go  # after a pause the next cue comes up just before the voice starts again
+    groups: list[list] = []
+    for span in spans:
+        cur = groups[-1] if groups else None
+        if cur:
+            shown = " ".join(x[0] for x in cur)
+            long_enough = cur[-1][2] - cur[0][1] >= max(MIN_CUE_S, len(shown) / READ_CPS)
+            fits = len(textwrap.wrap(f"{shown} {span[0]}", width=max_chars, break_long_words=False)) <= max_lines
+            if fits and not long_enough and not shown.endswith(":"):
+                cur.append(span)
+                continue
+        groups.append([span])
+    cues = []
+    for i, group in enumerate(groups):
+        first = 0.0 if i == 0 else cues[-1][1] - start
+        until = duration if i == len(groups) - 1 else (max(group[-1][3] - 0.08, group[-1][2]) if group[-1][3] > group[-1][2] else group[-1][3])
+        cues.append((round(start + first, 3), round(start + max(until, first + 0.2), 3), wrap_cue(" ".join(x[0] for x in group), max_chars)))
+    return cues
 
 
 # ----------------------------------------------------------------------------- media helpers
