@@ -1,357 +1,339 @@
 {
- "s01": {
-  "file": "s01_tight__eef7981fa53d64c0.wav",
-  "key": "eef7981fa53d64c0",
-  "seconds": 7.2,
-  "as_spoken": "s01__7092815bc3352823.wav",
-  "as_spoken_seconds": 7.2,
+ "s00": {
+  "file": "s00_tight__03182a6bd753f08f.wav",
+  "key": "03182a6bd753f08f",
+  "seconds": 6.19,
+  "as_spoken": "s00__eb93bf2239a04edc.wav",
+  "as_spoken_seconds": 6.19,
   "pauses_shortened": 0,
   "removed_s": 0.0,
   "pauses": [
    [
-    5.79,
-    6.06
+    4.69,
+    4.96
    ]
   ],
-  "heard": "መስከረም ሁለት ሺህ አስራ ሁለት እኩለ ቀን ላይ ካንኮበር ተነሣሁ አንድ የጀርባ ቦርሳ ብቻ ይዤ አንድ ጓደኛዬ ሸኘኝ",
-  "roundtrip": 0.98,
+  "heard": "አሥራ ሁለተኛ ክፍልን እንደጨረስኩ ባሕርዳር ዩኒቨርሲቲ ተመደብኩ ያን የሆኑ አዲስ ምዕራፍ ተጀመረ",
+  "roundtrip": 0.942,
   "heard_by": "addis-scribe",
   "words": [
    {
-    "text": "መስከረም",
+    "text": "አሥራ",
     "start": 0.1,
-    "end": 0.88
+    "end": 0.8
    },
    {
-    "text": "ሁለት",
-    "start": 0.74,
-    "end": 1.12
+    "text": "ሁለተኛ",
+    "start": 0.66,
+    "end": 1.04
    },
    {
-    "text": "ሺህ",
+    "text": "ክፍልን",
     "start": 1.06,
-    "end": 1.44
-   },
-   {
-    "text": "አስራ",
-    "start": 1.38,
     "end": 1.76
    },
    {
-    "text": "ሁለት",
-    "start": 1.78,
-    "end": 2.16
+    "text": "እንደጨረስኩ",
+    "start": 1.54,
+    "end": 2.32
    },
    {
-    "text": "እኩለ",
-    "start": 2.1,
-    "end": 2.8
-   },
-   {
-    "text": "ቀን",
-    "start": 2.58,
-    "end": 2.96
-   },
-   {
-    "text": "ላይ",
-    "start": 2.74,
+    "text": "ባሕርዳር",
+    "start": 2.26,
     "end": 3.12
    },
    {
-    "text": "ካንኮበር",
+    "text": "ዩኒቨርሲቲ",
     "start": 2.9,
-    "end": 3.76
+    "end": 3.52
    },
    {
-    "text": "ተነሣሁ",
-    "start": 3.62,
+    "text": "ተመደብኩ",
+    "start": 3.46,
     "end": 4.24
    },
    {
-    "text": "አንድ",
+    "text": "ያን",
     "start": 4.18,
     "end": 4.56
    },
    {
-    "text": "የጀርባ",
-    "start": 4.42,
-    "end": 5.12
+    "text": "የሆኑ",
+    "start": 4.5,
+    "end": 4.88
    },
    {
-    "text": "ቦርሳ",
-    "start": 4.9,
-    "end": 5.6
+    "text": "አዲስ",
+    "start": 5.14,
+    "end": 5.52
    },
    {
-    "text": "ብቻ",
+    "text": "ምዕራፍ",
     "start": 5.38,
-    "end": 5.76
+    "end": 5.92
    },
    {
-    "text": "ይዤ",
+    "text": "ተጀመረ",
     "start": 5.62,
-    "end": 6.16
-   },
-   {
-    "text": "አንድ",
-    "start": 6.1,
-    "end": 6.48
-   },
-   {
-    "text": "ጓደኛዬ",
-    "start": 6.42,
-    "end": 7.04
-   },
-   {
-    "text": "ሸኘኝ",
-    "start": 6.74,
-    "end": 7.28
+    "end": 6.32
    }
   ]
  },
- "s02": {
-  "file": "s02_tight__e95da7bc108033ab.wav",
-  "key": "e95da7bc108033ab",
-  "seconds": 3.92,
-  "as_spoken": "s02__60be4ddbe6f10132.wav",
-  "as_spoken_seconds": 3.92,
-  "pauses_shortened": 0,
-  "removed_s": 0.0,
-  "pauses": [],
-  "heard": "እስከ ደብረ ብርሃን ድረስ ፒስታ መንገድ ከዚያ በኋላ አስ",
-  "roundtrip": 0.96,
-  "heard_by": "addis-scribe",
-  "words": [
-   {
-    "text": "እስከ",
-    "start": 0.1,
-    "end": 0.48
-   },
-   {
-    "text": "ደብረ",
-    "start": 0.42,
-    "end": 0.96
-   },
-   {
-    "text": "ብርሃን",
-    "start": 0.82,
-    "end": 1.52
-   },
-   {
-    "text": "ድረስ",
-    "start": 1.22,
-    "end": 1.6
-   },
-   {
-    "text": "ፒስታ",
-    "start": 1.46,
-    "end": 2.24
-   },
-   {
-    "text": "መንገድ",
-    "start": 2.1,
-    "end": 2.48
-   },
-   {
-    "text": "ከዚያ",
-    "start": 2.58,
-    "end": 3.2
-   },
-   {
-    "text": "በኋላ",
-    "start": 2.98,
-    "end": 3.36
-   },
-   {
-    "text": "አስ",
-    "start": 3.62,
-    "end": 4.0
-   }
-  ]
- },
- "s03": {
-  "file": "s03_tight__ac0da12374c1b2a8.wav",
-  "key": "ac0da12374c1b2a8",
-  "seconds": 5.54,
-  "as_spoken": "s03__daedb3f72bd58c2a.wav",
-  "as_spoken_seconds": 5.54,
+ "s01": {
+  "file": "s01_tight__6b7988767df004ea.wav",
+  "key": "6b7988767df004ea",
+  "seconds": 6.21,
+  "as_spoken": "s01__a7a10d18db8c322f.wav",
+  "as_spoken_seconds": 6.21,
   "pauses_shortened": 0,
   "removed_s": 0.0,
   "pauses": [
    [
-    1.73,
-    1.99
-   ],
-   [
-    3.98,
-    4.26
+    1.3,
+    1.57
    ]
   ],
-  "heard": "በመስኮት በኩል ተቀመጥኩ ውጭው ደንና ተራራ ብቻ እይታው አስደነቀኝ",
-  "roundtrip": 0.976,
+  "heard": "ጉዞዬ የተጀመረው ካንኮቨር ነው አንድ የጀርባ ቦርሳና በጥያቄ የተሞላ ሀሳብ ብቻ ይዤ",
+  "roundtrip": 0.936,
+  "heard_by": "addis-scribe",
+  "words": [
+   {
+    "text": "ጉዞዬ",
+    "start": 0.1,
+    "end": 0.88
+   },
+   {
+    "text": "የተጀመረው",
+    "start": 0.9,
+    "end": 1.68
+   },
+   {
+    "text": "ካንኮቨር",
+    "start": 1.62,
+    "end": 2.56
+   },
+   {
+    "text": "ነው",
+    "start": 2.42,
+    "end": 2.8
+   },
+   {
+    "text": "አንድ",
+    "start": 2.66,
+    "end": 3.04
+   },
+   {
+    "text": "የጀርባ",
+    "start": 2.9,
+    "end": 3.6
+   },
+   {
+    "text": "ቦርሳና",
+    "start": 3.38,
+    "end": 4.24
+   },
+   {
+    "text": "በጥያቄ",
+    "start": 4.18,
+    "end": 4.8
+   },
+   {
+    "text": "የተሞላ",
+    "start": 4.74,
+    "end": 5.52
+   },
+   {
+    "text": "ሀሳብ",
+    "start": 5.38,
+    "end": 5.76
+   },
+   {
+    "text": "ብቻ",
+    "start": 5.62,
+    "end": 6.0
+   },
+   {
+    "text": "ይዤ",
+    "start": 5.78,
+    "end": 6.24
+   }
+  ]
+ },
+ "s02": {
+  "file": "s02_tight__056168b580fe0f8a.wav",
+  "key": "056168b580fe0f8a",
+  "seconds": 6.11,
+  "as_spoken": "s02__3702f3a6d8dcf721.wav",
+  "as_spoken_seconds": 6.11,
+  "pauses_shortened": 0,
+  "removed_s": 0.0,
+  "pauses": [
+   [
+    2.4,
+    2.68
+   ],
+   [
+    3.83,
+    4.1
+   ]
+  ],
+  "heard": "መጀመሪያ ወደ ደብረ ብርሃን ቀጥሎ ወደ አዲስ አበባ በመጨረሻም ወደ ባሕር ዳር",
+  "roundtrip": 1.0,
+  "heard_by": "addis-scribe",
+  "words": [
+   {
+    "text": "መጀመሪያ",
+    "start": 0.18,
+    "end": 0.56
+   },
+   {
+    "text": "ወደ",
+    "start": 0.74,
+    "end": 1.12
+   },
+   {
+    "text": "ደብረ",
+    "start": 0.98,
+    "end": 1.52
+   },
+   {
+    "text": "ብርሃን",
+    "start": 1.38,
+    "end": 2.0
+   },
+   {
+    "text": "ቀጥሎ",
+    "start": 1.94,
+    "end": 2.72
+   },
+   {
+    "text": "ወደ",
+    "start": 2.74,
+    "end": 3.12
+   },
+   {
+    "text": "አዲስ",
+    "start": 3.14,
+    "end": 3.52
+   },
+   {
+    "text": "አበባ",
+    "start": 3.46,
+    "end": 3.84
+   },
+   {
+    "text": "በመጨረሻም",
+    "start": 4.18,
+    "end": 5.28
+   },
+   {
+    "text": "ወደ",
+    "start": 5.3,
+    "end": 5.68
+   },
+   {
+    "text": "ባሕር",
+    "start": 5.46,
+    "end": 6.0
+   },
+   {
+    "text": "ዳር",
+    "start": 5.78,
+    "end": 6.24
+   }
+  ]
+ },
+ "s03": {
+  "file": "s03_tight__65e6ddfc27ee22fc.wav",
+  "key": "65e6ddfc27ee22fc",
+  "seconds": 8.35,
+  "as_spoken": "s03__8c1dd86a34d80dce.wav",
+  "as_spoken_seconds": 8.35,
+  "pauses_shortened": 0,
+  "removed_s": 0.0,
+  "pauses": [
+   [
+    2.56,
+    2.83
+   ]
+  ],
+  "heard": "በመስኮት ስመለከት መንገዱና መልካ ምድሩ እየተቀያየረ ሄደ ደንና ተራሮች ሸለቆዎችና የሚዘረጉ መንገዶች",
+  "roundtrip": 0.962,
   "heard_by": "addis-scribe",
   "words": [
    {
     "text": "በመስኮት",
     "start": 0.18,
-    "end": 1.12
-   },
-   {
-    "text": "በኩል",
-    "start": 0.82,
-    "end": 1.2
-   },
-   {
-    "text": "ተቀመጥኩ",
-    "start": 1.3,
-    "end": 2.08
-   },
-   {
-    "text": "ውጭው",
-    "start": 2.02,
-    "end": 2.8
-   },
-   {
-    "text": "ደንና",
-    "start": 2.66,
-    "end": 3.52
-   },
-   {
-    "text": "ተራራ",
-    "start": 3.3,
-    "end": 4.0
-   },
-   {
-    "text": "ብቻ",
-    "start": 3.78,
-    "end": 4.16
-   },
-   {
-    "text": "እይታው",
-    "start": 4.34,
-    "end": 5.04
-   },
-   {
-    "text": "አስደነቀኝ",
-    "start": 5.06,
-    "end": 5.68
-   }
-  ]
- },
- "s04": {
-  "file": "s04_tight__7ef5b72811b4f551.wav",
-  "key": "7ef5b72811b4f551",
-  "seconds": 7.37,
-  "as_spoken": "s04__a0a0aed5e61b32c7.wav",
-  "as_spoken_seconds": 7.37,
-  "pauses_shortened": 0,
-  "removed_s": 0.0,
-  "pauses": [
-   [
-    2.27,
-    2.53
-   ],
-   [
-    4.7,
-    4.96
-   ]
-  ],
-  "heard": "ላምበለት የደረስኩት ከመሸ በኋላ ነው ጓደኛዬ እዚያው ጠበቀኝ ሰው መብራት መኪና ሁሉም በአንድ ጊዜ",
-  "roundtrip": 0.984,
-  "heard_by": "addis-scribe",
-  "words": [
-   {
-    "text": "ላምበለት",
-    "start": 0.1,
     "end": 1.04
    },
    {
-    "text": "የደረስኩት",
+    "text": "ስመለከት",
     "start": 0.82,
     "end": 1.6
    },
    {
-    "text": "ከመሸ",
-    "start": 1.46,
-    "end": 2.08
+    "text": "መንገዱና",
+    "start": 1.54,
+    "end": 2.4
    },
    {
-    "text": "በኋላ",
-    "start": 1.86,
-    "end": 2.24
-   },
-   {
-    "text": "ነው",
+    "text": "መልካ",
     "start": 2.18,
-    "end": 2.56
+    "end": 2.88
    },
    {
-    "text": "ጓደኛዬ",
-    "start": 2.58,
-    "end": 3.44
+    "text": "ምድሩ",
+    "start": 2.98,
+    "end": 3.68
    },
    {
-    "text": "እዚያው",
-    "start": 3.3,
-    "end": 3.92
+    "text": "እየተቀያየረ",
+    "start": 3.62,
+    "end": 4.64
    },
    {
-    "text": "ጠበቀኝ",
-    "start": 3.86,
-    "end": 4.56
+    "text": "ሄደ",
+    "start": 4.34,
+    "end": 4.96
    },
    {
-    "text": "ሰው",
-    "start": 4.5,
-    "end": 4.88
+    "text": "ደንና",
+    "start": 4.82,
+    "end": 5.6
    },
    {
-    "text": "መብራት",
-    "start": 4.98,
-    "end": 5.76
+    "text": "ተራሮች",
+    "start": 5.3,
+    "end": 6.0
    },
    {
-    "text": "መኪና",
-    "start": 5.78,
-    "end": 6.4
+    "text": "ሸለቆዎችና",
+    "start": 5.94,
+    "end": 7.12
    },
    {
-    "text": "ሁሉም",
-    "start": 6.42,
-    "end": 6.8
+    "text": "የሚዘረጉ",
+    "start": 6.98,
+    "end": 7.84
    },
    {
-    "text": "በአንድ",
-    "start": 6.66,
-    "end": 7.04
-   },
-   {
-    "text": "ጊዜ",
-    "start": 6.9,
-    "end": 7.28
+    "text": "መንገዶች",
+    "start": 7.7,
+    "end": 8.4
    }
   ]
  },
- "s06": {
-  "file": "s06_tight__65424e2e42a26fac.wav",
-  "key": "65424e2e42a26fac",
-  "seconds": 8.42,
-  "as_spoken": "s06__0389927d534ad49a.wav",
-  "as_spoken_seconds": 8.42,
+ "s04": {
+  "file": "s04_tight__c84bad0c1a8e88c1.wav",
+  "key": "c84bad0c1a8e88c1",
+  "seconds": 4.92,
+  "as_spoken": "s04__bd10862a9b9c3816.wav",
+  "as_spoken_seconds": 4.92,
   "pauses_shortened": 0,
   "removed_s": 0.0,
-  "pauses": [
-   [
-    4.78,
-    5.04
-   ],
-   [
-    7.27,
-    7.54
-   ]
-  ],
-  "heard": "አውቶቡስ ተራ ስንልስ ደላሎች ከበቡን አልጋ ትፈልጋላችሁ አልጋ ከያአቅጣጫው ግራ ገባን በመጨረሻ አንዱን መረጠን",
-  "roundtrip": 0.95,
+  "pauses": [],
+  "heard": "አውቶቡስ ተራ ስደርስ አመሻሽ ነበር ጓደኛዬ እዚያው ተከበለኝ",
+  "roundtrip": 0.974,
   "heard_by": "addis-scribe",
   "words": [
    {
@@ -361,288 +343,468 @@
    },
    {
     "text": "ተራ",
-    "start": 0.82,
-    "end": 1.44
+    "start": 1.06,
+    "end": 1.6
    },
    {
-    "text": "ስንልስ",
-    "start": 1.22,
+    "text": "ስደርስ",
+    "start": 1.54,
     "end": 2.08
    },
    {
-    "text": "ደላሎች",
-    "start": 1.94,
-    "end": 2.72
+    "text": "አመሻሽ",
+    "start": 2.02,
+    "end": 2.88
    },
    {
-    "text": "ከበቡን",
-    "start": 2.58,
-    "end": 3.28
+    "text": "ነበር",
+    "start": 2.66,
+    "end": 3.04
    },
    {
-    "text": "አልጋ",
-    "start": 3.22,
+    "text": "ጓደኛዬ",
+    "start": 3.06,
+    "end": 4.0
+   },
+   {
+    "text": "እዚያው",
+    "start": 4.02,
+    "end": 4.64
+   },
+   {
+    "text": "ተከበለኝ",
+    "start": 4.34,
+    "end": 4.96
+   }
+  ]
+ },
+ "s05": {
+  "file": "s05_tight__0fa1e07eab37dc3d.wav",
+  "key": "0fa1e07eab37dc3d",
+  "seconds": 7.22,
+  "as_spoken": "s05__e29016a288e386c1.wav",
+  "as_spoken_seconds": 7.22,
+  "pauses_shortened": 0,
+  "removed_s": 0.0,
+  "pauses": [
+   [
+    6.26,
+    6.53
+   ]
+  ],
+  "heard": "ሰው በየአቅጣጫው ይንቀሳቀሳል መኪኖች ያልፋሉ ደላሎችም አልጋ ትፈልጋላችሁ እያሉ ይጠይቃሉ",
+  "roundtrip": 1.0,
+  "heard_by": "addis-scribe",
+  "words": [
+   {
+    "text": "ሰው",
+    "start": 0.1,
+    "end": 0.48
+   },
+   {
+    "text": "በየአቅጣጫው",
+    "start": 0.5,
+    "end": 1.6
+   },
+   {
+    "text": "ይንቀሳቀሳል",
+    "start": 1.38,
+    "end": 2.48
+   },
+   {
+    "text": "መኪኖች",
+    "start": 2.42,
+    "end": 3.12
+   },
+   {
+    "text": "ያልፋሉ",
+    "start": 3.06,
     "end": 3.76
    },
    {
-    "text": "ትፈልጋላችሁ",
+    "text": "ደላሎችም",
     "start": 3.62,
-    "end": 4.48
+    "end": 4.72
    },
    {
     "text": "አልጋ",
-    "start": 4.42,
-    "end": 5.04
+    "start": 4.58,
+    "end": 5.2
    },
    {
-    "text": "ከያአቅጣጫው",
-    "start": 5.14,
-    "end": 6.16
+    "text": "ትፈልጋላችሁ",
+    "start": 5.06,
+    "end": 5.92
+   },
+   {
+    "text": "እያሉ",
+    "start": 5.94,
+    "end": 6.56
+   },
+   {
+    "text": "ይጠይቃሉ",
+    "start": 6.5,
+    "end": 7.28
+   }
+  ]
+ },
+ "s06": {
+  "file": "s06_tight__4820b3c5ef7463b1.wav",
+  "key": "4820b3c5ef7463b1",
+  "seconds": 4.57,
+  "as_spoken": "s06__031b615ed881ab79.wav",
+  "as_spoken_seconds": 4.57,
+  "pauses_shortened": 0,
+  "removed_s": 0.0,
+  "pauses": [
+   [
+    2.02,
+    2.28
+   ]
+  ],
+  "heard": "ለአፍታ ሁሉም ነገር በአንድ ጊዜ የበዛና ግራ የሚያጋባ መሰ",
+  "roundtrip": 0.974,
+  "heard_by": "addis-scribe",
+  "words": [
+   {
+    "text": "ለአፍታ",
+    "start": 0.1,
+    "end": 0.88
+   },
+   {
+    "text": "ሁሉም",
+    "start": 0.74,
+    "end": 1.12
+   },
+   {
+    "text": "ነገር",
+    "start": 1.06,
+    "end": 1.44
+   },
+   {
+    "text": "በአንድ",
+    "start": 1.38,
+    "end": 1.76
+   },
+   {
+    "text": "ጊዜ",
+    "start": 1.7,
+    "end": 2.08
+   },
+   {
+    "text": "የበዛና",
+    "start": 2.34,
+    "end": 3.12
    },
    {
     "text": "ግራ",
-    "start": 5.86,
-    "end": 6.24
+    "start": 3.06,
+    "end": 3.44
    },
    {
-    "text": "ገባን",
-    "start": 6.18,
-    "end": 6.8
+    "text": "የሚያጋባ",
+    "start": 3.38,
+    "end": 4.16
    },
    {
-    "text": "በመጨረሻ",
-    "start": 6.66,
-    "end": 7.28
-   },
-   {
-    "text": "አንዱን",
-    "start": 7.54,
-    "end": 8.16
-   },
-   {
-    "text": "መረጠን",
-    "start": 7.86,
-    "end": 8.48
+    "text": "መሰ",
+    "start": 4.18,
+    "end": 4.56
    }
   ]
  },
  "s07": {
-  "file": "s07_tight__386869456f8a8af5.wav",
-  "key": "386869456f8a8af5",
-  "seconds": 5.06,
-  "as_spoken": "s07__85b890c318907e36.wav",
-  "as_spoken_seconds": 5.06,
+  "file": "s07_tight__08fe1e8a85dedccc.wav",
+  "key": "08fe1e8a85dedccc",
+  "seconds": 8.5,
+  "as_spoken": "s07__23bc253352589322.wav",
+  "as_spoken_seconds": 8.5,
   "pauses_shortened": 0,
   "removed_s": 0.0,
   "pauses": [],
-  "heard": "ክፍሉ ባለ አንድ አልጋ በጣም ጥሩ አይደለምት መጥፎም አይደለም ግን ንፁህ",
-  "roundtrip": 0.989,
+  "heard": "በመጨረሻ ባለ አንድ አልጋ ክፍል መረትን በጣም ምርጥ አልነበረም መጥፎም አልነበረም ግን ለማረፍ የሚበቃ ንጹሕ ነበር",
+  "roundtrip": 0.986,
   "heard_by": "addis-scribe",
   "words": [
    {
-    "text": "ክፍሉ",
-    "start": 0.1,
+    "text": "በመጨረሻ",
+    "start": 0.18,
     "end": 0.8
    },
    {
     "text": "ባለ",
-    "start": 0.58,
-    "end": 0.96
-   },
-   {
-    "text": "አንድ",
     "start": 1.06,
     "end": 1.44
    },
    {
+    "text": "አንድ",
+    "start": 1.54,
+    "end": 1.92
+   },
+   {
     "text": "አልጋ",
-    "start": 1.46,
-    "end": 2.0
+    "start": 2.02,
+    "end": 2.56
+   },
+   {
+    "text": "ክፍል",
+    "start": 2.34,
+    "end": 2.72
+   },
+   {
+    "text": "መረትን",
+    "start": 2.98,
+    "end": 3.68
    },
    {
     "text": "በጣም",
-    "start": 1.94,
-    "end": 2.32
-   },
-   {
-    "text": "ጥሩ",
-    "start": 2.26,
-    "end": 2.64
-   },
-   {
-    "text": "አይደለምት",
-    "start": 2.74,
-    "end": 3.36
-   },
-   {
-    "text": "መጥፎም",
-    "start": 3.3,
+    "start": 3.62,
     "end": 4.0
    },
    {
-    "text": "አይደለም",
-    "start": 3.86,
-    "end": 4.24
+    "text": "ምርጥ",
+    "start": 4.18,
+    "end": 4.8
+   },
+   {
+    "text": "አልነበረም",
+    "start": 4.66,
+    "end": 5.04
+   },
+   {
+    "text": "መጥፎም",
+    "start": 5.3,
+    "end": 6.0
+   },
+   {
+    "text": "አልነበረም",
+    "start": 5.94,
+    "end": 6.32
    },
    {
     "text": "ግን",
-    "start": 4.26,
-    "end": 4.64
+    "start": 6.5,
+    "end": 6.88
    },
    {
-    "text": "ን",
-    "start": 4.5,
-    "end": 4.88
+    "text": "ለማረፍ",
+    "start": 6.74,
+    "end": 7.44
    },
    {
-    "text": "ህ",
-    "start": 4.58,
-    "end": 5.12
+    "text": "የሚበቃ",
+    "start": 7.22,
+    "end": 7.92
+   },
+   {
+    "text": "ንጹሕ",
+    "start": 7.7,
+    "end": 8.4
+   },
+   {
+    "text": "ነበር",
+    "start": 8.18,
+    "end": 8.56
    }
   ]
  },
  "s08": {
-  "file": "s08_tight__f2671d0ec263dd15.wav",
-  "key": "f2671d0ec263dd15",
-  "seconds": 3.58,
-  "as_spoken": "s08__fa291bc9c90c7e9f.wav",
-  "as_spoken_seconds": 3.58,
+  "file": "s08_tight__bb1b0c8492ccb48d.wav",
+  "key": "bb1b0c8492ccb48d",
+  "seconds": 5.65,
+  "as_spoken": "s08__4101013c8a4a83ff.wav",
+  "as_spoken_seconds": 5.65,
   "pauses_shortened": 0,
   "removed_s": 0.0,
   "pauses": [],
-  "heard": "ጠዋት ረጅም ሰልፍ ተሰንፈን ትኬት ኰረድን",
-  "roundtrip": 0.885,
+  "heard": "በማግሥቱ ጠዋት ጉዞውን ለመቀጠን ረጅም ሰልፍ ተሰልፈን ትኬት ኰረትን",
+  "roundtrip": 0.93,
   "heard_by": "addis-scribe",
   "words": [
    {
+    "text": "በማግሥቱ",
+    "start": 0.1,
+    "end": 1.12
+   },
+   {
     "text": "ጠዋት",
-    "start": 0.18,
-    "end": 0.88
+    "start": 1.06,
+    "end": 1.76
+   },
+   {
+    "text": "ጉዞውን",
+    "start": 1.54,
+    "end": 2.32
+   },
+   {
+    "text": "ለመቀጠን",
+    "start": 2.1,
+    "end": 2.88
    },
    {
     "text": "ረጅም",
-    "start": 0.9,
-    "end": 1.44
+    "start": 3.06,
+    "end": 3.6
    },
    {
     "text": "ሰልፍ",
-    "start": 1.22,
-    "end": 1.84
+    "start": 3.38,
+    "end": 4.0
    },
    {
-    "text": "ተሰንፈን",
-    "start": 1.62,
-    "end": 2.48
+    "text": "ተሰልፈን",
+    "start": 3.78,
+    "end": 4.64
    },
    {
     "text": "ትኬት",
-    "start": 2.42,
-    "end": 3.04
+    "start": 4.5,
+    "end": 5.12
    },
    {
-    "text": "ረድን",
-    "start": 3.06,
-    "end": 3.6
+    "text": "ረትን",
+    "start": 5.22,
+    "end": 5.76
    }
   ]
  },
  "s09": {
-  "file": "s09_tight__deaf4e222b4b7fcc.wav",
-  "key": "deaf4e222b4b7fcc",
-  "seconds": 9.09,
-  "as_spoken": "s09__12a99098714bd826.wav",
-  "as_spoken_seconds": 9.09,
+  "file": "s09_tight__b3202d261c102656.wav",
+  "key": "b3202d261c102656",
+  "seconds": 12.52,
+  "as_spoken": "s09__d7d210a7a6f1eff8.wav",
+  "as_spoken_seconds": 12.52,
   "pauses_shortened": 0,
   "removed_s": 0.0,
-  "pauses": [],
-  "heard": "ዛሬያንን የመጀመሪያ ሌሊት ሳስታውስ ከቤቱ ለሚወጣ ሁሉ አንድ ነገር እላለሁ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል አትሺሽ አታጥሞ",
-  "roundtrip": 0.951,
+  "pauses": [
+   [
+    8.12,
+    8.39
+   ]
+  ],
+  "heard": "ያንን ከቤት የወጣሁበትን የመጀመሪያ ሌሊት ሳስታውስ ከተለመደው ዓለም ወጥቶ አዲስ ጉዞ ለሚጀምር ሁሉ የምለው አንድ ነገር አለ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል አትሸሽ አጣጥመው",
+  "roundtrip": 1.0,
   "heard_by": "addis-scribe",
   "words": [
    {
-    "text": "ዛሬያንን",
+    "text": "ያንን",
     "start": 0.18,
-    "end": 1.04
+    "end": 0.56
+   },
+   {
+    "text": "ከቤት",
+    "start": 0.58,
+    "end": 1.2
+   },
+   {
+    "text": "የወጣሁበትን",
+    "start": 1.06,
+    "end": 2.0
    },
    {
     "text": "የመጀመሪያ",
-    "start": 1.06,
-    "end": 1.44
+    "start": 2.26,
+    "end": 2.64
    },
    {
     "text": "ሌሊት",
-    "start": 1.38,
-    "end": 2.16
+    "start": 2.58,
+    "end": 3.36
    },
    {
     "text": "ሳስታውስ",
-    "start": 1.94,
-    "end": 2.88
-   },
-   {
-    "text": "ከቤቱ",
-    "start": 2.74,
-    "end": 3.44
-   },
-   {
-    "text": "ለሚወጣ",
-    "start": 3.3,
+    "start": 3.14,
     "end": 4.0
    },
    {
-    "text": "ሁሉ",
+    "text": "ከተለመደው",
     "start": 3.86,
-    "end": 4.24
-   },
-   {
-    "text": "አንድ",
-    "start": 4.34,
     "end": 4.72
    },
    {
-    "text": "ነገር",
-    "start": 4.58,
-    "end": 4.96
+    "text": "ዓለም",
+    "start": 4.5,
+    "end": 5.04
    },
    {
-    "text": "እላለሁ",
-    "start": 4.9,
-    "end": 5.52
+    "text": "ወጥቶ",
+    "start": 4.82,
+    "end": 5.36
+   },
+   {
+    "text": "አዲስ",
+    "start": 5.3,
+    "end": 5.68
+   },
+   {
+    "text": "ጉዞ",
+    "start": 5.62,
+    "end": 6.16
+   },
+   {
+    "text": "ለሚጀምር",
+    "start": 6.02,
+    "end": 6.72
+   },
+   {
+    "text": "ሁሉ",
+    "start": 6.5,
+    "end": 6.88
+   },
+   {
+    "text": "የምለው",
+    "start": 6.9,
+    "end": 7.52
+   },
+   {
+    "text": "አንድ",
+    "start": 7.38,
+    "end": 7.76
+   },
+   {
+    "text": "ነገር",
+    "start": 7.7,
+    "end": 8.08
+   },
+   {
+    "text": "አለ",
+    "start": 8.02,
+    "end": 8.4
    },
    {
     "text": "የመጀመሪያው",
-    "start": 5.7,
-    "end": 6.08
+    "start": 8.66,
+    "end": 9.04
    },
    {
     "text": "ሌሊት",
-    "start": 6.02,
-    "end": 6.8
+    "start": 9.14,
+    "end": 9.84
    },
    {
     "text": "ሁሌም",
-    "start": 6.5,
-    "end": 7.12
+    "start": 9.7,
+    "end": 10.4
    },
    {
     "text": "ግራ",
-    "start": 6.9,
-    "end": 7.28
+    "start": 10.18,
+    "end": 10.56
    },
    {
     "text": "ያጋባል",
-    "start": 7.3,
-    "end": 8.0
+    "start": 10.5,
+    "end": 11.2
    },
    {
-    "text": "አትሺሽ",
-    "start": 8.02,
-    "end": 8.88
+    "text": "አትሸሽ",
+    "start": 11.14,
+    "end": 11.92
    },
    {
-    "text": "አታጥሞ",
-    "start": 8.66,
-    "end": 9.2
+    "text": "አጣጥመው",
+    "start": 11.84,
+    "end": 12.62
    }
   ]
  }

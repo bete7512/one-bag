@@ -299,14 +299,15 @@ class TimingTests(unittest.TestCase):
                  ("በመጨረሻ", 6.66, 7.28), ("አንዱን", 7.54, 8.16), ("መረጠን", 7.86, 8.48)]
         words = [{"text": w, "start": a, "end": b} for w, a, b in heard]
         ends = core.sentence_ends_heard(spoken, words, 8.42)
-        self.assertEqual(len(ends), 6)
-        for (stop, go), want in zip(ends, (3.25, 4.45, 5.04, 6.01, 6.73, 8.42)):
+        self.assertEqual(len(ends), 4)                                               # the two questions in quotation marks belong to the sentence they are in
+        for (stop, go), want in zip(ends, (3.25, 6.01, 6.73, 8.42)):
             self.assertAlmostEqual(stop, want, places=2)
-        self.assertEqual(ends[2], (5.04, 5.14))                                      # a real gap: the voice stops, then goes on
         cues = core.subtitle_cues(subtitle, 0.0, 8.42, spoken=spoken, words=words, pauses=[[4.78, 5.04], [7.27, 7.54]])
         self.assertEqual([" ".join(lines) for _, _, lines in cues],
-                         ["At Autobus Tera the brokers closed in on us.", '"Do you want a bed?" "A bed?"', "From every side. We were lost.", "In the end we picked one."])
-        self.assertEqual([round(end, 2) for _, end, _ in cues], [3.25, 5.06, 6.73, 8.42])   # the pause at 7.27 s is inside the last sentence and moves nothing
+                         ["At Autobus Tera the brokers closed in on us.", '"Do you want a bed?" "A bed?" From every side.', "We were lost. In the end we picked one."])
+        self.assertEqual([round(end, 2) for _, end, _ in cues], [3.25, 6.01, 8.42])  # the pauses at 4.78 and 7.27 s are inside sentences and move nothing
+        gap = [{"text": w, "start": a, "end": b} for w, a, b in (("ሰላም", 0.1, 0.9), ("ለሁላችሁ", 0.8, 1.5), ("እንደምን", 2.0, 2.6), ("አላችሁ", 2.5, 3.0))]
+        self.assertEqual(core.sentence_ends_heard("ሰላም ለሁላችሁ። እንደምን አላችሁ?", gap, 3.0), [(1.5, 2.0), (3.0, 3.0)])   # a real gap: the voice stops, then goes on
         # without the words the letters and the pauses are all there is: the same sentences, timed less well
         guessed = core.subtitle_cues(subtitle, 0.0, 8.42, spoken=spoken, pauses=[[4.78, 5.04], [7.27, 7.54]])
         self.assertGreater(abs(guessed[0][1] - 3.25), 0.3)
@@ -315,9 +316,10 @@ class TimingTests(unittest.TestCase):
         self.assertIsNone(core.sentence_ends_heard(spoken, [], 8.42))
 
     def test_sentences_are_found_in_both_scripts(self):
-        self.assertEqual(core.sentences("ሰው፣ መብራት፣ መኪና፤ ሁሉም በአንድ ጊዜ። «አልጋ?» አንድ ነገር እላለሁ፦ አትሽሽ።"),
-                         ["ሰው፣ መብራት፣ መኪና፤ ሁሉም በአንድ ጊዜ።", "«አልጋ?»", "አንድ ነገር እላለሁ፦", "አትሽሽ።"])
-        self.assertEqual(core.sentences('It is 3.5 km. "A bed?" I tell them one thing: stay.'), ["It is 3.5 km.", '"A bed?"', "I tell them one thing:", "stay."])
+        self.assertEqual(core.sentences("ሰው፣ መብራት፣ መኪና፤ ሁሉም በአንድ ጊዜ። ደላሎችም «አልጋ ትፈልጋላችሁ?» እያሉ ይጠይቃሉ። አንድ ነገር እላለሁ፦ አትሽሽ።"),
+                         ["ሰው፣ መብራት፣ መኪና፤", "ሁሉም በአንድ ጊዜ።", "ደላሎችም «አልጋ ትፈልጋላችሁ?» እያሉ ይጠይቃሉ።", "አንድ ነገር እላለሁ፦", "አትሽሽ።"])
+        self.assertEqual(core.sentences('It is 3.5 km; we walk. Brokers ask, "A bed?" Is it far? I tell them one thing: stay.'),
+                         ["It is 3.5 km;", "we walk.", 'Brokers ask, "A bed?" Is it far?', "I tell them one thing:", "stay."])
         self.assertEqual(core.fold("አሥራ ሁለት፤ ተነሣሁ ፀሐይ"), core.fold("አስራ ሁለት ተነሳሁ ጸሀይ"))            # written differently, said the same
 
     def test_two_lines_of_a_cue_are_balanced(self):
@@ -325,6 +327,11 @@ class TimingTests(unittest.TestCase):
         self.assertEqual(core.wrap_cue("I reached Lamberet after dark. My friend was there, waiting for me."),
                          ["I reached Lamberet after dark.", "My friend was there, waiting for me."])                              # rather after a full stop
         self.assertEqual(core.wrap_cue("Just one backpack."), ["Just one backpack."])
+        long = "Next morning, to continue the journey, we stood in a long queue and bought a ticket."
+        self.assertEqual(core.cue_parts(long), ["Next morning, to continue the journey,", "we stood in a long queue and bought a ticket."])   # cut at a comma, not after "bought a"
+        whole = "A sentence that fits in two lines of forty characters stays whole."
+        self.assertEqual(core.cue_parts(whole), [whole])
+        self.assertEqual([len(part) <= 80 for part in core.cue_parts("word " * 40)], [True, True, True])                             # no comma: by lines
         short = core.subtitle_cues("One. Two. Three words here. And a last sentence to end it.", 0.0, 4.0)
         self.assertEqual([" ".join(lines) for _, _, lines in short], ["One. Two. Three words here.", "And a last sentence to end it."])        # too short to stand alone
 
@@ -967,10 +974,10 @@ class BorderTests(Project):
 class SceneTests(Project):
     """A generated clip lasts a few seconds. A shot lasts as long as its narration."""
 
-    def scene(self, clip_s: float, frames: int) -> tuple[dict, Path]:
+    def scene(self, clip_s: float, frames: int, **more) -> tuple[dict, Path]:
         clip, scene = self.root / "clip.mp4", self.root / "scene.mp4"
         core.ff(["-f", "lavfi", "-i", f"testsrc2=size=128x128:rate=24:duration={clip_s}", "-pix_fmt", "yuv420p", str(clip)])
-        meta = assemble.render_scene(self.ctx(), clip, scene, width=180, height=320, frames=frames, fps=24, cues=[], margin_v=40)
+        meta = assemble.render_scene(self.ctx(), clip, scene, width=180, height=320, frames=frames, fps=24, cues=[], margin_v=40, **more)
         return meta, scene
 
     def difference(self, scene: Path, first: int, second: int) -> float:
@@ -990,6 +997,20 @@ class SceneTests(Project):
         self.assertGreater(self.difference(scene, 27, 28), 2.0)       # the clip itself moves (slowed to 30 frames)
         self.assertLess(self.difference(scene, 29, 30), 0.5)          # no jump where it hands over to its last frame
         self.assertGreater(self.difference(scene, 40, 90), 2.0)       # and the picture is still moving long after
+
+    def test_a_shot_can_let_its_clip_run_slower_to_the_end(self):
+        meta, scene = self.scene(clip_s=1, frames=48, slow_max=2.1)   # one second of clip for a two second shot, and the shot allows half speed
+        self.assertEqual((meta["slowdown"], meta["tail"], meta["tail_s"]), (2.0, "none", 0.0))
+        self.assertAlmostEqual(core.media_info(scene)["duration"], 2.0, places=2)
+        self.assertGreater(self.difference(scene, 44, 46), 1.0)       # still the clip's own motion just before the end: no frozen frame
+        short, _ = self.scene(clip_s=1, frames=96, slow_max=2.1)      # a four second shot is more than the shot allows: the rest is the push again
+        self.assertEqual((short["slowdown"], short["tail"]), (2.1, "push"))
+
+    def test_a_score_that_is_a_little_short_is_played_slower(self):
+        self.assertIsNone(assemble.music_tempo(80.0, 78.0))                          # long enough as it is
+        self.assertAlmostEqual(assemble.music_tempo(80.0, 85.9), 0.9308, places=3)   # 7% slower reaches the end of the film
+        self.assertIsNone(assemble.music_tempo(80.0, 120.0))                         # too much is missing: the score repeats
+        self.assertIsNone(assemble.music_tempo(0.0, 60.0))
 
     def test_a_clip_as_long_as_its_shot_is_left_alone(self):
         meta, scene = self.scene(clip_s=2, frames=48)

@@ -2,94 +2,116 @@
  "language": "am",
  "subtitles": "en",
  "lines": {
-  "s01": {
-   "text": "መስከረም ሁለት ሺህ አሥራ ሁለት። እኩለ ቀን ላይ ከአንኮበር ተነሳሁ። አንድ የጀርባ ቦርሳ ብቻ ይዤ። አንድ ጓደኛዬ ሸኘኝ።",
-   "subtitle": "Meskerem 2012 (late 2019). At midday I left Ankober. Just one backpack. A friend saw me off.",
-   "machine_translated": false,
-   "estimate_s": 9.5,
-   "subtitle_check": {
-    "faithful": true,
-    "literal": "Meskerem two thousand twelve. At midday I set out from Ankober. Carrying only one backpack. A friend of mine saw me off.",
-    "differences": []
-   }
-  },
-  "s02": {
-   "text": "እስከ ደብረ ብርሃን ድረስ ፒስታ መንገድ። ከዚያ በኋላ አስፋልት።",
-   "subtitle": "A gravel road as far as Debre Birhan. After that, asphalt.",
-   "machine_translated": false,
-   "estimate_s": 5.17,
-   "subtitle_check": {
-    "faithful": true,
-    "literal": "Up to Debre Birhan, a gravel road. After that, asphalt.",
-    "differences": []
-   }
-  },
-  "s03": {
-   "text": "በመስኮት በኩል ተቀመጥኩ። ውጪው ደንና ተራራ ብቻ። እይታው አስደነቀኝ።",
-   "subtitle": "I sat by the window. Outside, only forest and mountain. The view amazed me.",
-   "machine_translated": false,
-   "estimate_s": 5.67,
-   "subtitle_check": {
-    "faithful": true,
-    "literal": "I sat by the window. Outside was only forest and mountain. The view amazed me.",
-    "differences": []
-   }
-  },
-  "s04": {
-   "text": "ላምበረት የደረስኩት ከመሸ በኋላ ነው። ጓደኛዬ እዚያው ጠበቀኝ። ሰው፣ መብራት፣ መኪና፤ ሁሉም በአንድ ጊዜ።",
-   "subtitle": "I reached Lamberet after dark. My friend was there, waiting for me. People, lights, cars, everything at once.",
+  "s00": {
+   "text": "አሥራ ሁለተኛ ክፍልን እንደጨረስኩ ባሕር ዳር ዩኒቨርሲቲ ተመደብኩ፤ ያኔውኑ አዲስ ምዕራፍ ተጀመረ።",
+   "subtitle": "When I finished twelfth grade, I was assigned to Bahir Dar University; right then a new chapter began.",
    "machine_translated": false,
    "estimate_s": 8.17,
    "subtitle_check": {
     "faithful": true,
-    "literal": "It was after dark that I reached Lamberet. My friend waited for me right there. People, lights, cars; all at once.",
+    "literal": "As soon as I finished twelfth grade, I was assigned to Bahir Dar University; right then a new chapter began.",
+    "differences": []
+   }
+  },
+  "s01": {
+   "text": "ጉዞዬ የተጀመረው ከአንኮበር ነው፤ አንድ የጀርባ ቦርሳ እና በጥያቄ የተሞላ ሐሳብ ብቻ ይዤ።",
+   "subtitle": "My journey began in Ankober; with only one backpack and a mind full of questions.",
+   "machine_translated": false,
+   "estimate_s": 7.33,
+   "subtitle_check": {
+    "faithful": true,
+    "literal": "My journey began from Ankober, carrying only one backpack and a mind filled with questions.",
+    "differences": []
+   }
+  },
+  "s02": {
+   "text": "መጀመሪያ ወደ ደብረ ብርሃን፣ ቀጥሎ ወደ አዲስ አበባ፣ በመጨረሻም ወደ ባሕር ዳር።",
+   "subtitle": "First to Debre Birhan, then to Addis Ababa, and finally to Bahir Dar.",
+   "machine_translated": false,
+   "estimate_s": 6.33,
+   "subtitle_check": {
+    "faithful": true,
+    "literal": "First to Debre Birhan, next to Addis Ababa, and finally to Bahir Dar.",
+    "differences": []
+   }
+  },
+  "s03": {
+   "text": "በመስኮት ስመለከት መንገዱና መልክአ ምድሩ እየተቀያየረ ሄደ፤ ደንና ተራሮች፣ ሸለቆዎች እና የሚዘረጉ መንገዶች።",
+   "subtitle": "As I looked out of the window, the road and the landscape kept changing; forest and mountains, valleys and roads stretching away.",
+   "machine_translated": false,
+   "estimate_s": 9.17,
+   "subtitle_check": {
+    "faithful": true,
+    "literal": "As I looked through the window, the road and the landscape kept changing; forest and mountains, valleys and stretching roads.",
+    "differences": []
+   }
+  },
+  "s04": {
+   "text": "አውቶቡስ ተራ ስደርስ አመሻሽ ነበር፤ ጓደኛዬ እዚያው ተቀበለኝ።",
+   "subtitle": "It was dusk when I reached Autobus Tera; my friend met me there.",
+   "machine_translated": false,
+   "estimate_s": 5.17,
+   "subtitle_check": {
+    "faithful": true,
+    "literal": "When I arrived at Autobus Tera it was dusk; my friend met me right there.",
+    "differences": []
+   }
+  },
+  "s05": {
+   "text": "ሰው በየአቅጣጫው ይንቀሳቀሳል፣ መኪኖች ያልፋሉ፣ ደላሎችም «አልጋ ትፈልጋላችሁ?» እያሉ ይጠይቃሉ።",
+   "subtitle": "People move every way, cars pass, and brokers ask, \"Do you want a bed?\"",
+   "machine_translated": false,
+   "estimate_s": 7.83,
+   "subtitle_check": {
+    "faithful": true,
+    "literal": "People move in every direction, cars pass by, and brokers ask, saying, \"Do you want a bed?\"",
     "differences": []
    }
   },
   "s06": {
-   "text": "አውቶቡስ ተራ ስንደርስ ደላሎች ከበቡን። «አልጋ ትፈልጋላችሁ?» «አልጋ?» ከየአቅጣጫው። ግራ ገባን። በመጨረሻ አንዱን መረጥን።",
-   "subtitle": "At Autobus Tera the brokers closed in on us. \"Do you want a bed?\" \"A bed?\" From every side. We were lost. In the end we picked one.",
+   "text": "ለአፍታ ሁሉም ነገር በአንድ ጊዜ የበዛና ግራ የሚያጋባ መሰለኝ።",
+   "subtitle": "For a moment everything seemed too much at once, and confusing.",
    "machine_translated": false,
-   "estimate_s": 9.67,
+   "estimate_s": 5.17,
    "subtitle_check": {
     "faithful": true,
-    "literal": "When we arrived at Autobus Tera, brokers surrounded us. \"Do you want a bed?\" \"A bed?\" From every direction. We were confused. In the end we chose one.",
+    "literal": "For a moment, it seemed to me that everything was too much all at once and confusing.",
     "differences": []
    }
   },
   "s07": {
-   "text": "ክፍሉ ባለ አንድ አልጋ። በጣም ጥሩ አይደለም፤ መጥፎም አይደለም። ግን ንጹሕ።",
-   "subtitle": "One bed in the room. Not very good, not bad. But clean.",
+   "text": "በመጨረሻ ባለ አንድ አልጋ ክፍል መረጥን፤ በጣም ምርጥ አልነበረም፣ መጥፎም አልነበረም—ግን ለማረፍ የሚበቃ ንጹሕ ነበር።",
+   "subtitle": "In the end we chose a room with one bed; it was not the best, and not bad, but clean enough to rest.",
    "machine_translated": false,
-   "estimate_s": 5.83,
+   "estimate_s": 9.67,
    "subtitle_check": {
     "faithful": true,
-    "literal": "The room has one bed. It is not very good; it is not bad either. But clean.",
+    "literal": "In the end we chose a one-bed room; it was not the very best, and it was not bad either, but it was clean enough to rest.",
     "differences": []
    }
   },
   "s08": {
-   "text": "ጠዋት ረጅም ሰልፍ ተሰልፈን ትኬት ቆረጥን።",
-   "subtitle": "In the morning we stood in a long queue and got the ticket.",
+   "text": "በማግስቱ ጠዋት ጉዞውን ለመቀጠል ረጅም ሰልፍ ተሰልፈን ትኬት ቆረጥን።",
+   "subtitle": "Next morning, to continue the journey, we stood in a long queue and bought a ticket.",
    "machine_translated": false,
-   "estimate_s": 3.5,
+   "estimate_s": 5.83,
    "subtitle_check": {
     "faithful": true,
-    "literal": "In the morning we stood in a long line and bought a ticket.",
+    "literal": "The next morning, to continue the journey, we lined up in a long queue and bought tickets.",
     "differences": []
    }
   },
   "s09": {
-   "text": "ዛሬ ያንን የመጀመሪያ ሌሊት ሳስታውስ፣ ከቤቱ ለሚወጣ ሁሉ አንድ ነገር እላለሁ፦ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። አትሽሽ። አጣጥመው።",
-   "subtitle": "Today, remembering that first night, I tell all who leave home one thing: the first night is always confusing. Do not run from it. Savour it.",
+   "text": "ያንን ከቤት የወጣሁበትን የመጀመሪያ ሌሊት ሳስታውስ፣ ከተለመደው ዓለም ወጥቶ አዲስ ጉዞ ለሚጀምር ሁሉ የምለው አንድ ነገር አለ፦ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። አትሸሽ። አጣጥመው።",
+   "subtitle": "When I remember that first night away from home, I say one thing to all who leave the familiar world and start a new journey: the first night is always confusing. Do not run. Savour it.",
    "machine_translated": false,
-   "estimate_s": 11.0,
+   "estimate_s": 15.17,
    "subtitle_check": {
     "faithful": true,
-    "literal": "Today, when I remember that first night, I say one thing to everyone who leaves home: the first night is always confusing. Don't run away. Savour it.",
+    "literal": "When I remember that first night I left home, there is one thing I say to everyone who leaves the familiar world and begins a new journey: the first night is always confusing. Do not flee. Savour it.",
     "differences": []
    }
   }
  },
- "estimate_total_s": 58.5
+ "estimate_total_s": 79.8
 }

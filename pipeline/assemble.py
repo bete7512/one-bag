@@ -32,7 +32,8 @@ LINE_GAIN_MAX = 12.0     # dB: a narration line is never moved further than this
 BLOCK = 1024             # samples per block on both inputs of the ducking compressor
 LIMIT = {"attack": 5, "release": 50, "margin_db": 0.3}  # the peak limiter before the last gain: milliseconds and dB
 MAX_CROP_LOSS = 0.45
-MAX_SLOWDOWN = 1.25
+MAX_SLOWDOWN = 1.25      # a clip is slowed this much without a word in the storyboard. A shot can allow more (`motion.slow_max`)
+MUSIC_SLOW_MIN = 0.87    # a score shorter than the film is slowed down to cover it, to this tempo at most. Below it the score repeats
 TAIL_MIN_S = 0.75        # a hold shorter than this is not seen as a freeze
 TAIL_PUSH_PER_S = 0.012  # after a clip ends its last frame keeps moving: about 1% closer each second
 TAIL_PUSH_MAX = 0.08
@@ -145,19 +146,25 @@ def fit_graph(src_w: int, src_h: int, width: int, height: int, *, focus_x: float
 
 
 def render_scene(ctx: Ctx, clip: Path, out: Path, *, width: int, height: int, frames: int, fps: int, cues: list, margin_v: int,
-                 focus_x: float = 0.5, focus_y: float = 0.5) -> dict:
+                 focus_x: float = 0.5, focus_y: float = 0.5, slow_max: float = MAX_SLOWDOWN) -> dict:
     """One shot at one export size, exactly `frames` long, subtitles burned in.
 
     A generated clip is a few seconds long and a shot lasts as long as its narration. A clip that
-    is too short is slowed by at most MAX_SLOWDOWN. What is still missing is the tail: the clip's
-    last frame goes on as a slow push in, so the picture never freezes while the voice is speaking.
+    is too short is slowed by at most `slow_max`. Slowed by more than MAX_SLOWDOWN, its frames are
+    blended into one another, so that slow motion does not stutter. What is still missing is the tail:
+    the clip's last frame goes on as a slow push in, so the picture never freezes while the voice is speaking.
     """
     info = media_info(clip)
     have = max(1, round(info["duration"] * fps))
-    slow = 1.0 if have >= frames else min(MAX_SLOWDOWN, frames / have)
+    slow = 1.0 if have >= frames else min(max(slow_max, 1.0), frames / have)
     tail = max(0.0, frames / fps - info["duration"] * slow)
+    if tail < 1 / fps:
+        tail = 0.0
     fit, mode = fit_graph(info["width"], info["height"], width, height, focus_x=focus_x, focus_y=focus_y)
-    graph = f"[0:v]setpts={slow:.5f}*(PTS-STARTPTS),fps={fps},tpad=stop_mode=clone:stop_duration={tail + 0.5:.3f}"
+    # `framerate` blends each pair of neighbouring frames and keeps moving to the clip's last frame. `minterpolate` in its
+    # blend mode gives the same frames, but stood still for the last three of them.
+    retime = f"framerate=fps={fps}:interp_start=0:interp_end=255:scene=100" if slow > MAX_SLOWDOWN else f"fps={fps}"
+    graph = f"[0:v]setpts={slow:.5f}*(PTS-STARTPTS),{retime},tpad=stop_mode=clone:stop_duration={tail + 0.5:.3f}"
     kind = "none" if tail == 0 else "hold" if tail < TAIL_MIN_S else "push"
     if kind == "push":
         # The whole shot goes through one zoom filter: zoom 1 while the clip plays, then an eased push in over
@@ -269,11 +276,15 @@ def build_mix(ctx: Ctx, out: Path, placed: list[tuple[Path, float]], music: Path
         # 2. known levels first, so the balance is a decision and not a repair
         music_gain = MUSIC_LUFS - loudness(music, seconds=total)["lufs"] + gain_db
         fade_out = max(0.0, total - 2.5)
+        # A score that ends before the film would start again from its first note under the last words.
+        # When a little is missing it is played a little slower instead, at the same pitch.
+        tempo = music_tempo(media_info(music)["duration"], total)
+        slower = f"atempo={tempo:.5f}," if tempo else ""
         # Both inputs of the compressor are cut into blocks of the same size. Without that a FLAC score, which
         # arrives in larger blocks than the voice, came out 1.3 s short and lost the end of its fade.
         mixgraph = (
             f"[0:a]asplit=2[voice][key0];[key0]asetnsamples=n={BLOCK}[key];"
-            f"[1:a]aresample=48000,aformat=sample_fmts=fltp:channel_layouts=stereo,atrim=0:{total:.3f},asetpts=PTS-STARTPTS,"
+            f"[1:a]aresample=48000,aformat=sample_fmts=fltp:channel_layouts=stereo,{slower}atrim=0:{total:.3f},asetpts=PTS-STARTPTS,"
             f"volume={music_gain:.2f}dB,afade=t=in:st=0:d=1.5,afade=t=out:st={fade_out:.3f}:d=2.5,asetnsamples=n={BLOCK}[music];"
             f"[music][key]sidechaincompress=threshold={DUCK['threshold']}:ratio={DUCK['ratio']}:attack={DUCK['attack']}:release={DUCK['release']}[ducked];"
             f"[voice][ducked]amix=inputs=2:normalize=0:dropout_transition=0[mix]")
@@ -286,7 +297,16 @@ def build_mix(ctx: Ctx, out: Path, placed: list[tuple[Path, float]], music: Path
         premix.unlink(missing_ok=True)
     level = loudness(out)
     return {"lufs": level["lufs"], "true_peak_db": level["true_peak_db"], "line_gains_db": [round(g, 2) for g in gains],
-            "music_gain_db": round(music_gain, 2), "normalised": done}
+            "music_gain_db": round(music_gain, 2), "music_tempo": tempo, "normalised": done}
+
+
+def music_tempo(score_s: float, total: float) -> float | None:
+    """How much slower the score is played to reach the end of the film, as a tempo under 1. None when it is long
+    enough as it is, or so short that slowing it to MUSIC_SLOW_MIN would not be enough: then it repeats."""
+    if not score_s or score_s >= total:
+        return None
+    tempo = score_s / (total + 0.05)
+    return round(tempo, 5) if tempo >= MUSIC_SLOW_MIN else None
 
 
 # ----------------------------------------------------------------------------- the stage
@@ -319,7 +339,7 @@ def run(ctx: Ctx, state: dict, mode: str = "film", plan_only: bool = False) -> d
               if t["narration_start"] is not None and narration[t["id"]]["file"]]
     mix_fp = {"v": V, "lines": [[narration[t["id"]]["key"], t["narration_start"]] for t in timeline["shots"] if t["narration_start"] is not None],
               "music": music["key"], "gain_db": sb["music"].get("gain_db", 0), "total": total, "duck": DUCK, "target": TARGET,
-              "levels": [VOICE_LUFS, MUSIC_LUFS], "line_gain_max": LINE_GAIN_MAX, "block": BLOCK, "limit": LIMIT}
+              "levels": [VOICE_LUFS, MUSIC_LUFS], "line_gain_max": LINE_GAIN_MAX, "block": BLOCK, "limit": LIMIT, "music_slow_min": MUSIC_SLOW_MIN}
     mix = run_units(ctx, [Unit("assemble", f"mix{suffix}", mix_fp, "wav",
                                lambda tmp: build_mix(ctx, tmp, placed, music_dir / music["file"], total, sb["music"].get("gain_db", 0)))],
                     plan_only)[f"mix{suffix}"]
@@ -355,6 +375,7 @@ def run(ctx: Ctx, state: dict, mode: str = "film", plan_only: bool = False) -> d
         shots = get_index(ctx, state, "shots", per_lang=True)
         shots_dir = ctx.out / "shots"
         keyframe_of = {shot["id"]: shot["keyframe"] for shot in sb["shots"]}
+        slow_of = {shot["id"]: shot["motion"].get("slow_max", MAX_SLOWDOWN) for shot in sb["shots"]}
         for exp in fmt["exports"]:
             name, W, H = exp["name"], exp["width"], exp["height"]
             margin = exp.get("subtitle_margin_v", round(H * 0.08))
@@ -364,10 +385,12 @@ def run(ctx: Ctx, state: dict, mode: str = "film", plan_only: bool = False) -> d
                 fx, fy = focus_of(keyframe_of.get(sid, {}), name)  # the anchor of this shot in this export: a new one rebuilds this scene only
                 fp = {"v": V, "clip": clip["key"], "size": [W, H], "frames": t["frames"], "fps": fps, "cues": cues.get(sid, []),
                       "margin_v": margin, "style": SUBTITLE_STYLE, "focus_x": fx, "focus_y": fy}
+                if slow_of.get(sid, MAX_SLOWDOWN) != MAX_SLOWDOWN:  # only in the fingerprint when a shot sets it, so the other scenes stay cached
+                    fp["slow_max"], fp["blend"] = slow_of[sid], "framerate"
 
                 def produce(tmp: Path, sid: str = sid, clip: dict = clip, frames: int = t["frames"], fx: float = fx, fy: float = fy) -> dict:
                     return render_scene(ctx, shots_dir / clip["file"], tmp, width=W, height=H, frames=frames, fps=fps,
-                                        cues=cues.get(sid, []), margin_v=margin, focus_x=fx, focus_y=fy)
+                                        cues=cues.get(sid, []), margin_v=margin, focus_x=fx, focus_y=fy, slow_max=slow_of.get(sid, MAX_SLOWDOWN))
 
                 units.append(Unit("assemble", f"{name}_{sid}{suffix}", fp, "mp4", produce))
             fp = {"v": V, "card": card_lines, "size": [W, H], "frames": card_frames, "fps": fps, "style": SUBTITLE_STYLE}

@@ -1,4 +1,206 @@
 {
+ "s00": {
+  "file": "s00_c3__b5862525b12b5fb1.png",
+  "key": "b5862525b12b5fb1",
+  "blocked": [],
+  "candidate": 3,
+  "picked_by": "human",
+  "scores": {
+   "1": {
+    "elements": [
+     {
+      "name": "small town along top of high green ridge",
+      "visible": true
+     },
+     {
+      "name": "low houses with rusty corrugated tin roofs",
+      "visible": false
+     },
+     {
+      "name": "tall thin eucalyptus trees",
+      "visible": false
+     },
+     {
+      "name": "small terraced fields on steep slopes",
+      "visible": true
+     },
+     {
+      "name": "mist in deep valleys",
+      "visible": true
+     },
+     {
+      "name": "layered mountains fading into blue haze",
+      "visible": true
+     },
+     {
+      "name": "soft gold early morning light",
+      "visible": true
+     },
+     {
+      "name": "no people",
+      "visible": true
+     }
+    ],
+    "border": false,
+    "text_in_image": false,
+    "wrong_setting": "The houses have terracotta-tiled pitched roofs rather than corrugated tin, and the tall dark columnar trees read as Italian cypresses or poplars rather than eucalyptus. Together they make the scene look like Tuscany or the Mediterranean, not the Ethiopian highlands.",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 3,
+    "artifacts": 4,
+    "notes": "Repaint the roofs as rusty corrugated tin sheets and replace the cypress-like trees with loose, pale-trunked eucalyptus so it reads as Ethiopia; also warm up the gold morning light.",
+    "total": 2.4
+   },
+   "2": {
+    "elements": [
+     {
+      "name": "early morning soft gold light",
+      "visible": true
+     },
+     {
+      "name": "small town along the top of a high green ridge",
+      "visible": false
+     },
+     {
+      "name": "low houses",
+      "visible": true
+     },
+     {
+      "name": "rusty corrugated tin roofs",
+      "visible": false
+     },
+     {
+      "name": "tall thin eucalyptus trees",
+      "visible": false
+     },
+     {
+      "name": "small terraced fields on steep slopes",
+      "visible": true
+     },
+     {
+      "name": "mist in the deep valleys",
+      "visible": true
+     },
+     {
+      "name": "layers of mountains fading into blue haze",
+      "visible": true
+     },
+     {
+      "name": "no people",
+      "visible": true
+     }
+    ],
+    "border": false,
+    "text_in_image": false,
+    "wrong_setting": "The houses are rendered stone cottages with orange clay-tile roofs and the trees read as poplars or cypresses, so the village looks like a Mediterranean or southern European hill village rather than an Ethiopian highland town.",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 2,
+    "artifacts": 4,
+    "notes": "Repaint the roofs as rusty corrugated tin on simple low Ethiopian houses, and swap the poplar-like trees for tall, loose-crowned eucalyptus. Move the town up onto the ridge crest instead of the mid-slope, and warm the light toward gold.",
+    "total": 1.8
+   },
+   "3": {
+    "elements": [
+     {
+      "name": "early morning soft gold light",
+      "visible": true
+     },
+     {
+      "name": "small town along top of high green ridge",
+      "visible": true
+     },
+     {
+      "name": "low houses with rusty corrugated tin roofs",
+      "visible": true
+     },
+     {
+      "name": "tall thin eucalyptus trees",
+      "visible": true
+     },
+     {
+      "name": "small terraced fields on steep slopes",
+      "visible": true
+     },
+     {
+      "name": "mist in deep valleys below",
+      "visible": true
+     },
+     {
+      "name": "layers of mountains fading into blue haze",
+      "visible": true
+     },
+     {
+      "name": "no people",
+      "visible": true
+     }
+    ],
+    "border": false,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 4,
+    "artifacts": 4,
+    "notes": "Strong match overall, but the village sits on a hillside shelf off to the right rather than strung along a ridge-top in the centre, and the gold light is faint, so recentre the town on the ridge crest and warm the morning glow.",
+    "total": 4.0
+   },
+   "4": {
+    "elements": [
+     {
+      "name": "early morning soft gold light",
+      "visible": true
+     },
+     {
+      "name": "small town strung along the top of a high green ridge",
+      "visible": false
+     },
+     {
+      "name": "low houses with rusty corrugated tin roofs",
+      "visible": false
+     },
+     {
+      "name": "tall thin eucalyptus trees",
+      "visible": false
+     },
+     {
+      "name": "small terraced fields on steep slopes",
+      "visible": true
+     },
+     {
+      "name": "mist in the deep valleys below",
+      "visible": true
+     },
+     {
+      "name": "layered mountains fading into blue haze",
+      "visible": true
+     },
+     {
+      "name": "no people",
+      "visible": true
+     }
+    ],
+    "border": false,
+    "text_in_image": false,
+    "wrong_setting": "The houses have red-orange pitched tile-style roofs and the trees are columnar poplars/cypresses, which read as a Mediterranean or European hill village rather than an Ethiopian highland town with corrugated tin roofs and eucalyptus.",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 3,
+    "artifacts": 4,
+    "notes": "Repaint the houses with rusty corrugated tin roofs, swap the poplar and cypress shapes for tall wispy eucalyptus, and move the town onto the crest of a ridge in the centre of the frame.",
+    "total": 2.4
+   }
+  },
+  "unscored": [],
+  "paper_sides": {
+   "1": 1,
+   "2": 1,
+   "3": 1,
+   "4": 1
+  },
+  "border": false,
+  "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. The painting fills the whole frame from edge to edge. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture: number plates, shop signs and screens are plain blank shapes. Early morning in the Ethiopian highlands, seen from far: a small town strung along the top of a high green ridge, low houses with rusty corrugated tin roofs among tall thin eucalyptus trees, small terraced fields on the steep slopes, mist lying in the deep valleys below, layer after layer of mountains fading into blue haze, soft gold light. No people."
+ },
  "s01": {
   "file": "s01_c1__5bb3c96c2022ebe2.png",
   "key": "5bb3c96c2022ebe2",

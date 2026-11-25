@@ -524,7 +524,7 @@ def plan_timeline(sb: dict, narration_s: dict[str, float]) -> dict:
 MIN_CUE_S = 1.5   # a subtitle cue stays up at least this long
 READ_CPS = 20     # and long enough to be read at this many characters a second
 SNAP_S = 0.7      # a sentence end that is worked out from the text moves to a measured pause this near to it
-_SENTENCE = re.compile(r".+?(?:[.!?:\u1362\u1366\u1367]+[\"'\u201d\u2019\u00bb)]*(?=\s)|$)", re.S)
+_SENTENCE = re.compile(r".+?(?:[.:;።፤፦]+[\"'”’»)]*(?=\s)|[!?፧]+(?=\s)|$)", re.S)
 
 
 # Ethiopic letters that are written differently and said the same: the script may use one and a listener another
@@ -538,9 +538,39 @@ def fold(text: str) -> str:
 
 
 def sentences(text: str) -> list[str]:
-    """A line as its sentences. A full stop, a question mark, an exclamation mark and a colon end one, in Latin and in
-    Ethiopic script, and a closing quotation mark stays with its sentence. A comma and a semicolon do not."""
+    """A line as the sentences and main clauses it is spoken in.
+
+    A full stop, a colon and a semicolon end one, in Latin and in Ethiopic script, and so do a question mark and an
+    exclamation mark. A closing quotation mark stays with its sentence. A question inside quotation marks does not end
+    the sentence around it ("Do you want a bed?" they ask.), and a comma never does. The semicolon counts because a
+    line and its subtitle then fall into the same number of pieces, and each piece of the subtitle can take the time
+    of its spoken piece.
+    """
     return [m.group(0).strip() for m in _SENTENCE.finditer(text.strip()) if m.group(0).strip()]
+
+
+def cue_parts(sentence: str, max_chars: int = 40, max_lines: int = 2) -> list[str]:
+    """A sentence as the parts that are shown one after another. It is one part when it fits in one cue.
+
+    A longer sentence is cut after a comma, where its two halves come out nearest in length, so each part is a
+    clause and not a run of words that happened to fill two lines. Without a comma that helps it is cut by lines.
+    """
+    def fits(t: str) -> bool:
+        return len(textwrap.wrap(t, width=max_chars, break_long_words=False)) <= max_lines
+
+    if fits(sentence):
+        return [sentence]
+    words = sentence.split()
+    cuts = [i for i in range(1, len(words)) if words[i - 1][-1] in ",;:፣፤"]
+    halves = [(" ".join(words[:i]), " ".join(words[i:])) for i in cuts]
+    both = [(abs(len(a) - len(b)), [a, b]) for a, b in halves if fits(a) and fits(b)]
+    if both:
+        return min(both)[1]
+    if halves:  # no single cut is enough: cut nearest to the middle and look at each half again
+        a, b = min(halves, key=lambda h: abs(len(h[0]) - len(h[1])))
+        return cue_parts(a, max_chars, max_lines) + cue_parts(b, max_chars, max_lines)
+    lines = textwrap.wrap(sentence, width=max_chars, break_long_words=False) or [""]
+    return [" ".join(lines[i:i + max_lines]) for i in range(0, len(lines), max_lines)]
 
 
 def wrap_cue(text: str, max_chars: int = 40) -> list[str]:
@@ -664,8 +694,7 @@ def subtitle_cues(text: str, start: float, duration: float, max_chars: int = 40,
         ends = sentence_ends([letters(x) for x in (said if len(said) == len(subs) else subs)], duration, pauses)
     spans, begin = [], 0.0  # per sentence: (text, it comes up, the voice stops, the next one comes up)
     for sentence, (stop, go) in zip(subs, ends):
-        lines = textwrap.wrap(sentence, width=max_chars, break_long_words=False) or [""]
-        parts = [" ".join(lines[i:i + max_lines]) for i in range(0, len(lines), max_lines)]
+        parts = cue_parts(sentence, max_chars, max_lines)
         share, t = sum(letters(x) for x in parts), begin
         for n, part in enumerate(parts):  # a sentence too long for one cue is shown in parts, its time shared by their length
             last_part = n == len(parts) - 1

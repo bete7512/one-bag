@@ -640,6 +640,12 @@
               "type": "string",
               "description": "Motion and camera only. The keyframe already holds the subject."
             },
+            "slow_max": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 3,
+              "description": "How many times slower than made a generated clip may be played to last as long as its shot. 1.25 when left out. Above 1.25 its frames are blended into one another."
+            },
             "seed": {
               "type": "integer",
               "minimum": 0

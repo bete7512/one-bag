@@ -89,7 +89,7 @@ def doctor(root: Path | None) -> int:
         banner = (listing("-version").splitlines() or ["version unknown"])[0]
         print(f"       {banner.split(' Copyright')[0]}")
         filters, encoders = listing("-filters"), listing("-encoders")
-        for name in ("ass", "zoompan", "sidechaincompress", "alimiter", "asetnsamples", "tpad", "ebur128", "boxblur"):
+        for name in ("ass", "zoompan", "sidechaincompress", "alimiter", "asetnsamples", "tpad", "ebur128", "boxblur", "framerate", "atempo"):
             report(f" {name} " in filters, f"FFmpeg filter {name}", "use a full FFmpeg build (with libass)")
         for name in ("libx264", "aac"):
             report(f" {name} " in encoders, f"FFmpeg encoder {name}", "use a full FFmpeg build")
