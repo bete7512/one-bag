@@ -10,26 +10,28 @@ That one command validates the storyboard, runs every stage, regenerates only wh
 
 ## Status
 
-Be clear about what is proven and what is not. Last updated 25 November 2026, 15:00 East Africa Time.
+Be clear about what is proven and what is not. Last updated 25 November 2026, 20:40 East Africa Time.
 
 | Part | Tested offline with mock providers | Run against the real model |
 |---|---|---|
 | Storyboard schema and checks | yes | not applicable |
 | Cache, run log, retries, free-tier guard | yes | yes: the retries and the guard both met a real quota (F01) |
 | Script (subtitle translation) | yes | not yet: every line has a written subtitle |
-| Narration (Gemini TTS), one request for all lines | yes | one smoke call. The first full take waits for the final lines |
-| Narration listening check | yes | not yet |
-| Keyframes (FLUX.2 klein on Workers AI) | yes | yes: 12 pictures for the three shots without people |
+| Narration (Gemini TTS) | yes | yes: eight lines. One request for all of them gave four clean lines, the other four were spoken alone (F04, E20) |
+| Narration listening check | yes | yes: all eight lines at or above the floor, once the question named the language (E21) |
+| Keyframes (FLUX.2 klein on Workers AI) | yes | yes: all nine shots, after a reference sheet that copied itself into the scenes (E19) and two shots that had to be redesigned (F05) |
 | Keyframe judge | yes | yes, on three models (E15, E17) |
-| Subtitle check | yes | yes: it found two draft subtitles that differ from their lines (E18) |
+| Subtitle check | yes | yes: it found two mismatches in the first draft (E18). The eight current subtitles pass |
 | Keyframe border check | yes | yes: it caught the white border on the first pictures (E16) |
 | Shots: Ken Burns (FFmpeg) | yes, real FFmpeg | not applicable |
-| Shots: Wan 2.2 on Kaggle | export, upload and ingest | not yet |
-| Music: ACE-Step on Kaggle | export, upload and ingest | yes: three candidates on the third run (F02), each described by a listening model |
-| Assembly, ducking, loudness, both ratios | yes, real FFmpeg | not applicable |
-| Final-cut check | yes | not applicable |
+| Shots: Wan 2.2 on Kaggle | export, upload and ingest | sent for two shots, no clip back yet |
+| Music: ACE-Step on Kaggle | export, upload and ingest | yes: three candidates on the third run (F02), each described by a listening model. None is chosen yet |
+| Assembly, ducking, loudness, both ratios | yes, real FFmpeg | yes: a first rough cut of 80 s in both ratios, from the real narration and pictures |
+| Final-cut check | yes | yes, on that rough cut: every measured check passes, with two notes (placeholder score, no generated motion yet) |
 
-`runs.jsonl` holds one line per real model call, 57 so far. Mock runs write to `outputs_mock/`, which is git-ignored and is never evidence. The film itself does not exist yet: the storyboard is still a draft, and seven of its ten shots wait for the story to be written down in detail.
+`runs.jsonl` holds one line per attempt of a real model call, 351 so far. Mock runs write to `outputs_mock/`, which is git-ignored and is never evidence.
+
+**The film is not finished.** What exists is a rough cut on the author's machine: real voice, real pictures, a placeholder score, a slow pan on every shot. The narration lines are not confirmed by the author yet, no score is chosen, and neither of the two user tests has happened. The rough cut is not in the repository, so that nothing unapproved is published by a push.
 
 ## Run it
 
@@ -89,12 +91,14 @@ python -m pipeline film
 ```
 
 ```
-[narration] s04            MISS (changed: text)
-[narration] s04_listen     MISS (changed: audio, text)
-[assemble]  mix            MISS (changed: lines)
-[assemble]  vertical_s04   MISS (changed: cues)
-[assemble]  horizontal_s04 MISS (changed: cues)
-[assemble]  film_vertical  MISS (changed: mix, scenes)
+[script]    s04_subtitle_check MISS (changed: text)
+[narration] s04                MISS (changed: text)
+[narration] s04_listen         MISS (changed: audio, text)
+[assemble]  mix                MISS (changed: lines)
+[assemble]  vertical_s04       MISS (changed: cues)
+[assemble]  horizontal_s04     MISS (changed: cues)
+[assemble]  film_vertical      MISS (changed: mix, scenes)
+[assemble]  film_horizontal    MISS (changed: mix, scenes)
 ```
 
 Everything else prints `HIT`. In the offline test this is asserted: one changed line makes exactly three model calls (check its subtitle, speak it, listen to it), and one changed keyframe prompt regenerates only that shot.
@@ -143,7 +147,7 @@ Model outputs are kept in `outputs/`, because they cost quota or GPU time and ar
 
 ## What it costs
 
-Money: speech, pictures, the light checks and the GPU run on free tiers. The picture judge and the subtitle check run on Claude Opus 5.5, which is paid for: 0.25 USD on the first day. The limits that shape the work are quota and GPU time: ten speech requests a day, about 96 pictures a day, 30 GPU hours a week. `make costs` reads `runs.jsonl` and writes the measured table into `COSTS.md`, with the list price of every call and what was really paid.
+Money: speech, pictures, the light checks and the GPU run on free tiers. The picture judge and the subtitle check run on Claude Opus 5.5, which is paid for: 1.88 USD on the first day. The limits that shape the work are quota and GPU time: ten speech requests a day, about 96 pictures a day, 30 GPU hours a week. `make costs` reads `runs.jsonl` and writes the measured table into `COSTS.md`, with the list price of every call and what was really paid.
 
 ## How this was built
 
