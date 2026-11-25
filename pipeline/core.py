@@ -32,7 +32,7 @@ from . import pricing
 ROOT = Path(__file__).resolve().parent.parent
 STAGES = ["script", "narration", "keyframes", "shots", "music", "assemble"]
 # Bump a stage's number when its logic changes in a way that changes its output, so old cache entries stop matching.
-STAGE_VERSION = {"script": 1, "narration": 2, "keyframes": 1, "shots": 1, "music": 1, "assemble": 2}
+STAGE_VERSION = {"script": 1, "narration": 2, "keyframes": 1, "shots": 1, "music": 1, "assemble": 3}
 
 
 class PipelineError(Exception):
@@ -305,10 +305,21 @@ class Cache:
         changed = sorted(k for k in set(old) | set(new) if old.get(k) != new.get(k))
         return "changed: " + ", ".join(changed[:4]) + (" ..." if len(changed) > 4 else "") if changed else "file missing"
 
+    def entry(self, unit: str, key: str) -> dict | None:
+        """What this unit left in the cache under this key.
+
+        Two units can have the same fingerprint, for example the same line spoken in two shots. Each keeps
+        its own entry: the first one under the key, any other under key:unit. A unit never reads another's result.
+        """
+        first = self.data["entries"].get(key)
+        return first if first and first.get("unit") == unit else self.data["entries"].get(f"{key}:{unit}")
+
     def commit(self, unit: Unit, key: str, path: Path, meta: dict) -> None:
         entry = {"key": key, "file": path.name, "fingerprint": unit.fingerprint, "meta": meta, "created": now()}
         self.data["units"][unit.id] = entry
-        self.data["entries"][key] = {"unit": unit.id, "file": path.name, "meta": meta}
+        first = self.data["entries"].get(key)
+        slot = key if not first or first.get("unit") == unit.id else f"{key}:{unit.id}"
+        self.data["entries"][slot] = {"unit": unit.id, "file": path.name, "meta": meta}
         self.dir.mkdir(parents=True, exist_ok=True)
         tmp = self.path.with_suffix(".json.tmp")
         tmp.write_text(json.dumps(self.data, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -318,7 +329,7 @@ class Cache:
 def is_cached(ctx: Ctx, unit: Unit) -> bool:
     """Would `run_units` find this unit in the cache?"""
     cache, key = Cache(ctx, unit.stage), sha(unit.fingerprint)[:16]
-    return key in cache.data["entries"] and cache.file(unit.id, key, unit.ext).exists()
+    return cache.entry(unit.id, key) is not None and cache.file(unit.id, key, unit.ext).exists()
 
 
 def run_units(ctx: Ctx, units: list[Unit], plan_only: bool = False) -> dict[str, Result]:
@@ -329,7 +340,7 @@ def run_units(ctx: Ctx, units: list[Unit], plan_only: bool = False) -> dict[str,
         cache = caches.setdefault(u.stage, Cache(ctx, u.stage))
         key = sha(u.fingerprint)[:16]
         path = cache.file(u.id, key, u.ext)
-        entry = cache.data["entries"].get(key)
+        entry = cache.entry(u.id, key)
         if entry and path.exists():
             results[u.id] = Result(u.id, path, key, True, "cached", entry["meta"])
             ctx.say(f"  [{u.stage}] {u.id:<22} HIT")

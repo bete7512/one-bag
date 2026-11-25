@@ -76,7 +76,7 @@ def ingest(ctx: Ctx, stage: str, src: Path, ext: str, convert: Callable[[Path, P
                     gpu_minutes=round((r.get("latency_s") or 0) / 60, 2),
                     peak_mem_gb=r.get("peak_mem_gb"), **({"error": r["error"][:400]} if r.get("error") else {}))
             seen.add(tag)
-        if r["status"] == "ok" and r["key"] in cache.data["entries"] and cache.file(r["unit"], r["key"], ext).exists():
+        if r["status"] == "ok" and cache.entry(r["unit"], r["key"]) is not None and cache.file(r["unit"], r["key"], ext).exists():
             continue  # already in the cache. A file that was missing from an interrupted download is taken on the next ingest
         if r["status"] != "ok":
             ctx.say(f"  [{stage}] {r['unit']:<22} FAILED on the GPU: {r.get('error', '')[:120]}")

@@ -27,6 +27,8 @@ ENCODE = ["-c:v", "libx264", "-crf", "18", "-preset", "veryfast", "-pix_fmt", "y
 DUCK = {"threshold": 0.02, "ratio": 6, "attack": 300, "release": 1500}  # the starting point the brief suggests
 TARGET = {"lufs": -14.0, "true_peak": -1.5, "lra": 11.0}  # -1.5 leaves room for the AAC encoder under -1 dBTP
 VOICE_LUFS, MUSIC_LUFS = -16.0, -24.0  # levels before ducking: the score starts 8 dB under the voice
+LINE_GAIN_MAX = 12.0     # dB: a narration line is never moved further than this to reach the voice level
+BLOCK = 1024             # samples per block on both inputs of the ducking compressor
 MAX_CROP_LOSS = 0.45
 MAX_SLOWDOWN = 1.25
 TAIL_MIN_S = 0.75        # a hold shorter than this is not seen as a freeze
@@ -193,17 +195,40 @@ def join_and_mux(ctx: Ctx, scenes: list[Path], mix: Path, out: Path) -> dict:
 # ----------------------------------------------------------------------------- sound
 
 
-def loudnorm_two_pass(src: Path, dst: Path) -> None:
+def loudnorm_measure(src: Path) -> dict:
     spec = f"loudnorm=I={TARGET['lufs']}:TP={TARGET['true_peak']}:LRA={TARGET['lra']}"
     err = ff_capture(["-i", str(src), "-af", spec + ":print_format=json", "-f", "null", "-"])
     found = re.search(r"\{[^{}]*\"input_i\"[^{}]*\}", err, re.S)
-    m = json.loads(found.group(0)) if found else {}
+    return json.loads(found.group(0)) if found else {}
+
+
+def loudnorm_two_pass(src: Path, dst: Path) -> str:
+    """Bring a mix to the target loudness with one fixed gain. Returns how it was done: linear, limited+linear or copy.
+
+    FFmpeg's loudnorm only applies a fixed gain when the peaks stay under the true-peak target after it.
+    When they would not, it switches to riding the gain up and down without saying so, which changes the
+    balance between voice and score that the mix has just set. So the few peaks that are in the way are
+    limited first, and the fixed gain is applied after.
+    """
+    m = loudnorm_measure(src)
     if not m or "inf" in str(m.get("input_i")):  # silence: nothing to normalise
         shutil.copy2(src, dst)
-        return
-    spec += (f":measured_I={m['input_i']}:measured_TP={m['input_tp']}:measured_LRA={m['input_lra']}"
-             f":measured_thresh={m['input_thresh']}:offset={m['target_offset']}:linear=true")
-    ff(["-i", str(src), "-af", spec, "-ar", "48000", "-c:a", "pcm_s16le", str(dst)])
+        return "copy"
+    how, limited = "linear", src.with_name(src.stem + "-limited.wav")
+    try:
+        gain = TARGET["lufs"] - float(m["input_i"])
+        if float(m["input_tp"]) + gain > TARGET["true_peak"]:
+            ceiling = TARGET["true_peak"] - gain - 0.5  # dBFS: after the gain the peaks sit half a dB under the target
+            ff(["-i", str(src), "-af", f"alimiter=limit={10 ** (ceiling / 20):.4f}:attack=5:release=50:level=false",
+                "-ar", "48000", "-c:a", "pcm_f32le", str(limited)])
+            src, how, m = limited, "limited+linear", loudnorm_measure(limited)
+        spec = (f"loudnorm=I={TARGET['lufs']}:TP={TARGET['true_peak']}:LRA={TARGET['lra']}"
+                f":measured_I={m['input_i']}:measured_TP={m['input_tp']}:measured_LRA={m['input_lra']}"
+                f":measured_thresh={m['input_thresh']}:offset={m['target_offset']}:linear=true")
+        ff(["-i", str(src), "-af", spec, "-ar", "48000", "-c:a", "pcm_s16le", str(dst)])
+    finally:
+        limited.unlink(missing_ok=True)
+    return how
 
 
 def build_mix(ctx: Ctx, out: Path, placed: list[tuple[Path, float]], music: Path, total: float, gain_db: float) -> dict:
@@ -211,36 +236,41 @@ def build_mix(ctx: Ctx, out: Path, placed: list[tuple[Path, float]], music: Path
     tag = uuid.uuid4().hex[:8]
     voice, premix = work / f"voice-{tag}.wav", work / f"premix-{tag}.wav"
     try:
-        # 1. every narration line at its place on the timeline
-        inputs, graph = [], []
+        # 1. every narration line at its place on the timeline, each brought to the same loudness first:
+        #    lines that come from different speech requests differ by several dB
+        inputs, graph, gains = [], [], []
         for i, (path, start) in enumerate(placed):
             inputs += ["-i", str(path)]
-            graph.append(f"[{i}:a]aresample=48000,aformat=sample_fmts=fltp:channel_layouts=stereo,adelay={int(round(start * 1000))}:all=1[n{i}]")
+            gains.append(max(-LINE_GAIN_MAX, min(LINE_GAIN_MAX, VOICE_LUFS - loudness(path)["lufs"])))
+            graph.append(f"[{i}:a]aresample=48000,aformat=sample_fmts=fltp:channel_layouts=stereo,volume={gains[-1]:.2f}dB,"
+                         f"adelay={int(round(start * 1000))}:all=1[n{i}]")
         if placed:
             graph.append("".join(f"[n{i}]" for i in range(len(placed))) + f"amix=inputs={len(placed)}:normalize=0:dropout_transition=0,apad[a]")
-            ff([*inputs, "-filter_complex", ";".join(graph), "-map", "[a]", "-t", f"{total:.3f}", "-ar", "48000", "-c:a", "pcm_s16le", str(voice)])
-            voice_gain = VOICE_LUFS - loudness(voice)["lufs"]
+            # float samples: a peak over full scale is kept as it is here and dealt with once, at the end
+            ff([*inputs, "-filter_complex", ";".join(graph), "-map", "[a]", "-t", f"{total:.3f}", "-ar", "48000", "-c:a", "pcm_f32le", str(voice)])
         else:
-            ff(["-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo", "-t", f"{total:.3f}", "-c:a", "pcm_s16le", str(voice)])
-            voice_gain = 0.0
+            ff(["-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo", "-t", f"{total:.3f}", "-c:a", "pcm_f32le", str(voice)])
         # 2. known levels first, so the balance is a decision and not a repair
         music_gain = MUSIC_LUFS - loudness(music, seconds=total)["lufs"] + gain_db
         fade_out = max(0.0, total - 2.5)
+        # Both inputs of the compressor are cut into blocks of the same size. Without that a FLAC score, which
+        # arrives in larger blocks than the voice, came out 1.3 s short and lost the end of its fade.
         mixgraph = (
-            f"[0:a]volume={voice_gain:.2f}dB,asplit=2[voice][key];"
+            f"[0:a]asplit=2[voice][key0];[key0]asetnsamples=n={BLOCK}[key];"
             f"[1:a]aresample=48000,aformat=sample_fmts=fltp:channel_layouts=stereo,atrim=0:{total:.3f},asetpts=PTS-STARTPTS,"
-            f"volume={music_gain:.2f}dB,afade=t=in:st=0:d=1.5,afade=t=out:st={fade_out:.3f}:d=2.5[music];"
+            f"volume={music_gain:.2f}dB,afade=t=in:st=0:d=1.5,afade=t=out:st={fade_out:.3f}:d=2.5,asetnsamples=n={BLOCK}[music];"
             f"[music][key]sidechaincompress=threshold={DUCK['threshold']}:ratio={DUCK['ratio']}:attack={DUCK['attack']}:release={DUCK['release']}[ducked];"
             f"[voice][ducked]amix=inputs=2:normalize=0:dropout_transition=0[mix]")
         ff(["-i", str(voice), "-stream_loop", "-1", "-i", str(music), "-filter_complex", mixgraph, "-map", "[mix]",
-            "-t", f"{total:.3f}", "-ar", "48000", "-c:a", "pcm_s16le", str(premix)])
+            "-t", f"{total:.3f}", "-ar", "48000", "-c:a", "pcm_f32le", str(premix)])
         # 3. loudness for the platforms, last
-        loudnorm_two_pass(premix, out)
+        how = loudnorm_two_pass(premix, out)
     finally:
         voice.unlink(missing_ok=True)
         premix.unlink(missing_ok=True)
     level = loudness(out)
-    return {"lufs": level["lufs"], "true_peak_db": level["true_peak_db"], "voice_gain_db": round(voice_gain, 2), "music_gain_db": round(music_gain, 2)}
+    return {"lufs": level["lufs"], "true_peak_db": level["true_peak_db"], "line_gains_db": [round(g, 2) for g in gains],
+            "music_gain_db": round(music_gain, 2), "normalised": how}
 
 
 # ----------------------------------------------------------------------------- the stage

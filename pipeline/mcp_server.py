@@ -31,7 +31,10 @@ def call(*argv: str, mock: bool = False) -> str:
     """Run a pipeline command and return what it printed."""
     out = io.StringIO()
     with contextlib.redirect_stdout(out), contextlib.redirect_stderr(out):
-        code = cli.main([*argv, *(["--mock"] if mock else [])])
+        try:
+            code = cli.main([*argv, *(["--mock"] if mock else [])])
+        except SystemExit as stop:  # the argument parser leaves this way on a word it does not know: the caller gets its message as the answer
+            code = stop.code if isinstance(stop.code, int) and stop.code else 2
     return out.getvalue() + f"\n(exit code {code})"
 
 

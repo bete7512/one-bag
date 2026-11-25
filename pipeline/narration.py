@@ -282,7 +282,7 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
     for sid, res in spoken.items():
         entry = {"file": res.path.name if res.path else None, "key": res.key,
                  "seconds": res.meta.get("seconds") or script["lines"][sid]["estimate_s"]}
-        if res.path and not plan_only:  # the silences inside the line, so its subtitles can change where the voice stops
+        if res.path:  # the silences inside the line, so its subtitles can change where the voice stops. Measured in a plan too, so plan and run agree
             entry["pauses"] = [[round(a, 2), round(b, 2)] for a, b in pauses(res.path)[0]]
         check = checks.get(f"{sid}_listen")
         if check and "score" in check.meta:

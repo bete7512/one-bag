@@ -27,6 +27,9 @@ DOCS = {
 def blank_storyboard(lang: str) -> dict:
     base = json.loads((ROOT / "storyboard.json").read_text(encoding="utf-8"))
     sb = {k: base[k] for k in ("version", "format", "models", "video", "qa") if k in base}
+    # The judge is the one model a film may choose to pay for. A new project starts without that choice:
+    # its pictures are judged by the text model until its author sets `models.judge`.
+    sb["models"] = {job: model for job, model in sb["models"].items() if job != "judge"}
     sb.update(
         title="Untitled",
         language={"narration": lang, "subtitles": "en"},
@@ -39,7 +42,7 @@ def blank_storyboard(lang: str) -> dict:
         end_card={"duration_s": 3, "lines": ["Made with AI"]},
         shots=[{
             "id": f"s{i:02d}", "title": f"Shot {i}", "reason": "DRAFT: why does this shot exist?", "size": "medium", "characters": [],
-            "min_duration_s": 6,
+            "min_duration_s": 8,
             "keyframe": {"prompt": "DRAFT: what is in the picture, with the subject in the centre.", "seed": 100 + i},
             "motion": {"backend": "kenburns", "camera": "push_in", "prompt": "DRAFT: motion and camera only."},
             "narration": {lang: "DRAFT: the line spoken over this shot.", **({} if lang == "en" else {"en": "DRAFT: its subtitle."})},

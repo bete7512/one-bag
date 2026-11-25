@@ -1,0 +1,483 @@
+{
+ "experiment": "E12",
+ "changed": "ratio of the sidechain compressor: 6 (the pipeline) against 3",
+ "held_fixed": {
+  "duck": {
+   "threshold": 0.02,
+   "attack": 300,
+   "release": 1500
+  },
+  "levels_before_ducking_lufs": [
+   -16.0,
+   -24.0
+  ],
+  "music_gain_db_in_storyboard": 0,
+  "target": {
+   "lufs": -14.0,
+   "true_peak": -1.5,
+   "lra": 11.0
+  }
+ },
+ "score": "candidate_2__5e84c28c48f1a1a3.flac",
+ "timeline": "outputs/assemble/index.radio.am.json",
+ "total_s": 79.9583,
+ "window_s": 0.05,
+ "lines": [
+  {
+   "shot": "s01",
+   "file": "s01__b1d7daeed8f6319a.wav",
+   "start": 0.4,
+   "end": 8.982
+  },
+  {
+   "shot": "s02",
+   "file": "s02__899429c2c94529c1.wav",
+   "start": 9.9,
+   "end": 14.804
+  },
+  {
+   "shot": "s03",
+   "file": "s03__0a4eb04db117b841.wav",
+   "start": 16.9,
+   "end": 23.811
+  },
+  {
+   "shot": "s04",
+   "file": "s04__8ba30dec01f68c12.wav",
+   "start": 24.9,
+   "end": 34.176
+  },
+  {
+   "shot": "s06",
+   "file": "s06__25b921d99f73e797.wav",
+   "start": 40.0667,
+   "end": 50.387
+  },
+  {
+   "shot": "s07",
+   "file": "s07__e895cafb0fd84c6f.wav",
+   "start": 51.275,
+   "end": 59.455
+  },
+  {
+   "shot": "s08",
+   "file": "s08__7bafc738823d3f67.wav",
+   "start": 60.3583,
+   "end": 64.308
+  },
+  {
+   "shot": "s09",
+   "file": "s09__824c862c1872d293.wav",
+   "start": 67.3583,
+   "end": 73.448
+  }
+ ],
+ "speech_s": 58.213,
+ "gaps_s": 14.835,
+ "how": {
+  "mix": "The finished mix as `pipeline.core.loudness` measures it (FFmpeg ebur128, peak=true): EBU R128 integrated loudness in LUFS and true peak in dBTP. lra_lu is the loudness range from the summary of the same filter.",
+  "level": "FFmpeg astats gives the RMS level of every 50 ms of a file, both channels together. The level of a file over a set of time spans is 10*log10 of the mean of the squared level of the windows whose centre lies in a span, in dB below full scale (dBFS). It is not K-weighted and not gated, so a level in dBFS is not a level in LUFS: compare dBFS with dBFS only.",
+  "speech and gaps": "Speech: each line from its start on the radio cut's timeline to that start plus the measured length of its file, pauses inside a line included. Gaps: the seven stretches between the end of one line and the start of the next.",
+  "stems": "voice: the narration track after its gain. music: the score after its gain and fades and after the compressor keyed by the voice, with no voice in it. music_unducked: the same without the compressor.",
+  "reduction_db": "Level of music_unducked minus level of music over the same windows: what the compressor took off the music. deepest_db is the largest value in any one 50 ms window.",
+  "before_normaliser": "Levels of the stems as they go into the last step, loudnorm.",
+  "in_final_mix": "The same after loudnorm. It applies one gain to voice and music together, so each 50 ms of a stem is scaled by the gain of that 50 ms: mean square of the finished mix over mean square of the premix.",
+  "voice_over_music_db": "Level of voice minus level of music, both over the speech spans.",
+  "voice_over_music_lu": "The same in loudness units, before the normaliser: voice and music each cut down to the speech spans and measured with `pipeline.core.loudness` (K-weighted and gated, one decimal).",
+  "music_rise_in_gaps_db": "Level of music over the gaps minus level of music over the speech spans. It holds the score's own changes too: see the two music_unducked levels.",
+  "normaliser": "asked and ran: the mode loudnorm was asked for, and the mode it reports for its second pass. gain_speech_db and gain_gaps_db: level of the finished mix minus level of the premix over the same windows. gain_low_db and gain_high_db: the 5th and the 95th percentile of that gain per 50 ms window, over the windows where the premix is above -60 dBFS.",
+  "per_line": "voice_db, music_db, reduction_db and voice_over_music_db as above, over that line alone and before the normaliser. reduction_before_line_db: the reduction in the 50 ms before the first window of the line in which the voice is above the compressor's threshold. reduction_0_1s_in_db: the reduction in the 50 ms that start 0.1 s after that first window starts. back_within_3db_s and back_within_1db_s: the clock starts at the end of the last window of the line in which the voice is above the threshold, and stops at the start of the first window where the reduction is under 3 dB, or under 1 dB. null: the next line started first. silence_after_s: from the same start of the clock to the start of the next line, or to the end.",
+  "per_gap": "music_db and reduction_db over that gap alone, before the normaliser.",
+  "checks": "copy_gives_the_pipeline_mix: the copied chain, normalised by the pipeline's function, is the same file as the pipeline's mix, byte for byte. The run stops when it is not. premix_peak_dbfs: the highest sample of voice plus music before the premix is written as 16 bit. premix_samples_at_full_scale: samples of the 16 bit premix at the highest or the lowest value the format has. music_ends_s: the length of the music stem as the compressor gives it out, to hold against total_s."
+ },
+ "ratios": {
+  "6": {
+   "file": "mix_ratio_6.wav",
+   "mix": {
+    "lufs": -14.5,
+    "true_peak_db": -1.5,
+    "lra_lu": 5.7
+   },
+   "gains_before_ducking": {
+    "voice_gain_db": 4.6,
+    "music_gain_db": -8.6
+   },
+   "reduction_db": {
+    "speech": 10.47,
+    "gaps": 1.08,
+    "deepest_db": 20.31
+   },
+   "before_normaliser": {
+    "voice_speech_db": -19.94,
+    "music_speech_db": -38.41,
+    "music_gaps_db": -26.11,
+    "voice_over_music_db": 18.47,
+    "music_rise_in_gaps_db": 12.29,
+    "music_unducked_speech_db": -27.94,
+    "music_unducked_gaps_db": -25.03,
+    "voice_lufs": -16.0,
+    "music_lufs": -34.5,
+    "voice_over_music_lu": 18.5
+   },
+   "in_final_mix": {
+    "voice_speech_db": -17.74,
+    "music_speech_db": -34.28,
+    "music_gaps_db": -21.12,
+    "voice_over_music_db": 16.54,
+    "music_rise_in_gaps_db": 13.16
+   },
+   "normaliser": {
+    "asked": "linear",
+    "ran": "dynamic",
+    "premix_lufs": -16.69,
+    "premix_true_peak_db": 0.06,
+    "gain_speech_db": 2.23,
+    "gain_gaps_db": 4.99,
+    "gain_low_db": 0.97,
+    "gain_high_db": 5.13
+   },
+   "per_line": [
+    {
+     "shot": "s01",
+     "voice_db": -20.6,
+     "music_db": -37.14,
+     "reduction_db": 8.85,
+     "voice_over_music_db": 16.54,
+     "reduction_before_line_db": 0.0,
+     "reduction_0_1s_in_db": 11.97,
+     "silence_after_s": 1.15,
+     "back_within_3db_s": 0.85,
+     "back_within_1db_s": 1.1
+    },
+    {
+     "shot": "s02",
+     "voice_db": -20.56,
+     "music_db": -36.75,
+     "reduction_db": 11.22,
+     "voice_over_music_db": 16.2,
+     "reduction_before_line_db": 0.56,
+     "reduction_0_1s_in_db": 9.21,
+     "silence_after_s": 2.5,
+     "back_within_3db_s": 1.0,
+     "back_within_1db_s": 1.3
+    },
+    {
+     "shot": "s03",
+     "voice_db": -21.51,
+     "music_db": -39.44,
+     "reduction_db": 11.95,
+     "voice_over_music_db": 17.93,
+     "reduction_before_line_db": 0.0,
+     "reduction_0_1s_in_db": 20.18,
+     "silence_after_s": 1.5,
+     "back_within_3db_s": 1.0,
+     "back_within_1db_s": 1.3
+    },
+    {
+     "shot": "s04",
+     "voice_db": -22.36,
+     "music_db": -35.55,
+     "reduction_db": 8.76,
+     "voice_over_music_db": 13.19,
+     "reduction_before_line_db": 0.08,
+     "reduction_0_1s_in_db": 14.12,
+     "silence_after_s": 6.12,
+     "back_within_3db_s": 0.8,
+     "back_within_1db_s": 1.05
+    },
+    {
+     "shot": "s06",
+     "voice_db": -19.16,
+     "music_db": -38.32,
+     "reduction_db": 10.79,
+     "voice_over_music_db": 19.16,
+     "reduction_before_line_db": 0.0,
+     "reduction_0_1s_in_db": 19.09,
+     "silence_after_s": 1.22,
+     "back_within_3db_s": 1.1,
+     "back_within_1db_s": null
+    },
+    {
+     "shot": "s07",
+     "voice_db": -19.21,
+     "music_db": -45.44,
+     "reduction_db": 14.11,
+     "voice_over_music_db": 26.23,
+     "reduction_before_line_db": 2.56,
+     "reduction_0_1s_in_db": 18.14,
+     "silence_after_s": 1.41,
+     "back_within_3db_s": null,
+     "back_within_1db_s": null
+    },
+    {
+     "shot": "s08",
+     "voice_db": -18.64,
+     "music_db": -40.09,
+     "reduction_db": 12.7,
+     "voice_over_music_db": 21.45,
+     "reduction_before_line_db": 3.63,
+     "reduction_0_1s_in_db": 16.23,
+     "silence_after_s": 3.41,
+     "back_within_3db_s": 0.9,
+     "back_within_1db_s": 1.2
+    },
+    {
+     "shot": "s09",
+     "voice_db": -18.19,
+     "music_db": -44.93,
+     "reduction_db": 13.0,
+     "voice_over_music_db": 26.74,
+     "reduction_before_line_db": 0.0,
+     "reduction_0_1s_in_db": 10.3,
+     "silence_after_s": 6.86,
+     "back_within_3db_s": 1.7,
+     "back_within_1db_s": 2.0
+    }
+   ],
+   "per_gap": [
+    {
+     "after": "s01",
+     "seconds": 0.92,
+     "music_db": -33.63,
+     "reduction_db": 4.64
+    },
+    {
+     "after": "s02",
+     "seconds": 2.1,
+     "music_db": -36.38,
+     "reduction_db": 3.76
+    },
+    {
+     "after": "s03",
+     "seconds": 1.09,
+     "music_db": -35.17,
+     "reduction_db": 3.56
+    },
+    {
+     "after": "s04",
+     "seconds": 5.89,
+     "music_db": -23.03,
+     "reduction_db": 0.77
+    },
+    {
+     "after": "s06",
+     "seconds": 0.89,
+     "music_db": -51.39,
+     "reduction_db": 6.56
+    },
+    {
+     "after": "s07",
+     "seconds": 0.9,
+     "music_db": -44.04,
+     "reduction_db": 9.06
+    },
+    {
+     "after": "s08",
+     "seconds": 3.05,
+     "music_db": -27.23,
+     "reduction_db": 1.53
+    }
+   ],
+   "checks": {
+    "copy_gives_the_pipeline_mix": true,
+    "premix_peak_dbfs": 0.81,
+    "premix_samples_at_full_scale": 167,
+    "music_ends_s": 78.66
+   }
+  },
+  "3": {
+   "file": "mix_ratio_3.wav",
+   "mix": {
+    "lufs": -14.6,
+    "true_peak_db": -1.5,
+    "lra_lu": 5.6
+   },
+   "gains_before_ducking": {
+    "voice_gain_db": 4.6,
+    "music_gain_db": -8.6
+   },
+   "reduction_db": {
+    "speech": 8.87,
+    "gaps": 0.94,
+    "deepest_db": 16.25
+   },
+   "before_normaliser": {
+    "voice_speech_db": -19.94,
+    "music_speech_db": -36.81,
+    "music_gaps_db": -25.97,
+    "voice_over_music_db": 16.87,
+    "music_rise_in_gaps_db": 10.84,
+    "music_unducked_speech_db": -27.94,
+    "music_unducked_gaps_db": -25.03,
+    "voice_lufs": -16.0,
+    "music_lufs": -33.2,
+    "voice_over_music_lu": 17.2
+   },
+   "in_final_mix": {
+    "voice_speech_db": -17.76,
+    "music_speech_db": -32.59,
+    "music_gaps_db": -20.86,
+    "voice_over_music_db": 14.83,
+    "music_rise_in_gaps_db": 11.73
+   },
+   "normaliser": {
+    "asked": "linear",
+    "ran": "dynamic",
+    "premix_lufs": -16.76,
+    "premix_true_peak_db": 0.07,
+    "gain_speech_db": 2.23,
+    "gain_gaps_db": 5.11,
+    "gain_low_db": 0.83,
+    "gain_high_db": 5.27
+   },
+   "per_line": [
+    {
+     "shot": "s01",
+     "voice_db": -20.6,
+     "music_db": -35.95,
+     "reduction_db": 7.66,
+     "voice_over_music_db": 15.35,
+     "reduction_before_line_db": 0.0,
+     "reduction_0_1s_in_db": 9.57,
+     "silence_after_s": 1.15,
+     "back_within_3db_s": 0.75,
+     "back_within_1db_s": 1.1
+    },
+    {
+     "shot": "s02",
+     "voice_db": -20.56,
+     "music_db": -34.76,
+     "reduction_db": 9.23,
+     "voice_over_music_db": 14.2,
+     "reduction_before_line_db": 0.45,
+     "reduction_0_1s_in_db": 7.37,
+     "silence_after_s": 2.5,
+     "back_within_3db_s": 0.95,
+     "back_within_1db_s": 1.25
+    },
+    {
+     "shot": "s03",
+     "voice_db": -21.51,
+     "music_db": -37.21,
+     "reduction_db": 9.72,
+     "voice_over_music_db": 15.7,
+     "reduction_before_line_db": 0.0,
+     "reduction_0_1s_in_db": 16.15,
+     "silence_after_s": 1.5,
+     "back_within_3db_s": 0.9,
+     "back_within_1db_s": 1.25
+    },
+    {
+     "shot": "s04",
+     "voice_db": -22.36,
+     "music_db": -34.13,
+     "reduction_db": 7.35,
+     "voice_over_music_db": 11.77,
+     "reduction_before_line_db": 0.06,
+     "reduction_0_1s_in_db": 11.31,
+     "silence_after_s": 6.12,
+     "back_within_3db_s": 0.7,
+     "back_within_1db_s": 1.05
+    },
+    {
+     "shot": "s06",
+     "voice_db": -19.16,
+     "music_db": -37.06,
+     "reduction_db": 9.54,
+     "voice_over_music_db": 17.9,
+     "reduction_before_line_db": 0.0,
+     "reduction_0_1s_in_db": 15.28,
+     "silence_after_s": 1.22,
+     "back_within_3db_s": 1.05,
+     "back_within_1db_s": null
+    },
+    {
+     "shot": "s07",
+     "voice_db": -19.21,
+     "music_db": -42.99,
+     "reduction_db": 11.66,
+     "voice_over_music_db": 23.78,
+     "reduction_before_line_db": 2.05,
+     "reduction_0_1s_in_db": 14.53,
+     "silence_after_s": 1.41,
+     "back_within_3db_s": 1.35,
+     "back_within_1db_s": null
+    },
+    {
+     "shot": "s08",
+     "voice_db": -18.64,
+     "music_db": -37.7,
+     "reduction_db": 10.31,
+     "voice_over_music_db": 19.05,
+     "reduction_before_line_db": 2.91,
+     "reduction_0_1s_in_db": 13.03,
+     "silence_after_s": 3.41,
+     "back_within_3db_s": 0.8,
+     "back_within_1db_s": 1.15
+    },
+    {
+     "shot": "s09",
+     "voice_db": -18.19,
+     "music_db": -42.97,
+     "reduction_db": 11.04,
+     "voice_over_music_db": 24.78,
+     "reduction_before_line_db": 0.0,
+     "reduction_0_1s_in_db": 8.29,
+     "silence_after_s": 6.86,
+     "back_within_3db_s": 1.6,
+     "back_within_1db_s": 1.95
+    }
+   ],
+   "per_gap": [
+    {
+     "after": "s01",
+     "seconds": 0.92,
+     "music_db": -32.82,
+     "reduction_db": 3.83
+    },
+    {
+     "after": "s02",
+     "seconds": 2.1,
+     "music_db": -35.81,
+     "reduction_db": 3.18
+    },
+    {
+     "after": "s03",
+     "seconds": 1.09,
+     "music_db": -34.6,
+     "reduction_db": 2.99
+    },
+    {
+     "after": "s04",
+     "seconds": 5.89,
+     "music_db": -22.93,
+     "reduction_db": 0.67
+    },
+    {
+     "after": "s06",
+     "seconds": 0.89,
+     "music_db": -50.19,
+     "reduction_db": 5.35
+    },
+    {
+     "after": "s07",
+     "seconds": 0.9,
+     "music_db": -42.34,
+     "reduction_db": 7.36
+    },
+    {
+     "after": "s08",
+     "seconds": 3.05,
+     "music_db": -27.01,
+     "reduction_db": 1.3
+    }
+   ],
+   "checks": {
+    "copy_gives_the_pipeline_mix": true,
+    "premix_peak_dbfs": 0.82,
+    "premix_samples_at_full_scale": 171,
+    "music_ends_s": 78.66
+   }
+  }
+ }
+}
