@@ -7,6 +7,7 @@
     python -m pipeline kaggle run music  run an exported GPU job on Kaggle: upload, push, wait, fetch, ingest
     python -m pipeline ingest shots results.zip    bring GPU work that was run by hand into the cache
     python -m pipeline review            one HTML page to look at and listen to everything
+    python -m pipeline site              the film's public page, built from the repository
     python -m pipeline doctor            check this machine before the first run
 
 Add --mock to any command to use the offline mock providers (outputs go to outputs_mock/).
@@ -125,6 +126,7 @@ def build_parser() -> argparse.ArgumentParser:
     sub.add_parser("smoke", parents=[common], help="call each provider once")
     sub.add_parser("doctor", parents=[common], help="check tools, FFmpeg features, packages and keys on this machine")
     sub.add_parser("review", parents=[common], help="one HTML page with every shot, line, candidate and clip, for review by eye and ear")
+    sub.add_parser("site", parents=[common], help="the film's public page, built from the repository into site/")
     ing = sub.add_parser("ingest", parents=[common], help="bring finished GPU work into the cache")
     ing.add_argument("stage", choices=["shots", "music"])
     ing.add_argument("path", type=Path)
@@ -185,6 +187,9 @@ def main(argv: list[str] | None = None) -> int:
         elif args.cmd == "review":
             from . import review
             review.run(ctx)
+        elif args.cmd == "site":
+            from . import site
+            site.run(ctx)
         elif args.cmd == "ingest":
             count = (shots if args.stage == "shots" else music).ingest(ctx, args.path)
             ctx.say(f"  {count} file(s) ingested. Run `python -m pipeline film` to use them.")

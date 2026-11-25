@@ -9,6 +9,10 @@ __pycache__/
 
 # offline test runs: never evidence, never committed
 outputs_mock/
+site_mock/
+
+# the public page is built from the repository by `make site` and published by a workflow
+site/
 
 # scratch inside real outputs
 outputs/tmp/

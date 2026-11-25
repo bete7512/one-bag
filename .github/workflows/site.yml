@@ -1,0 +1,46 @@
+# Builds the film's public page from the repository and publishes it with GitHub Pages.
+# The page is made by `make site` from the storyboard, the kept model outputs and the run log,
+# so what is online is what the repository holds. No key is needed and no model is called.
+name: site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install FFmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Build the environment
+        run: make setup
+      - name: Build the page
+        run: make site
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

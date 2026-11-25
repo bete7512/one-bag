@@ -724,6 +724,27 @@ class KaggleRunTests(Project):
         self.assertFalse((self.state / "calls.jsonl").exists())
 
 
+class SiteTests(Project):
+    """The public page is built from the repository alone, and says how far the film has come."""
+
+    def test_the_page_shows_every_shot_and_admits_what_is_not_done(self):
+        from pipeline import site
+        ctx = self.ctx()
+        keyframes.run(ctx, {})
+        out = site.run(ctx)
+        page = (out / "index.html").read_text(encoding="utf-8")
+        sb = ctx.sb
+        for shot in sb["shots"]:
+            self.assertIn(f"{shot['id']} &middot;", page)
+            self.assertTrue((out / "media" / f"{shot['id']}.jpg").exists(), shot["id"])   # cut from the kept original
+        self.assertIn("The film is not made yet", page)             # no film has been assembled in this copy
+        self.assertIn("work in progress", page)
+        self.assertIn("made with AI", page)
+        self.assertNotIn("DRAFT", page)                             # a draft sentence is shown as a draft, without the marker
+        self.assertIn("a draft, not yet confirmed by the author", page)
+        self.assertNotIn("http://", page)                           # nothing is loaded from elsewhere
+
+
 class JudgeTests(Project):
     """The judge looks for what is wrong. It can run on a Claude model when the storyboard names one."""
 

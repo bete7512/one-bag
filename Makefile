@@ -12,7 +12,7 @@ endif
 # the Python of .venv once it exists, the system one before that
 PY ?= $(if $(wildcard $(VPY)),$(VPY),$(SYSPY))
 
-.PHONY: doctor review setup validate plan radio film release qc costs smoke test test-fast mock-film clean-mock
+.PHONY: doctor review site setup validate plan radio film release qc costs smoke test test-fast mock-film clean-mock
 
 setup:            ## build .venv and install the Python dependencies into it
 	@$(SYSPY) -m venv $(VENV) || (echo "Could not create $(VENV). On Ubuntu or Debian: sudo apt install python3-venv" && exit 1)
@@ -25,6 +25,9 @@ doctor:           ## check tools, FFmpeg features, packages and keys on this mac
 
 review:           ## one HTML page to look at and listen to everything
 	$(PY) -m pipeline review
+
+site:             ## the film's public page, built from the repository into site/
+	$(PY) -m pipeline site
 
 validate:         ## check storyboard.json against the schema and the consent records
 	$(PY) -m pipeline validate
