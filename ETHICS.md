@@ -8,7 +8,7 @@ Each real person in `storyboard.json` has a `consent.record` id that points at a
 
 | ID | Person | What appears in the film | How consent was given | Date (YYYY-MM-DD) |
 |---|---|---|---|---|
-| consent-author | The author (me) | An AI-drawn character standing for me in 2019 and today. My words in the narration. No real photo. No recording or clone of my voice. | To fill in: my own statement | |
+| consent-author | The author (me) | An AI-drawn character standing for me in 2019 and today. My words in the narration. No real photo. No recording or clone of my voice. | My own statement, given in writing in the working session with the coding agent, before any picture of the character was generated. | 2026-11-25 |
 | consent-friend | The friend who took me to Autobus Tera | An AI-drawn character standing for him, seen from behind only. He does not speak. No real photo, no voice. | To fill in: message, which app. Screenshot kept privately, not in this repository. | |
 
 Notes to fill in when the rows are dated:

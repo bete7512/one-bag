@@ -36,7 +36,7 @@
       "reference_prompt": "Character sheet on a plain warm background: the same young man shown three times, from the front, from the side and from behind, full figure, neutral pose, with his canvas shoulder bag.",
       "seed": 7001,
       "real_person": true,
-      "consent": {"status": "pending", "record": "consent-author"}
+      "consent": {"status": "recorded", "record": "consent-author"}
     },
     {
       "id": "friend",
@@ -50,7 +50,7 @@
       "label": "The author today",
       "description": "The same man seven years later, in his mid twenties, calm, wearing a plain shirt, seen from behind or in three-quarter view.",
       "real_person": true,
-      "consent": {"status": "pending", "record": "consent-author"}
+      "consent": {"status": "recorded", "record": "consent-author"}
     }
   ],
   "video": {"max_area": 399360, "num_frames": 81, "steps": 30, "guidance": 5.0},
