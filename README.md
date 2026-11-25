@@ -46,6 +46,7 @@ make film                     # everything
 make review                   # one HTML page to look at and listen to every shot
 make costs                    # measured latency and list price per stage, into COSTS.md
 make site                     # the film's public page, built from this repository into site/
+make desk                     # a local page for the author: confirm lines, pick pictures, choose the score
 ```
 
 Every `make` target uses the Python in `.venv`. To type a `python -m pipeline ...` command yourself, run `source .venv/bin/activate` once in that terminal.
@@ -109,6 +110,7 @@ What is kept decides what a change costs. The model's own answers are stored unt
 - **A language test.** `python -m pipeline langtest` speaks the film's first lines in Amharic, Tigrinya, Somali and Afaan Oromo and scores each by listening back, with a rating sheet for a native speaker.
 - **A blind A/B tool.** `python -m pipeline blindtest` packs pairs under neutral names and scores the votes with a sign test.
 - **A tool for others.** `python -m pipeline init my-film` starts a new film with a blank storyboard, and `python -m pipeline.mcp_server` exposes the pipeline to a coding agent over MCP.
+- **A desk for the author.** `make desk` opens a local page at http://127.0.0.1:8765 where the author does his part by clicking: confirm each line, edit the narration, subtitles, audience and intent, pick a keyframe candidate, choose the score. Each change is checked like any storyboard and written into `storyboard.json` without reformatting it, and the page shows what the next run would rebuild. It runs no stage, calls no model and cannot change consent.
 - **A page for the film.** `make site` builds one static page from the storyboard, the kept model outputs, the run log and the two journals: the film, every shot with its picture, line and reason, what it took, what broke. A workflow publishes it with GitHub Pages on every push. Before the film exists the page says so.
 - **Tests on every push.** A second workflow builds the environment from a clean clone and runs the whole suite, which includes the full pipeline with mock providers: the one command, proven on a machine that has never seen the project.
 

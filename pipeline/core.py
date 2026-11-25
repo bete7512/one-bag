@@ -333,7 +333,8 @@ def run_units(ctx: Ctx, units: list[Unit], plan_only: bool = False) -> dict[str,
         if entry and path.exists():
             results[u.id] = Result(u.id, path, key, True, "cached", entry["meta"])
             ctx.say(f"  [{u.stage}] {u.id:<22} HIT")
-            log_event(ctx, stage=u.stage, unit=u.id, key=key, event="hit")
+            if not plan_only:  # a plan changes nothing, so it leaves nothing in the event log either
+                log_event(ctx, stage=u.stage, unit=u.id, key=key, event="hit")
             continue
         reason = cache.explain(u)
         if plan_only or u.produce is None:
