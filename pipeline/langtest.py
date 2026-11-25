@@ -17,7 +17,7 @@ import shutil
 from pathlib import Path
 
 from . import providers
-from .core import Ctx, PipelineError, Unit, is_cached, run_units, shot_text
+from .core import Ctx, PipelineError, Unit, file_sha, is_cached, run_units, shot_text
 from .narration import LISTEN_PROMPT, similarity, take
 
 NAMES = {"am": "Amharic", "ti": "Tigrinya", "so": "Somali", "om": "Afaan Oromo", "en": "English", "sw": "Swahili", "ar": "Arabic"}
@@ -95,7 +95,7 @@ def run(ctx: Ctx, langs: list[str]) -> list[dict]:
                 units[sid].produce = speak
                 wav, _, row["error"] = one(ctx, units[sid])
             if wav and not row["error"]:
-                fp = {"audio": wav.name, "model": sb["models"]["text"]}
+                fp = {"audio": file_sha(wav), "model": sb["models"]["text"]}
 
                 def listen(tmp: Path, wav: Path = wav, text: str = text, sid: str = sid, lang: str = lang) -> dict:
                     heard, _ = providers.text(ctx, "langtest", f"{lang}_{sid}_listen", LISTEN_PROMPT, kind="transcribe",

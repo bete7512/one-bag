@@ -24,13 +24,19 @@ from .core import Cache, Ctx, PipelineError, Unit, log_run, media_info, now, sha
 
 def export_job(ctx: Ctx, stage: str, model: str, settings: dict, jobs: list[dict], inputs: list[Path], script: str) -> Path:
     job_dir = ctx.out / stage / "kaggle_job"
+    body = {"stage": stage, "model": model, "settings": settings, "jobs": jobs}
+    created = now()
+    if (job_dir / "manifest.json").exists():  # the same job written again keeps its stamp: a run already on the GPU is for this job
+        previous = json.loads((job_dir / "manifest.json").read_text(encoding="utf-8"))
+        if {k: previous.get(k) for k in body} == body:
+            created = previous.get("created", created)
     if job_dir.exists():
         shutil.rmtree(job_dir)
     (job_dir / "inputs").mkdir(parents=True)
     for src in inputs:
         shutil.copy2(src, job_dir / "inputs" / src.name)
     shutil.copy2(ctx.root / "kaggle" / script, job_dir / script)
-    manifest = {"stage": stage, "created": now(), "model": model, "settings": settings, "jobs": jobs}
+    manifest = {"stage": stage, "created": created, "model": model, "settings": settings, "jobs": jobs}
     (job_dir / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=1), encoding="utf-8")
     archive = shutil.make_archive(str(job_dir), "zip", job_dir)
     ctx.say(f"  [{stage}] {len(jobs)} GPU job(s) written to {Path(archive).relative_to(ctx.root)}. Run them with: "
@@ -63,14 +69,15 @@ def ingest(ctx: Ctx, stage: str, src: Path, ext: str, convert: Callable[[Path, P
     cache, accepted = Cache(ctx, stage), 0
     for r in results["results"]:
         tag = f"{results.get('job_id', '?')}:{r['unit']}:{r['key']}"
-        if tag in seen:
-            continue  # the same results file ingested twice must not double the run log
-        log_run(ctx, stage=stage, unit=r["unit"], provider="kaggle", model=results["model"], params=r.get("params", {}),
-                seed=r.get("seed"), attempt=1, status=r["status"], latency_s=r.get("latency_s"),
-                gpu=results.get("gpu"), gpu_count=len([g for g in str(results.get("gpu") or "").split(",") if g.strip()]) or None,
-                gpu_minutes=round((r.get("latency_s") or 0) / 60, 2),
-                peak_mem_gb=r.get("peak_mem_gb"), **({"error": r["error"][:400]} if r.get("error") else {}))
-        seen.add(tag)
+        if tag not in seen:  # the same results ingested twice must not double the run log
+            log_run(ctx, stage=stage, unit=r["unit"], provider="kaggle", model=results["model"], params=r.get("params", {}),
+                    seed=r.get("seed"), attempt=1, status=r["status"], latency_s=r.get("latency_s"),
+                    gpu=results.get("gpu"), gpu_count=len([g for g in str(results.get("gpu") or "").split(",") if g.strip()]) or None,
+                    gpu_minutes=round((r.get("latency_s") or 0) / 60, 2),
+                    peak_mem_gb=r.get("peak_mem_gb"), **({"error": r["error"][:400]} if r.get("error") else {}))
+            seen.add(tag)
+        if r["status"] == "ok" and r["key"] in cache.data["entries"] and cache.file(r["unit"], r["key"], ext).exists():
+            continue  # already in the cache. A file that was missing from an interrupted download is taken on the next ingest
         if r["status"] != "ok":
             ctx.say(f"  [{stage}] {r['unit']:<22} FAILED on the GPU: {r.get('error', '')[:120]}")
             continue

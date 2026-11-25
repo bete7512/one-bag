@@ -137,9 +137,9 @@ def push(ctx: Ctx, stage: str, dataset: str, kernel: str) -> None:
 
 
 def status(kernel: str) -> str:
-    text = kaggle(["kernels", "status", kernel], check=False)
-    found = re.search(r"(QUEUED|RUNNING|COMPLETE|ERROR|CANCEL_REQUESTED|CANCEL_ACKNOWLEDGED|NEW_SCRIPT)", (text.stdout + text.stderr).upper())
-    return found.group(1) if found else "UNKNOWN"
+    done = kaggle(["kernels", "status", kernel], check=False)  # a failed poll (network, a 503) is UNKNOWN, never an ended run
+    found = re.search(r'has status "(?:\w+\.)?(\w+)"', done.stdout) if done.returncode == 0 else None
+    return found.group(1).upper() if found else "UNKNOWN"
 
 
 def wait(ctx: Ctx, stage: str, kernel: str, poll_s: float = 30.0, limit_s: float = 6 * 3600) -> str:

@@ -26,10 +26,11 @@ from difflib import SequenceMatcher
 from pathlib import Path
 
 from . import providers
-from .core import (STAGE_VERSION, Ctx, PipelineError, Unit, estimate_seconds, ff, ff_capture, free_tier_use, get_index, is_cached, now,
-                   run_units, sha, wav_seconds, write_index)
+from .core import (STAGE_VERSION, Ctx, PipelineError, Unit, estimate_seconds, ff, ff_capture, file_sha, free_tier_use, get_index, is_cached,
+                   now, run_units, sha, wav_seconds, write_index)
 
 SILENCE = {"noise_db": -38, "min_s": 0.25}  # what counts as a pause when a take is cut
+MIN_CUT_MARGIN = 1.5                        # the pauses used as cuts must be this many times longer than any pause left inside a line
 PAD_IN, PAD_OUT = 0.10, 0.20                # silence kept before and after each line
 
 LISTEN_PROMPT = ("Transcribe this audio exactly as spoken, in the script of the language being spoken. "
@@ -50,8 +51,9 @@ def pauses(wav: Path) -> tuple[list[tuple[float, float]], float]:
     """Every silence in an audio file as (start, end), and the length of the file. Measured with FFmpeg."""
     total = wav_seconds(wav)
     err = ff_capture(["-i", str(wav), "-af", f"silencedetect=noise={SILENCE['noise_db']}dB:d={SILENCE['min_s']}", "-f", "null", "-"])
-    starts = [max(0.0, float(x)) for x in re.findall(r"silence_start: (-?[\d.]+)", err)]
-    ends = [float(x) for x in re.findall(r"silence_end: ([\d.]+)", err)]
+    number = r"(-?[\d.]+(?:e[-+]?\d+)?)"  # FFmpeg prints a start very close to zero as 4.16667e-05
+    starts = [max(0.0, float(x)) for x in re.findall(rf"silence_start: {number}", err)]
+    ends = [float(x) for x in re.findall(rf"silence_end: {number}", err)]
     return list(zip(starts, ends + [total] * (len(starts) - len(ends)))), total
 
 
@@ -112,11 +114,13 @@ def take(ctx: Ctx, lines: dict[str, str], voice: dict, model: str, stage: str = 
         margin = None
     elif len(blocks) == 1:                        # one audio for everything: cut it at the long pauses
         spans, margin = speech_spans(blocks[0], len(lines))
+        if margin < MIN_CUT_MARGIN:  # a guessed cut must not enter the cache as if it were right
+            raise PipelineError(f"{blocks[0].name}: the pauses between lines are only {margin} times longer than the pauses inside them, so the "
+                                f"cuts would be a guess. Nothing was cached. The take is kept in {folder.relative_to(ctx.root)}: listen to it. "
+                                f"A fix to the cutting costs no speech request.")
         for (sid, text), span in zip(lines.items(), spans):
             pieces[sid] = work / f"{sid}.wav"
             cut(ctx, blocks[0], *span, pieces[sid], note=text)
-        if margin < 1.5:
-            ctx.say(f"  [{stage}] the pauses between lines are only {margin} times longer than the pauses inside them: listen to every line")
     else:
         raise PipelineError(f"the take came back as {len(blocks)} audio parts for {len(lines)} lines. It is kept in {folder.relative_to(ctx.root)}: listen to it.")
     info.update(cut_margin=margin, spans={sid: round(wav_seconds(path), 3) for sid, path in pieces.items()})
@@ -159,7 +163,7 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
         check_units = []
         for sid, res in spoken.items():
             text = script["lines"][sid]["text"]
-            fp = {"v": STAGE_VERSION["narration"], "audio": res.key, "text": text, "model": sb["models"]["text"]}
+            fp = {"v": STAGE_VERSION["narration"], "audio": file_sha(res.path), "text": text, "model": sb["models"]["text"]}  # the sound itself
 
             def produce(tmp: Path, sid: str = sid, text: str = text, wav: Path = res.path) -> dict:
                 heard, _ = providers.text(ctx, "narration", f"{sid}_listen", LISTEN_PROMPT, kind="transcribe",

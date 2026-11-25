@@ -82,7 +82,8 @@ def draw(ctx: Ctx, unit: str, raw_fp: dict, tmp: Path, *, prompt: str, seed: int
     kept = sorted(folder.glob(f"{unit}__{raw_key}.*")) if folder.exists() else []
     if kept:
         original = kept[0]
-        seed_applied = Cache(ctx, "keyframes").data["entries"].get(raw_key, {}).get("meta", {}).get("seed_applied")
+        earlier = [entry["meta"] for entry in Cache(ctx, "keyframes").data["entries"].values() if entry["meta"].get("original") == original.name]
+        seed_applied = next((meta.get("seed_applied") for meta in earlier if meta.get("seed_applied") is not None), None)
     else:
         raw, meta = providers.image(ctx, "keyframes", unit, prompt, width=raw_fp["w"], height=raw_fp["h"], seed=seed, refs=refs or [])
         folder.mkdir(parents=True, exist_ok=True)
@@ -215,11 +216,14 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
         plan[s["id"]] = {"blocked": [], "n": n, "prompt": prompt, "refs": ref_ids}
         for i in range(1, n + 1):
             seed = s["keyframe"]["seed"] + i - 1
-            raw_fp = {"v": V, "prompt": prompt, "seed": seed, "model": model, "w": W, "h": H, "refs": [refs[r].key for r in ref_ids]}
+            # the references are named by their untouched originals, so a change to the cut does not redraw every character shot
+            raw_fp = {"v": V, "prompt": prompt, "seed": seed, "model": model, "w": W, "h": H,
+                      "refs": [refs[r].meta.get("original", refs[r].key) for r in ref_ids]}
 
             def produce(tmp: Path, sid: str = s["id"], i: int = i, prompt: str = prompt, seed: int = seed, ref_ids: list = ref_ids,
                         raw_fp: dict = raw_fp) -> dict:
-                ref_bytes = [small_jpeg(ctx, refs[r].path) for r in ref_ids]
+                ref_bytes = [small_jpeg(ctx, ctx.out / "keyframes" / "original" / refs[r].meta["original"] if refs[r].meta.get("original")
+                                        else refs[r].path) for r in ref_ids]
                 return draw(ctx, f"{sid}_c{i}", raw_fp, tmp, prompt=prompt, seed=seed, refs=ref_bytes, trim=trim)
 
             units.append(Unit("keyframes", f"{s['id']}_c{i}", {**raw_fp, **cut}, "png", produce))

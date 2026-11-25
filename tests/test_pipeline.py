@@ -53,6 +53,14 @@ def make_project(folder: Path, small: bool = True) -> Path:
     return folder
 
 
+@contextlib.contextmanager
+def mock_now(stamp: str):
+    """Freeze the time stamp that job folders are given."""
+    from unittest import mock
+    with mock.patch("pipeline.kagglejob.now", lambda: stamp):
+        yield
+
+
 def read_sb(folder: Path) -> dict:
     return json.loads((folder / "storyboard.json").read_text(encoding="utf-8"))
 
@@ -476,6 +484,33 @@ class TakeTests(Project):
         with self.assertRaisesRegex(core.PipelineError, "cannot be cut"):
             narration.speech_spans(take, 5)
 
+    def test_a_guessed_cut_is_refused_and_nothing_is_cached(self):
+        from unittest import mock
+        from pipeline import narration
+
+        def no_long_pauses(ctx, stage, unit, texts, **kw):  # the pause after a line is no longer than the pauses inside it
+            gap = b"\x00\x00" * int(0.4 * 24000)
+            tone = providers._mock_speech("ሰላም ለሁላችሁ ይሁን።")
+            return [providers.pcm_to_wav(gap.join([tone, tone, tone, tone]))], {"audio_blocks": 1}
+
+        ctx = self.ctx()
+        with mock.patch.object(providers, "tts_take", no_long_pauses):
+            with self.assertRaisesRegex(core.PipelineError, "would be a guess"):
+                narration.take(ctx, {"s01": "ሰላም ለሁላችሁ ይሁን። ሰላም ለሁላችሁ ይሁን።", "s03": "ሰላም ለሁላችሁ ይሁን። ሰላም ለሁላችሁ ይሁን።"}, ctx.sb["voice"], "speech-model")
+        self.assertEqual(len(list((ctx.out / "narration" / "takes").glob("*.wav"))), 1)       # the take is kept for a second look
+        self.assertEqual(list((ctx.out / "narration").glob("s0*.wav")), [])                   # and no line entered the cache
+
+    def test_the_listening_check_follows_the_sound_not_the_line(self):
+        index, _ = self.narrate()
+        sid = next(iter(index))
+        ctx = self.ctx()
+        wav = ctx.out / "narration" / index[sid]["file"]
+        wav.write_bytes(providers.pcm_to_wav(providers._mock_speech("ሌላ ድምፅ"), note="ሌላ ድምፅ"))   # the same line, cut differently
+        before = len(core.read_jsonl(ctx.runlog))
+        index, _ = self.narrate()
+        self.assertEqual([r["unit"] for r in core.read_jsonl(ctx.runlog)[before:]], [f"{sid}_listen"])   # heard again, and only that one
+        self.assertLess(index[sid]["roundtrip"], 1.0)
+
     def test_one_audio_per_line_needs_no_cutting(self):
         from unittest import mock
         from pipeline import narration
@@ -719,6 +754,40 @@ class KaggleRunTests(Project):
         gpu = [r for r in core.read_jsonl(ctx.runlog) if r["provider"] == "kaggle"]
         self.assertEqual([(r["unit"], r["gpu_minutes"], r["gpu_count"]) for r in gpu], [("candidate_1", 1.5, 2)])
         self.assertEqual(core.read_jsonl(ctx.out / "logs" / "kaggle_sessions.jsonl")[-1]["status"], "COMPLETE")
+
+    def test_a_job_written_again_unchanged_keeps_its_stamp(self):
+        from pipeline import kagglerun
+        ctx = self.ctx(mock=False)
+        music.run(ctx, {})
+        first = kagglerun.job_manifest(ctx, "music")["created"]
+        with mock_now("2030-01-01T00:00:00Z"):
+            music.run(ctx, {})                                # the stage runs again while the GPU job is still out
+            self.assertEqual(kagglerun.job_manifest(ctx, "music")["created"], first)
+            sb = read_sb(self.root)
+            sb["music"]["bpm"] = 70                           # a different job gets a new stamp
+            write_sb(self.root, sb)
+            music.run(self.ctx(mock=False), {})
+            self.assertEqual(kagglerun.job_manifest(ctx, "music")["created"], "2030-01-01T00:00:00Z")
+
+    def test_a_failed_status_poll_is_not_an_ended_run(self):
+        from unittest import mock
+        from pipeline import kagglerun
+        failed = mock.Mock(returncode=1, stdout="", stderr="503 Server Error: ERROR for url")
+        with mock.patch.object(kagglerun, "kaggle", return_value=failed):
+            self.assertEqual(kagglerun.status("tester/heritage-music"), "UNKNOWN")
+
+    def test_a_file_missing_from_an_interrupted_download_is_taken_next_time(self):
+        ctx = self.ctx(mock=False)
+        music.run(ctx, {})
+        from pipeline import kagglerun
+        self.results(ctx, kagglerun.job_manifest(ctx, "music")["created"])
+        wav = next((self.state / "results").glob("*.wav"))
+        held = wav.read_bytes()
+        wav.unlink()
+        self.assertEqual(music.ingest(ctx, self.state / "results"), 0)      # the download stopped before the audio arrived
+        wav.write_bytes(held)
+        self.assertEqual(music.ingest(ctx, self.state / "results"), 1)      # complete now: it enters the cache
+        self.assertEqual(len([r for r in core.read_jsonl(ctx.runlog) if r["provider"] == "kaggle"]), 1)   # and is logged once
 
     def test_output_of_an_older_job_is_refused(self):
         from pipeline import kagglerun
