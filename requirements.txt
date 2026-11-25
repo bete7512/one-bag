@@ -6,3 +6,5 @@ requests>=2.31
 # Optional: only to run the GPU jobs from the command line (python -m pipeline kaggle run music)
 # kaggle>=2.2
 # six  (kaggle 2.2.5 imports it without installing it)
+# Optional: only when the keyframe judge is a Claude model (`models.judge` in storyboard.json)
+# anthropic>=2.14

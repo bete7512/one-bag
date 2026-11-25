@@ -2,7 +2,7 @@
 
 One entry per experiment: a hypothesis, the one thing changed, how it is measured, the result, the decision. Change one thing at a time and keep the seed fixed, or the result cannot be read.
 
-**Status on 25 Nov 2026, 15:00: E15 and E16 have been run. The others have not.** Each hypothesis is written down before its run on purpose, so the result cannot bend it. A result is filled in only from a real run, with the evidence it points to (`runs.jsonl` lines, a listening sheet, a blind-test result).
+**Status on 25 Nov 2026, 15:30: E15, E16 and the first step of E17 have been run. The others have not.** Each hypothesis is written down before its run on purpose, so the result cannot bend it. A result is filled in only from a real run, with the evidence it points to (`runs.jsonl` lines, a listening sheet, a blind-test result).
 
 ## Plan
 
@@ -24,6 +24,7 @@ One entry per experiment: a hypothesis, the one thing changed, how it is measure
 | E14 | The speech model handles Tigrinya and Somali, and fails on Afaan Oromo, which is not on its supported list. | Language of the same four lines (`langtest`) | Listening-check score and a native speaker's rating per language | | |
 | E15 | The lighter text model does the checking calls in seconds, where `gemini-3.8-flash` needs minutes on the free tier, and gives the same verdicts. Added on 25 Nov after failure F01. | `models.text`: `gemini-3.5-flash-lite` against `gemini-3.8-flash`, same pictures, same judge prompt | Latency and failed attempts per call in `runs.jsonl`; the two sets of judge scores side by side | Half right. 1.8 to 9.8 s a call against 104 and 144 s, and 15 of 15 pictures scored against 2 of 6. But it gave 5.0 to pictures the other model gave 4.0, and 5.0 to pictures with a white frame. | Kept for the checks, because it answers. Its scores no longer decide alone: see the log. |
 | E16 | One sentence in the style block ("the painting fills the whole frame") removes the white paper border that five of the first six pictures came back with. Added on 25 Nov after the first real pictures. | One sentence added to `style.block`, same prompts and seeds | Edges that are bare paper, counted by the border check, on the same six candidates | Bordered candidates went from 5 of 6 to 2 of 6. A thin ragged edge stayed on the picks. | Sentence kept. The frame is now guaranteed by the border check and an edge trim, not by wording. |
+| E17 | A judge asked to find what is wrong (yes or no questions, a list of what must be visible) tells pictures apart that the 1 to 5 judge scored the same. A stronger model does it better than the light one: it flags a border on the pictures the border check counts as bordered. Added on 25 Nov after E15. | Two steps, one change each: the question (same model, `gemini-3.5-flash-lite`), then the model (`claude-opus-5-5`, same question) | On the same 12 pictures: how many of the 7 measured borders each judge flags, how many different totals it gives, seconds and list price per call | First step: the question alone took the light model from 0 borders flagged to 8, and from one total to five. Second step not run: the Claude key had no credit (F03). | The new question is the pipeline's judge. `models.judge` can name a stricter model when there is one to call. |
 
 ## Log
 
@@ -39,6 +40,35 @@ Result:
 Decision:           (what went into storyboard.json or the code)
 What it changed:
 ```
+
+### E17  A judge that looks for what is wrong  (25 Nov 2026)
+
+Hypothesis: a judge asked to find what is wrong tells pictures apart that the 1 to 5 judge scored the same, and a stronger model does it better than the light one.
+
+Changed: two steps, one change each. First the question, on the same model (`gemini-3.5-flash-lite`): the old one asked for three scores from 1 to 5, the new one asks for a list of what must be visible, and yes or no on a border, on writing, on a wrong setting and on broken anatomy (`JUDGE_PROMPT` in `pipeline/keyframes.py`). Then the model: `claude-opus-5-5` with the new question.
+
+Held fixed: the twelve pictures of 25 Nov (shots s02, s05 and s07, two candidates each, before and after E16), the picture size sent to the judge, temperature 0.
+
+Evidence: `python experiments/e17_judges.py` writes `outputs/experiments/E17/results.json`, with every answer in full and the measured border of each picture. Its calls are in `runs.jsonl` as stage `experiment`, run `20261125T120616Z-8a8230`.
+
+Result, first step (the question):
+
+| | Old question (E15) | New question |
+|---|---|---|
+| Pictures the judge calls bordered | 0 of 12 | 8 of 12 |
+| Of the 7 pictures the border check measures as bordered | 0 flagged | 6 flagged |
+| Different totals over the 12 pictures | 2 (eleven at 5.0, one at 4.4) | 5 (from 5.0 down to -0.1) |
+| Other faults named | none | "nothing in sharp focus" missing on three of the four crowd pictures, a wrong setting on one |
+
+The two pictures it flagged beyond the measured seven are the picks of E16 that the border check passes with 0 bare sides. Looked at by eye, both have the thin ragged edge noted in E16: the judge saw what the measurement was too coarse for. The one measured border it missed is s02 candidate 2 of the first set, with paper on three sides.
+
+The calls: 12 answers in 1.9 to 9.1 s, after 7 attempts that got HTTP 503 and passed on a later attempt. List price 0.012 USD for all of it.
+
+Result, second step (the model): not run. All 12 calls to `claude-opus-5-5` were refused with HTTP 400, "Your credit balance is too low to access the Anthropic API". See F03 in `FAILURES.md`. The script skips what is already answered, so the step can be run later without repeating the first.
+
+Decision: the new question is the pipeline's judge (`JUDGE_VERSION = 2`), and a border, writing, a wrong setting or broken anatomy each take points off the total. The measured border check stays first in the pick: the two disagree on 3 of 12 pictures, in both directions, so neither replaces the other.
+
+What it changed: the weak judge of E15 was blamed on the model. Most of it was the question. Asked "how good is this, 1 to 5" the light model said 5. Asked "is there a border, yes or no" it found eight.
 
 ### E16  One sentence against the white border  (25 Nov 2026)
 

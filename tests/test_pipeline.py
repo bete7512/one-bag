@@ -624,6 +624,55 @@ class ListPriceTests(unittest.TestCase):
                 self.assertRegex(price.get("checked") or "", r"^\d{4}-\d{2}-\d{2}$", model)
 
 
+class JudgeTests(Project):
+    """The judge looks for what is wrong. It can run on a Claude model when the storyboard names one."""
+
+    def test_what_a_film_frame_cannot_have_costs_points(self):
+        clean = {"character_match": 3, "prompt_adherence": 5, "artifacts": 5, "border": False, "text_in_image": False, "wrong_setting": "", "anatomy": ""}
+        self.assertEqual(keyframes.judge_total(clean, False), 5.0)
+        self.assertEqual(keyframes.judge_total({**clean, "border": True}, False), 3.5)
+        self.assertEqual(keyframes.judge_total({**clean, "text_in_image": True, "wrong_setting": "a European street"}, False), 2.5)
+        self.assertEqual(keyframes.judge_total({**clean, "anatomy": "six fingers"}, False), 4.0)
+
+    def test_a_claude_model_is_called_through_the_sdk_with_pictures_first_and_a_schema(self):
+        import sys
+        import types
+        from unittest import mock
+        sent = []
+
+        class Messages:
+            def create(self, **request):
+                sent.append(request)
+                return types.SimpleNamespace(stop_reason="end_turn", model="claude-opus-5-5",
+                                             content=[types.SimpleNamespace(type="thinking"), types.SimpleNamespace(type="text", text='{"border": true}')],
+                                             usage=types.SimpleNamespace(input_tokens=1200, output_tokens=300))
+
+        fake = types.ModuleType("anthropic")
+        fake.Anthropic = lambda **kw: types.SimpleNamespace(beta=types.SimpleNamespace(messages=Messages()))
+        for name in ("RateLimitError", "BadRequestError", "AuthenticationError", "PermissionDeniedError", "NotFoundError", "APIStatusError", "APIConnectionError"):
+            setattr(fake, name, type(name, (Exception,), {}))
+        with mock.patch.dict(sys.modules, {"anthropic": fake}), mock.patch.dict(os.environ, {"ANTHROPIC_API_KEY": "test-claude"}):
+            out, meta = providers.text(self.ctx(mock=False), "keyframes", "s01_c1_judge", "Find what is wrong.", kind="judge",
+                                       parts=[("image/jpeg", b"img")], schema=keyframes.JUDGE_SCHEMA, model="claude-opus-5-5")
+        request = sent[0]
+        self.assertEqual((request["model"], request["fallbacks"], request["betas"]), ("claude-opus-5-5", "default", ["server-side-fallback-2026-07-01"]))
+        self.assertEqual([block["type"] for block in request["messages"][0]["content"]], ["image", "text"])
+        self.assertEqual(request["output_config"], {"format": {"type": "json_schema", "schema": keyframes.JUDGE_SCHEMA}})
+        self.assertEqual((out, meta["served_by"]), ('{"border": true}', "claude-opus-5-5"))
+        logged = core.read_jsonl(self.root / "runs.jsonl")[-1]
+        self.assertEqual((logged["provider"], logged["usage"]["input_tokens"], logged["cost_usd"]), ("anthropic", 1200, 0.0108))   # 1200 in at 4, 300 out at 20, per million
+        self.assertNotIn("test-claude", json.dumps(logged))
+
+    def test_a_claude_model_is_not_given_audio(self):
+        import sys
+        import types
+        from unittest import mock
+        with mock.patch.dict(sys.modules, {"anthropic": types.ModuleType("anthropic")}), mock.patch.dict(os.environ, {"ANTHROPIC_API_KEY": "k"}):
+            with self.assertRaisesRegex(core.PipelineError, "not audio"):
+                providers.text(self.ctx(mock=False), "narration", "s01_listen", "Transcribe.", kind="transcribe",
+                               parts=[("audio/wav", b"RIFF")], model="claude-opus-5-5")
+
+
 class SmallToolTests(unittest.TestCase):
     def test_sign_test(self):
         self.assertAlmostEqual(sign_test(5, 5), 0.0625)

@@ -22,19 +22,36 @@ from pathlib import Path
 from . import providers
 from .core import STAGE_VERSION, Cache, Ctx, PipelineError, Unit, ff, run_units, sha, write_index
 
-JUDGE_PROMPT = """You are checking a storyboard keyframe before GPU time is spent animating it.
-The last image is the candidate keyframe. Any images before it are reference sheets of the characters.
+JUDGE_VERSION = 2  # bump when the question changes, so old answers stop matching
+JUDGE_PROMPT = """This is a check of one frame of a short hand-painted film, before the frame is animated. Find what is wrong with it: a frame that passes here goes into the film.
 
-Shot description: "{shot}"
+The last image is the frame. Any images before it are reference sheets of the characters who should be in it.
+
+What the frame should show: "{shot}"
 Characters expected: {who}
+The look the film is going for: "{style}"
 
-Score each from 1 (bad) to 5 (good):
-- character_match: does the person match the reference sheet (build, hair, clothes, bag)? Use 3 when no person or no reference is involved.
-- prompt_adherence: does the picture show what the shot description asks for?
-- artifacts: 5 means clean. Lower it for broken hands, faces or limbs, and for melted shapes.
-Also set text_in_image to true if any writing or letter-like marks are visible.
-
-Reply with JSON only: {{"character_match": n, "prompt_adherence": n, "artifacts": n, "text_in_image": true or false, "notes": "one short sentence"}}"""
+Report these as JSON:
+- elements: each thing the description asks for, one entry per thing as {{"name": ..., "visible": true or false}}. Visible means really in the frame, not implied.
+- border: true if the picture does not reach all four edges of the frame: a white or paper margin, a drawn frame, rounded corners, a vignette, or ragged unpainted edges.
+- text_in_image: true if any writing, letters or numbers are visible, garbled ones included.
+- wrong_setting: what, if anything, places the scene somewhere other than the description says (buildings, vehicles, clothes). An empty string if nothing does.
+- anatomy: broken hands, faces or limbs, or melted shapes. An empty string if there are none.
+- character_match: 1 to 5, how well the person matches the reference sheet in build, hair, clothes and bag. Use 3 when there is no person or no sheet.
+- prompt_adherence: 1 to 5. Give 5 only if every element is visible and nothing contradicts the description.
+- artifacts: 1 to 5. Give 5 only if the frame is clean.
+- notes: one short sentence a director can act on."""
+JUDGE_SCHEMA = {
+    "type": "object", "additionalProperties": False,
+    "required": ["elements", "border", "text_in_image", "wrong_setting", "anatomy", "character_match", "prompt_adherence", "artifacts", "notes"],
+    "properties": {
+        "elements": {"type": "array", "items": {"type": "object", "additionalProperties": False, "required": ["name", "visible"],
+                                                "properties": {"name": {"type": "string"}, "visible": {"type": "boolean"}}}},
+        "border": {"type": "boolean"}, "text_in_image": {"type": "boolean"},
+        "wrong_setting": {"type": "string"}, "anatomy": {"type": "string"},
+        "character_match": {"type": "integer"}, "prompt_adherence": {"type": "integer"}, "artifacts": {"type": "integer"},
+        "notes": {"type": "string"}},
+}
 
 
 def full_prompt(sb: dict, shot: dict) -> str:
@@ -131,7 +148,12 @@ def judge_total(scores: dict, has_character: bool) -> float:
         total = 0.4 * val("character_match") + 0.35 * val("prompt_adherence") + 0.25 * val("artifacts")
     else:
         total = 0.6 * val("prompt_adherence") + 0.4 * val("artifacts")
-    return round(total - (1.5 if scores.get("text_in_image") is True else 0.0), 3)
+    # what a film frame cannot have costs more than a point of taste
+    total -= 1.5 if scores.get("text_in_image") is True else 0.0
+    total -= 1.5 if scores.get("border") is True else 0.0
+    total -= 1.0 if str(scores.get("wrong_setting") or "").strip() else 0.0
+    total -= 1.0 if str(scores.get("anatomy") or "").strip() else 0.0
+    return round(total, 3)
 
 
 def parse_scores(answer: str) -> dict:
@@ -148,6 +170,7 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
     W, H = sb["format"]["master"]["width"], sb["format"]["master"]["height"]
     qa = sb.get("qa", {})
     chars = {c["id"]: c for c in sb["characters"]}
+    judge_model = sb["models"].get("judge") or sb["models"]["text"]  # the judge may be a stricter model than the other checks
     trim = sb["format"].get("edge_trim", 0.0)
     cut = {"trim": trim} if trim else {}  # part of a picture's fingerprint, but not of what the model is sent
 
@@ -213,14 +236,14 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
             who = " ".join(chars[cid]["description"] for cid in s["characters"]) or "none"
             for i in range(1, p["n"] + 1):
                 cand = made[f"{s['id']}_c{i}"]
-                fp = {"v": V, "image": cand.key, "refs": [refs[r].key for r in p["refs"]], "shot": s["keyframe"]["prompt"],
-                      "who": who, "model": sb["models"]["text"]}
+                fp = {"v": V, "judge": JUDGE_VERSION, "image": cand.key, "refs": [refs[r].key for r in p["refs"]], "shot": s["keyframe"]["prompt"],
+                      "who": who, "style": sb["style"]["block"], "model": judge_model}
 
                 def produce(tmp: Path, sid: str = s["id"], i: int = i, cand=cand, p: dict = p, who: str = who, shot: str = s["keyframe"]["prompt"]) -> dict:
                     parts = [("image/jpeg", small_jpeg(ctx, refs[r].path)) for r in p["refs"]]
                     parts.append(("image/jpeg", small_jpeg(ctx, cand.path, side=768)))
-                    answer, _ = providers.text(ctx, "keyframes", f"{sid}_c{i}_judge", JUDGE_PROMPT.format(shot=shot, who=who),
-                                               kind="judge", parts=parts, json_mode=True, temperature=0.0)
+                    answer, _ = providers.text(ctx, "keyframes", f"{sid}_c{i}_judge", JUDGE_PROMPT.format(shot=shot, who=who, style=sb["style"]["block"]),
+                                               kind="judge", parts=parts, json_mode=True, schema=JUDGE_SCHEMA, temperature=0.0, model=judge_model)
                     scores = parse_scores(answer)
                     scores["total"] = judge_total(scores, bool(p["refs"]))
                     tmp.write_text(json.dumps(scores, ensure_ascii=False), encoding="utf-8")

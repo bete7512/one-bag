@@ -45,7 +45,10 @@ def summarise(ctx: Ctx) -> tuple[str, dict]:
     price = "n/a" if not runs or totals["unpriced"] == totals["calls"] else f"{totals['usd']:.4f}" + (f" + {totals['unpriced']} n/a" if totals["unpriced"] else "")
     lines.append(f"| **Total** | | | {totals['calls']} | {totals['errors']} | {totals['latency_s']:.1f} | | {totals['gpu_minutes']:.1f} | {price} |")
     table = "\n".join(lines) + f"\n\nSource: `{ctx.runlog.relative_to(ctx.root).as_posix()}`, {len(runs)} model calls."
-    table += " List price is what the calls would cost without the free tier: nothing was paid."
+    paid = sum((r.get("cost_usd") or 0.0) for r in runs if (ctx.prices.get(r.get("model")) or {}).get("paid"))
+    table += (" List price is what the calls would cost without the free tiers."
+              + (f" Really paid: {paid:.4f} USD, for the calls to models that have no free tier. Everything else ran free." if paid
+                 else " Nothing was paid: every call ran on a free tier."))
     if totals["unpriced"]:
         table += (f" {totals['unpriced']} call(s) are n/a and not in the sums: their price, or the usage it applies to, "
                   "was not known when they were logged.")

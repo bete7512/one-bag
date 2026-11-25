@@ -250,16 +250,67 @@ def tts_take(ctx: Ctx, stage: str, unit: str, texts: list[str], *, voice: str, s
 # ----------------------------------------------------------------------------- text, vision, listening
 
 
+def _claude(model: str, prompt: str, parts: list[tuple[str, bytes]], system: str | None, schema: dict | None) -> tuple[str, dict]:
+    """One answer from the Claude API, through the official SDK. Images go in before the question.
+
+    The SDK's own retries are switched off, so every attempt is one line in the run log, like any other call.
+    A refusal can be answered by a fallback model on Anthropic's side: `served_by` in the log says which model answered.
+    """
+    try:
+        import anthropic
+    except ImportError:
+        raise PipelineError("this model needs the anthropic package. Run: pip install anthropic") from None
+    _env("ANTHROPIC_API_KEY")
+    if any(not mime.startswith("image/") for mime, _ in parts):
+        raise PipelineError(f"{model} takes pictures and text, not audio. Use a Gemini model for the listening check.")
+    content: list[dict] = [{"type": "image", "source": {"type": "base64", "media_type": mime, "data": base64.b64encode(data).decode("ascii")}}
+                           for mime, data in parts]
+    content.append({"type": "text", "text": prompt})
+    request: dict[str, Any] = {"model": model, "max_tokens": 16000, "messages": [{"role": "user", "content": content}]}
+    if system:
+        request["system"] = system
+    if schema:
+        request["output_config"] = {"format": {"type": "json_schema", "schema": schema}}
+    client = anthropic.Anthropic(max_retries=0)
+    try:
+        response = client.beta.messages.create(betas=["server-side-fallback-2026-07-01"], fallbacks="default", **request)
+    except anthropic.RateLimitError as e:
+        after = e.response.headers.get("retry-after", "")
+        raise ProviderError(f"HTTP 429, rate limit reached. {e.message}", 429, True, float(after) if after.replace(".", "", 1).isdigit() else None) from None
+    except (anthropic.BadRequestError, anthropic.AuthenticationError, anthropic.PermissionDeniedError, anthropic.NotFoundError) as e:
+        raise ProviderError(f"HTTP {e.status_code}. {e.message}", e.status_code, False) from None
+    except anthropic.APIStatusError as e:
+        raise ProviderError(f"HTTP {e.status_code}. {e.message}", e.status_code, e.status_code >= 500) from None
+    except anthropic.APIConnectionError as e:
+        raise ProviderError(f"network error ({type(e).__name__}).", retryable=True) from None
+    if response.stop_reason == "refusal":
+        raise ProviderError("the model declined to answer this request.", retryable=False)
+    answer = next((block.text for block in response.content if block.type == "text"), "")
+    if not answer:
+        raise ProviderError(f"the response held no text (stop reason: {response.stop_reason}).")
+    return answer.strip(), {"usage": {"input_tokens": response.usage.input_tokens, "output_tokens": response.usage.output_tokens,
+                                      "thoughts_tokens": 0},  # thinking is already inside output_tokens on this API
+                            "served_by": response.model}
+
+
 def text(ctx: Ctx, stage: str, unit: str, prompt: str, *, kind: str, parts: list[tuple[str, bytes]] | None = None,
-         system: str | None = None, json_mode: bool = False, temperature: float = 0.2, model: str | None = None) -> tuple[str, dict]:
+         system: str | None = None, json_mode: bool = False, schema: dict | None = None, temperature: float = 0.2,
+         model: str | None = None) -> tuple[str, dict]:
     """One text answer. `parts` are images or audio the model should look at or listen to.
 
     `kind` names the job (translate, judge, transcribe). It is logged, and tells the mock what to answer.
+    A model id that starts with `claude-` goes to the Claude API, where `schema` makes the answer valid JSON of
+    that shape. Any other id goes to the Gemini API, where `json_mode` asks for JSON and the answer is parsed tolerantly.
     """
     model = model or ctx.sb["models"]["text"]
     parts = parts or []
-    params = {"kind": kind, "temperature": temperature, "json_mode": json_mode, "prompt_sha": sha(prompt)[:12],
-              "inputs": [mime for mime, _ in parts]}
+    on_claude = model.startswith("claude-")
+    params = {"kind": kind, "json_mode": json_mode or bool(schema), "prompt_sha": sha(prompt)[:12], "inputs": [mime for mime, _ in parts]}
+    if not on_claude:
+        params["temperature"] = temperature  # this Claude model sets its own sampling, so there is none to log
+
+    def claude() -> tuple[str, dict]:
+        return _claude(model, prompt, parts, system, schema)
 
     def real() -> tuple[str, dict]:
         content = [{"inlineData": {"mimeType": mime, "data": base64.b64encode(data).decode("ascii")}} for mime, data in parts]
@@ -285,13 +336,13 @@ def text(ctx: Ctx, stage: str, unit: str, prompt: str, *, kind: str, parts: list
             return note or "mock transcript", {"usage": {}}
         if kind == "judge":
             h = int(sha([prompt, [sha(d.hex())[:8] for _, d in parts]])[:8], 16)
-            scores = {"character_match": 3 + h % 3, "prompt_adherence": 3 + (h >> 3) % 3, "artifacts": 3 + (h >> 6) % 3,
-                      "text_in_image": False, "notes": "mock judge"}
+            scores = {"elements": [], "border": False, "text_in_image": False, "wrong_setting": "", "anatomy": "",
+                      "character_match": 3 + h % 3, "prompt_adherence": 3 + (h >> 3) % 3, "artifacts": 3 + (h >> 6) % 3, "notes": "mock judge"}
             return json.dumps(scores), {"usage": {}}
         return "[mock translation] " + prompt.splitlines()[-1][:60], {"usage": {}}
 
-    return model_call(ctx, stage=stage, unit=unit, provider="mock" if ctx.mock else "gemini", model=model,
-                      params=params, seed=None, fn=mock if ctx.mock else real)
+    return model_call(ctx, stage=stage, unit=unit, provider="mock" if ctx.mock else "anthropic" if on_claude else "gemini", model=model,
+                      params=params, seed=None, fn=mock if ctx.mock else claude if on_claude else real)
 
 
 # ----------------------------------------------------------------------------- images

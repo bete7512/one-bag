@@ -1,0 +1,534 @@
+{
+ "s02_c1__799b4d69fc00d0d3": {
+  "set": "before",
+  "shot": "s02",
+  "paper_sides": 0,
+  "judges": {
+   "gemini-3.5-flash-lite": {
+    "elements": [
+     {
+      "name": "narrow road",
+      "visible": true
+     },
+     {
+      "name": "high green highland country",
+      "visible": true
+     },
+     {
+      "name": "patchwork fields",
+      "visible": true
+     },
+     {
+      "name": "stands of eucalyptus",
+      "visible": true
+     },
+     {
+      "name": "one small bus far away on the road",
+      "visible": true
+     },
+     {
+      "name": "low cloud on the far hills",
+      "visible": true
+     }
+    ],
+    "border": false,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 5,
+    "notes": "The frame matches all description criteria with a clean gouache aesthetic and correct elements.",
+    "total": 5.0,
+    "latency_s": 1.903,
+    "cost_usd": 0.001054,
+    "attempts": 3
+   }
+  }
+ },
+ "s02_c2__a159c086c27e4a9a": {
+  "set": "before",
+  "shot": "s02",
+  "paper_sides": 3,
+  "judges": {
+   "gemini-3.5-flash-lite": {
+    "elements": [
+     {
+      "name": "narrow road",
+      "visible": true
+     },
+     {
+      "name": "high green highland country",
+      "visible": true
+     },
+     {
+      "name": "daylight",
+      "visible": true
+     },
+     {
+      "name": "patchwork fields",
+      "visible": true
+     },
+     {
+      "name": "stands of eucalyptus",
+      "visible": true
+     },
+     {
+      "name": "one small bus far away on the road",
+      "visible": true
+     },
+     {
+      "name": "low cloud on the far hills",
+      "visible": true
+     }
+    ],
+    "border": false,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 5,
+    "notes": "The frame matches the required gouache landscape style and prompt details perfectly.",
+    "total": 5.0,
+    "latency_s": 2.576,
+    "cost_usd": 0.001099,
+    "attempts": 1
+   }
+  }
+ },
+ "s05_c1__b95301d26bf04787": {
+  "set": "before",
+  "shot": "s05",
+  "paper_sides": 4,
+  "judges": {
+   "gemini-3.5-flash-lite": {
+    "elements": [
+     {
+      "name": "dark silhouettes crossing close to the camera in both directions",
+      "visible": true
+     },
+     {
+      "name": "overexposed lamps and headlights flaring",
+      "visible": true
+     },
+     {
+      "name": "streaks of amber and white light",
+      "visible": true
+     },
+     {
+      "name": "nothing in sharp focus",
+      "visible": true
+     }
+    ],
+    "border": true,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 5,
+    "notes": "The painted street scene captures the requested crowd silhouettes and lighting style well inside a bordered frame.",
+    "total": 3.5,
+    "latency_s": 6.208,
+    "cost_usd": 0.000967,
+    "attempts": 3
+   }
+  }
+ },
+ "s05_c2__b7e31ad4278e280e": {
+  "set": "before",
+  "shot": "s05",
+  "paper_sides": 2,
+  "judges": {
+   "gemini-3.5-flash-lite": {
+    "elements": [
+     {
+      "name": "dark silhouettes crossing close to the camera in both directions",
+      "visible": true
+     },
+     {
+      "name": "overexposed lamps and headlights flaring",
+      "visible": true
+     },
+     {
+      "name": "streaks of amber and white light",
+      "visible": true
+     },
+     {
+      "name": "nothing in sharp focus",
+      "visible": false
+     }
+    ],
+    "border": true,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 3,
+    "artifacts": 4,
+    "notes": "Soften the focus across the entire frame to match the required 'nothing in sharp focus' instruction.",
+    "total": 1.9,
+    "latency_s": 6.634,
+    "cost_usd": 0.000972,
+    "attempts": 2
+   }
+  }
+ },
+ "s07_c1__bce79789ee7ff8e7": {
+  "set": "before",
+  "shot": "s07",
+  "paper_sides": 4,
+  "judges": {
+   "gemini-3.5-flash-lite": {
+    "elements": [
+     {
+      "name": "one narrow bed",
+      "visible": true
+     },
+     {
+      "name": "a canvas bag on it",
+      "visible": true
+     },
+     {
+      "name": "a single bare bulb",
+      "visible": true
+     },
+     {
+      "name": "peeling painted walls",
+      "visible": true
+     },
+     {
+      "name": "a small window with the lights of buses outside",
+      "visible": true
+     }
+    ],
+    "border": true,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 5,
+    "notes": "The frame matches all scene and style requirements with clean composition and mood.",
+    "total": 3.5,
+    "latency_s": 3.019,
+    "cost_usd": 0.000909,
+    "attempts": 1
+   }
+  }
+ },
+ "s07_c2__fdb81586439f308f": {
+  "set": "before",
+  "shot": "s07",
+  "paper_sides": 4,
+  "judges": {
+   "gemini-3.5-flash-lite": {
+    "elements": [
+     {
+      "name": "a small bare rented room at night",
+      "visible": true
+     },
+     {
+      "name": "one narrow bed",
+      "visible": true
+     },
+     {
+      "name": "a canvas bag",
+      "visible": true
+     },
+     {
+      "name": "a single bare bulb",
+      "visible": true
+     },
+     {
+      "name": "peeling painted walls",
+      "visible": true
+     },
+     {
+      "name": "a small window",
+      "visible": true
+     },
+     {
+      "name": "the lights of buses outside",
+      "visible": true
+     }
+    ],
+    "border": true,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 5,
+    "notes": "The watercolor border has white ragged edges at all sides.",
+    "total": 3.5,
+    "latency_s": 9.075,
+    "cost_usd": 0.000971,
+    "attempts": 1
+   }
+  }
+ },
+ "s02_c1__6bf9ef1c4e184475": {
+  "set": "after",
+  "shot": "s02",
+  "paper_sides": 1,
+  "judges": {
+   "gemini-3.5-flash-lite": {
+    "elements": [
+     {
+      "name": "narrow road",
+      "visible": true
+     },
+     {
+      "name": "high green highland country",
+      "visible": true
+     },
+     {
+      "name": "patchwork fields",
+      "visible": true
+     },
+     {
+      "name": "stands of eucalyptus",
+      "visible": true
+     },
+     {
+      "name": "one small bus far away on the road",
+      "visible": true
+     },
+     {
+      "name": "low cloud on the far hills",
+      "visible": true
+     }
+    ],
+    "border": false,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 5,
+    "notes": "The frame matches the requested setting, style, and composition perfectly without any visible issues.",
+    "total": 5.0,
+    "latency_s": 2.875,
+    "cost_usd": 0.001054,
+    "attempts": 1
+   }
+  }
+ },
+ "s02_c2__450997677924dc1b": {
+  "set": "after",
+  "shot": "s02",
+  "paper_sides": 1,
+  "judges": {
+   "gemini-3.5-flash-lite": {
+    "elements": [
+     {
+      "name": "narrow road",
+      "visible": true
+     },
+     {
+      "name": "high green highland country",
+      "visible": true
+     },
+     {
+      "name": "patchwork fields",
+      "visible": true
+     },
+     {
+      "name": "stands of eucalyptus",
+      "visible": true
+     },
+     {
+      "name": "one small bus far away on the road",
+      "visible": true
+     },
+     {
+      "name": "low cloud on the far hills",
+      "visible": true
+     }
+    ],
+    "border": false,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 5,
+    "notes": "The frame matches all description criteria and is ready for animation.",
+    "total": 5.0,
+    "latency_s": 5.783,
+    "cost_usd": 0.001041,
+    "attempts": 2
+   }
+  }
+ },
+ "s05_c1__ab0f1e8a9f237762": {
+  "set": "after",
+  "shot": "s05",
+  "paper_sides": 3,
+  "judges": {
+   "gemini-3.5-flash-lite": {
+    "elements": [
+     {
+      "name": "Point of view inside a crowd at nightfall",
+      "visible": true
+     },
+     {
+      "name": "dark silhouettes crossing close to the camera in both directions",
+      "visible": true
+     },
+     {
+      "name": "overexposed lamps and headlights flaring",
+      "visible": true
+     },
+     {
+      "name": "streaks of amber and white light",
+      "visible": true
+     },
+     {
+      "name": "nothing in sharp focus",
+      "visible": false
+     }
+    ],
+    "border": true,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 3,
+    "artifacts": 5,
+    "notes": "Softness and blur need to be added across the image to match the 'nothing in sharp focus' requirement.",
+    "total": 2.3,
+    "latency_s": 2.697,
+    "cost_usd": 0.00096,
+    "attempts": 1
+   }
+  }
+ },
+ "s05_c2__c9f718379c9f1605": {
+  "set": "after",
+  "shot": "s05",
+  "paper_sides": 0,
+  "judges": {
+   "gemini-3.5-flash-lite": {
+    "elements": [
+     {
+      "name": "dark silhouettes crossing close to the camera in both directions",
+      "visible": true
+     },
+     {
+      "name": "overexposed lamps and headlights flaring",
+      "visible": true
+     },
+     {
+      "name": "streaks of amber and white light",
+      "visible": true
+     },
+     {
+      "name": "nothing in sharp focus",
+      "visible": false
+     }
+    ],
+    "border": true,
+    "text_in_image": false,
+    "wrong_setting": "The scene shows a clear town street with distinct buildings rather than an abstract blurry crowd point of view.",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 2,
+    "artifacts": 3,
+    "notes": "Blur the focus overall to better match the requested point of view description.",
+    "total": -0.1,
+    "latency_s": 2.305,
+    "cost_usd": 0.000937,
+    "attempts": 1
+   }
+  }
+ },
+ "s07_c1__3d4e8b91359c48bc": {
+  "set": "after",
+  "shot": "s07",
+  "paper_sides": 2,
+  "judges": {
+   "gemini-3.5-flash-lite": {
+    "elements": [
+     {
+      "name": "one narrow bed",
+      "visible": true
+     },
+     {
+      "name": "canvas bag",
+      "visible": true
+     },
+     {
+      "name": "single bare bulb",
+      "visible": true
+     },
+     {
+      "name": "peeling painted walls",
+      "visible": true
+     },
+     {
+      "name": "small window with the lights of buses outside",
+      "visible": true
+     }
+    ],
+    "border": true,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 5,
+    "notes": "The frame matches all prompt requirements cleanly, but has a ragged unpainted paper margin around the edges.",
+    "total": 3.5,
+    "latency_s": 2.965,
+    "cost_usd": 0.000999,
+    "attempts": 1
+   }
+  }
+ },
+ "s07_c2__877d97a7765691e6": {
+  "set": "after",
+  "shot": "s07",
+  "paper_sides": 0,
+  "judges": {
+   "gemini-3.5-flash-lite": {
+    "elements": [
+     {
+      "name": "one narrow bed",
+      "visible": true
+     },
+     {
+      "name": "a canvas bag on it",
+      "visible": true
+     },
+     {
+      "name": "a single bare bulb",
+      "visible": true
+     },
+     {
+      "name": "peeling painted walls",
+      "visible": true
+     },
+     {
+      "name": "a small window with the lights of buses outside",
+      "visible": true
+     }
+    ],
+    "border": true,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 5,
+    "notes": "The frame matches all the requested elements and artistic style with no visible issues.",
+    "total": 3.5,
+    "latency_s": 2.853,
+    "cost_usd": 0.000999,
+    "attempts": 2
+   }
+  }
+ }
+}

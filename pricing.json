@@ -1,6 +1,6 @@
 {
   "_how_to_use": "List prices and free-tier limits per model. Prices are behind the cost_usd field of runs.jsonl and the list-price column of COSTS.md: every call ran on a free tier, so nothing was paid, and these numbers say what the same calls cost at list price. Each price is copied from the provider's own pricing page on the date in 'checked'. A model with no entry, or with a null price, gives a cost of null (shown as n/a). 'free_tier' holds the limits that apply to this project: the pipeline refuses a request that would go over a daily limit, and waits out a per-minute limit.",
-  "_units": "per_1m_tokens (usd_in, usd_out; output includes thinking tokens) | per_audio_second (usd_out per second of audio, usd_in per 1M input tokens) | per_512_tile (usd_out per output tile, usd_in per reference image, usd_step per step) | per_gpu_minute (usd per GPU)",
+  "_units": "per_1m_tokens (usd_in, usd_out; output includes thinking tokens) | per_audio_second (usd_out per second of audio, usd_in per 1M input tokens) | per_512_tile (usd_out per output tile, usd_in per reference image, usd_step per step) | per_gpu_minute (usd per GPU) | 'paid': true marks a model with no free tier, whose cost is really spent",
   "models": {
     "gemini-3.8-flash": {
       "unit": "per_1m_tokens",
@@ -44,6 +44,15 @@
         "reset": "pacific",
         "source": "the rate-limit page of this project in Google AI Studio (aistudio.google.com/rate-limit), read on 2026-11-25"
       }
+    },
+    "claude-opus-5-5": {
+      "unit": "per_1m_tokens",
+      "usd_in": 4.0,
+      "usd_out": 20.0,
+      "paid": true,
+      "source": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "checked": "2026-11-25",
+      "note": "No free tier: these calls are paid for from prepaid credit, so their cost_usd is money spent. Output tokens include the model's thinking."
     },
     "@cf/black-forest-labs/flux-2-klein-4b": {
       "unit": "per_512_tile",

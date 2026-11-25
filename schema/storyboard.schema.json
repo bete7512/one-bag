@@ -155,6 +155,11 @@
           "type": "string",
           "minLength": 1
         },
+        "judge": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Model for the keyframe judge, when it should differ from `text`. An id that starts with claude- is called through the Claude API."
+        },
         "tts": {
           "type": "string",
           "minLength": 1

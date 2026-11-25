@@ -50,6 +50,22 @@ Status: open. The likely cause is an account whose phone number is not verified:
 
 What the run did prove: Kaggle's Python is 3.13 (the job script builds ACE-Step's own environment for that reason), and a dataset is mounted at `/kaggle/input/datasets/<owner>/<name>/`, not at `/kaggle/input/<name>/`. The job scripts search for their manifest instead of assuming a path, so this cost nothing.
 
+### F03  The Claude API key had no credit  (25 Nov 2026)
+
+Stage and model: experiment E17, the keyframe judge on `claude-opus-5-5`, through the Anthropic SDK.
+
+What happened: each of the 12 calls was refused at once:
+
+```
+HTTP 400 {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}}
+```
+
+The key itself was accepted: the refusal is about billing, not about who is calling. The 12 attempts are in `runs.jsonl` under run `20261125T120616Z-8a8230`, each with `cost_usd` 0. A rejected request is not retried, so nothing was spent on waiting either.
+
+What was done: nothing was changed to get around it. The comparison of the two judge models stays unmeasured, and E17 says so. The first step of that experiment, the new question on the free model, did run and is what the pipeline uses. `models.judge` in the storyboard stays unset, so the judge is the free model.
+
+Status: open. With credit on the account, `python experiments/e17_judges.py` runs the missing step: it skips every answer it already has.
+
 ## From the offline build (coding agent, 25 Nov 2026)
 
 These happened while the pipeline was first written, before any real model call. They are kept because each one changed the code.
