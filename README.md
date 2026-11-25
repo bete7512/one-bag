@@ -145,6 +145,8 @@ ETHICS.md            consent records, licences, labelling plan
 
 Model outputs are kept in `outputs/`, because they cost quota or GPU time and are the evidence: the original pictures, narration, ingested Wan clips, score candidates, the two finished films, and every `manifest.json` and `index.json`. Files that FFmpeg rebuilds from those without calling a model (keyframes cut from their originals, scene files, the mix, Ken Burns clips, the placeholder drone) are git-ignored.
 
+To check this yourself: clone the repository into an empty folder, add no key, run `make setup` and then `python -m pipeline film`. Nothing may be added to `runs.jsonl`. On 25 November this rebuilt the cut of that evening in 1 minute 49 seconds: 42 cache hits on model outputs, 53 units rebuilt by FFmpeg, no call to any model (E23 in `EXPERIMENTS.md`). What is reproduced is the cut from the kept answers of the models. Asking the models again gives other pictures and another voice.
+
 ## What it costs
 
 Money: speech, pictures, the light checks and the GPU run on free tiers. The picture judge and the subtitle check run on Claude Opus 5.5, which is paid for: 1.88 USD on the first day. The limits that shape the work are quota and GPU time: ten speech requests a day, about 96 pictures a day, 30 GPU hours a week. `make costs` reads `runs.jsonl` and writes the measured table into `COSTS.md`, with the list price of every call and what was really paid.

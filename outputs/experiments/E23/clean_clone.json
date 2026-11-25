@@ -1,0 +1,29 @@
+{
+ "what": "a fresh clone of the repository, no .env and no key in the environment, then: make setup, python -m pipeline film",
+ "commit": "11dcdc1",
+ "run_id": "20261125T180311Z-8f6e0f",
+ "started": "2026-11-25T18:03:11Z",
+ "ended": "2026-11-25T18:05:00Z",
+ "run_log_lines_before": 351,
+ "run_log_lines_after": 351,
+ "model_calls": 0,
+ "units": {
+  "assemble built": 23,
+  "keyframes built": 20,
+  "keyframes hit": 18,
+  "music built": 1,
+  "narration hit": 16,
+  "script hit": 8,
+  "shots built": 9
+ },
+ "cache_hits_on_model_outputs": 42,
+ "rebuilt_with_ffmpeg_only": 53,
+ "final_cut_check": {
+  "passed": true,
+  "total_s": 79.9583,
+  "notes": [
+   "motion: shots asked for Wan but still on the Ken Burns fallback",
+   "music: a generated score is chosen"
+  ]
+ }
+}

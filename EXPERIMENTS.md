@@ -2,7 +2,7 @@
 
 One entry per experiment: a hypothesis, the one thing changed, how it is measured, the result, the decision. Change one thing at a time and keep the seed fixed, or the result cannot be read.
 
-**Status on 25 Nov 2026, 20:40: E15 to E21 have been run. E01 to E14 have not.** Each hypothesis is written down before its run on purpose, so the result cannot bend it. A result is filled in only from a real run, with the evidence it points to (`runs.jsonl` lines, a listening sheet, a blind-test result).
+**Status on 25 Nov 2026, 21:10: E15 to E21 and E23 have been run. E22 is running. E12 is measured and waits for its write-up. E01 to E11, E13 and E14 have not been run.** Each hypothesis is written down before its run on purpose, so the result cannot bend it. A result is filled in only from a real run, with the evidence it points to (`runs.jsonl` lines, a listening sheet, a blind-test result).
 
 ## Plan
 
@@ -29,6 +29,8 @@ One entry per experiment: a hypothesis, the one thing changed, how it is measure
 | E19 | The character sheet with three poses is being copied into the scenes: one figure seen from behind as the reference gives one young man per picture, seen from behind. Added on 25 Nov after the first ten pictures with a person in them. This is E05 asked the other way round. | `reference_prompt` of the young man: a sheet of three poses against one back view. Same prompts, same seeds | A model counts, for each of 20 pictures, how often he appears and whether a face is turned to the viewer | More than one copy: 8 of 10 with the sheet, 3 of 10 with the back view. A face to the viewer: 8 of 10 against 1 of 10. | The back view is the reference. The friend gets one of his own. |
 | E20 | All lines spoken in one request can be cut into one file per line at the long pauses, so the narration costs one of the day's ten speech requests and not eight. Written into `pipeline/narration.py` before the first take. | One request for eight lines, against the brief's tip of one request per line | The margin between the pauses used as cuts and the pauses left inside lines; how many lines two cutting methods agree on; requests spent | Margin 1.24, where 1.5 is needed. The methods agree on 4 of 8 lines. 5 speech requests in all. | A line is kept from a take only where both methods agree. The rest are spoken alone. See F04. |
 | E21 | The listening check scored two correct lines 0.16 because of how it was asked, not because of how they were spoken. Added on 25 Nov after the first eight scores. | The question to the listener: "the script of the language being spoken" against naming the language. Same eight audio files | The match between line and transcript, per line | The two lines rose from 0.16 to 0.91 and 0.81. Another fell from 0.84 to 0.64 with no change in its audio. | The language is named. A score is read as a screen, never as a verdict on the voice. |
+| E22 | A short description that names one instrument gets that instrument. The first description asked for a krar, a washint flute and a drone in 42 words, and the listening model heard a music box and a piano in two of the three candidates. Written on 25 Nov at 21:05, while the second job was running on Kaggle and before any of its music had been heard. | `music.caption`: 42 words and three instruments against 27 words and one instrument ("Solo krar ... One instrument only"). Same seeds, tempo, length and model | The instruments a listening model names in each candidate, with the same question as for the first set. Then my own ear | | |
+| E23 | A stranger who clones the repository can rebuild the cut with one command, no key, and no call to any model, because every answer a model gave is committed and everything else is cut from those answers by FFmpeg. | Nothing in the film: a fresh clone in an empty folder, no `.env`, no key in the environment, `make setup`, then `python -m pipeline film` | Lines added to `runs.jsonl`; units that were cache hits against units that were rebuilt; the final-cut check | 0 model calls. 42 hits on model outputs, 53 units rebuilt by FFmpeg, in 1 min 49 s. The check passes. | Kept as a step before every release. |
 
 ## Log
 
@@ -44,6 +46,30 @@ Result:
 Decision:           (what went into storyboard.json or the code)
 What it changed:
 ```
+
+### E23  A clean clone rebuilds the cut without a key  (25 Nov 2026)
+
+Hypothesis: the brief asks that a stranger can clone the repository, run one command and regenerate the film. The pipeline keeps every answer a model gave (original pictures, narration lines, the take, judge and listener answers) and git-ignores what FFmpeg can cut from them. If that split is right, a clone with no key rebuilds the cut and calls no model. If one file is missing from the repository, the run stops and asks for a key.
+
+Changed: nothing in the film. The place it is built: a fresh clone of commit `11dcdc1` in an empty folder, with no `.env` and no key in the environment. Then the documented steps: `make setup`, `python -m pipeline film`.
+
+Held fixed: the storyboard and every committed output.
+
+Evidence: `outputs/experiments/E23/clean_clone.json`, taken from the event log of that run (`20261125T180311Z-8f6e0f`).
+
+Result: the cut was rebuilt in 1 minute 49 seconds and the run log has 351 lines before and after.
+
+| | Units |
+|---|---:|
+| Cache hits on model outputs: 8 subtitle checks, 8 narration lines and their 8 listening checks, 18 judge answers | 42 |
+| Rebuilt by FFmpeg alone: 20 keyframes cut from their kept originals, 9 pan-and-zoom clips, the placeholder score, 23 assembly units | 53 |
+| Calls to a model | 0 |
+
+The final-cut check passed on the rebuilt files, with the same two notes as on the working machine: a placeholder score, and no generated motion yet. Both films are 79.96 s, as there.
+
+Decision: this run is repeated on the release commit, and the README says how to repeat it.
+
+What it changed: until this run "reproducible" was a claim that the tests supported with mock providers only. The test workflow on GitHub builds a mock film on every push. This is the first time the real cut was rebuilt somewhere else. It also sets the limit of the claim: what is reproduced is the cut from the kept model answers. Asking the models again would give other pictures and another voice.
 
 ### E21  Does the listening check measure the voice or the listener  (25 Nov 2026)
 
