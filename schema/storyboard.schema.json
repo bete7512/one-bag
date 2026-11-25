@@ -425,6 +425,24 @@
         }
       }
     },
+    "focus": {
+      "description": "A crop anchor from 0 to 1. Either one number, for every export, or an object with one number per export name. The limits below apply to whichever form is used.",
+      "type": [
+        "number",
+        "object"
+      ],
+      "minimum": 0,
+      "maximum": 1,
+      "minProperties": 1,
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-z0-9_]+$": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
     "character": {
       "type": "object",
       "additionalProperties": false,
@@ -570,11 +588,13 @@
               "type": "boolean",
               "description": "Set to false to draw this shot from its words alone, without the reference picture of its characters. A reference pulls a shot toward its own layout, one figure in the centre: use this where the scene should lead. Default true."
             },
+            "focus_x": {
+              "$ref": "#/$defs/focus",
+              "description": "Where the subject sits in the picture, from 0 (left) to 1 (right). An export that crops the width of the picture keeps the part around it. One number is for every export. An object gives a number per export name, as in {\"vertical\": 0.3, \"horizontal\": 0.5}, and an export it does not name keeps the default. Default 0.5, the middle."
+            },
             "focus_y": {
-              "type": "number",
-              "minimum": 0,
-              "maximum": 1,
-              "description": "Where the subject sits in the picture, from 0 (top) to 1 (bottom). An export that crops the height of the picture keeps the part around it. Default 0.5, the middle."
+              "$ref": "#/$defs/focus",
+              "description": "Where the subject sits in the picture, from 0 (top) to 1 (bottom). An export that crops the height of the picture keeps the part around it. One number is for every export. An object gives a number per export name, as in {\"vertical\": 0.5, \"horizontal\": 0.15}, and an export it does not name keeps the default. Default 0.5, the middle."
             }
           }
         },

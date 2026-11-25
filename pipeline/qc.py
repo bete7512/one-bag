@@ -4,13 +4,32 @@ Deterministic measurements on the exported files, so "done" is a fact and not a 
 length, both aspect ratios, constant frame rate, codecs, loudness and true peak, subtitle line
 lengths, the AI end card. "must" checks decide pass or fail. "note" checks are things a person
 should look at before release (fallback shots, a placeholder score, lines the listening check
-flagged).
+flagged, a picked picture the judge marked).
 """
 from __future__ import annotations
 
 import json
 
 from .core import Ctx, PipelineError, get_index, loudness, media_info
+from .keyframes import LOOK_UNDER
+
+
+def marked_picks(keyframes: dict) -> tuple[list[str], list[str]]:
+    """Shots whose picked keyframe the judge marked: (scored under LOOK_UNDER, each with its total), (has writing in it).
+
+    Only the candidate that is in the film counts. The keyframes stage prints "look at" for the same two things when
+    it picks, and that line is gone with the terminal. A shot whose pick has no score is in neither list: a shot that
+    waits for consent fails its own check, and "the judge scored every candidate" names a score that is missing.
+    """
+    low, written = [], []
+    for sid, k in keyframes.items():
+        score = (k.get("scores") or {}).get(str(k.get("candidate"))) or {}
+        total = score.get("total")
+        if isinstance(total, (int, float)) and total < LOOK_UNDER:
+            low.append(f"{sid} ({total})")
+        if score.get("text_in_image"):
+            written.append(sid)
+    return low, written
 
 
 def run(ctx: Ctx, state: dict | None = None) -> dict:
@@ -68,6 +87,9 @@ def run(ctx: Ctx, state: dict | None = None) -> dict:
     check("note", "pictures: every picked keyframe fills its frame", not bordered, ", ".join(bordered) or "no paper border")
     unscored = [sid for sid, k in keyframes.items() if k.get("unscored")]
     check("note", "pictures: the judge scored every candidate", not unscored, ", ".join(unscored) or "all scored")
+    low, written = marked_picks(keyframes)
+    check("note", f"pictures: no picked keyframe scored under {LOOK_UNDER} by the judge", not low, ", ".join(low) or "none")
+    check("note", "pictures: no picked keyframe has writing in it", not written, ", ".join(written) or "none")
     shots = get_index(ctx, state, "shots", per_lang=True, required=False)
     fallback = [sid for sid, s in shots.items() if s.get("source") == "kenburns_fallback"]
     check("note", "motion: shots asked for Wan but still on the Ken Burns fallback", not fallback, ", ".join(fallback) or "none")

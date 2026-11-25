@@ -23,6 +23,7 @@ from . import providers
 from .core import STAGE_VERSION, Cache, Ctx, PipelineError, Unit, ff, run_units, sha, write_index
 
 JUDGE_VERSION = 2  # bump when the question changes, so old answers stop matching
+LOOK_UNDER = 3     # a picked picture with a judge total under this is one for a person to look at. The final-cut check uses the same number
 JUDGE_PROMPT = """This is a check of one frame of a short hand-painted film, before the frame is animated. Find what is wrong with it: a frame that passes here goes into the film.
 
 The last image is the frame. Any images before it are reference sheets of the characters who should be in it.
@@ -293,7 +294,7 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
                       "picked_by": by, "scores": {str(i): v for i, v in scores.items()}, "unscored": unscored,
                       "paper_sides": {str(i): n for i, n in sides.items()}, "border": sides.get(pick, 0) >= BORDER_SIDES, "prompt": p["prompt"]}
         flagged = scores.get(pick, {})
-        if flagged.get("text_in_image") or flagged.get("total", 5) < 3:
+        if flagged.get("text_in_image") or flagged.get("total", 5) < LOOK_UNDER:
             ctx.say(f"  look at {sid}: judge total {flagged.get('total')}, text in image: {flagged.get('text_in_image')}. {flagged.get('notes', '')}")
         if unscored and not plan_only:
             ctx.say(f"  look at {sid}: the judge has not scored candidate {', '.join(map(str, unscored))}. The next run tries again.")

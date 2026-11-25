@@ -10,8 +10,8 @@ compressor, and the mix is brought toward -14 LUFS with one fixed gain, after it
 limited once. The encoded film stays under -1 dB true peak.
 
 Two aspect ratios from one master. Each shot is fitted per export: if cropping to the export
-loses 45% of the frame or less it is cropped around the centre, otherwise it sits over a blurred
-copy of itself.
+loses 45% of the frame or less it is cropped around the point the shot names for that export
+(the centre when it names none), otherwise it sits over a blurred copy of itself.
 """
 from __future__ import annotations
 
@@ -109,16 +109,33 @@ def srt_time(t: float) -> str:
 # ----------------------------------------------------------------------------- picture
 
 
-def fit_graph(src_w: int, src_h: int, width: int, height: int, focus_y: float = 0.5) -> tuple[str, str]:
+def focus_of(keyframe: dict, export: str) -> tuple[float, float]:
+    """Where a shot says its subject sits, for one export: (focus_x, focus_y). What is not said is 0.5, the middle.
+
+    The storyboard gives each as one number for every export, or as an object with a number per export name.
+    The two exports cut a square picture on different sides, so one anchor cannot be right for both.
+    """
+    def one(value) -> float:
+        if isinstance(value, dict):
+            value = value.get(export)
+        return 0.5 if value is None else float(value)
+
+    return one(keyframe.get("focus_x")), one(keyframe.get("focus_y"))
+
+
+def fit_graph(src_w: int, src_h: int, width: int, height: int, *, focus_x: float = 0.5, focus_y: float = 0.5) -> tuple[str, str]:
     """Filter steps that take a `src` clip to exactly width x height. Returns (graph, mode).
 
-    `focus_y` says where the subject sits, from 0 (top) to 1 (bottom). A crop that takes height away keeps
-    the part around it: the wide film cuts a square picture to its middle band, and a standing figure loses its head there.
+    `focus_x` and `focus_y` say where the subject sits, from 0 (left, top) to 1 (right, bottom), and the crop keeps
+    the part around it. The wide film cuts a square picture to a band of its height, and a standing figure loses its
+    head there. The tall film cuts it to a band of its width, and what stands at the left or right edge is gone.
+    A side that is not cropped has nothing to move, so each export only follows the anchor that concerns it.
     """
     src_ar, out_ar = src_w / src_h, width / height
     loss = 1 - min(src_ar / out_ar, out_ar / src_ar)
+    fx, fy = (min(1.0, max(0.0, focus)) for focus in (focus_x, focus_y))
     cover = (f"scale={width}:{height}:force_original_aspect_ratio=increase:flags=lanczos,"
-             f"crop={width}:{height}:(iw-{width})/2:(ih-{height})*{min(1.0, max(0.0, focus_y)):.3f}")
+             f"crop={width}:{height}:(iw-{width})*{fx:.3f}:(ih-{height})*{fy:.3f}")
     if loss <= MAX_CROP_LOSS:
         return cover, "crop"
     graph = (f"split[bgsrc][fgsrc];[bgsrc]{cover},boxblur=24:4,eq=brightness=-0.10[bg];"
@@ -128,7 +145,7 @@ def fit_graph(src_w: int, src_h: int, width: int, height: int, focus_y: float = 
 
 
 def render_scene(ctx: Ctx, clip: Path, out: Path, *, width: int, height: int, frames: int, fps: int, cues: list, margin_v: int,
-                 focus_y: float = 0.5) -> dict:
+                 focus_x: float = 0.5, focus_y: float = 0.5) -> dict:
     """One shot at one export size, exactly `frames` long, subtitles burned in.
 
     A generated clip is a few seconds long and a shot lasts as long as its narration. A clip that
@@ -139,7 +156,7 @@ def render_scene(ctx: Ctx, clip: Path, out: Path, *, width: int, height: int, fr
     have = max(1, round(info["duration"] * fps))
     slow = 1.0 if have >= frames else min(MAX_SLOWDOWN, frames / have)
     tail = max(0.0, frames / fps - info["duration"] * slow)
-    fit, mode = fit_graph(info["width"], info["height"], width, height, focus_y)
+    fit, mode = fit_graph(info["width"], info["height"], width, height, focus_x=focus_x, focus_y=focus_y)
     graph = f"[0:v]setpts={slow:.5f}*(PTS-STARTPTS),fps={fps},tpad=stop_mode=clone:stop_duration={tail + 0.5:.3f}"
     kind = "none" if tail == 0 else "hold" if tail < TAIL_MIN_S else "push"
     if kind == "push":
@@ -337,20 +354,20 @@ def run(ctx: Ctx, state: dict, mode: str = "film", plan_only: bool = False) -> d
     else:
         shots = get_index(ctx, state, "shots", per_lang=True)
         shots_dir = ctx.out / "shots"
-        focus_of = {shot["id"]: shot["keyframe"].get("focus_y", 0.5) for shot in sb["shots"]}
+        keyframe_of = {shot["id"]: shot["keyframe"] for shot in sb["shots"]}
         for exp in fmt["exports"]:
             name, W, H = exp["name"], exp["width"], exp["height"]
             margin = exp.get("subtitle_margin_v", round(H * 0.08))
             units = []
             for t in timeline["shots"]:
                 sid, clip = t["id"], shots[t["id"]]
-                focus = focus_of.get(sid, 0.5)
+                fx, fy = focus_of(keyframe_of.get(sid, {}), name)  # the anchor of this shot in this export: a new one rebuilds this scene only
                 fp = {"v": V, "clip": clip["key"], "size": [W, H], "frames": t["frames"], "fps": fps, "cues": cues.get(sid, []),
-                      "margin_v": margin, "style": SUBTITLE_STYLE, "focus_y": focus}
+                      "margin_v": margin, "style": SUBTITLE_STYLE, "focus_x": fx, "focus_y": fy}
 
-                def produce(tmp: Path, sid: str = sid, clip: dict = clip, frames: int = t["frames"], focus: float = focus) -> dict:
+                def produce(tmp: Path, sid: str = sid, clip: dict = clip, frames: int = t["frames"], fx: float = fx, fy: float = fy) -> dict:
                     return render_scene(ctx, shots_dir / clip["file"], tmp, width=W, height=H, frames=frames, fps=fps,
-                                        cues=cues.get(sid, []), margin_v=margin, focus_y=focus)
+                                        cues=cues.get(sid, []), margin_v=margin, focus_x=fx, focus_y=fy)
 
                 units.append(Unit("assemble", f"{name}_{sid}{suffix}", fp, "mp4", produce))
             fp = {"v": V, "card": card_lines, "size": [W, H], "frames": card_frames, "fps": fps, "style": SUBTITLE_STYLE}

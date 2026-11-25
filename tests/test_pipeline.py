@@ -113,6 +113,22 @@ class StoryboardTests(Project):
         with self.assertRaisesRegex(core.StoryboardError, "nobody"):
             core.load_storyboard(self.root)
 
+    def test_a_crop_anchor_is_a_number_or_one_number_per_export(self):
+        valid = read_sb(self.root)
+
+        def load(axis: str, value) -> None:
+            sb = json.loads(json.dumps(valid))                                       # every try starts from the valid storyboard
+            sb["shots"][0]["keyframe"][axis] = value
+            write_sb(self.root, sb)
+            core.load_storyboard(self.root)
+
+        for axis in ("focus_x", "focus_y"):
+            for value in (0.3, 0, 1, {"vertical": 0.3}, {"vertical": 0.3, "horizontal": 0.5}):
+                load(axis, value)                                                    # one number, or one per export: accepted
+            for value in ("left", 1.2, -0.1, None, {"vertical": 1.2}, {"vertical": "left"}, {}):
+                with self.assertRaisesRegex(core.StoryboardError, f"keyframe/{axis}", msg=value):   # a word, or a place outside the picture
+                    load(axis, value)
+
     def test_recorded_consent_needs_a_dated_row_in_ethics(self):
         sb = read_sb(self.root)
         sb["characters"][0]["consent"]["status"] = "recorded"
@@ -284,10 +300,66 @@ class TimingTests(unittest.TestCase):
         middle, mode = assemble.fit_graph(1024, 1024, 1920, 1080)
         head, _ = assemble.fit_graph(1024, 1024, 1920, 1080, focus_y=0.15)
         self.assertEqual(mode, "crop")
-        self.assertIn("crop=1920:1080:(iw-1920)/2:(ih-1080)*0.500", middle)          # the middle band, as before
-        self.assertIn("crop=1920:1080:(iw-1920)/2:(ih-1080)*0.150", head)            # higher up, where a standing figure has its head
+        self.assertIn("crop=1920:1080:(iw-1920)*0.500:(ih-1080)*0.500", middle)      # the middle band, as before
+        self.assertIn("crop=1920:1080:(iw-1920)*0.500:(ih-1080)*0.150", head)        # higher up, where a standing figure has its head
         tall, _ = assemble.fit_graph(1024, 1024, 1080, 1920, focus_y=0.15)
-        self.assertIn("crop=1080:1920:(iw-1080)/2:", tall)                           # the tall film loses width only, so nothing moves
+        self.assertIn("crop=1080:1920:(iw-1080)*0.500:", tall)                       # the tall film loses width only, so nothing moves
+
+    def test_the_tall_film_keeps_the_side_of_the_picture_the_shot_points_at(self):
+        middle, mode = assemble.fit_graph(1024, 1024, 1080, 1920)
+        left, _ = assemble.fit_graph(1024, 1024, 1080, 1920, focus_x=0.3)
+        self.assertEqual(mode, "crop")
+        self.assertIn("crop=1080:1920:(iw-1080)*0.500:(ih-1920)*0.500", middle)      # the middle band of the width, as before
+        self.assertIn("crop=1080:1920:(iw-1080)*0.300:(ih-1920)*0.500", left)        # further left, where the brokers stand
+        edge, _ = assemble.fit_graph(1024, 1024, 1080, 1920, focus_x=1.4, focus_y=-2)
+        self.assertIn("crop=1080:1920:(iw-1080)*1.000:(ih-1920)*0.000", edge)        # an anchor never pushes the crop off the picture
+        bars, mode = assemble.fit_graph(1920, 1080, 1080, 1920, focus_x=0.3)         # a wide clip in the tall film would lose 68% of itself
+        self.assertEqual(mode, "blur_fill")                                          # so it still sits whole over a blurred copy
+        self.assertIn("overlay=(W-w)/2:(H-h)/2", bars)
+
+    def kept(self, width: int, height: int, **focus: float) -> tuple[float, float]:
+        """Fit a square picture to an export. Return where the middle of what is left sat in the picture, as (x, y) from 0 to 1.
+
+        The picture gets redder from left to right and greener from top to bottom, so the mean colour of a crop says where it was cut.
+        """
+        graph, mode = assemble.fit_graph(256, 256, width, height, **focus)
+        self.assertEqual(mode, "crop")
+        with tempfile.TemporaryDirectory() as folder:
+            picture, cut = Path(folder) / "picture.rgb", Path(folder) / "cut.rgb"
+            picture.write_bytes(bytes(value for y in range(256) for x in range(256) for value in (x, y, 0)))
+            core.ff(["-f", "rawvideo", "-pix_fmt", "rgb24", "-s", "256x256", "-i", str(picture), "-vf", graph,
+                     "-frames:v", "1", "-f", "rawvideo", "-pix_fmt", "rgb24", str(cut)])
+            px = cut.read_bytes()
+        self.assertEqual(len(px), 3 * width * height)                                # exactly the size of the export
+        return sum(px[0::3]) / (255 * width * height), sum(px[1::3]) / (255 * width * height)
+
+    def test_each_export_follows_the_anchor_for_the_side_it_cuts(self):
+        tall, wide = (180, 320), (320, 180)                                          # the two exports, small. Each keeps 56% of the square
+
+        def keeps(size: tuple, x: float, y: float, **focus: float) -> None:
+            got = self.kept(*size, **focus)
+            self.assertTrue(abs(got[0] - x) < 0.01 and abs(got[1] - y) < 0.01, (size, focus, got))
+
+        keeps(tall, 0.5, 0.5)                                                        # nothing said: the middle, in both directions
+        keeps(wide, 0.5, 0.5)
+        keeps(tall, 0.28, 0.5, focus_x=0.0)                                          # the tall film moves sideways with focus_x: its left 56%
+        keeps(tall, 0.72, 0.5, focus_x=1.0)                                          # and its right 56%
+        keeps(wide, 0.5, 0.5, focus_x=0.0)                                           # the wide film keeps the whole width, so focus_x moves nothing
+        keeps(wide, 0.5, 0.28, focus_y=0.0)                                          # it moves up and down with focus_y
+        keeps(tall, 0.5, 0.5, focus_y=0.0)                                           # which in turn moves nothing in the tall film
+        keeps(tall, 0.41, 0.5, focus_x=0.3, focus_y=0.9)                             # both given: each export takes the one that concerns it
+        keeps(wide, 0.5, 0.68, focus_x=0.3, focus_y=0.9)
+
+    def test_a_shot_can_point_each_export_at_another_part_of_the_picture(self):
+        both = ("vertical", "horizontal")
+        self.assertEqual([assemble.focus_of({}, name) for name in both], [(0.5, 0.5), (0.5, 0.5)])          # nothing said: the middle
+        number = {"prompt": "A room.", "seed": 1, "focus_x": 0.3, "focus_y": 0.15}
+        self.assertEqual([assemble.focus_of(number, name) for name in both], [(0.3, 0.15), (0.3, 0.15)])    # a number is for every export
+        each = {"focus_x": {"vertical": 0.3}, "focus_y": {"vertical": 0.4, "horizontal": 0.15}}
+        self.assertEqual(assemble.focus_of(each, "vertical"), (0.3, 0.4))                                   # an object says it per export
+        self.assertEqual(assemble.focus_of(each, "horizontal"), (0.5, 0.15))                                # one it does not name keeps the middle
+        mixed = {"focus_x": {"vertical": 0.0, "horizontal": 1}, "focus_y": 0.15}                            # one of each kind, and 0 is an anchor, not a gap
+        self.assertEqual([assemble.focus_of(mixed, name) for name in both], [(0.0, 0.15), (1, 0.15)])
 
     def test_what_follows_a_colon_waits_for_its_own_cue(self):
         cues = core.subtitle_cues("If I met that boy today, I would tell him just one thing: experience it.", 0.0, 6.0, pauses=[[1.9, 2.4], [4.3, 5.3]])
@@ -792,6 +864,31 @@ class SceneTests(Project):
         self.assertEqual((meta["slowdown"], meta["tail"], meta["tail_s"]), (1.0, "none", 0.0))
         self.assertAlmostEqual(core.media_info(scene)["duration"], 2.0, places=2)
 
+    def test_a_scene_is_cut_around_the_point_its_shot_names(self):
+        clip = self.root / "clip.mp4"
+        core.ff(["-f", "lavfi", "-i", "testsrc2=size=128x128:rate=24:duration=1", "-pix_fmt", "yuv420p", str(clip)])
+
+        def first_frame(width: int, height: int, **focus: float) -> bytes:
+            scene, raw = self.root / "scene.mp4", self.root / "frame.raw"
+            meta = assemble.render_scene(self.ctx(), clip, scene, width=width, height=height, frames=24, fps=24, cues=[], margin_v=10, **focus)
+            self.assertEqual(meta["fit"], "crop")
+            core.ff(["-i", str(scene), "-frames:v", "1", "-f", "rawvideo", "-pix_fmt", "gray", str(raw)])
+            return raw.read_bytes()
+
+        left, right = first_frame(180, 320, focus_x=0.0), first_frame(180, 320, focus_x=1.0)
+        self.assertNotEqual(left, right)                                             # the tall scene shows another side of the clip
+        self.assertEqual(first_frame(180, 320, focus_x=1.0, focus_y=0.0), right)     # and has no height to give up
+        top, bottom = first_frame(320, 180, focus_y=0.0), first_frame(320, 180, focus_y=1.0)
+        self.assertNotEqual(top, bottom)                                             # the wide scene: the other way round
+        self.assertEqual(first_frame(320, 180, focus_x=0.0, focus_y=1.0), bottom)
+
+    def test_a_clip_of_another_shape_still_sits_whole_over_a_blurred_copy(self):
+        clip, scene = self.root / "wide.mp4", self.root / "scene.mp4"
+        core.ff(["-f", "lavfi", "-i", "testsrc2=size=256x144:rate=24:duration=1", "-pix_fmt", "yuv420p", str(clip)])
+        meta = assemble.render_scene(self.ctx(), clip, scene, width=180, height=320, frames=24, fps=24, cues=[], margin_v=40, focus_x=0.3)
+        info = core.media_info(scene)
+        self.assertEqual((meta["fit"], info["width"], info["height"]), ("blur_fill", 180, 320))   # a crop would lose 68% of it, anchor or not
+
 
 class ListPriceTests(unittest.TestCase):
     """cost_usd in the run log: the list price of a call, or None. Never a guess."""
@@ -1073,6 +1170,66 @@ class JudgeTests(Project):
                                parts=[("audio/wav", b"RIFF")], model="claude-opus-5-5")
 
 
+class MarkedPictureTests(Project):
+    """The keyframes stage says "look at" once, when it picks a picture the judge marked. The final-cut check has to say it every time."""
+
+    LOW, WRITING = "pictures: no picked keyframe scored under 3 by the judge", "pictures: no picked keyframe has writing in it"
+
+    def picks(self, ctx: core.Ctx) -> dict:
+        """What the check reads of a keyframes index: for each shot two scored candidates, the first one picked, nothing marked."""
+        return {s["id"]: {"file": f"{s['id']}_c1__0000.png", "blocked": [], "candidate": 1, "picked_by": "judge", "unscored": [], "border": False,
+                          "scores": {str(i): {"total": 4.1, "text_in_image": False, "notes": "clean"} for i in (1, 2)}} for s in ctx.sb["shots"]}
+
+    def stand_in_film(self, ctx: core.Ctx) -> dict:
+        """What the check measures of a film, without the film: both exports as one plain colour under a tone at the film's loudness."""
+        sb, fmt = ctx.sb, ctx.sb["format"]
+        total = (fmt["min_total_s"] + fmt["max_total_s"]) / 2                    # a length the brief accepts, whatever the shots add up to
+        timeline = core.plan_timeline(sb, {s["id"]: 3.0 for s in sb["shots"] if s["narration"]})
+        ctx.out.mkdir(parents=True, exist_ok=True)
+        tone = ctx.out / "tone.m4a"                                              # encoded once for both exports: -14 LUFS, peaks far under -1 dB
+        core.ff(["-f", "lavfi", "-i", f"sine=frequency=1000:sample_rate=48000:duration={total},pan=stereo|c0=1.6*c0|c1=1.6*c0", "-c:a", "aac", str(tone)])
+        files = {exp["name"]: f"film_{exp['name']}.mp4" for exp in fmt["exports"]}
+        for exp in fmt["exports"]:
+            core.ff(["-f", "lavfi", "-i", f"color=c=0x30343c:s={exp['width']}x{exp['height']}:r={fmt['fps']}:d={total}", "-i", str(tone),
+                     "-c:v", "libx264", "-preset", "ultrafast", "-pix_fmt", "yuv420p", "-c:a", "copy", "-shortest", str(ctx.out / files[exp["name"]])])
+        return {"mode": "film", "total_s": total, "files": files, "timeline": timeline, "cues": [], "end_card": sb["end_card"]["lines"], "tails": {}}
+
+    def test_a_picked_picture_the_judge_marked_is_a_note_and_fails_nothing(self):
+        from pipeline import qc
+        ctx = self.ctx()
+        film, index = self.stand_in_film(ctx), self.picks(ctx)
+
+        def check(index: dict) -> tuple[dict, bool]:
+            report = qc.run(ctx, {"assemble": film, "keyframes": index})
+            return {c["check"]: (c["level"], c["ok"], c["detail"]) for c in report["checks"]}, report["passed"]
+
+        notes, passed = check(index)                                             # no pick is marked: both lines are there and pass
+        self.assertEqual((notes[self.LOW], notes[self.WRITING], passed), (("note", True, "none"), ("note", True, "none"), True))
+
+        low, written, other, unscored = [s["id"] for s in ctx.sb["shots"]][:4]
+        index[low].update(candidate=2, file=f"{low}_c2__0000.png")
+        index[low]["scores"]["2"] = {"total": 2.3, "text_in_image": False}       # the pick is under 3. The candidate left behind was clean
+        index[written]["scores"]["1"] = {"total": 3.5, "text_in_image": True}    # the pick has writing in it, and is not under 3 for it
+        index[other]["scores"]["2"] = {"total": 0.2, "text_in_image": True}      # marked both ways, but this candidate was not picked
+        index[unscored].update(scores={}, unscored=[1, 2])                       # the judge was not reached: another note says that
+        notes, passed = check(index)
+        self.assertEqual(notes[self.LOW], ("note", False, f"{low} (2.3)"))
+        self.assertEqual(notes[self.WRITING], ("note", False, written))
+        self.assertEqual(notes["pictures: the judge scored every candidate"], ("note", False, unscored))
+        self.assertTrue(passed)                                                  # a note sends a person to look. It never fails the film
+
+    def test_a_shot_without_a_pick_or_without_a_score_is_not_a_marked_picture(self):
+        from pipeline import qc
+        index = {"s01": {"file": "s01_card__0000.png", "key": "0000", "blocked": ["boy"], "candidate": None},   # waiting for consent: a card, no pick
+                 "s02": {"candidate": 1, "scores": {}, "unscored": [1, 2]},                                     # picked, and never scored
+                 "s03": {"candidate": 2, "scores": {"1": {"total": 1.0, "text_in_image": True}}, "unscored": [2]},   # scored, but not the pick
+                 "s04": {"candidate": 1, "scores": {"1": {"total": 3.0, "text_in_image": False}}}}              # 3 is not under 3
+        self.assertEqual(qc.marked_picks(index), ([], []))
+        self.assertEqual(qc.marked_picks({}), ([], []))                          # no keyframes yet
+        index["s04"]["scores"]["1"]["total"] = 2.999
+        self.assertEqual(qc.marked_picks(index), (["s04 (2.999)"], []))
+
+
 class NoSecretsTests(unittest.TestCase):
     """Keys live in .env, which git ignores. Nothing git tracks may hold one."""
 
@@ -1147,6 +1304,8 @@ class EndToEndTests(Project):
         report = json.loads((out / "qc_report.json").read_text(encoding="utf-8"))
         self.assertTrue(report["passed"], [c for c in report["checks"] if not c["ok"]])
         self.assertTrue(60 <= report["total_s"] <= 90)
+        marked = [c["ok"] for c in report["checks"] if c["check"].startswith("pictures: no picked keyframe")]
+        self.assertEqual(marked, [True, True])                       # under 3, and writing: the mock judge marks no picture
         for name in ("film_vertical.mp4", "film_horizontal.mp4", "subtitles.en.srt"):
             self.assertTrue((out / name).exists(), name)
         self.assertTrue(all(c["provider"] == "mock" for c in calls))
@@ -1177,6 +1336,13 @@ class EndToEndTests(Project):
         pictures |= {f"{unit}_judge" for unit in pictures} if sb["qa"]["judge"] else set()
         self.assertEqual({c["unit"] for c in calls}, pictures)
         self.assertEqual(built, pictures | {f"{kid}_kenburns", f"vertical_{kid}", f"horizontal_{kid}"} | films)
+
+        aimed = sb["shots"][0]["keyframe"]                           # one shot points the tall film at another side of its picture
+        tall, wide = (assemble.focus_of(aimed, name)[0] for name in ("vertical", "horizontal"))
+        aimed["focus_x"] = {"vertical": 0.8 if tall == 0.2 else 0.2, "horizontal": wide}
+        write_sb(self.root, sb)
+        built, calls = self.film()
+        self.assertEqual((built, calls), ({f"vertical_{sb['shots'][0]['id']}", "film_vertical"}, []))   # one scene of one export, and the film it is in
 
     def test_radio_cut(self):
         with contextlib.redirect_stdout(io.StringIO()):

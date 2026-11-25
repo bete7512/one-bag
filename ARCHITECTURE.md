@@ -121,6 +121,8 @@ One encoded scene file per shot per export, subtitles burned in, all with the sa
 
 A shot lasts as long as its narration, and a generated clip lasts a few seconds. A clip that is too short is slowed by at most 25%, and what is still missing is a slow push in over its last frame, made in the same filter as the clip so nothing changes where the two meet.
 
+The two exports cut the square picture on different sides: the wide film loses height and the tall film loses width. So a shot says where its subject sits with `keyframe.focus_x` (0 left, 1 right) and `keyframe.focus_y` (0 top, 1 bottom), each as one number for every export or as one number per export: `{"vertical": 0.3, "horizontal": 0.5}`. The crop keeps that part, an export that is not named keeps the middle, and a changed anchor re-encodes that one scene.
+
 Subtitles are English, at most two lines of 40 characters, timed in proportion to their length, and placed above the area that phone apps cover with buttons.
 
 ## One hard decision: two aspect ratios from one GPU budget
