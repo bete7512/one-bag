@@ -125,7 +125,6 @@ experiments/         scripts for the experiments that are not a plain pipeline r
 runs.jsonl           one line per real model call (created by the first one)
 outputs/             generated images, audio and video, kept for inspection
 pricing.json         list prices and free-tier limits per model, each with its source and the date it was read
-plan.md              the working plan, step by step, and the rules the coding agent follows
 DESIGN.md            audience, intent, a reason for every shot, the two user tests
 ARCHITECTURE.md      stages, contracts, caching, failure handling, one hard decision
 EXPERIMENTS.md       hypothesis, change, result

@@ -85,13 +85,13 @@ def cut(ctx: Ctx, wav: Path, start: float, end: float, out: Path, note: str | No
         out.write_bytes(providers.pcm_to_wav(frames, rate, note=note))
 
 
-def take(ctx: Ctx, lines: dict[str, str], voice: dict, model: str) -> dict[str, Path]:
-    """Speak several lines in one request and return one audio file per line."""
+def take(ctx: Ctx, lines: dict[str, str], voice: dict, model: str, stage: str = "narration", unit: str = "take") -> dict[str, Path]:
+    """Speak several lines in one request and return one audio file per line. The take is kept in <stage>/takes/."""
     key = sha({"v": STAGE_VERSION["narration"], "lines": list(lines.items()), "voice": voice["name"], "style": voice["style"], "model": model})[:16]
-    folder = ctx.out / "narration" / "takes"
+    folder = ctx.out / stage / "takes"
     record = folder / f"take__{key}.json"
     if not record.exists():  # the model's answer is kept as it came, so it is asked for once
-        wavs, meta = providers.tts_take(ctx, "narration", "take", list(lines.values()), voice=voice["name"], style=voice["style"])
+        wavs, meta = providers.tts_take(ctx, stage, unit, list(lines.values()), voice=voice["name"], style=voice["style"], model=model)
         folder.mkdir(parents=True, exist_ok=True)
         files = []
         for n, data in enumerate(wavs, start=1):
@@ -116,7 +116,7 @@ def take(ctx: Ctx, lines: dict[str, str], voice: dict, model: str) -> dict[str, 
             pieces[sid] = work / f"{sid}.wav"
             cut(ctx, blocks[0], *span, pieces[sid], note=text)
         if margin < 1.5:
-            ctx.say(f"  [narration] the pauses between lines are only {margin} times longer than the pauses inside them: listen to every line")
+            ctx.say(f"  [{stage}] the pauses between lines are only {margin} times longer than the pauses inside them: listen to every line")
     else:
         raise PipelineError(f"the take came back as {len(blocks)} audio parts for {len(lines)} lines. It is kept in {folder.relative_to(ctx.root)}: listen to it.")
     info.update(cut_margin=margin, spans={sid: round(wav_seconds(path), 3) for sid, path in pieces.items()})

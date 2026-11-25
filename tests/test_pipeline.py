@@ -490,6 +490,19 @@ class TakeTests(Project):
         self.assertTrue(all(1.0 <= core.wav_seconds(path) < 3.6 for path in pieces.values()))   # the second of silence at the end is trimmed
 
 
+class LanguageTestTests(Project):
+    def test_each_language_costs_one_speech_request(self):
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(cli.main(["langtest", "--mock", "--root", str(self.root), "--langs", "am,ti"]), 0)
+        sb = read_sb(self.root)
+        log = core.read_jsonl(self.root / "outputs_mock" / "runs.mock.jsonl")
+        speech = [(r["unit"], r["params"]["lines"]) for r in log if r["model"] == sb["models"]["tts"]]
+        self.assertEqual(speech, [("am_take", 4), ("ti_take", 4)])                # eight lines, two requests
+        rows = json.loads((self.root / "outputs_mock" / "langtest" / "results.json").read_text(encoding="utf-8"))
+        self.assertEqual((len(rows), sum(r["score"] is not None for r in rows), [r for r in rows if r["error"]]), (8, 8, []))
+        self.assertEqual({r["origin"] for r in rows if r["lang"] == "am"}, {"written by a person"})
+
+
 class FreeTierTests(Project):
     """Ten speech requests a day are easy to spend by accident. The run log is the counter."""
 
