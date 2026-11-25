@@ -879,6 +879,24 @@ class JudgeTests(Project):
                                parts=[("audio/wav", b"RIFF")], model="claude-opus-5-5")
 
 
+class NoSecretsTests(unittest.TestCase):
+    """Keys live in .env, which git ignores. Nothing git tracks may hold one."""
+
+    SHAPES = r"sk-ant-[A-Za-z0-9_-]{20,}|KGAT_[A-Za-z0-9]{20,}|AIza[0-9A-Za-z_-]{30,}|AQ\.[A-Za-z0-9_-]{30,}"
+
+    def test_no_tracked_file_holds_a_key_and_env_is_ignored(self):
+        import re
+        import subprocess
+        listed = subprocess.run(["git", "ls-files"], cwd=REPO, capture_output=True, text=True)
+        if listed.returncode != 0:
+            self.skipTest("not a git checkout")
+        files = listed.stdout.splitlines()
+        self.assertNotIn(".env", files)
+        holding = [name for name in files if (REPO / name).is_file() and (REPO / name).stat().st_size < 3_000_000
+                   and re.search(self.SHAPES, (REPO / name).read_text(encoding="utf-8", errors="ignore"))]
+        self.assertEqual(holding, [])
+
+
 class SmallToolTests(unittest.TestCase):
     def test_sign_test(self):
         self.assertAlmostEqual(sign_test(5, 5), 0.0625)
