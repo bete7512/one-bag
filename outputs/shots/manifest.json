@@ -1,22 +1,22 @@
 {
  "units": {
   "s01_kenburns": {
-   "key": "a569b3caf604b16c",
-   "file": "s01_kenburns__a569b3caf604b16c.mp4",
+   "key": "d104b4680264b44e",
+   "file": "s01_kenburns__d104b4680264b44e.mp4",
    "fingerprint": {
     "v": 1,
     "keyframe": "c1f50861356037a5",
     "camera": "push_in",
-    "frames": 228,
+    "frames": 246,
     "fps": 24,
     "w": 1024,
     "h": 1024
    },
    "meta": {
-    "seconds": 9.5,
+    "seconds": 10.25,
     "source": "kenburns"
    },
-   "created": "2026-11-25T17:30:29Z"
+   "created": "2026-11-25T20:16:54Z"
   },
   "s02_kenburns": {
    "key": "0144c171165df619",
@@ -37,12 +37,84 @@
    "created": "2026-11-25T17:30:32Z"
   },
   "s03_kenburns": {
-   "key": "2161654ff3087d86",
-   "file": "s03_kenburns__2161654ff3087d86.mp4",
+   "key": "f80f66055ed6961e",
+   "file": "s03_kenburns__f80f66055ed6961e.mp4",
    "fingerprint": {
     "v": 1,
-    "keyframe": "bee1ea15af270598",
+    "keyframe": "e1e0cf6c1eb7658c",
     "camera": "pan_left",
+    "frames": 178,
+    "fps": 24,
+    "w": 1024,
+    "h": 1024
+   },
+   "meta": {
+    "seconds": 7.417,
+    "source": "kenburns"
+   },
+   "created": "2026-11-25T20:16:58Z"
+  },
+  "s04_kenburns": {
+   "key": "4b658ed6800a6b5f",
+   "file": "s04_kenburns__4b658ed6800a6b5f.mp4",
+   "fingerprint": {
+    "v": 1,
+    "keyframe": "d142fd534d9e387f",
+    "camera": "pull_out",
+    "frames": 256,
+    "fps": 24,
+    "w": 1024,
+    "h": 1024
+   },
+   "meta": {
+    "seconds": 10.667,
+    "source": "kenburns"
+   },
+   "created": "2026-11-25T20:17:04Z"
+  },
+  "s05_kenburns": {
+   "key": "de8288df31a7426c",
+   "file": "s05_kenburns__de8288df31a7426c.mp4",
+   "fingerprint": {
+    "v": 1,
+    "keyframe": "bc3a749532d55645",
+    "camera": "pan_right",
+    "frames": 96,
+    "fps": 24,
+    "w": 1024,
+    "h": 1024
+   },
+   "meta": {
+    "seconds": 4.0,
+    "source": "kenburns"
+   },
+   "created": "2026-11-25T20:17:06Z"
+  },
+  "s06_kenburns": {
+   "key": "0e3726a62119af7b",
+   "file": "s06_kenburns__0e3726a62119af7b.mp4",
+   "fingerprint": {
+    "v": 1,
+    "keyframe": "c29e7a087507b09c",
+    "camera": "push_in",
+    "frames": 301,
+    "fps": 24,
+    "w": 1024,
+    "h": 1024
+   },
+   "meta": {
+    "seconds": 12.542,
+    "source": "kenburns"
+   },
+   "created": "2026-11-25T20:17:12Z"
+  },
+  "s07_kenburns": {
+   "key": "13513e3cc9831d72",
+   "file": "s07_kenburns__13513e3cc9831d72.mp4",
+   "fingerprint": {
+    "v": 1,
+    "keyframe": "d62578691f0e970b",
+    "camera": "push_in",
     "frames": 192,
     "fps": 24,
     "w": 1024,
@@ -52,115 +124,43 @@
     "seconds": 8.0,
     "source": "kenburns"
    },
-   "created": "2026-11-25T17:30:36Z"
-  },
-  "s04_kenburns": {
-   "key": "ce9753439b6f64fb",
-   "file": "s04_kenburns__ce9753439b6f64fb.mp4",
-   "fingerprint": {
-    "v": 1,
-    "keyframe": "c50c7c8c3ed06322",
-    "camera": "pull_out",
-    "frames": 244,
-    "fps": 24,
-    "w": 1024,
-    "h": 1024
-   },
-   "meta": {
-    "seconds": 10.167,
-    "source": "kenburns"
-   },
-   "created": "2026-11-25T17:30:40Z"
-  },
-  "s05_kenburns": {
-   "key": "b0d59ff86a9f9ec4",
-   "file": "s05_kenburns__b0d59ff86a9f9ec4.mp4",
-   "fingerprint": {
-    "v": 1,
-    "keyframe": "bc3a749532d55645",
-    "camera": "pan_right",
-    "frames": 120,
-    "fps": 24,
-    "w": 1024,
-    "h": 1024
-   },
-   "meta": {
-    "seconds": 5.0,
-    "source": "kenburns"
-   },
-   "created": "2026-11-25T17:30:43Z"
-  },
-  "s06_kenburns": {
-   "key": "c3e56afd2b833c6f",
-   "file": "s06_kenburns__c3e56afd2b833c6f.mp4",
-   "fingerprint": {
-    "v": 1,
-    "keyframe": "c29e7a087507b09c",
-    "camera": "push_in",
-    "frames": 269,
-    "fps": 24,
-    "w": 1024,
-    "h": 1024
-   },
-   "meta": {
-    "seconds": 11.208,
-    "source": "kenburns"
-   },
-   "created": "2026-11-25T17:30:47Z"
-  },
-  "s07_kenburns": {
-   "key": "0d040b58561a0036",
-   "file": "s07_kenburns__0d040b58561a0036.mp4",
-   "fingerprint": {
-    "v": 1,
-    "keyframe": "d62578691f0e970b",
-    "camera": "push_in",
-    "frames": 218,
-    "fps": 24,
-    "w": 1024,
-    "h": 1024
-   },
-   "meta": {
-    "seconds": 9.083,
-    "source": "kenburns"
-   },
-   "created": "2026-11-25T17:30:51Z"
+   "created": "2026-11-25T20:17:16Z"
   },
   "s08_kenburns": {
-   "key": "46752862990c430a",
-   "file": "s08_kenburns__46752862990c430a.mp4",
+   "key": "fb5d4559d40ab8fa",
+   "file": "s08_kenburns__fb5d4559d40ab8fa.mp4",
    "fingerprint": {
     "v": 1,
-    "keyframe": "871f660cc0737028",
+    "keyframe": "517ce38ff52c127c",
     "camera": "pan_left",
-    "frames": 168,
+    "frames": 132,
     "fps": 24,
     "w": 1024,
     "h": 1024
    },
    "meta": {
-    "seconds": 7.0,
+    "seconds": 5.5,
     "source": "kenburns"
    },
-   "created": "2026-11-25T17:30:54Z"
+   "created": "2026-11-25T20:17:20Z"
   },
   "s09_kenburns": {
-   "key": "e59ed097d9613c71",
-   "file": "s09_kenburns__e59ed097d9613c71.mp4",
+   "key": "e825aaac2482b063",
+   "file": "s09_kenburns__e825aaac2482b063.mp4",
    "fingerprint": {
     "v": 1,
     "keyframe": "e9b76be6bc42b274",
     "camera": "push_in",
-    "frames": 240,
+    "frames": 332,
     "fps": 24,
     "w": 1024,
     "h": 1024
    },
    "meta": {
-    "seconds": 10.0,
+    "seconds": 13.833,
     "source": "kenburns"
    },
-   "created": "2026-11-25T17:30:59Z"
+   "created": "2026-11-25T20:17:28Z"
   },
   "s02_wan": {
    "key": "a5009af75983891d",
@@ -296,6 +296,70 @@
     "seconds": 3.375,
     "source": "kaggle",
     "latency_s": 890.4
+   }
+  },
+  "d104b4680264b44e": {
+   "unit": "s01_kenburns",
+   "file": "s01_kenburns__d104b4680264b44e.mp4",
+   "meta": {
+    "seconds": 10.25,
+    "source": "kenburns"
+   }
+  },
+  "f80f66055ed6961e": {
+   "unit": "s03_kenburns",
+   "file": "s03_kenburns__f80f66055ed6961e.mp4",
+   "meta": {
+    "seconds": 7.417,
+    "source": "kenburns"
+   }
+  },
+  "4b658ed6800a6b5f": {
+   "unit": "s04_kenburns",
+   "file": "s04_kenburns__4b658ed6800a6b5f.mp4",
+   "meta": {
+    "seconds": 10.667,
+    "source": "kenburns"
+   }
+  },
+  "de8288df31a7426c": {
+   "unit": "s05_kenburns",
+   "file": "s05_kenburns__de8288df31a7426c.mp4",
+   "meta": {
+    "seconds": 4.0,
+    "source": "kenburns"
+   }
+  },
+  "0e3726a62119af7b": {
+   "unit": "s06_kenburns",
+   "file": "s06_kenburns__0e3726a62119af7b.mp4",
+   "meta": {
+    "seconds": 12.542,
+    "source": "kenburns"
+   }
+  },
+  "13513e3cc9831d72": {
+   "unit": "s07_kenburns",
+   "file": "s07_kenburns__13513e3cc9831d72.mp4",
+   "meta": {
+    "seconds": 8.0,
+    "source": "kenburns"
+   }
+  },
+  "fb5d4559d40ab8fa": {
+   "unit": "s08_kenburns",
+   "file": "s08_kenburns__fb5d4559d40ab8fa.mp4",
+   "meta": {
+    "seconds": 5.5,
+    "source": "kenburns"
+   }
+  },
+  "e825aaac2482b063": {
+   "unit": "s09_kenburns",
+   "file": "s09_kenburns__e825aaac2482b063.mp4",
+   "meta": {
+    "seconds": 13.833,
+    "source": "kenburns"
    }
   }
  }

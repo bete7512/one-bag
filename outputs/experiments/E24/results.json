@@ -1,0 +1,134 @@
+{
+ "s03_c1__ed8b4c5f2ddafa61": {
+  "drawn": "words alone",
+  "shot": "s03",
+  "height_share": 0.64,
+  "posture": "sits",
+  "in_middle_third": true,
+  "face_seen": true,
+  "notes": "The young man with the backpack sits on the left bench of a train or bus compartment and looks out the front window at the mountains and pine trees. His head starts at about y=200 and his sandaled feet end at about y=693 in a 768-pixel-tall frame, which gives a share of about 0.64. His torso sits at about x=320, inside the middle third of the width. His face shows in side profile.",
+  "latency_s": 6.248,
+  "cost_usd": 0.010652
+ },
+ "s03_c2__5503fd35e7a2b365": {
+  "drawn": "words alone",
+  "shot": "s03",
+  "height_share": 0.71,
+  "posture": "sits",
+  "in_middle_third": true,
+  "face_seen": true,
+  "notes": "The young man with the backpack sits on a bus bench by the window, facing right and looking out at the mountains. His face is visible in profile. He spans from the top of his head (about y=172) to his sandaled feet (about y=718). His body is centered at about x=400, which falls within the middle third of the frame's width. Another man in the right foreground is seen from behind and is not the main character.",
+  "latency_s": 4.499,
+  "cost_usd": 0.010412
+ },
+ "s04_c1__728582a10db91f43": {
+  "drawn": "words alone",
+  "shot": "s04",
+  "height_share": 0.47,
+  "posture": "stands",
+  "in_middle_third": true,
+  "face_seen": false,
+  "notes": "The young man stands in the center of the street with his back to the viewer, wearing an olive backpack, a dark jacket, gray rolled-up pants and sandals. His head starts at about y=360 and his feet end at about y=740 in a 768-pixel-high frame, so he takes about 0.47 of the height. His body is centered at about x=385, which is inside the middle third of the width. Only the back of his head is visible, so his face cannot be seen.",
+  "latency_s": 4.941,
+  "cost_usd": 0.008812
+ },
+ "s04_c2__c0df8f76482ed588": {
+  "drawn": "words alone",
+  "shot": "s04",
+  "height_share": 0.5,
+  "posture": "stands",
+  "in_middle_third": true,
+  "face_seen": false,
+  "notes": "The young man with the tan backpack stands at the center of the frame on the curb, his back to the viewer, looking down a busy street at night. He spans from about y=355 (top of head) to about y=742 (feet). Only the back of his head is visible, so his face cannot be seen.",
+  "latency_s": 3.512,
+  "cost_usd": 0.008892
+ },
+ "s08_c1__302a3847589a49dd": {
+  "drawn": "words alone",
+  "shot": "s08",
+  "height_share": 0.48,
+  "posture": "stands",
+  "in_middle_third": true,
+  "face_seen": false,
+  "notes": "The young man with the backpack stands in the foreground, near the center, with his back to the viewer as he faces the queue and the ticket booth. His head is at about y=305 and his feet at about y=680 in a 768-pixel-tall frame, so he takes up roughly 0.48 of the height. The middle of his body is at about x=385, inside the middle third. Only the back of his head is visible, so his face cannot be seen.",
+  "latency_s": 3.613,
+  "cost_usd": 0.008632
+ },
+ "s08_c2__06339420ed15e4e3": {
+  "drawn": "words alone",
+  "shot": "s08",
+  "height_share": 0.41,
+  "posture": "stands",
+  "in_middle_third": true,
+  "face_seen": false,
+  "notes": "The young man with the green backpack stands at the centre of the group, seen from behind as he faces the small building between the two buses. His head is at about y=340 and his feet at about y=652 in a 768-pixel-tall frame. His body centre is at about x=393, inside the middle third of the width. His face is turned away and cannot be seen.",
+  "latency_s": 4.416,
+  "cost_usd": 0.009612
+ },
+ "s03_c1__b2570f1e5ca5bd08": {
+  "drawn": "with the reference",
+  "shot": "s03",
+  "height_share": 0.85,
+  "posture": "stands",
+  "in_middle_third": true,
+  "face_seen": false,
+  "notes": "The young man stands in the aisle of an old bus with his back to the viewer, wearing a green backpack. He spans from about y=88 (top of his curly hair) to about y=738 (his shoes), which is roughly 0.85 of the 768px frame height. His body is centered horizontally at about x=395, inside the middle third. Only the back of his head and a hint of his ear are visible, so his face cannot be seen.",
+  "latency_s": 4.812,
+  "cost_usd": 0.011572
+ },
+ "s03_c2__e97240232b5b9d38": {
+  "drawn": "with the reference",
+  "shot": "s03",
+  "height_share": 0.83,
+  "posture": "stands",
+  "in_middle_third": true,
+  "face_seen": true,
+  "notes": "The young man with the backpack stands in the aisle of an old bus with his back to the viewer, looking out of the windows at the mountains. He runs from about y=97 (top of his curly hair) to about y=738 (bottom of his shoes) in a 768px-tall frame, which gives a share of about 0.83. His body is centred at about x=388, well inside the middle third. His head is turned slightly to the left, so part of his face (cheek and nose outline) shows in partial profile.",
+  "latency_s": 6.943,
+  "cost_usd": 0.011812
+ },
+ "s04_c1__cb7bae72cb46ce16": {
+  "drawn": "with the reference",
+  "shot": "s04",
+  "height_share": 0.41,
+  "posture": "stands",
+  "in_middle_third": false,
+  "face_seen": true,
+  "notes": "The young man with the green backpack stands on the road on the right side of the frame, mostly seen from behind, holding a dark bag. He spans from about y≈418 (top of head) to y≈735 (shoes). His body centre is at about x≈565, which is just right of the middle third (256–512). His head is turned slightly, so part of his face shows from the side.",
+  "latency_s": 6.679,
+  "cost_usd": 0.012232
+ },
+ "s04_c2__692740e3f9ca7e11": {
+  "drawn": "with the reference",
+  "shot": "s04",
+  "height_share": 0.65,
+  "posture": "stands",
+  "in_middle_third": true,
+  "face_seen": false,
+  "notes": "The young man with the backpack stands in the center of a busy street at night, seen from behind. His head starts at about y=203 and his feet end at about y=722 in a 768-pixel-tall frame, so he takes up about 0.65–0.68 of the height. His body is centered horizontally at x≈390. Because he faces away from the viewer, his face is not visible.",
+  "latency_s": 4.402,
+  "cost_usd": 0.008252
+ },
+ "s08_c1__51505b526b964995": {
+  "drawn": "with the reference",
+  "shot": "s08",
+  "height_share": 0.57,
+  "posture": "stands",
+  "in_middle_third": true,
+  "face_seen": false,
+  "notes": "The young man with the green backpack stands in the center foreground with his back to the viewer, looking down the road at the people lined up by the buses and buildings. He runs from the top of his head at about y=285 to his sandals at about y=722 in a 768-pixel-tall frame. His body is centered horizontally at about x=387. Only the back of his head is visible, so his face cannot be seen.",
+  "latency_s": 4.715,
+  "cost_usd": 0.010232
+ },
+ "s08_c2__040f903fef9e297a": {
+  "drawn": "with the reference",
+  "shot": "s08",
+  "height_share": 0.5,
+  "posture": "stands",
+  "in_middle_third": true,
+  "face_seen": false,
+  "notes": "The young man with the green backpack stands in the center foreground with his back to the viewer, facing the buses and the crowd. He spans from about y=337 (top of his curly hair) to about y=722 (his sandals), roughly half the frame height. His body is centered horizontally at about x=385, and his face is not visible.",
+  "latency_s": 4.095,
+  "cost_usd": 0.009972
+ }
+}

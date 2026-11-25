@@ -217,6 +217,16 @@
         "style": {
           "type": "string",
           "minLength": 3
+        },
+        "one_take": {
+          "type": "boolean",
+          "description": "True: the lines that are missing are first spoken in one request and cut apart, which costs fewer requests when the cut is clean. False: each line is spoken in a request of its own and needs no cutting. Default true."
+        },
+        "max_pause_s": {
+          "type": "number",
+          "minimum": 0.2,
+          "maximum": 3,
+          "description": "The longest silence left inside a spoken line, in seconds. Longer ones are shortened to this by FFmpeg, from the kept audio: no line is spoken again. Leave it out to keep the pauses as the voice made them."
         }
       }
     },
@@ -550,6 +560,10 @@
               "minimum": 1,
               "maximum": 4,
               "description": "Human override: 1-based candidate to use, whatever the judge scored."
+            },
+            "reference": {
+              "type": "boolean",
+              "description": "Set to false to draw this shot from its words alone, without the reference picture of its characters. A reference pulls a shot toward its own layout, one figure in the centre: use this where the scene should lead. Default true."
             },
             "focus_y": {
               "type": "number",

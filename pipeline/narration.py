@@ -156,6 +156,29 @@ def spans_by_words(wav: Path, found: list[tuple[float, float]], heard: list[str]
     return spans, matches
 
 
+def tighten(src: Path, dst: Path, max_pause: float) -> dict:
+    """Shorten every silence inside a spoken line to at most `max_pause` seconds. The words are not touched.
+
+    The first listeners said the pauses were too long. The voice had been asked to be unhurried and stops for
+    up to 1.3 s between two sentences of one line. The middle of each long silence is cut out, so its start
+    and its end, where the voice fades and comes back, stay as they were.
+    """
+    silences, total = pauses(src)
+    keep, at = [], 0.0
+    for a, b in silences:
+        if a > 0.05 and b < total - 0.05 and b - a > max_pause + 0.05:  # a silence already at the limit is measured a hair longer: leave it
+            keep.append((at, a + max_pause / 2))
+            at = b - max_pause / 2
+    keep.append((at, total))
+    if len(keep) == 1:
+        shutil.copy2(src, dst)
+        return {"shortened": 0, "removed_s": 0.0}
+    graph = ";".join(f"[0:a]atrim={a:.3f}:{b:.3f},asetpts=PTS-STARTPTS[p{i}]" for i, (a, b) in enumerate(keep))
+    graph += ";" + "".join(f"[p{i}]" for i in range(len(keep))) + f"concat=n={len(keep)}:v=0:a=1[o]"
+    ff(["-i", str(src), "-filter_complex", graph, "-map", "[o]", "-c:a", "pcm_s16le", str(dst)])
+    return {"shortened": len(keep) - 1, "removed_s": round(total - wav_seconds(dst), 3)}
+
+
 def cut(ctx: Ctx, wav: Path, start: float, end: float, out: Path, note: str | None = None) -> None:
     ff(["-i", str(wav), "-ss", f"{start:.3f}", "-to", f"{end:.3f}", "-c:a", "pcm_s16le", str(out)])
     if ctx.mock and note is not None:  # the mock listener reads the line from a private chunk of the file: put it back
@@ -255,9 +278,13 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
     if missing:
         use = None if ctx.mock else free_tier_use(ctx, model)
         left = f", {max(0, use['limit']['requests_per_day'] - use['requests'])} left today" if use and use["limit"].get("requests_per_day") else ""
-        ctx.say(f"  [narration] {len(missing)} line(s) to speak in 1 speech request{left}. A line that cannot be cut out of the take "
-                f"with certainty costs one more request")
-    pieces = take(ctx, {sid: script["lines"][sid]["text"] for sid in missing}, voice, model) if len(missing) > 1 and not plan_only else {}
+        if voice.get("one_take", True) and len(missing) > 1:
+            ctx.say(f"  [narration] {len(missing)} line(s) to speak in 1 speech request{left}. A line that cannot be cut out of the take "
+                    f"with certainty costs one more request")
+        else:
+            ctx.say(f"  [narration] {len(missing)} line(s) to speak, each in a request of its own{left}")
+    one_take = voice.get("one_take", True) and len(missing) > 1 and not plan_only
+    pieces = take(ctx, {sid: script["lines"][sid]["text"] for sid in missing}, voice, model) if one_take else {}
 
     units = []
     for sid, line in script["lines"].items():
@@ -274,6 +301,30 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
     spoken = run_units(ctx, units, plan_only)
     for path in {piece.parent for piece in pieces.values()}:
         shutil.rmtree(path, ignore_errors=True)
+
+    # The film uses each line with its long silences shortened, when the storyboard asks for that. It is cut from the
+    # kept audio by FFmpeg, so changing the limit costs no speech request.
+    max_pause, as_spoken = voice.get("max_pause_s"), dict(spoken)
+    if max_pause:
+        tight_units = []
+        for sid, res in spoken.items():
+            if res.path:
+                fp = {"v": STAGE_VERSION["narration"], "audio": file_sha(res.path), "max_pause_s": max_pause, "silence": SILENCE}
+
+                def shorten(tmp: Path, src: Path = res.path) -> dict:
+                    done = tighten(src, tmp, max_pause)
+                    if ctx.mock:  # the mock listener reads the line from a private chunk of the file: keep it
+                        note = providers.wav_note(src.read_bytes())
+                        if note:
+                            with wave.open(str(tmp), "rb") as w:
+                                frames, rate = w.readframes(w.getnframes()), w.getframerate()
+                            tmp.write_bytes(providers.pcm_to_wav(frames, rate, note=note))
+                    return {"seconds": round(wav_seconds(tmp), 3), **done}
+
+                tight_units.append(Unit("narration", f"{sid}_tight", fp, "wav", shorten))
+        for uid, res in run_units(ctx, tight_units, plan_only).items():
+            if res.path:
+                spoken[uid.removesuffix("_tight")] = res
 
     checks = {}
     if qa.get("roundtrip") and not plan_only:
@@ -300,6 +351,9 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
     for sid, res in spoken.items():
         entry = {"file": res.path.name if res.path else None, "key": res.key,
                  "seconds": res.meta.get("seconds") or script["lines"][sid]["estimate_s"]}
+        if max_pause and res is not as_spoken[sid]:
+            entry.update(as_spoken=as_spoken[sid].path.name, as_spoken_seconds=as_spoken[sid].meta.get("seconds"),
+                         pauses_shortened=res.meta.get("shortened"), removed_s=res.meta.get("removed_s"))
         if res.path:  # the silences inside the line, so its subtitles can change where the voice stops. Measured in a plan too, so plan and run agree
             entry["pauses"] = [[round(a, 2), round(b, 2)] for a, b in pauses(res.path)[0]]
         check = checks.get(f"{sid}_listen")

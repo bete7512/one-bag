@@ -32,7 +32,8 @@ def make_project(folder: Path, small: bool = True) -> Path:
 
     The tests describe how the pipeline behaves, so they must give the same answer whether the real
     film is a draft or ready for release. The copy keeps the real shots, and goes back to: nobody's
-    consent recorded, the audience still marked DRAFT, no score chosen.
+    consent recorded, the audience still marked DRAFT, no score chosen, the voice spoken in one take
+    with its pauses as they come, and no picture picked by hand or drawn without its reference.
     """
     for name in ("schema", "kaggle"):
         shutil.copytree(REPO / name, folder / name)
@@ -42,6 +43,11 @@ def make_project(folder: Path, small: bool = True) -> Path:
     sb = read_sb(folder)
     sb["audience"] = "DRAFT, a test audience."
     sb["music"]["chosen"] = None
+    sb["music"].pop("chosen_reason", None)
+    sb["voice"] = {"name": sb["voice"]["name"], "style": sb["voice"]["style"]}
+    for shot in sb["shots"]:
+        for choice in ("pick", "reference"):
+            shot["keyframe"].pop(choice, None)
     for character in sb["characters"]:
         if character["real_person"]:
             character["consent"]["status"] = "pending"
@@ -602,6 +608,42 @@ class TakeTests(Project):
         record = json.loads(next((ctx.out / "narration" / "takes").glob("*.json")).read_text(encoding="utf-8"))
         self.assertEqual((record["cut_from_take"], record["word_match"]), (["s01"], {"s01": 1.0, "s03": 1.0, "s04": 1.0}))
         self.assertLess(record["cut_margin"], narration.MIN_CUT_MARGIN)
+
+    def test_long_silences_inside_a_line_are_shortened_and_the_words_are_kept(self):
+        from pipeline import narration
+        line = self.root / "line.wav"   # three phrases of 1 s: a long silence of 1.2 s after the first, a breath of 0.3 s after the second
+        parts = ["sine=f=300:d=1.0", "anullsrc=d=1.2", "sine=f=300:d=1.0", "anullsrc=d=0.3", "sine=f=300:d=1.0"]
+        inputs = [arg for part in parts for arg in ("-f", "lavfi", "-i", part + (":r=24000" if part.startswith("sine") else ":r=24000:cl=mono"))]
+        core.ff([*inputs, "-filter_complex", "".join(f"[{i}:a]" for i in range(len(parts))) + f"concat=n={len(parts)}:v=0:a=1", "-ar", "24000", str(line)])
+        out = self.root / "tight.wav"
+        done = narration.tighten(line, out, 0.6)
+        self.assertEqual((done["shortened"], round(done["removed_s"], 1)), (1, 0.6))        # only the long silence, cut down to the limit
+        self.assertAlmostEqual(core.wav_seconds(out), 3.9, places=1)
+        self.assertEqual([round(b - a, 1) for a, b in narration.pauses(out)[0]], [0.6, 0.3])  # the breath is left as it was
+        same = self.root / "same.wav"
+        self.assertEqual(narration.tighten(out, same, 0.6)["shortened"], 0)                 # nothing left to shorten: the file is copied
+        self.assertEqual(same.read_bytes(), out.read_bytes())
+
+    def test_the_film_uses_the_shortened_line_when_the_storyboard_sets_a_limit(self):
+        sb = read_sb(self.root)
+        sb["voice"]["max_pause_s"] = 0.6
+        write_sb(self.root, sb)
+        index, speech = self.narrate()
+        self.assertTrue(all("_tight__" in line["file"] and line["as_spoken"] and line["roundtrip"] == 1.0 for line in index.values()), index)
+        self.assertEqual(len(speech), 1)                                                     # one take, as before: shortening asks no model
+        sb["voice"]["max_pause_s"] = 0.4
+        write_sb(self.root, sb)
+        _, speech = self.narrate()
+        self.assertEqual(speech, [])                                                         # another limit is cut from the kept audio
+
+    def test_each_line_is_spoken_alone_when_the_storyboard_says_so(self):
+        sb = read_sb(self.root)
+        sb["voice"]["one_take"] = False
+        write_sb(self.root, sb)
+        index, speech = self.narrate()
+        self.assertEqual([r["unit"] for r in speech], list(index))                         # one request a line, and no take to cut
+        self.assertFalse((self.root / "outputs_mock" / "narration" / "takes").exists())
+        self.assertTrue(all(line["roundtrip"] == 1.0 for line in index.values()), index)
 
     def test_phrases_go_to_the_line_they_sound_like(self):
         from pipeline import narration

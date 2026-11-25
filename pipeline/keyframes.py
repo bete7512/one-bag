@@ -212,7 +212,8 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
             continue
         n = s["keyframe"].get("candidates", qa.get("keyframe_candidates", 1))
         prompt = full_prompt(sb, s)
-        ref_ids = [f"ref_{cid}" for cid in s["characters"] if f"ref_{cid}" in refs]
+        # a shot can ask to be drawn from its words alone: the reference pulls every picture toward one centred figure (F05)
+        ref_ids = [f"ref_{cid}" for cid in s["characters"] if f"ref_{cid}" in refs] if s["keyframe"].get("reference", True) else []
         plan[s["id"]] = {"blocked": [], "n": n, "prompt": prompt, "refs": ref_ids}
         for i in range(1, n + 1):
             seed = s["keyframe"]["seed"] + i - 1

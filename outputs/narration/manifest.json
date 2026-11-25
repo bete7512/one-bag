@@ -1,21 +1,21 @@
 {
  "units": {
   "s01": {
-   "key": "b1d7daeed8f6319a",
-   "file": "s01__b1d7daeed8f6319a.wav",
+   "key": "8549541531555b39",
+   "file": "s01__8549541531555b39.wav",
    "fingerprint": {
     "v": 2,
-    "text": "እኩለ ቀን አካባቢ ነበር፣ ከአንኮበር ስነሳ። አንድ የጀርባ ቦርሳ ብቻ ይዤ። አንድ ጓደኛዬ ሊሸኘኝ መጥቶ ነበር።",
+    "text": "ሁለት ሺህ አሥራ ሁለት ዓመተ ምሕረት። እኩለ ቀን ላይ ከአንኮበር ተነሳሁ። አንድ የጀርባ ቦርሳ ብቻ ይዤ። አንድ ጓደኛዬ ሸኘኝ።",
     "lang": "am",
     "voice": "Charon",
     "style": "calm, warm and unhurried, like telling a memory to family",
     "model": "gemini-3.8-flash-tts"
    },
    "meta": {
-    "seconds": 8.582,
-    "from_take": true
+    "seconds": 10.13,
+    "from_take": false
    },
-   "created": "2026-11-25T17:12:38Z"
+   "created": "2026-11-25T20:15:21Z"
   },
   "s02": {
    "key": "899429c2c94529c1",
@@ -52,38 +52,38 @@
    "created": "2026-11-25T17:12:38Z"
   },
   "s04": {
-   "key": "8ba30dec01f68c12",
-   "file": "s04__8ba30dec01f68c12.wav",
+   "key": "c3fd35829b8ffb58",
+   "file": "s04__c3fd35829b8ffb58.wav",
    "fingerprint": {
     "v": 2,
-    "text": "ላምበረት ስደርስ መሽቶ ነበር። ጓደኛዬ እየጠበቀኝ ነበር። ሰው በዝቷል፤ የሕንፃ መብራት፣ ብዙ መኪና።",
+    "text": "ላምበረት የደረስኩት ከመሸ በኋላ ነው። ጓደኛዬ እዚያው ጠበቀኝ። ሰው፣ መብራት፣ መኪና፤ ሁሉም በአንድ ጊዜ።",
     "lang": "am",
     "voice": "Charon",
     "style": "calm, warm and unhurried, like telling a memory to family",
     "model": "gemini-3.8-flash-tts"
    },
    "meta": {
-    "seconds": 9.276,
-    "from_take": true
-   },
-   "created": "2026-11-25T17:12:38Z"
-  },
-  "s06": {
-   "key": "25b921d99f73e797",
-   "file": "s06__25b921d99f73e797.wav",
-   "fingerprint": {
-    "v": 2,
-    "text": "አውቶቡስ ተራ ስንደርስ ደላሎች ከበቡን። «አልጋ ትፈልጋላችሁ?» ብዙ ነበሩ። ግራ ገባን። አንዱን መረጥን።",
-    "lang": "am",
-    "voice": "Charon",
-    "style": "calm, warm and unhurried, like telling a memory to family",
-    "model": "gemini-3.8-flash-tts"
-   },
-   "meta": {
-    "seconds": 10.32,
+    "seconds": 10.42,
     "from_take": false
    },
-   "created": "2026-11-25T17:12:45Z"
+   "created": "2026-11-25T20:15:40Z"
+  },
+  "s06": {
+   "key": "27e28f0d6e356e5e",
+   "file": "s06__27e28f0d6e356e5e.wav",
+   "fingerprint": {
+    "v": 2,
+    "text": "አውቶቡስ ተራ ስንደርስ ደላሎች ከበቡን። «አልጋ ትፈልጋላችሁ?» «አልጋ?» ከየአቅጣጫው። ግራ ገባን። በመጨረሻ አንዱን መረጥን።",
+    "lang": "am",
+    "voice": "Charon",
+    "style": "calm, warm and unhurried, like telling a memory to family",
+    "model": "gemini-3.8-flash-tts"
+   },
+   "meta": {
+    "seconds": 12.82,
+    "from_take": false
+   },
+   "created": "2026-11-25T20:16:01Z"
   },
   "s07": {
    "key": "e895cafb0fd84c6f",
@@ -120,117 +120,117 @@
    "created": "2026-11-25T17:13:23Z"
   },
   "s09": {
-   "key": "824c862c1872d293",
-   "file": "s09__824c862c1872d293.wav",
+   "key": "b344dc8acc7b40e2",
+   "file": "s09__b344dc8acc7b40e2.wav",
    "fingerprint": {
     "v": 2,
-    "text": "ዛሬ ያንን ልጅ ባገኘው አንድ ነገር ብቻ እለዋለሁ፦ ኑረው።",
+    "text": "ያ ሌሊት ግራ አጋባኝ። ዛሬ ግን ከቤቱ ለሚወጣ ሁሉ አንድ ነገር እላለሁ፦ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። አትሽሽ። አጣጥመው።",
     "lang": "am",
     "voice": "Charon",
     "style": "calm, warm and unhurried, like telling a memory to family",
     "model": "gemini-3.8-flash-tts"
    },
    "meta": {
-    "seconds": 6.09,
+    "seconds": 14.0,
     "from_take": false
    },
-   "created": "2026-11-25T17:13:44Z"
+   "created": "2026-11-25T20:16:22Z"
   },
   "s01_listen": {
-   "key": "96742021a40e3b09",
-   "file": "s01_listen__96742021a40e3b09.json",
+   "key": "a2e5a5f62358cd74",
+   "file": "s01_listen__a2e5a5f62358cd74.json",
    "fingerprint": {
     "v": 2,
-    "audio": "86fb1b4d2ef00068",
-    "text": "እኩለ ቀን አካባቢ ነበር፣ ከአንኮበር ስነሳ። አንድ የጀርባ ቦርሳ ብቻ ይዤ። አንድ ጓደኛዬ ሊሸኘኝ መጥቶ ነበር።",
+    "audio": "2c937a05aa3b2357",
+    "text": "ሁለት ሺህ አሥራ ሁለት ዓመተ ምሕረት። እኩለ ቀን ላይ ከአንኮበር ተነሳሁ። አንድ የጀርባ ቦርሳ ብቻ ይዤ። አንድ ጓደኛዬ ሸኘኝ።",
     "model": "gemini-3.5-flash-lite",
     "question": "ec4a06ca5dbb"
    },
    "meta": {
-    "heard": "ቁላ እስከ አሁን አካባቢያችን ከሀንኮቨር ስንነሳ አንድ የጀርባ ቦርሳ ብቻ ይዤ አንድ ጓደኛዬ ሊሸኘኝ መቶ ነበር።",
-    "score": 0.832
+    "heard": "ሁለተኛው የአሰራሁለተኛው ምዕራፍ እኩለ ቀን ላይ ከአንኮበር ተነሳው አንዲት የጀርባ ወርሳ ብቻ ይዤ አንድጓደኛዬ የሰነኟኝ",
+    "score": 0.758
    },
-   "created": "2026-11-25T17:17:04Z"
+   "created": "2026-11-25T20:16:28Z"
   },
   "s02_listen": {
-   "key": "dc5ba101f3403d21",
-   "file": "s02_listen__dc5ba101f3403d21.json",
+   "key": "98985d9f0fc936b9",
+   "file": "s02_listen__98985d9f0fc936b9.json",
    "fingerprint": {
     "v": 2,
-    "audio": "7ad7e8351200aaf9",
+    "audio": "0acf7811c3791c30",
     "text": "እስከ ደብረ ብርሃን መንገዱ ፒስታ ነበር። ከዚያ በኋላ አስፋልት።",
     "model": "gemini-3.5-flash-lite",
     "question": "ec4a06ca5dbb"
    },
    "meta": {
-    "heard": "እስክንድር አብረሃም መንገዱ ፒስታ ነበር። ከዚያ በኋላ አስፋልት",
-    "score": 0.846
+    "heard": "ስክለብሮ በራሀን መንገዱ ፒስታ ነበር፣ ከዚያ በኋላ አስፋልት።",
+    "score": 0.789
    },
-   "created": "2026-11-25T17:17:07Z"
+   "created": "2026-11-25T20:08:15Z"
   },
   "s03_listen": {
-   "key": "d42a4663cd1c73b7",
-   "file": "s03_listen__d42a4663cd1c73b7.json",
+   "key": "b601b6ef1ec41a29",
+   "file": "s03_listen__b601b6ef1ec41a29.json",
    "fingerprint": {
     "v": 2,
-    "audio": "c485ace1aa5d133f",
+    "audio": "c15cd5bc6cf7560d",
     "text": "በአውቶቡሱ መስኮት በኩል ተቀምጬ ነበር። ውጪው ደንና ተራራ ነው። እይታው ድንቅ ነበር።",
     "model": "gemini-3.5-flash-lite",
     "question": "ec4a06ca5dbb"
    },
    "meta": {
-    "heard": "ማርቲን ሉተር ኪንግ በጣም ቁጡ ተናጋሪ ነበር። ውጪው ደንድና ተራራ ነው። ማየታቸው ድንቅ ነበር።",
-    "score": 0.636
+    "heard": "ባውብሱ ሞስኮት በኩል ተካሚ ጨነበር ውጪው ደንና ተራራ ነው። እይታው ድንቅ ነበር።",
+    "score": 0.863
    },
-   "created": "2026-11-25T17:17:11Z"
+   "created": "2026-11-25T20:08:27Z"
   },
   "s04_listen": {
-   "key": "cfb14b00877f760d",
-   "file": "s04_listen__cfb14b00877f760d.json",
+   "key": "77cd9ec14e90f920",
+   "file": "s04_listen__77cd9ec14e90f920.json",
    "fingerprint": {
     "v": 2,
-    "audio": "878a23a3c33fb3c6",
-    "text": "ላምበረት ስደርስ መሽቶ ነበር። ጓደኛዬ እየጠበቀኝ ነበር። ሰው በዝቷል፤ የሕንፃ መብራት፣ ብዙ መኪና።",
+    "audio": "a0b02458a9b85abb",
+    "text": "ላምበረት የደረስኩት ከመሸ በኋላ ነው። ጓደኛዬ እዚያው ጠበቀኝ። ሰው፣ መብራት፣ መኪና፤ ሁሉም በአንድ ጊዜ።",
     "model": "gemini-3.5-flash-lite",
     "question": "ec4a06ca5dbb"
    },
    "meta": {
-    "heard": "ላምበር ከደርስ መጥቶ ነበር። ጓደኛዬ እየጠበቀኝ ነበር። ሰው በዝቷል። የህንጻ መብራት ብዙ መኪና",
-    "score": 0.906
+    "heard": "ልምበርት የደረስኩት ከመሸ በኋላ ነው። ጓደኛዬ እዚያው ጠበቀኝ። ሰው፣ መብራት፣ መኪና ሁሉም በአንድ ጊዜ።",
+    "score": 0.968
    },
-   "created": "2026-11-25T17:17:15Z"
+   "created": "2026-11-25T20:16:35Z"
   },
   "s06_listen": {
-   "key": "5135096c30cb4e35",
-   "file": "s06_listen__5135096c30cb4e35.json",
+   "key": "529463226eb3c996",
+   "file": "s06_listen__529463226eb3c996.json",
    "fingerprint": {
     "v": 2,
-    "audio": "35d862bad8d76ab8",
-    "text": "አውቶቡስ ተራ ስንደርስ ደላሎች ከበቡን። «አልጋ ትፈልጋላችሁ?» ብዙ ነበሩ። ግራ ገባን። አንዱን መረጥን።",
+    "audio": "c3842089de6ed457",
+    "text": "አውቶቡስ ተራ ስንደርስ ደላሎች ከበቡን። «አልጋ ትፈልጋላችሁ?» «አልጋ?» ከየአቅጣጫው። ግራ ገባን። በመጨረሻ አንዱን መረጥን።",
     "model": "gemini-3.5-flash-lite",
     "question": "ec4a06ca5dbb"
    },
    "meta": {
-    "heard": "አውቶቡስ ተራ ስደርስ ጀላዎች ከበቡኝ አልጋ ፈለጋላችሁ? ብዙ ነበሩ። ግራ ገባን አንዱን መረጠን።",
-    "score": 0.898
+    "heard": "አውቶቡስ ተራ ስንደርስ, ደላላች ከበቡን። አልጋ ትፈልጋላችሁ? አልጋ? ኬ አቅጣጫው? ግራገባን። በመጨረሻ አንዱን መረጠን።",
+    "score": 0.936
    },
-   "created": "2026-11-25T17:17:20Z"
+   "created": "2026-11-25T20:16:37Z"
   },
   "s07_listen": {
-   "key": "66eb8807d5f418c2",
-   "file": "s07_listen__66eb8807d5f418c2.json",
+   "key": "340349ccbb5d0b3c",
+   "file": "s07_listen__340349ccbb5d0b3c.json",
    "fingerprint": {
     "v": 2,
-    "audio": "922f9248fc440620",
+    "audio": "1c678094ac28afb0",
     "text": "ክፍሉ ባለ አንድ አልጋ ነበር። በጣም ጥሩ አይደለም፣ መጥፎም አይደለም። ንጹሕ ነበር።",
     "model": "gemini-3.5-flash-lite",
     "question": "ec4a06ca5dbb"
    },
    "meta": {
-    "heard": "ቁፍሉ ውላ አንዳልጋ ነበር።\nበጣም ሦስት አይደለም።\nመጥፎም አይደለም።\nንፁህ ነበር።",
-    "score": 0.808
+    "heard": "ቁፍሉ ዋጋ ለአንዲት ጋርብ፣ በጣም ሦስት ደለብ፣ መጥፎም አይደለም፣ ንጹሕ ነበር።",
+    "score": 0.742
    },
-   "created": "2026-11-25T17:17:23Z"
+   "created": "2026-11-25T20:08:45Z"
   },
   "s08_listen": {
    "key": "ba8e75f86eda4081",
@@ -249,20 +249,172 @@
    "created": "2026-11-25T17:17:26Z"
   },
   "s09_listen": {
-   "key": "d34f486bb6d7fc0b",
-   "file": "s09_listen__d34f486bb6d7fc0b.json",
+   "key": "b09bb41268289515",
+   "file": "s09_listen__b09bb41268289515.json",
    "fingerprint": {
     "v": 2,
-    "audio": "6ff785c2d000ca6a",
-    "text": "ዛሬ ያንን ልጅ ባገኘው አንድ ነገር ብቻ እለዋለሁ፦ ኑረው።",
+    "audio": "758a95e9a27539a3",
+    "text": "ያ ሌሊት ግራ አጋባኝ። ዛሬ ግን ከቤቱ ለሚወጣ ሁሉ አንድ ነገር እላለሁ፦ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። አትሽሽ። አጣጥመው።",
     "model": "gemini-3.5-flash-lite",
     "question": "ec4a06ca5dbb"
    },
    "meta": {
-    "heard": "ዛሬ ያንን ልጅ ባገኘው አንድ ነገር ብቻ አለው ኑረው",
-    "score": 0.912
+    "heard": "ይህ ሌሊት ግራ ያጋባኛል። ዛሬ ግን ከቤቱ ለሚወጣው ሁሉ አንድ ነገር እላለሁ። የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። አትሸሽ፣ አታጣውም።",
+    "score": 0.907
    },
-   "created": "2026-11-25T17:17:31Z"
+   "created": "2026-11-25T20:16:46Z"
+  },
+  "s01_tight": {
+   "key": "36c3dea7f6164bfd",
+   "file": "s01_tight__36c3dea7f6164bfd.wav",
+   "fingerprint": {
+    "v": 2,
+    "audio": "2d377dd6e0b3def5",
+    "max_pause_s": 0.6,
+    "silence": {
+     "noise_db": -38,
+     "min_s": 0.25
+    }
+   },
+   "meta": {
+    "seconds": 9.362,
+    "shortened": 3,
+    "removed_s": 0.768
+   },
+   "created": "2026-11-25T20:16:22Z"
+  },
+  "s02_tight": {
+   "key": "e49fbae6fdf6853f",
+   "file": "s02_tight__e49fbae6fdf6853f.wav",
+   "fingerprint": {
+    "v": 2,
+    "audio": "7ad7e8351200aaf9",
+    "max_pause_s": 0.6,
+    "silence": {
+     "noise_db": -38,
+     "min_s": 0.25
+    }
+   },
+   "meta": {
+    "seconds": 4.664,
+    "shortened": 1,
+    "removed_s": 0.24
+   },
+   "created": "2026-11-25T20:08:04Z"
+  },
+  "s03_tight": {
+   "key": "e39f30d4388a9016",
+   "file": "s03_tight__e39f30d4388a9016.wav",
+   "fingerprint": {
+    "v": 2,
+    "audio": "c485ace1aa5d133f",
+    "max_pause_s": 0.6,
+    "silence": {
+     "noise_db": -38,
+     "min_s": 0.25
+    }
+   },
+   "meta": {
+    "seconds": 6.53,
+    "shortened": 1,
+    "removed_s": 0.381
+   },
+   "created": "2026-11-25T20:08:04Z"
+  },
+  "s04_tight": {
+   "key": "0674ca4fa02f3b44",
+   "file": "s04_tight__0674ca4fa02f3b44.wav",
+   "fingerprint": {
+    "v": 2,
+    "audio": "c32aefa9b6fb4cac",
+    "max_pause_s": 0.6,
+    "silence": {
+     "noise_db": -38,
+     "min_s": 0.25
+    }
+   },
+   "meta": {
+    "seconds": 9.779,
+    "shortened": 2,
+    "removed_s": 0.641
+   },
+   "created": "2026-11-25T20:16:22Z"
+  },
+  "s06_tight": {
+   "key": "af7e0c8d54f028e3",
+   "file": "s06_tight__af7e0c8d54f028e3.wav",
+   "fingerprint": {
+    "v": 2,
+    "audio": "ae07dda80a8e9e3e",
+    "max_pause_s": 0.6,
+    "silence": {
+     "noise_db": -38,
+     "min_s": 0.25
+    }
+   },
+   "meta": {
+    "seconds": 11.633,
+    "shortened": 4,
+    "removed_s": 1.187
+   },
+   "created": "2026-11-25T20:16:22Z"
+  },
+  "s07_tight": {
+   "key": "67ed25709eb1043f",
+   "file": "s07_tight__67ed25709eb1043f.wav",
+   "fingerprint": {
+    "v": 2,
+    "audio": "922f9248fc440620",
+    "max_pause_s": 0.6,
+    "silence": {
+     "noise_db": -38,
+     "min_s": 0.25
+    }
+   },
+   "meta": {
+    "seconds": 6.818,
+    "shortened": 3,
+    "removed_s": 1.362
+   },
+   "created": "2026-11-25T20:08:05Z"
+  },
+  "s08_tight": {
+   "key": "ae8cd7abc35ed762",
+   "file": "s08_tight__ae8cd7abc35ed762.wav",
+   "fingerprint": {
+    "v": 2,
+    "audio": "f6ae3809b8b390a8",
+    "max_pause_s": 0.6,
+    "silence": {
+     "noise_db": -38,
+     "min_s": 0.25
+    }
+   },
+   "meta": {
+    "seconds": 3.95,
+    "shortened": 0,
+    "removed_s": 0.0
+   },
+   "created": "2026-11-25T20:08:05Z"
+  },
+  "s09_tight": {
+   "key": "8e25294d2c7c48c5",
+   "file": "s09_tight__8e25294d2c7c48c5.wav",
+   "fingerprint": {
+    "v": 2,
+    "audio": "53d7d18fd6764b75",
+    "max_pause_s": 0.6,
+    "silence": {
+     "noise_db": -38,
+     "min_s": 0.25
+    }
+   },
+   "meta": {
+    "seconds": 12.914,
+    "shortened": 3,
+    "removed_s": 1.086
+   },
+   "created": "2026-11-25T20:16:22Z"
   }
  },
  "entries": {
@@ -456,6 +608,234 @@
    "meta": {
     "heard": "ዛሬ ያንን ልጅ ባገኘው አንድ ነገር ብቻ አለው ኑረው",
     "score": 0.912
+   }
+  },
+  "4e41d34a011c4720": {
+   "unit": "s01_tight",
+   "file": "s01_tight__4e41d34a011c4720.wav",
+   "meta": {
+    "seconds": 8.231,
+    "shortened": 1,
+    "removed_s": 0.351
+   }
+  },
+  "e49fbae6fdf6853f": {
+   "unit": "s02_tight",
+   "file": "s02_tight__e49fbae6fdf6853f.wav",
+   "meta": {
+    "seconds": 4.664,
+    "shortened": 1,
+    "removed_s": 0.24
+   }
+  },
+  "e39f30d4388a9016": {
+   "unit": "s03_tight",
+   "file": "s03_tight__e39f30d4388a9016.wav",
+   "meta": {
+    "seconds": 6.53,
+    "shortened": 1,
+    "removed_s": 0.381
+   }
+  },
+  "2f599076945fe6e0": {
+   "unit": "s04_tight",
+   "file": "s04_tight__2f599076945fe6e0.wav",
+   "meta": {
+    "seconds": 8.617,
+    "shortened": 4,
+    "removed_s": 0.659
+   }
+  },
+  "5f7dfeb23f5e0c45": {
+   "unit": "s06_tight",
+   "file": "s06_tight__5f7dfeb23f5e0c45.wav",
+   "meta": {
+    "seconds": 9.189,
+    "shortened": 4,
+    "removed_s": 1.131
+   }
+  },
+  "67ed25709eb1043f": {
+   "unit": "s07_tight",
+   "file": "s07_tight__67ed25709eb1043f.wav",
+   "meta": {
+    "seconds": 6.818,
+    "shortened": 3,
+    "removed_s": 1.362
+   }
+  },
+  "ae8cd7abc35ed762": {
+   "unit": "s08_tight",
+   "file": "s08_tight__ae8cd7abc35ed762.wav",
+   "meta": {
+    "seconds": 3.95,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "b95035d5a490a358": {
+   "unit": "s09_tight",
+   "file": "s09_tight__b95035d5a490a358.wav",
+   "meta": {
+    "seconds": 5.637,
+    "shortened": 2,
+    "removed_s": 0.453
+   }
+  },
+  "594cfab6e2b7ea2b": {
+   "unit": "s01_listen",
+   "file": "s01_listen__594cfab6e2b7ea2b.json",
+   "meta": {
+    "heard": "እቁለቃን አካባቢ ነበር ከ አንኮበር ስንነሳ ፤ አንዲት የጅርባ ቦርሳ ብቻ ይዤ ፤ አንዲ ጓደኛዬ ሊሸኘኝ መቶ ነበር።",
+    "score": 0.889
+   }
+  },
+  "98985d9f0fc936b9": {
+   "unit": "s02_listen",
+   "file": "s02_listen__98985d9f0fc936b9.json",
+   "meta": {
+    "heard": "ስክለብሮ በራሀን መንገዱ ፒስታ ነበር፣ ከዚያ በኋላ አስፋልት።",
+    "score": 0.789
+   }
+  },
+  "b601b6ef1ec41a29": {
+   "unit": "s03_listen",
+   "file": "s03_listen__b601b6ef1ec41a29.json",
+   "meta": {
+    "heard": "ባውብሱ ሞስኮት በኩል ተካሚ ጨነበር ውጪው ደንና ተራራ ነው። እይታው ድንቅ ነበር።",
+    "score": 0.863
+   }
+  },
+  "3629e54dcb0d8a72": {
+   "unit": "s04_listen",
+   "file": "s04_listen__3629e54dcb0d8a72.json",
+   "meta": {
+    "heard": "ላምበራ Cደርስ መች ነበር? ጓደኛዬ እየጠበቀኝ ነበር። ሰው በዝቷል። የህንጻ መብራት ብዙ መኪና",
+    "score": 0.897
+   }
+  },
+  "00215eededb9a20a": {
+   "unit": "s06_listen",
+   "file": "s06_listen__00215eededb9a20a.json",
+   "meta": {
+    "heard": "አውቶቡስ ተራ ስደርስ ጀላዎች ከበቡኝ። አልጋ ትፈልጋላችሁ? ብዙ ነበሩ። ግራ ገባን። አንዱን መረጠን።",
+    "score": 0.924
+   }
+  },
+  "340349ccbb5d0b3c": {
+   "unit": "s07_listen",
+   "file": "s07_listen__340349ccbb5d0b3c.json",
+   "meta": {
+    "heard": "ቁፍሉ ዋጋ ለአንዲት ጋርብ፣ በጣም ሦስት ደለብ፣ መጥፎም አይደለም፣ ንጹሕ ነበር።",
+    "score": 0.742
+   }
+  },
+  "87fdb4c25469a372": {
+   "unit": "s09_listen",
+   "file": "s09_listen__87fdb4c25469a372.json",
+   "meta": {
+    "heard": "ዛሬ ያንን ልጅ ባገኘው አንድ ነገር ብቻለዋለሁ ኑረው",
+    "score": 0.971
+   }
+  },
+  "8549541531555b39": {
+   "unit": "s01",
+   "file": "s01__8549541531555b39.wav",
+   "meta": {
+    "seconds": 10.13,
+    "from_take": false
+   }
+  },
+  "c3fd35829b8ffb58": {
+   "unit": "s04",
+   "file": "s04__c3fd35829b8ffb58.wav",
+   "meta": {
+    "seconds": 10.42,
+    "from_take": false
+   }
+  },
+  "27e28f0d6e356e5e": {
+   "unit": "s06",
+   "file": "s06__27e28f0d6e356e5e.wav",
+   "meta": {
+    "seconds": 12.82,
+    "from_take": false
+   }
+  },
+  "b344dc8acc7b40e2": {
+   "unit": "s09",
+   "file": "s09__b344dc8acc7b40e2.wav",
+   "meta": {
+    "seconds": 14.0,
+    "from_take": false
+   }
+  },
+  "36c3dea7f6164bfd": {
+   "unit": "s01_tight",
+   "file": "s01_tight__36c3dea7f6164bfd.wav",
+   "meta": {
+    "seconds": 9.362,
+    "shortened": 3,
+    "removed_s": 0.768
+   }
+  },
+  "0674ca4fa02f3b44": {
+   "unit": "s04_tight",
+   "file": "s04_tight__0674ca4fa02f3b44.wav",
+   "meta": {
+    "seconds": 9.779,
+    "shortened": 2,
+    "removed_s": 0.641
+   }
+  },
+  "af7e0c8d54f028e3": {
+   "unit": "s06_tight",
+   "file": "s06_tight__af7e0c8d54f028e3.wav",
+   "meta": {
+    "seconds": 11.633,
+    "shortened": 4,
+    "removed_s": 1.187
+   }
+  },
+  "8e25294d2c7c48c5": {
+   "unit": "s09_tight",
+   "file": "s09_tight__8e25294d2c7c48c5.wav",
+   "meta": {
+    "seconds": 12.914,
+    "shortened": 3,
+    "removed_s": 1.086
+   }
+  },
+  "a2e5a5f62358cd74": {
+   "unit": "s01_listen",
+   "file": "s01_listen__a2e5a5f62358cd74.json",
+   "meta": {
+    "heard": "ሁለተኛው የአሰራሁለተኛው ምዕራፍ እኩለ ቀን ላይ ከአንኮበር ተነሳው አንዲት የጀርባ ወርሳ ብቻ ይዤ አንድጓደኛዬ የሰነኟኝ",
+    "score": 0.758
+   }
+  },
+  "77cd9ec14e90f920": {
+   "unit": "s04_listen",
+   "file": "s04_listen__77cd9ec14e90f920.json",
+   "meta": {
+    "heard": "ልምበርት የደረስኩት ከመሸ በኋላ ነው። ጓደኛዬ እዚያው ጠበቀኝ። ሰው፣ መብራት፣ መኪና ሁሉም በአንድ ጊዜ።",
+    "score": 0.968
+   }
+  },
+  "529463226eb3c996": {
+   "unit": "s06_listen",
+   "file": "s06_listen__529463226eb3c996.json",
+   "meta": {
+    "heard": "አውቶቡስ ተራ ስንደርስ, ደላላች ከበቡን። አልጋ ትፈልጋላችሁ? አልጋ? ኬ አቅጣጫው? ግራገባን። በመጨረሻ አንዱን መረጠን።",
+    "score": 0.936
+   }
+  },
+  "b09bb41268289515": {
+   "unit": "s09_listen",
+   "file": "s09_listen__b09bb41268289515.json",
+   "meta": {
+    "heard": "ይህ ሌሊት ግራ ያጋባኛል። ዛሬ ግን ከቤቱ ለሚወጣው ሁሉ አንድ ነገር እላለሁ። የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። አትሸሽ፣ አታጣውም።",
+    "score": 0.907
    }
   }
  }

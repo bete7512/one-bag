@@ -1,9 +1,9 @@
 {
- "file": "placeholder__1a4d0a5a87ef8a02.wav",
- "key": "1a4d0a5a87ef8a02",
- "source": "placeholder",
- "chosen": null,
- "seconds": 80,
+ "file": "candidate_2__9c9ed61784100577.flac",
+ "key": "9c9ed61784100577",
+ "source": "acestep",
+ "chosen": 2,
+ "seconds": 80.0,
  "candidates": {
   "candidate_1": "candidate_1__6a8caa01ab689a83.flac",
   "candidate_2": "candidate_2__9c9ed61784100577.flac",

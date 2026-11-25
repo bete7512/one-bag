@@ -2,23 +2,25 @@
 
 One entry per experiment: a hypothesis, the one thing changed, how it is measured, the result, the decision. Change one thing at a time and keep the seed fixed, or the result cannot be read.
 
-**Status on 25 Nov 2026, 22:00: E08, E12 and E15 to E23 have been run. E01 to E07, E09 to E11, E13 and E14 have not.** Each hypothesis is written down before its run on purpose, so the result cannot bend it. A result is filled in only from a real run, with the evidence it points to (`runs.jsonl` lines, a listening sheet, a blind-test result).
+**Status on 25 Nov 2026, 23:30: E08, E12 and E15 to E24 have been run. E01 to E07, E09 to E11, E13 and E14 have not.** Each hypothesis is written down before its run on purpose, so the result cannot bend it. A result is filled in only from a real run, with the evidence it points to (`runs.jsonl` lines, a listening sheet, a blind-test result).
 
 ## Plan
+
+Rows E01 to E14 were written before the first real run. An empty result means not run. Three of them were answered by a later experiment in another form, and the row says which.
 
 | ID | Hypothesis | The one thing changed | Measured by | Result | Decision |
 |---|---|---|---|---|---|
 | E01 | A style instruction ("calm, warm, unhurried") makes Amharic narration sound more natural than none. | `voice.style` for line s09 only | 3 listeners rate both takes 1 to 5; listening-check score | | |
 | E02 | Voices differ in how they say Ankober, Lamberet and Autobus Tera. | `voice.name`, three voices, the lines that hold those names (s01, s04, s06) | Native-speaker rating; which names are said wrongly | | |
-| E03 | Writing the year in words avoids a misread "2019". | Digits against words in line s01, once the year is in it | Listening-check transcript; one native listener | | |
+| E03 | Writing the year in words avoids a misread "2019". | Digits against words in line s01, once the year is in it | Listening-check transcript; one native listener | Not run: the year is not in a line yet. | |
 | E04 | The listening check agrees with a human ear often enough to be a useful screen. | Nothing: compare its score with human ratings on all 8 lines | Rank agreement between score and rating | | |
-| E05 | A reference sheet keeps the young man recognisably the same person across shots. | Keyframes with and without `reference_prompt`, same seeds | Judge `character_match`; 3 viewers answer "same person?" | | |
+| E05 | A reference sheet keeps the young man recognisably the same person across shots. | Keyframes with and without `reference_prompt`, same seeds | Judge `character_match`; 3 viewers answer "same person?" | Not run in this form. E19 asked it the other way round: the sheet was the cause of the worst fault. | See E19. |
 | E06 | FLUX.2 klein follows the prompt better than FLUX.1 schnell at the same seed. | `models.image`, shots s01, s04, s08 | Judge scores; my own side-by-side | | |
 | E07 | Two candidates per shot are enough: a third rarely wins. | `qa.keyframe_candidates` 2 against 3 | How often candidate 3 is picked; image quota used | | |
 | E08 | Wan 2.2 fits a 16 GB T4 at 480x832 with 81 frames, and not at 720p. | `video.max_area` and `video.num_frames` | Peak memory and latency per clip from the job results | It fits at the small size: 13.45 GB at the peak for 608 x 608 and 81 frames, 821 and 890 s a clip. 720p was not tried: 1.6 GB are left. The second clip of the first job was killed (F07). Of the two clips one is used. | The settings stay. One clip per job until the fix for several is proven. Only the road shot moves. |
 | E09 | A motion-only prompt gives a steadier clip than one that describes the subject again. | `motion.prompt` for s03, same keyframe and seed | Side-by-side; flicker and drift noted | | |
 | E10 | Viewers prefer a Wan clip to a pan over the still for the same shot. | `motion.backend` for the shots that have a Wan clip | Blind A/B with at least five people (`blindtest`) | | |
-| E11 | A longer, more specific music caption gives a score that leaves more room for the voice. | `music.caption` short against long, same seeds | Listening under the narration at low volume; my choice and why | | |
+| E11 | A longer, more specific music caption gives a score that leaves more room for the voice. | `music.caption` short against long, same seeds | Listening under the narration at low volume; my choice and why | Not run in this form. E22 compared a long and a short description by what a listener hears in them. | See E22. |
 | E12 | The brief's ducking settings are right for this voice and score. | Ratio 6 against 3 in the sidechain compressor | Planned: listening on a phone speaker and on headphones. Done: measured, because nobody was there to listen that evening | At ratio 6 the voice stands 18.4 dB over the score, at ratio 3 16.7 dB. Measuring it found three faults in the mix that listening had not. | Ratio 6 stays. The mix was rewritten twice. |
 | E13 | Enlarging a square crop for the vertical film is not noticed in a painted style. | Vertical from a square master against a vertical keyframe, one shot | Blind A/B | | |
 | E14 | The speech model handles Tigrinya and Somali, and fails on Afaan Oromo, which is not on its supported list. | Language of the same four lines (`langtest`) | Listening-check score and a native speaker's rating per language | | |
@@ -31,6 +33,7 @@ One entry per experiment: a hypothesis, the one thing changed, how it is measure
 | E21 | The listening check scored two correct lines 0.16 because of how it was asked, not because of how they were spoken. Added on 25 Nov after the first eight scores. | The question to the listener: "the script of the language being spoken" against naming the language. Same eight audio files | The match between line and transcript, per line | The two lines rose from 0.16 to 0.91 and 0.81. Another fell from 0.84 to 0.64 with no change in its audio. | The language is named. A score is read as a screen, never as a verdict on the voice. |
 | E22 | A short description that names one instrument gets that instrument. The first description asked for a krar, a washint flute and a drone in 42 words, and the listening model heard a music box and a piano in two of the three candidates. Written on 25 Nov at 21:05, while the second job was running on Kaggle and before any of its music had been heard. | `music.caption`: 42 words and three instruments against 27 words and one instrument ("Solo krar ... One instrument only"). Same seeds, tempo, length and model | The instruments a listening model names in each candidate, with the same question as for the first set. Then my own ear | Not confirmed. No candidate is heard as a krar, and every candidate of the short description has two instruments. What changed is the family: two of three are now plucked zithers. | None yet: six candidates wait for my ear. |
 | E23 | A stranger who clones the repository can rebuild the cut with one command, no key, and no call to any model, because every answer a model gave is committed and everything else is cut from those answers by FFmpeg. | Nothing in the film: a fresh clone in an empty folder, no `.env`, no key in the environment, `make setup`, then `python -m pipeline film` | Lines added to `runs.jsonl`; units that were cache hits against units that were rebuilt; the final-cut check | 0 model calls. 42 hits on model outputs, 53 units rebuilt by FFmpeg, in 1 min 49 s. The check passes. | Kept as a step before every release. |
+| E24 | The reference picture decides the layout of a shot: every shot drawn with it comes out as one figure standing in the centre. Drawn from the words alone, the scene leads and the figure does what the words say. Written into the schema and the storyboard before the run, after a second review found four of nine shots to be the same composition. | `keyframe.reference`: on against off, for three shots. Same words, same seeds | A model measures, in each of 12 pictures, how much of the height he takes, whether he stands or sits, and whether he is in the middle | With the reference he stands in the middle at half the height or more in 5 of 6 pictures. From the words alone, in 1 of 6, and he sits by the bus window in both pictures of that shot. | The three shots are drawn without the reference. The price: in the bus seat shot his face shows from the side. |
 
 ## Log
 
@@ -155,6 +158,38 @@ What the present mix costs, measured: it lands 0.7 LU under -14 with this score.
 Decision: ratio 6 stays. Whether 18 dB between voice and score is too much, so that the score disappears, is a question for the ear, and it goes to the viewers of the second test. The mix code is as described in `ARCHITECTURE.md`, "Sound".
 
 What it changed: the ratio was the smallest thing this experiment answered. I had taken the mix as finished because the final-cut check passed: the loudness was near -14 and the peak under -1. Both were true and the mix was still wrong in three ways the check does not look at. And a fix is a claim like any other: the first one was only shown to be wrong because the same measurement was run again on it.
+
+### E24  The reference picture decides the layout  (25 Nov 2026)
+
+Hypothesis: a second review of the rough cut found that four of the nine shots were one composition: the young man standing, seen from behind, full length, in the centre. The storyboard calls them medium, pov, wide and wide. F05 had already said why: a reference picture pulls a shot toward its own layout. So a shot drawn from its words alone, with no reference, should let the scene lead, and the figure should do what the words say.
+
+Changed: `keyframe.reference`, off against on, for three shots: the bus seat (s03), Lamberet (s04) and the queue (s08).
+
+Held fixed: the three prompts, rewritten once for both sets so that the scene comes first and the figure is small or cut off by the frame. The seeds, two candidates a shot, the model, the style block and the description of the young man.
+
+Evidence: twelve pictures in `outputs/keyframes/original/`, drawn in runs `20261125T200529Z-396d4a` (words alone) and `20261125T200809Z-d647b6` (with the reference). The measure is `python experiments/e24_reference_layout.py`: the same questions to `claude-opus-5-5` about each picture. Answers in `outputs/experiments/E24/results.json`, calls under run `20261125T201545Z-8b3ebf`.
+
+Result:
+
+| | Words alone | With the reference |
+|---|---:|---:|
+| Pictures | 6 | 6 |
+| He stands in the middle and takes half of the height or more | 1 | 5 |
+| Share of the picture's height he takes, on average | 0.54 | 0.64 |
+| He sits, in the two pictures of the bus seat | 2 of 2 | 0 of 2 |
+| His face can be seen, from the side | 2 | 2 |
+| Mean total from the pipeline's judge | 2.6 | 1.5 |
+| Pictures with writing in them, by the judge | 1 | 3 |
+
+With the reference the bus seat shot shows him standing in the aisle at 0.83 and 0.85 of the height, although the words say he sits on the window seat. From the words alone he sits by the window in both pictures. At Lamberet the best picture of each set is close (judge totals 3.4 and 3.65), but with the reference he fills 0.65 of the height and the street is behind him, and from the words alone he is half the height and the avenue is the picture.
+
+The price shows in the same table. Seated and turned to the window, his face is seen from the side in both pictures of the bus seat. And without a reference his clothes are held only by the description: the trousers come out lighter than in the shots drawn with it.
+
+Twelve answers in 3.5 to 6.9 s, 0.12 USD.
+
+Decision: the bus seat, Lamberet and the queue are drawn without the reference (`"reference": false` in the storyboard). The shots where he stands close to us, Ankober and the brokers, keep it. For the queue the second candidate is picked by hand, because it has him in the line and the judge scored both 2.8.
+
+What it changed: E19 found the right reference and F05 saw its pull, and I had kept the reference on every shot with him in it, as the brief's tip says. It should be on only where the shot is about him. Where the shot is about a place, the place has to be drawn first.
 
 ### E23  A clean clone rebuilds the cut without a key  (25 Nov 2026)
 

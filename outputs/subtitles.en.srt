@@ -1,62 +1,70 @@
 1
-00:00:00,400 --> 00:00:07,010
-It was around midday when I left
-Ankober. Just one backpack.
+00:00:00,400 --> 00:00:05,680
+It was 2012 in the Ethiopian calendar.
+At midday I left Ankober.
 
 2
-00:00:07,010 --> 00:00:09,200
-A friend had come to see me off.
+00:00:05,680 --> 00:00:09,950
+Just one backpack. A friend saw me off.
 
 3
-00:00:09,900 --> 00:00:16,200
+00:00:10,650 --> 00:00:15,950
 The road was gravel as far as Debre
 Birhan. After that, asphalt.
 
 4
-00:00:16,900 --> 00:00:22,160
+00:00:16,650 --> 00:00:21,530
 I sat by the window of the bus. Outside,
 forest and mountains.
 
 5
-00:00:22,160 --> 00:00:24,200
+00:00:21,530 --> 00:00:23,367
 The view was amazing.
 
 6
-00:00:24,900 --> 00:00:29,740
-It was night when I reached Lamberet. My
-friend was waiting for me.
+00:00:24,067 --> 00:00:30,267
+I reached Lamberet after dark. My friend
+was there, waiting for me.
 
 7
-00:00:29,740 --> 00:00:34,367
-So many people, lights on the buildings,
-so many cars.
+00:00:30,267 --> 00:00:32,387
+People, lights, cars:
 
 8
-00:00:40,067 --> 00:00:43,927
+00:00:32,387 --> 00:00:34,033
+everything at once.
+
+9
+00:00:38,733 --> 00:00:42,943
 At Autobus Tera the brokers closed in on
 us.
 
-9
-00:00:43,927 --> 00:00:50,575
-"Do you want a bed?" There were so many.
-We were confused. We picked one.
-
 10
-00:00:51,275 --> 00:00:59,658
+00:00:42,943 --> 00:00:47,893
+"Do you want a bed?" "A bed?" From every
+side. We were lost.
+
+11
+00:00:47,893 --> 00:00:50,575
+In the end we picked one.
+
+12
+00:00:51,275 --> 00:00:58,575
 The room had one bed. Not very good, not
 bad. It was clean.
 
-11
-00:01:00,358 --> 00:01:06,658
+13
+00:00:59,275 --> 00:01:04,075
 In the morning we stood in a long queue
 and got the ticket.
 
-12
-00:01:07,358 --> 00:01:12,648
-If I met that boy today, I would tell
-him just one thing:
+14
+00:01:04,775 --> 00:01:11,945
+That night confused me. Today I tell
+everyone who leaves home one thing:
 
-13
-00:01:12,648 --> 00:01:15,948
-experience it.
+15
+00:01:11,945 --> 00:01:17,908
+the first night is always confusing. Do
+not run from it. Savour it.
 

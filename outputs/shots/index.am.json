@@ -1,9 +1,9 @@
 {
  "s01": {
-  "file": "s01_kenburns__a569b3caf604b16c.mp4",
-  "key": "a569b3caf604b16c",
+  "file": "s01_kenburns__d104b4680264b44e.mp4",
+  "key": "d104b4680264b44e",
   "source": "kenburns",
-  "seconds": 9.5
+  "seconds": 10.25
  },
  "s02": {
   "file": "s02_wan__a5009af75983891d.mp4",
@@ -12,45 +12,45 @@
   "seconds": 3.375
  },
  "s03": {
-  "file": "s03_kenburns__2161654ff3087d86.mp4",
-  "key": "2161654ff3087d86",
+  "file": "s03_kenburns__f80f66055ed6961e.mp4",
+  "key": "f80f66055ed6961e",
+  "source": "kenburns",
+  "seconds": 7.417
+ },
+ "s04": {
+  "file": "s04_kenburns__4b658ed6800a6b5f.mp4",
+  "key": "4b658ed6800a6b5f",
+  "source": "kenburns",
+  "seconds": 10.667
+ },
+ "s05": {
+  "file": "s05_kenburns__de8288df31a7426c.mp4",
+  "key": "de8288df31a7426c",
+  "source": "kenburns",
+  "seconds": 4.0
+ },
+ "s06": {
+  "file": "s06_kenburns__0e3726a62119af7b.mp4",
+  "key": "0e3726a62119af7b",
+  "source": "kenburns",
+  "seconds": 12.542
+ },
+ "s07": {
+  "file": "s07_kenburns__13513e3cc9831d72.mp4",
+  "key": "13513e3cc9831d72",
   "source": "kenburns",
   "seconds": 8.0
  },
- "s04": {
-  "file": "s04_kenburns__ce9753439b6f64fb.mp4",
-  "key": "ce9753439b6f64fb",
-  "source": "kenburns",
-  "seconds": 10.167
- },
- "s05": {
-  "file": "s05_kenburns__b0d59ff86a9f9ec4.mp4",
-  "key": "b0d59ff86a9f9ec4",
-  "source": "kenburns",
-  "seconds": 5.0
- },
- "s06": {
-  "file": "s06_kenburns__c3e56afd2b833c6f.mp4",
-  "key": "c3e56afd2b833c6f",
-  "source": "kenburns",
-  "seconds": 11.208
- },
- "s07": {
-  "file": "s07_kenburns__0d040b58561a0036.mp4",
-  "key": "0d040b58561a0036",
-  "source": "kenburns",
-  "seconds": 9.083
- },
  "s08": {
-  "file": "s08_kenburns__46752862990c430a.mp4",
-  "key": "46752862990c430a",
+  "file": "s08_kenburns__fb5d4559d40ab8fa.mp4",
+  "key": "fb5d4559d40ab8fa",
   "source": "kenburns",
-  "seconds": 7.0
+  "seconds": 5.5
  },
  "s09": {
-  "file": "s09_kenburns__e59ed097d9613c71.mp4",
-  "key": "e59ed097d9613c71",
+  "file": "s09_kenburns__e825aaac2482b063.mp4",
+  "key": "e825aaac2482b063",
   "source": "kenburns",
-  "seconds": 10.0
+  "seconds": 13.833
  }
 }

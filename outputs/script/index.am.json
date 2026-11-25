@@ -3,13 +3,13 @@
  "subtitles": "en",
  "lines": {
   "s01": {
-   "text": "እኩለ ቀን አካባቢ ነበር፣ ከአንኮበር ስነሳ። አንድ የጀርባ ቦርሳ ብቻ ይዤ። አንድ ጓደኛዬ ሊሸኘኝ መጥቶ ነበር።",
-   "subtitle": "It was around midday when I left Ankober. Just one backpack. A friend had come to see me off.",
+   "text": "ሁለት ሺህ አሥራ ሁለት ዓመተ ምሕረት። እኩለ ቀን ላይ ከአንኮበር ተነሳሁ። አንድ የጀርባ ቦርሳ ብቻ ይዤ። አንድ ጓደኛዬ ሸኘኝ።",
+   "subtitle": "It was 2012 in the Ethiopian calendar. At midday I left Ankober. Just one backpack. A friend saw me off.",
    "machine_translated": false,
-   "estimate_s": 8.67,
+   "estimate_s": 9.83,
    "subtitle_check": {
     "faithful": true,
-    "literal": "It was around midday when I set out from Ankober. Carrying only one backpack. A friend of mine had come to see me off.",
+    "literal": "Two thousand twelve, Year of Mercy. At midday I set out from Ankober. Carrying only one backpack. A friend of mine saw me off.",
     "differences": []
    }
   },
@@ -36,24 +36,24 @@
    }
   },
   "s04": {
-   "text": "ላምበረት ስደርስ መሽቶ ነበር። ጓደኛዬ እየጠበቀኝ ነበር። ሰው በዝቷል፤ የሕንፃ መብራት፣ ብዙ መኪና።",
-   "subtitle": "It was night when I reached Lamberet. My friend was waiting for me. So many people, lights on the buildings, so many cars.",
+   "text": "ላምበረት የደረስኩት ከመሸ በኋላ ነው። ጓደኛዬ እዚያው ጠበቀኝ። ሰው፣ መብራት፣ መኪና፤ ሁሉም በአንድ ጊዜ።",
+   "subtitle": "I reached Lamberet after dark. My friend was there, waiting for me. People, lights, cars: everything at once.",
    "machine_translated": false,
-   "estimate_s": 7.83,
+   "estimate_s": 8.17,
    "subtitle_check": {
     "faithful": true,
-    "literal": "When I reached Lamberet, it had become evening. My friend was waiting for me. There were many people; building lights, many cars.",
+    "literal": "It was after dark that I reached Lamberet. My friend waited for me right there. People, lights, cars; all at once.",
     "differences": []
    }
   },
   "s06": {
-   "text": "አውቶቡስ ተራ ስንደርስ ደላሎች ከበቡን። «አልጋ ትፈልጋላችሁ?» ብዙ ነበሩ። ግራ ገባን። አንዱን መረጥን።",
-   "subtitle": "At Autobus Tera the brokers closed in on us. \"Do you want a bed?\" There were so many. We were confused. We picked one.",
+   "text": "አውቶቡስ ተራ ስንደርስ ደላሎች ከበቡን። «አልጋ ትፈልጋላችሁ?» «አልጋ?» ከየአቅጣጫው። ግራ ገባን። በመጨረሻ አንዱን መረጥን።",
+   "subtitle": "At Autobus Tera the brokers closed in on us. \"Do you want a bed?\" \"A bed?\" From every side. We were lost. In the end we picked one.",
    "machine_translated": false,
-   "estimate_s": 8.0,
+   "estimate_s": 9.67,
    "subtitle_check": {
     "faithful": true,
-    "literal": "When we arrived at Autobus Tera, brokers surrounded us. \"Do you want a bed?\" They were many. We were confused. We chose one.",
+    "literal": "When we arrived at Autobus Tera, brokers surrounded us. \"Do you want a bed?\" \"A bed?\" From every direction. We were confused. In the end we chose one.",
     "differences": []
    }
   },
@@ -80,16 +80,16 @@
    }
   },
   "s09": {
-   "text": "ዛሬ ያንን ልጅ ባገኘው አንድ ነገር ብቻ እለዋለሁ፦ ኑረው።",
-   "subtitle": "If I met that boy today, I would tell him just one thing: experience it.",
+   "text": "ያ ሌሊት ግራ አጋባኝ። ዛሬ ግን ከቤቱ ለሚወጣ ሁሉ አንድ ነገር እላለሁ፦ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። አትሽሽ። አጣጥመው።",
+   "subtitle": "That night confused me. Today I tell everyone who leaves home one thing: the first night is always confusing. Do not run from it. Savour it.",
    "machine_translated": false,
-   "estimate_s": 4.5,
+   "estimate_s": 10.17,
    "subtitle_check": {
     "faithful": true,
-    "literal": "If I met that boy today, I would tell him only one thing: live it.",
+    "literal": "That night confused me. But today I say one thing to everyone who leaves home: the first night always confuses. Do not flee. Savour it.",
     "differences": []
    }
   }
  },
- "estimate_total_s": 51.0
+ "estimate_total_s": 59.8
 }

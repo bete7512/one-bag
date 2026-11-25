@@ -248,122 +248,8 @@
   "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. The painting fills the whole frame from edge to edge. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture: number plates, shop signs and screens are plain blank shapes. Extreme wide view from high above: a pale gravel road winds along steep green mountainsides in the Ethiopian highlands. One tiny country bus on the road trails a long plume of dust. Dense dark green juniper and eucalyptus forest on the slopes, layer after layer of mountains fading into blue haze, early afternoon light. No people."
  },
  "s03": {
-  "file": "s03_c2__bee1ea15af270598.png",
-  "key": "bee1ea15af270598",
-  "blocked": [],
-  "candidate": 2,
-  "picked_by": "judge",
-  "scores": {
-   "1": {
-    "elements": [
-     {
-      "name": "inside an old country bus",
-      "visible": true
-     },
-     {
-      "name": "young passenger seen from behind in foreground",
-      "visible": true
-     },
-     {
-      "name": "passenger seated on worn bus seat",
-      "visible": false
-     },
-     {
-      "name": "framing showing only head, shoulders and top of seat back",
-      "visible": false
-     },
-     {
-      "name": "backpack held on his lap",
-      "visible": false
-     },
-     {
-      "name": "passenger looking out the side window",
-      "visible": false
-     },
-     {
-      "name": "steep forested mountain slopes of Ethiopian highlands outside",
-      "visible": false
-     },
-     {
-      "name": "afternoon light",
-      "visible": true
-     },
-     {
-      "name": "row of bus windows along the wall",
-      "visible": true
-     }
-    ],
-    "border": false,
-    "text_in_image": true,
-    "wrong_setting": "Interior reads as a city tram or metro car, with overhead hanging grab handles, a centre aisle and signage on the end wall, rather than an old country bus; the windows show washed-out blank haze instead of highland mountains.",
-    "anatomy": "",
-    "character_match": 4,
-    "prompt_adherence": 1,
-    "artifacts": 3,
-    "notes": "Redraw as a seated, over-the-shoulder view at a side window, cropped to head, shoulders and seat top, with the backpack on his lap and forested highland slopes outside; drop the tram-style grab handles and the end-wall signs, which carry garbled lettering.",
-    "total": 0.2
-   },
-   "2": {
-    "elements": [
-     {
-      "name": "old country bus interior",
-      "visible": true
-     },
-     {
-      "name": "young passenger seen from behind",
-      "visible": true
-     },
-     {
-      "name": "passenger seated on worn bus seat",
-      "visible": false
-     },
-     {
-      "name": "only head, shoulders and top of seat back in view",
-      "visible": false
-     },
-     {
-      "name": "backpack held on lap",
-      "visible": false
-     },
-     {
-      "name": "side window",
-      "visible": true
-     },
-     {
-      "name": "steep forested mountain slopes of Ethiopian highlands",
-      "visible": true
-     },
-     {
-      "name": "afternoon light",
-      "visible": true
-     },
-     {
-      "name": "row of bus windows along the wall",
-      "visible": false
-     }
-    ],
-    "border": false,
-    "text_in_image": false,
-    "wrong_setting": "The huge single panoramic window and the open standing floor in front of it read more like a train or observation car than an old country bus; the mountains, with dense conifer forest, look more alpine than Ethiopian highland.",
-    "anatomy": "",
-    "character_match": 4,
-    "prompt_adherence": 2,
-    "artifacts": 4,
-    "notes": "Repaint as a close shot from behind with the passenger seated on a worn bus seat, showing only his head, shoulders and the seat top, with the backpack on his lap and a row of small bus windows along the wall, instead of him standing full-length at one giant window wearing the backpack.",
-    "total": 2.3
-   }
-  },
-  "unscored": [],
-  "paper_sides": {
-   "1": 0,
-   "2": 0
-  },
-  "border": false,
-  "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. The painting fills the whole frame from edge to edge. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture: number plates, shop signs and screens are plain blank shapes. Inside an old country bus. In the foreground, seen from behind, one young passenger sits on a worn bus seat beside the side window: only his head, his shoulders and the top of the seat back are in view, and he holds a backpack on his lap. He looks out through the side window at steep forested mountain slopes of the Ethiopian highlands in afternoon light. A row of bus windows runs along the wall. A slim Ethiopian young man of about nineteen with dark brown skin and short black curly hair, wearing a plain dark jacket over a light shirt, plain trousers and moulded plastic sandals with a closed toe and a buckle strap, carrying one simple backpack."
- },
- "s04": {
-  "file": "s04_c1__c50c7c8c3ed06322.png",
-  "key": "c50c7c8c3ed06322",
+  "file": "s03_c1__e1e0cf6c1eb7658c.png",
+  "key": "e1e0cf6c1eb7658c",
   "blocked": [],
   "candidate": 1,
   "picked_by": "judge",
@@ -371,92 +257,96 @@
    "1": {
     "elements": [
      {
-      "name": "night on a wide avenue",
-      "visible": true
-     },
-     {
-      "name": "young man seen from behind in centre foreground",
-      "visible": true
-     },
-     {
-      "name": "backpack on his shoulders",
-      "visible": true
-     },
-     {
-      "name": "river of white and red car lights",
+      "name": "old country bus interior seen from the aisle",
       "visible": false
      },
      {
-      "name": "many blue and white minibus taxis",
+      "name": "two rows of worn seats",
       "visible": false
      },
      {
-      "name": "thick crowd of people as soft dark shapes on both pavements",
+      "name": "row of side windows",
+      "visible": true
+     },
+     {
+      "name": "steep forested mountain slopes",
+      "visible": true
+     },
+     {
+      "name": "afternoon light",
+      "visible": true
+     },
+     {
+      "name": "young passenger on foreground window seat",
+      "visible": true
+     },
+     {
+      "name": "passenger seen from behind, cut off by frame edge (only head and one shoulder)",
       "visible": false
      },
      {
-      "name": "tall concrete and glass buildings with hundreds of lit windows",
+      "name": "face turned to the window",
       "visible": true
      },
      {
-      "name": "deep blue night sky",
+      "name": "backpack on his lap",
+      "visible": false
+     }
+    ],
+    "border": false,
+    "text_in_image": false,
+    "wrong_setting": "The interior reads as a small tram or train compartment with long side-facing benches facing each other, not an old country bus with forward-facing rows of seats seen from the aisle.",
+    "anatomy": "",
+    "character_match": 4,
+    "prompt_adherence": 2,
+    "artifacts": 5,
+    "notes": "Repaint as a bus aisle view with forward-facing seat rows. Crop the young man in the foreground so only the back of his head and one shoulder show, with the backpack on his lap instead of his back. Make the sandals closed-toe and darken his skin to match the sheet.",
+    "total": 2.2
+   },
+   "2": {
+    "elements": [
+     {
+      "name": "old country bus interior seen from the aisle",
       "visible": true
+     },
+     {
+      "name": "two rows of worn seats",
+      "visible": true
+     },
+     {
+      "name": "row of side windows",
+      "visible": true
+     },
+     {
+      "name": "steep forested mountain slopes in afternoon light",
+      "visible": true
+     },
+     {
+      "name": "single young passenger on window seat in foreground",
+      "visible": false
+     },
+     {
+      "name": "passenger seen from behind, cut off by frame edge (back of head and one shoulder)",
+      "visible": false
+     },
+     {
+      "name": "face turned to the window",
+      "visible": true
+     },
+     {
+      "name": "backpack on his lap",
+      "visible": false
      }
     ],
     "border": false,
     "text_in_image": false,
     "wrong_setting": "",
-    "anatomy": "",
-    "character_match": 5,
-    "prompt_adherence": 3,
+    "anatomy": "The central young man sits sideways across the end of a forward-facing bench, so his body and the seat orientation don't agree.",
+    "character_match": 4,
+    "prompt_adherence": 2,
     "artifacts": 4,
-    "notes": "Traffic and crowd are far too sparse: there is only one blue-and-white minibus and one car, and a few scattered pedestrians, so fill the avenue with a dense stream of white and red car lights, many minibus taxis and thick crowds on both pavements.",
-    "total": 4.05
-   },
-   "2": {
-    "elements": [
-     {
-      "name": "night setting with deep blue sky",
-      "visible": true
-     },
-     {
-      "name": "wide avenue",
-      "visible": true
-     },
-     {
-      "name": "young man seen from behind in centre foreground",
-      "visible": true
-     },
-     {
-      "name": "backpack on his shoulders",
-      "visible": true
-     },
-     {
-      "name": "river of white and red car lights",
-      "visible": true
-     },
-     {
-      "name": "many blue and white minibus taxis",
-      "visible": false
-     },
-     {
-      "name": "thick crowd of people as soft dark shapes on both pavements",
-      "visible": false
-     },
-     {
-      "name": "tall concrete and glass buildings with hundreds of lit windows",
-      "visible": true
-     }
-    ],
-    "border": false,
-    "text_in_image": true,
-    "wrong_setting": "The dense, uniform high-rise towers read more like a generic East Asian megacity than the edge of Addis Ababa.",
-    "anatomy": "",
-    "character_match": 5,
-    "prompt_adherence": 3,
-    "artifacts": 4,
-    "notes": "Fill both pavements with a thick crowd of soft dark figures and add many more blue-and-white minibus taxis. Blank out the yellow roof sign on the left minibus. Swap the generic tower blocks for more Addis-like mid-rise concrete and glass buildings, and push the rendering toward soft gouache brushwork rather than inked comic lines.",
-    "total": 1.55
+    "notes": "Show a single passenger: drop the full-body profile figure in the centre and keep only the cropped back-of-head-and-shoulder view at the window seat in the foreground, with the backpack on his lap instead of worn on his back.",
+    "total": 1.8
    }
   },
   "unscored": [],
@@ -465,7 +355,137 @@
    "2": 0
   },
   "border": false,
-  "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. The painting fills the whole frame from edge to edge. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture: number plates, shop signs and screens are plain blank shapes. Night on a wide avenue on the edge of Addis Ababa, Ethiopia. In the centre foreground, one young man seen from behind, a backpack on his shoulders, stands still and looks at the city in front of him. Before him the avenue is a river of white and red car lights with many blue and white minibus taxis, a thick crowd of people as soft dark shapes on both pavements, and tall concrete and glass buildings with hundreds of lit windows under a deep blue night sky. A slim Ethiopian young man of about nineteen with dark brown skin and short black curly hair, wearing a plain dark jacket over a light shirt, plain trousers and moulded plastic sandals with a closed toe and a buckle strap, carrying one simple backpack."
+  "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. The painting fills the whole frame from edge to edge. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture: number plates, shop signs and screens are plain blank shapes. Inside an old country bus, seen from the aisle: two rows of worn seats, and a row of side windows full of steep forested mountain slopes in afternoon light. On the window seat in the foreground one young passenger sits, seen from behind and cut off by the edge of the frame: only the back of his head and one shoulder, his face turned to the window, a backpack on his lap. A slim Ethiopian young man of about nineteen with dark brown skin and short black curly hair, wearing a plain dark jacket over a light shirt, plain trousers and moulded plastic sandals with a closed toe and a buckle strap, carrying one simple backpack."
+ },
+ "s04": {
+  "file": "s04_c2__d142fd534d9e387f.png",
+  "key": "d142fd534d9e387f",
+  "blocked": [],
+  "candidate": 2,
+  "picked_by": "judge",
+  "scores": {
+   "1": {
+    "elements": [
+     {
+      "name": "wide night view of a busy avenue",
+      "visible": true
+     },
+     {
+      "name": "dense traffic of cars",
+      "visible": true
+     },
+     {
+      "name": "blue and white minibus taxis",
+      "visible": true
+     },
+     {
+      "name": "white headlights",
+      "visible": true
+     },
+     {
+      "name": "red tail lights",
+      "visible": true
+     },
+     {
+      "name": "pavements packed with people as dark shapes",
+      "visible": true
+     },
+     {
+      "name": "tall concrete buildings with many lit windows",
+      "visible": true
+     },
+     {
+      "name": "street lamps",
+      "visible": true
+     },
+     {
+      "name": "young man seen from behind at the roadside",
+      "visible": true
+     },
+     {
+      "name": "backpack",
+      "visible": true
+     },
+     {
+      "name": "young man small in the lower part of the frame",
+      "visible": false
+     }
+    ],
+    "border": false,
+    "text_in_image": true,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 4,
+    "artifacts": 4,
+    "notes": "Shrink the young man so he reads as a small figure in the lower part of the frame, and paint over the letter-like decal on the blue car's door and the badges on the car grilles so no lettering remains.",
+    "total": 2.5
+   },
+   "2": {
+    "elements": [
+     {
+      "name": "wide night view of busy avenue",
+      "visible": true
+     },
+     {
+      "name": "dense traffic of cars",
+      "visible": true
+     },
+     {
+      "name": "blue and white minibus taxis",
+      "visible": true
+     },
+     {
+      "name": "white headlights",
+      "visible": true
+     },
+     {
+      "name": "red tail lights",
+      "visible": false
+     },
+     {
+      "name": "pavements packed with people as dark shapes",
+      "visible": true
+     },
+     {
+      "name": "tall concrete buildings with many lit windows",
+      "visible": true
+     },
+     {
+      "name": "street lamps",
+      "visible": true
+     },
+     {
+      "name": "young man seen from behind at roadside",
+      "visible": true
+     },
+     {
+      "name": "backpack",
+      "visible": true
+     },
+     {
+      "name": "young man small in lower part of frame",
+      "visible": false
+     }
+    ],
+    "border": false,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 4,
+    "prompt_adherence": 3,
+    "artifacts": 4,
+    "notes": "Shrink the young man so he sits small in the lower frame, add visible red tail lights to the traffic, and make the pavements more crowded with dark figures.",
+    "total": 3.4
+   }
+  },
+  "unscored": [],
+  "paper_sides": {
+   "1": 0,
+   "2": 0
+  },
+  "border": false,
+  "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. The painting fills the whole frame from edge to edge. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture: number plates, shop signs and screens are plain blank shapes. A wide night view of a busy avenue on the edge of Addis Ababa, Ethiopia, painted from the roadside: dense traffic of cars and blue and white minibus taxis with white headlights and red tail lights, pavements packed with people as dark shapes, tall concrete buildings with hundreds of lit windows, street lamps. Small in the lower part of the frame, seen from behind, one young man with a backpack stands at the roadside and looks at it all. A slim Ethiopian young man of about nineteen with dark brown skin and short black curly hair, wearing a plain dark jacket over a light shirt, plain trousers and moulded plastic sandals with a closed toe and a buckle strap, carrying one simple backpack."
  },
  "s05": {
   "file": "s05_c1__bc3a749532d55645.png",
@@ -810,11 +830,11 @@
   "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. The painting fills the whole frame from edge to edge. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture: number plates, shop signs and screens are plain blank shapes. A small plain rented room at night in Addis Ababa: one narrow single bed with one pillow and a clean sheet, neatly made, bare painted walls, a single bulb, a simple backpack on the floor beside the bed, one small window. Modest and clean."
  },
  "s08": {
-  "file": "s08_c2__871f660cc0737028.png",
-  "key": "871f660cc0737028",
+  "file": "s08_c2__517ce38ff52c127c.png",
+  "key": "517ce38ff52c127c",
   "blocked": [],
   "candidate": 2,
-  "picked_by": "judge",
+  "picked_by": "human",
   "scores": {
    "1": {
     "elements": [
@@ -827,24 +847,28 @@
       "visible": true
      },
      {
-      "name": "young man seen from behind in foreground",
+      "name": "view from a little above",
       "visible": true
      },
      {
-      "name": "backpack on his shoulders",
+      "name": "single long line of men and women seen from behind",
       "visible": true
      },
      {
-      "name": "very long single-file queue with him at the end",
+      "name": "line winding across the whole yard",
       "visible": false
      },
      {
-      "name": "queue of men and women seen from behind",
+      "name": "small ticket window in a low building",
       "visible": true
      },
      {
-      "name": "small ticket window in a low building far off",
-      "visible": true
+      "name": "young man with backpack among the last in line",
+      "visible": false
+     },
+     {
+      "name": "young man small in frame",
+      "visible": false
      },
      {
       "name": "long-distance buses parked along one side",
@@ -852,14 +876,14 @@
      }
     ],
     "border": false,
-    "text_in_image": true,
-    "wrong_setting": "The canopy over the buses on the right looks like a petrol-station forecourt rather than an Addis Ababa bus yard.",
+    "text_in_image": false,
+    "wrong_setting": "",
     "anatomy": "",
-    "character_match": 5,
-    "prompt_adherence": 3,
-    "artifacts": 3,
-    "notes": "Replace the two parallel crowds with one single-file queue that starts behind the young man and leads to the ticket window, keep the buses on one side only, and blank out the garbled lettering on the ticket booth and the bus sides.",
-    "total": 1.3
+    "character_match": 3,
+    "prompt_adherence": 2,
+    "artifacts": 4,
+    "notes": "Shrink the young man and put him at the tail of the queue rather than standing large and apart in the foreground, curve the line so it winds across the whole yard instead of running straight down the left edge, keep the buses on one side only, and change his shoes to closed-toe moulded plastic sandals with a buckle strap.",
+    "total": 2.8
    },
    "2": {
     "elements": [
@@ -872,48 +896,48 @@
       "visible": true
      },
      {
-      "name": "young man seen from behind in foreground",
-      "visible": true
-     },
-     {
-      "name": "backpack on his shoulders",
-      "visible": true
-     },
-     {
-      "name": "very long single-file queue starting from the young man",
+      "name": "elevated viewpoint seen from a little above",
       "visible": false
      },
      {
-      "name": "queue of men and women seen from behind",
+      "name": "single long line of people winding across the whole yard",
+      "visible": false
+     },
+     {
+      "name": "people seen from behind",
       "visible": true
      },
      {
-      "name": "small ticket window in a low building far off",
+      "name": "small ticket window in a low building",
       "visible": true
+     },
+     {
+      "name": "young man with backpack near the end of the line, small in frame",
+      "visible": false
      },
      {
       "name": "long-distance buses parked along one side",
-      "visible": true
+      "visible": false
      }
     ],
     "border": false,
-    "text_in_image": true,
+    "text_in_image": false,
     "wrong_setting": "",
     "anatomy": "",
-    "character_match": 5,
-    "prompt_adherence": 3,
+    "character_match": 4,
+    "prompt_adherence": 2,
     "artifacts": 4,
-    "notes": "Merge the two side crowds into one single-file queue that starts just in front of the young man and runs back to a small, distant ticket window; blank out the lettered sign above that window.",
-    "total": 2.55
+    "notes": "Raise the camera to a slightly high angle, turn the foreground cluster into one long single-file line winding across the yard to the ticket window, make the backpack man a small figure near the end of it, and keep buses parked along only one side instead of both.",
+    "total": 2.8
    }
   },
   "unscored": [],
   "paper_sides": {
-   "1": 0,
+   "1": 1,
    "2": 1
   },
   "border": false,
-  "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. The painting fills the whole frame from edge to edge. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture: number plates, shop signs and screens are plain blank shapes. Early morning in the open yard of a bus station in Addis Ababa, Ethiopia, soft gold light and long shadows. In the foreground, one young man seen from behind, a backpack on his shoulders, stands at the end of a very long single-file queue. The queue of men and women, all seen from behind, runs away from him across the yard to a small ticket window in a low building far off. Long-distance buses are parked along one side. A slim Ethiopian young man of about nineteen with dark brown skin and short black curly hair, wearing a plain dark jacket over a light shirt, plain trousers and moulded plastic sandals with a closed toe and a buckle strap, carrying one simple backpack."
+  "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. The painting fills the whole frame from edge to edge. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture: number plates, shop signs and screens are plain blank shapes. Early morning in the open yard of a bus station in Addis Ababa, Ethiopia, soft gold light and long shadows, seen from a little above: one single long line of men and women, all seen from behind, winds across the whole yard to a small ticket window in a low building. One of the last people in the line is a young man with a backpack, small in the frame. Long-distance buses are parked along one side. A slim Ethiopian young man of about nineteen with dark brown skin and short black curly hair, wearing a plain dark jacket over a light shirt, plain trousers and moulded plastic sandals with a closed toe and a buckle strap, carrying one simple backpack."
  },
  "s09": {
   "file": "s09_c2__e9b76be6bc42b274.png",
