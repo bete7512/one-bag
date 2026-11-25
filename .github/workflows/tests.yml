@@ -1,0 +1,30 @@
+# Runs on every push: a clean clone, the documented setup, and the whole test suite.
+# The suite includes the full pipeline with mock providers, so this is the proof that
+# one command builds a film from the storyboard on a machine that has never seen the project.
+# No key is needed and no model is called.
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  offline:
+    name: Clean clone, setup, tests and a mock film
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install FFmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Build the environment
+        run: make setup
+      - name: Check the machine
+        run: make doctor
+      - name: Validate the storyboard
+        run: make validate
+      - name: Run the tests
+        run: make test

@@ -95,7 +95,7 @@ def dataset_state(dataset: str) -> dict | None:
         return {"status": done.stdout.strip()}
 
 
-def upload(ctx: Ctx, stage: str, dataset: str, sleep=time.sleep) -> None:
+def upload(ctx: Ctx, stage: str, dataset: str) -> None:
     job_dir, staging = ctx.out / stage / "kaggle_job", ctx.out / stage / "kaggle_upload"
     manifest = job_manifest(ctx, stage)
     if staging.exists():
@@ -117,7 +117,7 @@ def upload(ctx: Ctx, stage: str, dataset: str, sleep=time.sleep) -> None:
         newer = before is None or (state or {}).get("current_version_number") != before.get("current_version_number")
         if state and str(state.get("status", "")).lower() == "ready" and newer:
             return
-        sleep(5)
+        time.sleep(5)
     ctx.say(f"  [{stage}] the dataset is still processing after 5 minutes. Pushing anyway: the launcher refuses old data.")
 
 
@@ -142,7 +142,7 @@ def status(kernel: str) -> str:
     return found.group(1) if found else "UNKNOWN"
 
 
-def wait(ctx: Ctx, stage: str, kernel: str, poll_s: float = 30.0, limit_s: float = 6 * 3600, sleep=time.sleep) -> str:
+def wait(ctx: Ctx, stage: str, kernel: str, poll_s: float = 30.0, limit_s: float = 6 * 3600) -> str:
     """Poll until the run ends. A status of the previous run can still show for a moment after a push, so an
     ending only counts once the new run has been seen queued or running, or two minutes have passed."""
     t0, seen_alive, last = time.time(), False, ""
@@ -156,7 +156,7 @@ def wait(ctx: Ctx, stage: str, kernel: str, poll_s: float = 30.0, limit_s: float
             break
         if time.time() - t0 > limit_s:
             raise PipelineError(f"{kernel} did not finish in {limit_s / 3600:.0f} hours. Look at it on kaggle.com, then: python -m pipeline kaggle fetch {stage}")
-        sleep(poll_s)
+        time.sleep(poll_s)
     _append(ctx.out / "logs" / "kaggle_sessions.jsonl", {"ts": now(), "run_id": ctx.run_id, "stage": stage, "kernel": kernel,
                                                          "job_created": job_manifest(ctx, stage)["created"], "status": state,
                                                          "waited_s": round(time.time() - t0)})

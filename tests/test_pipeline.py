@@ -624,6 +624,106 @@ class ListPriceTests(unittest.TestCase):
                 self.assertRegex(price.get("checked") or "", r"^\d{4}-\d{2}-\d{2}$", model)
 
 
+FAKE_KAGGLE = '''#!/usr/bin/env python3
+"""A stand-in for the kaggle command line tool: it keeps its state in a folder and records every call."""
+import json, os, shutil, sys
+from pathlib import Path
+state, args = Path(os.environ["FAKE_KAGGLE_STATE"]), sys.argv[1:]
+with open(state / "calls.jsonl", "a") as fh:
+    fh.write(json.dumps(args) + "\\n")
+def folder():
+    return Path(args[args.index("-p") + 1])
+if args[:2] == ["config", "view"]:
+    print("- username: tester")
+elif args[:2] == ["datasets", "status"]:
+    if not (state / "dataset.json").exists():
+        sys.exit("404 not found")
+    print((state / "dataset.json").read_text())
+elif args[:2] in (["datasets", "create"], ["datasets", "version"]):
+    old = json.loads((state / "dataset.json").read_text())["current_version_number"] if (state / "dataset.json").exists() else 0
+    (state / "dataset.json").write_text(json.dumps({"status": "ready", "current_version_number": old + 1}))
+    (state / "uploaded.json").write_text(json.dumps(sorted(p.name for p in folder().iterdir())))
+elif args[:2] == ["kernels", "push"]:
+    shutil.copytree(folder(), state / "kernel", dirs_exist_ok=True)
+    (state / "status.json").write_text(json.dumps(["QUEUED", "RUNNING", "COMPLETE"]))
+    print("Kernel version 1 successfully pushed.")
+elif args[:2] == ["kernels", "status"]:
+    left = json.loads((state / "status.json").read_text())
+    (state / "status.json").write_text(json.dumps(left[1:] or left))
+    print(f'tester/heritage-music has status "KernelWorkerStatus.{left[0]}"')
+elif args[:2] == ["kernels", "output"]:
+    shutil.copytree(state / "results", folder(), dirs_exist_ok=True)
+elif args[:2] == ["kernels", "logs"]:
+    print("a log")
+'''
+
+
+class KaggleRunTests(Project):
+    """Upload, push, wait, fetch, ingest: tested against a stand-in for the kaggle command line tool."""
+
+    def setUp(self):
+        super().setUp()
+        from unittest import mock
+        self.state = self.root / "fake_kaggle"
+        (self.state / "bin").mkdir(parents=True)
+        tool = self.state / "bin" / "kaggle"
+        tool.write_text(FAKE_KAGGLE, encoding="utf-8")
+        tool.chmod(0o755)
+        env = {"PATH": f"{tool.parent}{os.pathsep}{os.environ['PATH']}", "KAGGLE_API_TOKEN": "KGAT_test", "FAKE_KAGGLE_STATE": str(self.state)}
+        for patch in (mock.patch.dict(os.environ, env), mock.patch("pipeline.kagglerun.time.sleep", lambda seconds: None)):
+            patch.start()
+            self.addCleanup(patch.stop)
+
+    def results(self, ctx, created):
+        """What the GPU job would leave behind for the first candidate of the waiting music job."""
+        job = json.loads((ctx.out / "music" / "kaggle_job" / "manifest.json").read_text(encoding="utf-8"))["jobs"][0]
+        folder = self.state / "results"
+        folder.mkdir(exist_ok=True)
+        name = f"{job['unit']}__{job['key']}.wav"
+        (folder / name).write_bytes(providers.pcm_to_wav(b"\x10\x00" * 48000))
+        (folder / "results.json").write_text(json.dumps({
+            "stage": "music", "job_id": "job1", "job_created": created, "model": "acestep-v15-turbo", "gpu": "Tesla T4, Tesla T4",
+            "results": [{"unit": job["unit"], "key": job["key"], "fingerprint": job["fingerprint"], "seed": job["seed"], "params": {},
+                         "status": "ok", "file": name, "latency_s": 90.0, "peak_mem_gb": 3.1}]}), encoding="utf-8")
+
+    def test_a_job_goes_to_kaggle_and_its_result_comes_back_into_the_cache(self):
+        from pipeline import kagglerun
+        ctx = self.ctx(mock=False)
+        music.run(ctx, {})                                   # nothing is cached, so the stage writes the job
+        created = kagglerun.job_manifest(ctx, "music")["created"]
+        self.results(ctx, created)
+        self.assertEqual(kagglerun.run(ctx, "run", "music"), 0)
+
+        calls = [" ".join(c[:2]) for c in core.read_jsonl(self.state / "calls.jsonl")]
+        self.assertEqual([c for c in calls if c not in ("config view", "datasets status", "kernels status")],
+                         ["datasets create", "kernels push", "kernels output"])
+        self.assertEqual(json.loads((self.state / "uploaded.json").read_text()), ["acestep_music.py", "dataset-metadata.json", "manifest.json"])
+        meta = json.loads((self.state / "kernel" / "kernel-metadata.json").read_text())
+        self.assertEqual((meta["enable_gpu"], meta["enable_internet"], meta["machine_shape"], meta["is_private"], meta["dataset_sources"]),
+                         ("true", "true", "NvidiaTeslaT4", "true", ["tester/heritage-music-job"]))
+        self.assertIn(repr(created), (self.state / "kernel" / "launch.py").read_text())   # the launcher only runs this job's data
+        self.assertIsNotNone(music.run(ctx, {})["candidates"]["candidate_1"])              # the candidate is in the cache now
+        gpu = [r for r in core.read_jsonl(ctx.runlog) if r["provider"] == "kaggle"]
+        self.assertEqual([(r["unit"], r["gpu_minutes"], r["gpu_count"]) for r in gpu], [("candidate_1", 1.5, 2)])
+        self.assertEqual(core.read_jsonl(ctx.out / "logs" / "kaggle_sessions.jsonl")[-1]["status"], "COMPLETE")
+
+    def test_output_of_an_older_job_is_refused(self):
+        from pipeline import kagglerun
+        ctx = self.ctx(mock=False)
+        music.run(ctx, {})
+        self.results(ctx, "2020-01-01T00:00:00Z")
+        with self.assertRaisesRegex(core.PipelineError, "older job"):
+            kagglerun.run(ctx, "fetch", "music")
+
+    def test_without_a_token_nothing_is_called(self):
+        from unittest import mock
+        from pipeline import kagglerun
+        with mock.patch.dict(os.environ, {"KAGGLE_API_TOKEN": "", "HOME": str(self.root)}):
+            with self.assertRaisesRegex(core.PipelineError, "no Kaggle token"):
+                kagglerun.kaggle(["quota"])
+        self.assertFalse((self.state / "calls.jsonl").exists())
+
+
 class JudgeTests(Project):
     """The judge looks for what is wrong. It can run on a Claude model when the storyboard names one."""
 
