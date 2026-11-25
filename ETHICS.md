@@ -9,13 +9,13 @@ Each real person in `storyboard.json` has a `consent.record` id that points at a
 | ID | Person | What appears in the film | How consent was given | Date (YYYY-MM-DD) |
 |---|---|---|---|---|
 | consent-author | The author (me) | An AI-drawn character standing for me in 2019 and today. My words in the narration. No real photo. No recording or clone of my voice. | My own statement, given in writing in the working session with the coding agent, before any picture of the character was generated. | 2026-11-25 |
-| consent-friend | The friend who took me to Autobus Tera | An AI-drawn character standing for him, seen from behind only. He does not speak. No real photo, no voice. | To fill in: message, which app. Screenshot kept privately, not in this repository. | |
+| consent-friend | The friend who took me to Autobus Tera | An AI-drawn character standing for him, seen from behind only. He does not speak. No real photo, no voice. | In writing: he answered "yes" to my message that described the film and how he is shown in it. Screenshot kept privately, not in this repository. | 2026-11-25 |
 
-Notes to fill in when the rows are dated:
+Notes on the friend's consent:
 
-- What I asked my friend, in my own words:
-- Whether he agreed to his name being used (it is not used in the film as drafted):
-- If he had said no: the shot would be redrawn without him (s06), and that change would be logged in `DESIGN.md`.
+- What he was told before he answered: that the film is about the night I first arrived in Addis Ababa, that it is made with AI, that one scene shows an AI-drawn young man seen from behind who stands for him, that his photo, voice and name are not in it, and that I post the film publicly.
+- His name is not used in the film or anywhere in this repository, so there was nothing to agree to about it.
+- If he had said no, shot s06 would have been redrawn without him and the change logged in `DESIGN.md`. The pipeline held the shot back until his answer was recorded.
 
 Words in a real person's mouth: only mine. The narration is first person and I approve every line. A line marked `"confirmed": false` in the storyboard has not been approved yet, and `make release` refuses to build while one remains.
 

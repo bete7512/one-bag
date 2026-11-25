@@ -43,7 +43,7 @@
       "label": "The friend who knew the city",
       "description": "A taller Ethiopian young man in his early twenties, always seen from behind, wearing a denim jacket.",
       "real_person": true,
-      "consent": {"status": "pending", "record": "consent-friend"}
+      "consent": {"status": "recorded", "record": "consent-friend"}
     },
     {
       "id": "man",
@@ -180,7 +180,7 @@
         "am": "ሻንጣዬን አጥብቄ ይዤ በሕዝቡ መሃል ተከተልኩት፤ በመናኸሪያው አቅራቢያ ማደሪያ እየፈለግን።",
         "en": "I held my bag and followed him through the crowd, looking for a room near the station."
       },
-      "review": {"confirmed": false, "note": "Amharic is an AI draft. Your friend appears here: no picture is generated until his consent is recorded."}
+      "review": {"confirmed": false, "note": "Amharic is an AI draft. Your friend appears here, seen from behind: his consent was recorded on 2026-11-25."}
     },
     {
       "id": "s07",
