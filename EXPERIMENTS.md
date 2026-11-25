@@ -2,7 +2,7 @@
 
 One entry per experiment: a hypothesis, the one thing changed, how it is measured, the result, the decision. Change one thing at a time and keep the seed fixed, or the result cannot be read.
 
-**Status on 26 Nov 2026, 04:15: E08, E12 and E15 to E28 have a result. E01, E03, E04, E06, E07, E09, E10, E13 and E14 were not run. E02, E05 and E11 were not run as planned: a later experiment answered each in another form.** Each hypothesis is written down before its run on purpose, so the result cannot bend it. E26 and E27 are the exceptions, and their entries say so. A result is filled in only from a real run, with the evidence it points to (`runs.jsonl` lines, a listening sheet, a blind-test result).
+**Status on 26 Nov 2026, 02:37: E08, E12 and E15 to E28 have a result. E01, E03, E04, E06, E07, E09, E10, E13 and E14 were not run. E02, E05 and E11 were not run as planned: a later experiment answered each in another form.** Each hypothesis is written down before its run on purpose, so the result cannot bend it. E26 and E27 are the exceptions, and their entries say so. A result is filled in only from a real run, with the evidence it points to (`runs.jsonl` lines, a listening sheet, a blind-test result).
 
 ## Plan
 
@@ -120,6 +120,8 @@ Result, the sentence ends: the eight lines have 26 sentences, so 18 ends inside 
 Ten answers in 1.7 to 5.0 s. Each answer reports its own price: 3.5 ETB for 1,000 characters written down, about 0.01 USD for all ten, taken from the sign-up credit.
 
 Decision: `models.listener` is `addis-scribe`. A subtitle is shown sentence by sentence, each while its sentence is spoken, by the heard words. Short sentences share a cue until it has been up for 1.5 s. The film has 23 cues where it had 13, and no cue is one left-over word. Without a speech model as listener the letters and the pauses are still used.
+
+An hour later the narration was replaced by ten lines that I wrote myself. On those the speech model matches each line at 0.93 to 1.00, 0.97 on average (`outputs/narration/index.am.json`), and the film has 19 cues.
 
 What it changed: the listening check no longer raises a false alarm on a line because of the script its listener chose to write in. Limits: the listener and the voice now come from one provider, and a model that hears its own provider's voice well may hear another voice less well. The match is still a model's. Whether each word is said as an Amharic speaker says it is for a person to hear, and that is me.
 

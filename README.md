@@ -1,6 +1,6 @@
 # One Bag: a heritage short, made by a pipeline
 
-A 60 to 90 second film about the night I first arrived in Addis Ababa from Ankober in 2019, narrated in Amharic with English subtitles and an original score. I did not edit it by hand. This repository is the small studio that makes it: one file, `storyboard.json`, is the contract, and six stages turn it into two finished films.
+A 60 to 90 second film about the night I first arrived in Addis Ababa from Ankober in 2019, on my way to university, narrated in Amharic with English subtitles and an original score. I did not edit it by hand. This repository is the small studio that makes it: one file, `storyboard.json`, is the contract, and six stages turn it into two finished films.
 
 ```
 make film        # or: python -m pipeline film
@@ -10,28 +10,28 @@ That one command validates the storyboard, runs every stage, regenerates only wh
 
 ## Status
 
-Be clear about what is proven and what is not. Last updated 26 November 2026, 04:30 East Africa Time.
+Be clear about what is proven and what is not. Last updated 26 November 2026, 02:37 East Africa Time.
 
 | Part | Tested offline with mock providers | Run against the real model |
 |---|---|---|
 | Storyboard schema and checks | yes | not applicable |
 | Cache, run log, retries, free-tier guard | yes | yes: the retries and the guard both met a real quota (F01, F09) |
 | Script (subtitle translation) | yes | not yet: every line has a written subtitle |
-| Narration (a voice of Addis AI, before it Gemini TTS) | yes | yes: eight lines, each spoken in a request of its own by the Addis AI voice `am-nahom` since 26 Nov (E26). Before that a Gemini voice spoke them: a take that gave four clean lines (F04, E20), then lines that did not sound like one voice (F10, E25) |
-| Narration listening check | yes | yes: all eight lines of the cut at or above the floor, the lowest at 0.89. Since 26 Nov the listener is Addis AI's speech-to-text model for Amharic, which also gives the time of each word (E27). Before it the text model listened, and gave 0.16 to lines that it wrote down in Latin letters (E21, E26). Either listener is a model: its score is a screen and not a verdict |
-| Keyframes (FLUX.2 klein on Workers AI) | yes | yes: all nine shots, after a reference sheet that copied itself into the scenes (E19) and two shots that had to be redesigned (F05). On 26 Nov seven shots were drawn again from the words alone, with the colours of his clothes and backpack written into the description (E28). Since the night of 25 Nov the account is on a paid plan, and pictures beyond the free daily allowance are paid for (`COSTS.md`) |
+| Narration (a voice of Addis AI, before it Gemini TTS) | yes | yes: ten lines, each spoken in a request of its own by the Addis AI voice `am-nahom` since 26 Nov (E26). The words are my own since that night (`DESIGN.md`). Before that a Gemini voice spoke them: a take that gave four clean lines (F04, E20), then lines that did not sound like one voice (F10, E25) |
+| Narration listening check | yes | yes: all ten lines of the cut at or above the floor, the lowest at 0.93. Since 26 Nov the listener is Addis AI's speech-to-text model for Amharic, which also gives the time of each word (E27). Before it the text model listened, and gave 0.16 to lines that it wrote down in Latin letters (E21, E26). Either listener is a model: its score is a screen and not a verdict |
+| Keyframes (FLUX.2 klein on Workers AI) | yes | yes: all ten shots, after a reference sheet that copied itself into the scenes (E19) and two shots that had to be redesigned (F05). On 26 Nov seven shots were drawn again from the words alone, with the colours of his clothes and backpack written into the description (E28). Since the night of 25 Nov the account is on a paid plan, and pictures beyond the free daily allowance are paid for (`COSTS.md`) |
 | Keyframe judge | yes | yes, on three models (E15, E17) |
-| Subtitle check | yes | yes: it found two mismatches in the first draft (E18). The eight current subtitles pass |
+| Subtitle check | yes | yes: it found two mismatches in the first draft (E18). The ten current subtitles pass |
 | Keyframe border check | yes | yes: it caught the white border on the first pictures (E16) |
 | Shots: Ken Burns (FFmpeg) | yes, real FFmpeg | not applicable |
 | Shots: Wan 2.2 on Kaggle | export, upload and ingest | yes: four clips of 3.4 s, 13 to 15 minutes each at about 13.5 GB of GPU memory (E08). Only the road shot uses its clip. The three other clips were made and rejected. The first job was killed after one clip (F07) |
 | Music: ACE-Step on Kaggle | export, upload and ingest | yes: two sets of three candidates from two descriptions, each described by a listening model (F02, F06, E22). Candidate 2 of the second set is in the cut. The coding agent chose it from those descriptions, on my instruction to decide. I have not compared the six by ear yet |
-| Assembly, ducking, loudness, both ratios | yes, real FFmpeg | yes: a rough cut of 71 s in both ratios, from the real narration and pictures. The mix was measured and rewritten twice (E12) |
-| Final-cut check | yes | yes, on the rough cut of 26 Nov, 03:35: every measured check passes. Its one note says what a person still has to look at: three picked pictures that the judge scored under 3 (s03, s05, s06) |
+| Assembly, ducking, loudness, both ratios | yes, real FFmpeg | yes: a rough cut of 86 s in both ratios, from the real narration and pictures. The mix was measured and rewritten twice (E12) |
+| Final-cut check | yes | yes, on the rough cut of 26 Nov, 02:30: every measured check passes. Its one note says what a person still has to look at: three picked pictures that the judge scored under 3 (s03, s05, s06) |
 
-`runs.jsonl` holds one line per attempt of a real model call: 707 at 04:20 on 26 Nov. Mock runs write to `outputs_mock/`, which is git-ignored and is never evidence.
+`runs.jsonl` holds one line per attempt of a real model call: 745 at 02:33 on 26 Nov. Mock runs write to `outputs_mock/`, which is git-ignored and is never evidence.
 
-**The film is not finished.** What exists is a rough cut on my machine: the voice of Addis AI, real pictures, a generated score, one shot with generated motion (the road) and a slow pan on the others. Four things in it are the coding agent's choice and not yet mine: the wording of the eight narration lines, which I have not confirmed, the score, the voice, and the seven pictures that were drawn again on 26 Nov after a review of the cut (`DESIGN.md`). User test 1 has happened: three people heard the radio cut on 25 Nov, and what they wrote changed the lines (`DESIGN.md`). User test 2 has not happened. The rough cut is not committed: `.gitignore` keeps it out until the release, so that nothing unapproved is published by a push. It was committed once by mistake and taken out again (F08).
+**The film is not finished.** What exists is a rough cut on my machine: the voice of Addis AI, real pictures, a generated score, one shot with generated motion (the road) and a slow pan on the others. The words of the narration are my own since 26 Nov. Four things in the cut are the coding agent's choice and not yet confirmed by me: the English subtitles and which sentence goes on which picture, the score, the voice, and the pictures that were drawn on 26 Nov after a review of the cut (`DESIGN.md`). User test 1 has happened: three people heard the radio cut on 25 Nov, and what they wrote changed the lines of that cut (`DESIGN.md`). User test 2 has not happened. The rough cut is not committed: `.gitignore` keeps it out until the release, so that nothing unapproved is published by a push. It was committed once by mistake and taken out again (F08).
 
 ## Run it
 
@@ -153,11 +153,11 @@ To check this yourself: clone the repository into an empty folder, add no key, r
 
 ## What it costs
 
-Money, by the run log as it stood on 26 November at 04:20:
+Money, by the run log as it stood on 26 November at 02:33:
 
-- The picture judge and the subtitle check run on Claude Opus 5.5, which is paid for every call: 4.03 USD so far.
+- The picture judge and the subtitle check run on Claude Opus 5.5, which is paid for every call: 4.17 USD so far.
 - The pictures run on Cloudflare Workers AI. Since the night of 25 Nov the account is on the Workers Paid plan: 5 USD a month, plus what goes over the free daily allowance, 0.06 USD so far.
-- The narration voice and the listening check of Addis AI run on a sign-up credit of 3.17 USD (500 ETB). Nothing is paid, and 0.12 USD of the credit is used at list price.
+- The narration voice and the listening check of Addis AI run on a sign-up credit of 3.17 USD (500 ETB). Nothing is paid, and 0.17 USD of the credit is used at list price.
 - The light checks (Gemini) and the GPU (Kaggle) run on free tiers.
 
 The limits that shape the work are quota and GPU time: ten speech requests a day on the Gemini free tier, about 96 free pictures a day, 30 GPU hours a week. `make costs` reads `runs.jsonl` and writes the measured table into `COSTS.md`, with the list price of every call. `COSTS.md` also says what was really paid, and that a second free Gemini key was put in during the night of 25 to 26 Nov (F09).
