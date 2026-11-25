@@ -18,6 +18,8 @@ Notes on the friend's consent:
 - If he had said no, shot s06 would have been redrawn without him and the change logged in `DESIGN.md`. The pipeline held the shot back until his answer was recorded.
 - **He is in one shot, as he was told.** On the evening of 25 November, after I told the story in full, a rewritten storyboard had him in three shots (s04, s06 and s08). That was more than the one scene he had agreed to. It was changed back the same evening, before any picture left my machine: he is drawn in s06 only, with the brokers. At Lamberet and in the ticket queue the frame holds me alone, and the voice says he was there.
 
+Pictures that are not in the film: the repository keeps the pictures of failed attempts in `outputs/keyframes/original/`, because they are the evidence for E19 and F05. In some of them a figure has a face, where the model copied a character sheet or ignored "seen from behind". Those faces are invented by the model. No photo of me, of my friend or of anyone else was ever given to a model, so none of them is a likeness of a person. None of these pictures is in the film.
+
 Words in a real person's mouth: only mine. The narration is first person and I approve every line. A line marked `"confirmed": false` in the storyboard has not been approved yet, and `make release` refuses to build while one remains.
 
 ## Voice

@@ -17,9 +17,9 @@ import shutil
 from pathlib import Path
 
 from . import providers
-from .core import Ctx, PipelineError, Unit, file_sha, is_cached, run_units, shot_text
+from .core import Ctx, PipelineError, Unit, file_sha, is_cached, run_units, shot_text, wav_seconds
 from .narration import LANGUAGE_NAMES as NAMES
-from .narration import LISTEN_PROMPT, similarity, take
+from .narration import LISTEN_PROMPT, similarity, take, take_audio
 
 MAX_LINES = 4  # enough to hear the difference. One speech request per language, so four languages cost four of the day's ten
 
@@ -39,7 +39,7 @@ def run(ctx: Ctx, langs: list[str]) -> list[dict]:
     source = [(s["id"], s["narration"][sub]) for s in sb["shots"] if s["narration"] and sub in s["narration"]][:MAX_LINES]
     if not source:
         raise PipelineError(f"the storyboard has no '{sub}' lines to translate from")
-    voice, model, rows = sb["voice"], sb["models"]["tts"], []
+    voice, model, rows, takes = sb["voice"], sb["models"]["tts"], [], {}
     for lang in langs:
         name = NAMES.get(lang, lang)
 
@@ -73,10 +73,10 @@ def run(ctx: Ctx, langs: list[str]) -> list[dict]:
         pieces: dict[str, Path] = {}
         if len(missing) > 1:
             try:
-                pieces = take(ctx, missing, voice, model, stage="langtest", unit=f"{lang}_take", lang=lang)
+                pieces = take(ctx, missing, voice, model, stage="langtest", unit=f"{lang}_take", lang=lang, by_words=False)
                 for row in mine:  # a line that cannot be cut out of the take is a finding too: one request per language, no more
                     if row["shot"] in missing and row["shot"] not in pieces:
-                        row["error"] = "the take was spoken, but this line could not be cut out of it with certainty"
+                        row["error"] = "spoken in the take, but the pauses do not mark where this line ends: see the score of the whole take"
             except PipelineError as e:  # a language the model cannot speak is a finding, and no further request is spent on it
                 for row in mine:
                     if row["shot"] in missing:
@@ -113,9 +113,28 @@ def run(ctx: Ctx, langs: list[str]) -> list[dict]:
         for folder in {piece.parent for piece in pieces.values()}:
             shutil.rmtree(folder, ignore_errors=True)
 
+        # 4. the whole take against the whole text: a score that does not depend on finding the lines in it
+        spoken = {row["shot"]: row["text"] for row in mine if row["text"]}
+        whole = take_audio(ctx, spoken, voice, model, stage="langtest")
+        takes[lang] = {"language": name, "file": None, "seconds": None, "score": None, "heard": None, "lines_cut": sum(1 for row in mine if row.get("file"))}
+        if whole:
+            fp = {"audio": file_sha(whole), "model": sb["models"]["text"], "whole": True}
+
+            def hear(tmp: Path, whole: Path = whole, text: str = " ".join(spoken.values()), lang: str = lang) -> dict:
+                heard, _ = providers.text(ctx, "langtest", f"{lang}_take_listen", LISTEN_PROMPT.format(language=NAMES.get(lang, lang)), kind="transcribe",
+                                          parts=[("audio/wav", whole.read_bytes())], temperature=0.0)
+                result = {"heard": heard, "score": similarity(text, heard)}
+                tmp.write_text(json.dumps(result, ensure_ascii=False), encoding="utf-8")
+                return result
+
+            _, meta, problem = one(ctx, Unit("langtest", f"{lang}_take_listen", fp, "json", hear))
+            takes[lang].update(file=str(whole.relative_to(ctx.out / "langtest")), seconds=round(wav_seconds(whole), 2), score=meta.get("score"),
+                               heard=meta.get("heard"), error=problem)
+
     out = ctx.out / "langtest"
     out.mkdir(parents=True, exist_ok=True)
     (out / "results.json").write_text(json.dumps(rows, ensure_ascii=False, indent=1), encoding="utf-8")
+    (out / "takes.json").write_text(json.dumps(takes, ensure_ascii=False, indent=1), encoding="utf-8")
     report = ["# Language test", "", f"Speech model: `{sb['models']['tts']}`, voice {voice['name']}. Listener: `{sb['models']['text']}`.",
               "Score = how closely the listener's transcript matches the line that was spoken (1.00 = identical).", "",
               "| Language | Lines spoken | Lines failed | Mean match | Lowest match | Text from |", "|---|---:|---:|---:|---:|---|"]
@@ -126,6 +145,11 @@ def run(ctx: Ctx, langs: list[str]) -> list[dict]:
         report.append(f"| {NAMES.get(lang, lang)} | {len(scores)} | {sum(1 for r in mine if r['error'])} | {mean} | "
                       f"{min(scores):.2f}" + f" | {mine[0]['origin']} |" if scores else
                       f"| {NAMES.get(lang, lang)} | 0 | {sum(1 for r in mine if r['error'])} | n/a | n/a | {mine[0]['origin']} |")
+    report += ["", "## Each language as one take", "",
+               "The same lines, heard as one audio and compared with the whole text. This does not depend on cutting the take into lines.", "",
+               "| Language | Seconds of audio | Lines cut from it | Match of the whole take |", "|---|---:|---:|---:|"]
+    report += [f"| {t['language']} | {t['seconds'] if t['seconds'] is not None else 'n/a'} | {t['lines_cut']} | "
+               f"{'n/a' if t['score'] is None else format(t['score'], '.2f')} |" for t in takes.values()]
     failures = [r for r in rows if r["error"]]
     if failures:
         report += ["", "## Failures", ""] + [f"- {r['language']} {r['shot']}: {r['error']}" for r in failures]

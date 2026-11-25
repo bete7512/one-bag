@@ -648,6 +648,10 @@ class LanguageTestTests(Project):
         rows = json.loads((self.root / "outputs_mock" / "langtest" / "results.json").read_text(encoding="utf-8"))
         self.assertEqual((len(rows), sum(r["score"] is not None for r in rows), [r for r in rows if r["error"]]), (8, 8, []))
         self.assertEqual({r["origin"] for r in rows if r["lang"] == "am"}, {"written by a person"})
+        takes = json.loads((self.root / "outputs_mock" / "langtest" / "takes.json").read_text(encoding="utf-8"))
+        self.assertEqual({lang: (t["lines_cut"], t["seconds"] > 4, t["score"] is not None) for lang, t in takes.items()},
+                         {"am": (4, True, True), "ti": (4, True, True)})            # each language is also heard as one take
+        self.assertIn("## Each language as one take", (self.root / "outputs_mock" / "langtest" / "report.md").read_text(encoding="utf-8"))
 
 
 class FreeTierTests(Project):

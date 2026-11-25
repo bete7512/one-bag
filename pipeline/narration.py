@@ -164,13 +164,28 @@ def cut(ctx: Ctx, wav: Path, start: float, end: float, out: Path, note: str | No
         out.write_bytes(providers.pcm_to_wav(frames, rate, note=note))
 
 
-def take(ctx: Ctx, lines: dict[str, str], voice: dict, model: str, stage: str = "narration", unit: str = "take", lang: str | None = None) -> dict[str, Path]:
+def take_key(lines: dict[str, str], voice: dict, model: str) -> str:
+    """What the model was asked. How its answer is cut is not part of it: a better cut must not cost a new request."""
+    return sha({"lines": list(lines.items()), "voice": voice["name"], "style": voice["style"], "model": model})[:16]
+
+
+def take_audio(ctx: Ctx, lines: dict[str, str], voice: dict, model: str, stage: str = "narration") -> Path | None:
+    """The kept answer for these lines, when the model sent one audio for all of them."""
+    record = ctx.out / stage / "takes" / f"take__{take_key(lines, voice, model)}.json"
+    if not record.exists():
+        return None
+    files = json.loads(record.read_text(encoding="utf-8"))["files"]
+    return record.parent / files[0] if len(files) == 1 else None
+
+
+def take(ctx: Ctx, lines: dict[str, str], voice: dict, model: str, stage: str = "narration", unit: str = "take", lang: str | None = None,
+         by_words: bool = True) -> dict[str, Path]:
     """Speak several lines in one request and return one audio file for each line that can be cut out of it with certainty.
 
     The take is kept in <stage>/takes/. A line that is missing from the answer was not cut: the caller speaks it alone.
+    With `by_words` off, a take whose pauses are not clear is not cut at all, and no phrase is sent to the listener.
     """
-    # the key is what the model was asked. How its answer is cut here is not part of it: a better cut must not cost a new request
-    key = sha({"lines": list(lines.items()), "voice": voice["name"], "style": voice["style"], "model": model})[:16]
+    key = take_key(lines, voice, model)
     folder = ctx.out / stage / "takes"
     record = folder / f"take__{key}.json"
     if not record.exists():  # the model's answer is kept as it came, so it is asked for once
@@ -199,7 +214,10 @@ def take(ctx: Ctx, lines: dict[str, str], voice: dict, model: str, stage: str = 
         except PipelineError:
             spans, margin = [], 0.0
         sure = list(lines)
-        if margin < MIN_CUT_MARGIN:  # the pauses alone do not say where a line ends: ask the words too, and keep a line only where both agree
+        if margin < MIN_CUT_MARGIN and not by_words:
+            sure = []
+            ctx.say(f"  [{stage}] the pauses do not mark the lines of this take (margin {margin}). It is kept whole.")
+        elif margin < MIN_CUT_MARGIN:  # the pauses alone do not say where a line ends: ask the words too, and keep a line only where both agree
             found = phrases(blocks[0])
             if len(info.get("heard", [])) != len(found):  # what was heard is kept with the take, so cutting it again asks nobody
                 info["heard"] = hear_phrases(ctx, blocks[0], found, stage, unit, lang)
