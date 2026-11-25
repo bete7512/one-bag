@@ -1,0 +1,310 @@
+"""Stage 6, assemble: the edit, in code and from the storyboard.
+
+Picture. One encoded scene file per shot per export, subtitles burned in, all with the same
+encoder settings. They are joined with the concat demuxer and no re-encode, so changing one shot
+re-renders one scene file per export and nothing else.
+
+Sound. Narration lines are placed on the timeline (picture follows the voice). Voice and score are
+first brought to known levels, the score is ducked under the voice with a sidechain compressor,
+and the mix gets a two-pass loudness normalisation to about -14 LUFS with true peaks under -1 dB.
+
+Two aspect ratios from one master. Each shot is fitted per export: if cropping to the export
+loses 45% of the frame or less it is cropped around the centre, otherwise it sits over a blurred
+copy of itself.
+"""
+from __future__ import annotations
+
+import json
+import re
+import shutil
+import uuid
+from pathlib import Path
+
+from .core import (STAGE_VERSION, Ctx, PipelineError, Unit, ff, ff_capture, get_index, loudness, media_info,
+                   plan_timeline, run_units, subtitle_cues)
+
+ENCODE = ["-c:v", "libx264", "-crf", "18", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-video_track_timescale", "12288", "-an"]
+DUCK = {"threshold": 0.02, "ratio": 6, "attack": 300, "release": 1500}  # the starting point the brief suggests
+TARGET = {"lufs": -14.0, "true_peak": -1.5, "lra": 11.0}  # -1.5 leaves room for the AAC encoder under -1 dBTP
+VOICE_LUFS, MUSIC_LUFS = -16.0, -24.0  # levels before ducking: the score starts 8 dB under the voice
+MAX_CROP_LOSS = 0.45
+MAX_SLOWDOWN = 1.25
+SUBTITLE_STYLE = 2  # bump when the look of the subtitles changes
+
+
+def work_dir(ctx: Ctx) -> Path:
+    path = ctx.out / "assemble" / "work"
+    path.mkdir(parents=True, exist_ok=True)
+    return path
+
+
+# ----------------------------------------------------------------------------- subtitles (ASS)
+
+
+def ass_time(t: float) -> str:
+    cs = int(round(max(0.0, t) * 100))
+    return f"{cs // 360000}:{cs // 6000 % 60:02d}:{cs // 100 % 60:02d}.{cs % 100:02d}"
+
+
+def ass_escape(text: str) -> str:
+    return text.replace("\\", "/").replace("{", "(").replace("}", ")").replace("\n", " ")
+
+
+def ass_document(width: int, height: int, margin_v: int, events: list[tuple[float, float, str, str]]) -> str:
+    """events: (start, end, style, text). Styles: Sub (bottom centre) and Card (middle centre)."""
+    side = round(width * 0.075)
+    size = min(round(height * 0.05), int((width - 2 * side) / (40 * 0.52)))  # 40 characters must fit on one line
+    head = f"""[Script Info]
+ScriptType: v4.00+
+PlayResX: {width}
+PlayResY: {height}
+WrapStyle: 2
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Sub,Arial,{size},&H00FFFFFF,&H000000FF,&H00101010,&H80000000,0,0,0,0,100,100,0,0,1,{max(2, size // 14)},1,2,{side},{side},{margin_v},1
+Style: Card,Arial,{round(min(width, height) * 0.035)},&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,5,{side},{side},0,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+"""
+    body = "".join(f"Dialogue: 0,{ass_time(a)},{ass_time(b)},{style},,0,0,0,,{text}\n" for a, b, style, text in events)
+    return head + body
+
+
+def cue_events(cues: list) -> list[tuple[float, float, str, str]]:
+    return [(a, b, "Sub", "\\N".join(ass_escape(line) for line in lines)) for a, b, lines in cues]
+
+
+def card_event(lines: list[str], width: int, height: int, start: float, end: float) -> tuple[float, float, str, str]:
+    big, small = round(min(width, height) * 0.075), round(min(width, height) * 0.034)
+    text = "{\\fad(500,0)}" + "\\N".join(f"{{\\fs{big if i == 0 else small}}}{ass_escape(line)}" for i, line in enumerate(lines))
+    return (start, end, "Card", text)
+
+
+def srt_time(t: float) -> str:
+    ms = int(round(t * 1000))
+    return f"{ms // 3600000:02d}:{ms // 60000 % 60:02d}:{ms // 1000 % 60:02d},{ms % 1000:03d}"
+
+
+# ----------------------------------------------------------------------------- picture
+
+
+def fit_graph(src_w: int, src_h: int, width: int, height: int) -> tuple[str, str]:
+    """Filter steps that take a `src` clip to exactly width x height. Returns (graph, mode)."""
+    src_ar, out_ar = src_w / src_h, width / height
+    loss = 1 - min(src_ar / out_ar, out_ar / src_ar)
+    cover = f"scale={width}:{height}:force_original_aspect_ratio=increase:flags=lanczos,crop={width}:{height}"
+    if loss <= MAX_CROP_LOSS:
+        return cover, "crop"
+    graph = (f"split[bgsrc][fgsrc];[bgsrc]{cover},boxblur=24:4,eq=brightness=-0.10[bg];"
+             f"[fgsrc]scale={width}:{height}:force_original_aspect_ratio=decrease:flags=lanczos[fg];"
+             f"[bg][fg]overlay=(W-w)/2:(H-h)/2")
+    return graph, "blur_fill"
+
+
+def render_scene(ctx: Ctx, clip: Path, out: Path, *, width: int, height: int, frames: int, fps: int, cues: list, margin_v: int) -> dict:
+    info = media_info(clip)
+    have = max(1, round(info["duration"] * fps))
+    slow = 1.0 if have >= frames else min(MAX_SLOWDOWN, frames / have)  # a short clip is slowed a little, then its last frame is held
+    hold = max(0.0, frames / fps - info["duration"] * slow) + 0.5
+    fit, mode = fit_graph(info["width"], info["height"], width, height)
+    graph = f"[0:v]setpts={slow:.5f}*(PTS-STARTPTS),fps={fps},tpad=stop_mode=clone:stop_duration={hold:.3f},{fit}"
+    work = work_dir(ctx)
+    ass = None
+    if cues:
+        ass = work / f"sub-{uuid.uuid4().hex[:8]}.ass"
+        ass.write_text(ass_document(width, height, margin_v, cue_events(cues)), encoding="utf-8")
+        graph += f",ass={ass.name}"
+    graph += ",format=yuv420p[v]"
+    try:  # run inside the work folder so the subtitle file is named without a path: no escaping trouble on any OS
+        ff(["-i", str(clip), "-filter_complex", graph, "-map", "[v]", "-frames:v", str(frames), "-r", str(fps), *ENCODE, str(out)], cwd=work)
+    finally:
+        if ass:
+            ass.unlink(missing_ok=True)
+    return {"fit": mode, "slowdown": round(slow, 3), "held_s": round(max(0.0, hold - 0.5), 3)}
+
+
+def render_card(ctx: Ctx, out: Path, *, lines: list[str], width: int, height: int, frames: int, fps: int) -> dict:
+    work = work_dir(ctx)
+    ass = work / f"card-{uuid.uuid4().hex[:8]}.ass"
+    ass.write_text(ass_document(width, height, 0, [card_event(lines, width, height, 0.0, frames / fps + 1)]), encoding="utf-8")
+    try:
+        ff(["-f", "lavfi", "-i", f"color=c=black:s={width}x{height}:r={fps}:d={frames / fps + 1:.3f}", "-vf", f"ass={ass.name},format=yuv420p",
+            "-frames:v", str(frames), "-r", str(fps), *ENCODE, str(out)], cwd=work)
+    finally:
+        ass.unlink(missing_ok=True)
+    return {}
+
+
+def join_and_mux(ctx: Ctx, scenes: list[Path], mix: Path, out: Path) -> dict:
+    work = work_dir(ctx)
+    tag = uuid.uuid4().hex[:8]
+    listing, silent = work / f"concat-{tag}.txt", work / f"joined-{tag}.mp4"
+    listing.write_text("".join("file '" + p.as_posix().replace("'", "'\\''") + "'\n" for p in scenes), encoding="utf-8")
+    try:
+        ff(["-f", "concat", "-safe", "0", "-i", listing.name, "-c", "copy", str(silent)], cwd=work)
+        ff(["-i", str(silent), "-i", str(mix), "-map", "0:v:0", "-map", "1:a:0", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
+            "-shortest", "-movflags", "+faststart", str(out)])
+    finally:
+        listing.unlink(missing_ok=True)
+        silent.unlink(missing_ok=True)
+    return {}
+
+
+# ----------------------------------------------------------------------------- sound
+
+
+def loudnorm_two_pass(src: Path, dst: Path) -> None:
+    spec = f"loudnorm=I={TARGET['lufs']}:TP={TARGET['true_peak']}:LRA={TARGET['lra']}"
+    err = ff_capture(["-i", str(src), "-af", spec + ":print_format=json", "-f", "null", "-"])
+    found = re.search(r"\{[^{}]*\"input_i\"[^{}]*\}", err, re.S)
+    m = json.loads(found.group(0)) if found else {}
+    if not m or "inf" in str(m.get("input_i")):  # silence: nothing to normalise
+        shutil.copy2(src, dst)
+        return
+    spec += (f":measured_I={m['input_i']}:measured_TP={m['input_tp']}:measured_LRA={m['input_lra']}"
+             f":measured_thresh={m['input_thresh']}:offset={m['target_offset']}:linear=true")
+    ff(["-i", str(src), "-af", spec, "-ar", "48000", "-c:a", "pcm_s16le", str(dst)])
+
+
+def build_mix(ctx: Ctx, out: Path, placed: list[tuple[Path, float]], music: Path, total: float, gain_db: float) -> dict:
+    work = work_dir(ctx)
+    tag = uuid.uuid4().hex[:8]
+    voice, premix = work / f"voice-{tag}.wav", work / f"premix-{tag}.wav"
+    try:
+        # 1. every narration line at its place on the timeline
+        inputs, graph = [], []
+        for i, (path, start) in enumerate(placed):
+            inputs += ["-i", str(path)]
+            graph.append(f"[{i}:a]aresample=48000,aformat=sample_fmts=fltp:channel_layouts=stereo,adelay={int(round(start * 1000))}:all=1[n{i}]")
+        if placed:
+            graph.append("".join(f"[n{i}]" for i in range(len(placed))) + f"amix=inputs={len(placed)}:normalize=0:dropout_transition=0,apad[a]")
+            ff([*inputs, "-filter_complex", ";".join(graph), "-map", "[a]", "-t", f"{total:.3f}", "-ar", "48000", "-c:a", "pcm_s16le", str(voice)])
+            voice_gain = VOICE_LUFS - loudness(voice)["lufs"]
+        else:
+            ff(["-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo", "-t", f"{total:.3f}", "-c:a", "pcm_s16le", str(voice)])
+            voice_gain = 0.0
+        # 2. known levels first, so the balance is a decision and not a repair
+        music_gain = MUSIC_LUFS - loudness(music, seconds=total)["lufs"] + gain_db
+        fade_out = max(0.0, total - 2.5)
+        mixgraph = (
+            f"[0:a]volume={voice_gain:.2f}dB,asplit=2[voice][key];"
+            f"[1:a]aresample=48000,aformat=sample_fmts=fltp:channel_layouts=stereo,atrim=0:{total:.3f},asetpts=PTS-STARTPTS,"
+            f"volume={music_gain:.2f}dB,afade=t=in:st=0:d=1.5,afade=t=out:st={fade_out:.3f}:d=2.5[music];"
+            f"[music][key]sidechaincompress=threshold={DUCK['threshold']}:ratio={DUCK['ratio']}:attack={DUCK['attack']}:release={DUCK['release']}[ducked];"
+            f"[voice][ducked]amix=inputs=2:normalize=0:dropout_transition=0[mix]")
+        ff(["-i", str(voice), "-stream_loop", "-1", "-i", str(music), "-filter_complex", mixgraph, "-map", "[mix]",
+            "-t", f"{total:.3f}", "-ar", "48000", "-c:a", "pcm_s16le", str(premix)])
+        # 3. loudness for the platforms, last
+        loudnorm_two_pass(premix, out)
+    finally:
+        voice.unlink(missing_ok=True)
+        premix.unlink(missing_ok=True)
+    level = loudness(out)
+    return {"lufs": level["lufs"], "true_peak_db": level["true_peak_db"], "voice_gain_db": round(voice_gain, 2), "music_gain_db": round(music_gain, 2)}
+
+
+# ----------------------------------------------------------------------------- the stage
+
+
+def run(ctx: Ctx, state: dict, mode: str = "film", plan_only: bool = False) -> dict:
+    sb = ctx.sb
+    V, fmt, fps = STAGE_VERSION["assemble"], sb["format"], sb["format"]["fps"]
+    lang = ctx.narration_lang
+    suffix = "" if lang == sb["language"]["narration"] else f".{lang}"
+    script = get_index(ctx, state, "script", per_lang=True)
+    narration = get_index(ctx, state, "narration", per_lang=True)
+    music = get_index(ctx, state, "music")
+    timeline = plan_timeline(sb, {k: v["seconds"] for k, v in narration.items()})
+    total = timeline["total_s"]
+
+    cues: dict[str, list] = {}       # per shot, timed from the start of the shot
+    absolute: list = []              # for the whole film, timed from zero
+    for t in timeline["shots"]:
+        line = script["lines"].get(t["id"])
+        if line and t["narration_start"] is not None:
+            cues[t["id"]] = subtitle_cues(line["subtitle"], t["narration_start"] - t["start"], t["narration_s"])
+            absolute += subtitle_cues(line["subtitle"], t["narration_start"], t["narration_s"])
+
+    narr_dir, music_dir = ctx.out / "narration", ctx.out / "music"
+    placed = [(narr_dir / narration[t["id"]]["file"], t["narration_start"]) for t in timeline["shots"]
+              if t["narration_start"] is not None and narration[t["id"]]["file"]]
+    mix_fp = {"v": V, "lines": [[narration[t["id"]]["key"], t["narration_start"]] for t in timeline["shots"] if t["narration_start"] is not None],
+              "music": music["key"], "gain_db": sb["music"].get("gain_db", 0), "total": total, "duck": DUCK, "target": TARGET,
+              "levels": [VOICE_LUFS, MUSIC_LUFS]}
+    mix = run_units(ctx, [Unit("assemble", f"mix{suffix}", mix_fp, "wav",
+                               lambda tmp: build_mix(ctx, tmp, placed, music_dir / music["file"], total, sb["music"].get("gain_db", 0)))],
+                    plan_only)[f"mix{suffix}"]
+
+    card_lines = sb["end_card"]["lines"]
+    card_frames = round(timeline["end_card_s"] * fps)
+    files: dict[str, str] = {}
+
+    if mode == "radio":
+        exp = fmt["exports"][0]
+        W, H, margin = exp["width"], exp["height"], exp.get("subtitle_margin_v", round(exp["height"] * 0.08))
+        events = cue_events(absolute) + [card_event(card_lines, W, H, timeline["end_card_start"], total)]
+        fp = {"v": V, "mix": mix.key, "events": events, "size": [W, H], "total": total, "style": SUBTITLE_STYLE}
+
+        def radio(tmp: Path) -> dict:
+            work = work_dir(ctx)
+            ass = work / f"radio-{uuid.uuid4().hex[:8]}.ass"
+            ass.write_text(ass_document(W, H, margin, events), encoding="utf-8")
+            try:
+                ff(["-f", "lavfi", "-i", f"color=c=black:s={W}x{H}:r={fps}:d={total:.3f}", "-i", str(mix.path), "-vf", f"ass={ass.name},format=yuv420p",
+                    "-map", "0:v:0", "-map", "1:a:0", "-c:v", "libx264", "-crf", "24", "-preset", "veryfast", "-pix_fmt", "yuv420p",
+                    "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart", str(tmp)], cwd=work)
+            finally:
+                ass.unlink(missing_ok=True)
+            return {}
+
+        res = run_units(ctx, [Unit("assemble", f"radio_cut{suffix}", fp, "mp4", radio)], plan_only)[f"radio_cut{suffix}"]
+        if res.path:
+            files["radio"] = f"radio_cut{suffix}.mp4"
+            shutil.copy2(res.path, ctx.out / files["radio"])
+    else:
+        shots = get_index(ctx, state, "shots", per_lang=True)
+        shots_dir = ctx.out / "shots"
+        for exp in fmt["exports"]:
+            name, W, H = exp["name"], exp["width"], exp["height"]
+            margin = exp.get("subtitle_margin_v", round(H * 0.08))
+            units = []
+            for t in timeline["shots"]:
+                sid, clip = t["id"], shots[t["id"]]
+                fp = {"v": V, "clip": clip["key"], "size": [W, H], "frames": t["frames"], "fps": fps, "cues": cues.get(sid, []),
+                      "margin_v": margin, "style": SUBTITLE_STYLE}
+
+                def produce(tmp: Path, sid: str = sid, clip: dict = clip, frames: int = t["frames"]) -> dict:
+                    return render_scene(ctx, shots_dir / clip["file"], tmp, width=W, height=H, frames=frames, fps=fps,
+                                        cues=cues.get(sid, []), margin_v=margin)
+
+                units.append(Unit("assemble", f"{name}_{sid}{suffix}", fp, "mp4", produce))
+            fp = {"v": V, "card": card_lines, "size": [W, H], "frames": card_frames, "fps": fps, "style": SUBTITLE_STYLE}
+            units.append(Unit("assemble", f"{name}_endcard", fp, "mp4",
+                              lambda tmp, W=W, H=H: render_card(ctx, tmp, lines=card_lines, width=W, height=H, frames=card_frames, fps=fps)))
+            scenes = run_units(ctx, units, plan_only)
+            order = [scenes[u.id] for u in units]
+            fp = {"v": V, "scenes": [r.key for r in order], "mix": mix.key}
+            final = run_units(ctx, [Unit("assemble", f"film_{name}{suffix}", fp, "mp4",
+                                         lambda tmp, order=order: join_and_mux(ctx, [r.path for r in order], mix.path, tmp))],
+                              plan_only)[f"film_{name}{suffix}"]
+            if final.path:
+                files[name] = f"film_{name}{suffix}.mp4"
+                shutil.copy2(final.path, ctx.out / files[name])
+
+    index = {"mode": mode, "language": lang, "total_s": total, "files": files, "timeline": timeline, "mix": mix.meta,
+             "cues": [[a, b, lines] for a, b, lines in absolute], "end_card": card_lines}
+    state["assemble"] = index
+    if not plan_only:
+        if files:
+            srt = "".join(f"{i}\n{srt_time(a)} --> {srt_time(b)}\n" + "\n".join(lines) + "\n\n" for i, (a, b, lines) in enumerate(absolute, 1))
+            (ctx.out / f"subtitles.{sb['language']['subtitles']}{suffix}.srt").write_text(srt, encoding="utf-8")
+        # film and radio cut keep separate indexes, so making a radio cut never hides the film from the final check
+        (ctx.out / "assemble" / f"index.{mode}.{lang}.json").write_text(json.dumps(index, ensure_ascii=False, indent=1), encoding="utf-8")
+        if not files:
+            raise PipelineError("assemble produced no file")
+        for name, fname in files.items():
+            ctx.say(f"  wrote {(ctx.out / fname).relative_to(ctx.root)}  ({total:.1f}s)")
+    return index

@@ -1,0 +1,615 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "storyboard.schema.json",
+  "title": "Heritage Short storyboard",
+  "description": "The single contract between every pipeline stage. Each stage reads this file and writes its own outputs. Validated before every run.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "title",
+    "language",
+    "audience",
+    "intent",
+    "format",
+    "models",
+    "style",
+    "characters",
+    "voice",
+    "music",
+    "end_card",
+    "shots"
+  ],
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "language": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "narration",
+        "subtitles"
+      ],
+      "properties": {
+        "narration": {
+          "$ref": "#/$defs/lang",
+          "description": "Language the film is narrated in. Every narrated shot must have a line under this key."
+        },
+        "subtitles": {
+          "$ref": "#/$defs/lang",
+          "description": "Language of the burned-in subtitles."
+        }
+      }
+    },
+    "audience": {
+      "type": "string",
+      "minLength": 10,
+      "description": "Who will watch this, and where. Decided before anything is generated."
+    },
+    "intent": {
+      "type": "string",
+      "minLength": 10,
+      "description": "What the audience should feel or understand when the film ends."
+    },
+    "format": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fps",
+        "master",
+        "exports",
+        "min_total_s",
+        "max_total_s"
+      ],
+      "properties": {
+        "fps": {
+          "enum": [
+            24,
+            25,
+            30
+          ]
+        },
+        "master": {
+          "$ref": "#/$defs/size",
+          "description": "Size of keyframes and of every shot clip. Exports are cut from it."
+        },
+        "exports": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "width",
+              "height"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "pattern": "^[a-z0-9_]+$"
+              },
+              "width": {
+                "type": "integer",
+                "minimum": 16,
+                "multipleOf": 2
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 16,
+                "multipleOf": 2
+              },
+              "subtitle_margin_v": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Pixels between the bottom edge and the subtitles (the safe area)."
+              }
+            }
+          }
+        },
+        "min_total_s": {
+          "type": "number",
+          "minimum": 1
+        },
+        "max_total_s": {
+          "type": "number",
+          "minimum": 1
+        },
+        "lead_in_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3,
+          "description": "Silence between the cut and the first word of narration."
+        },
+        "tail_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3,
+          "description": "Picture held after the last word before the next cut."
+        }
+      }
+    },
+    "models": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "text",
+        "tts",
+        "image",
+        "video",
+        "music"
+      ],
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tts": {
+          "type": "string",
+          "minLength": 1
+        },
+        "image": {
+          "type": "string",
+          "minLength": 1
+        },
+        "video": {
+          "type": "string",
+          "minLength": 1
+        },
+        "music": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "style": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "block"
+      ],
+      "properties": {
+        "block": {
+          "type": "string",
+          "minLength": 20,
+          "description": "Fixed look description added to every image prompt. Describe qualities, never a living artist."
+        },
+        "negative": {
+          "type": "string"
+        }
+      }
+    },
+    "characters": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/character"
+      }
+    },
+    "voice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "style"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "A prebuilt TTS voice. Never a clone of a real person without their recorded consent."
+        },
+        "style": {
+          "type": "string",
+          "minLength": 3
+        }
+      }
+    },
+    "qa": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "keyframe_candidates": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4
+        },
+        "judge": {
+          "type": "boolean",
+          "description": "Score keyframe candidates with the vision model and keep the best."
+        },
+        "roundtrip": {
+          "type": "boolean",
+          "description": "Transcribe each narration line back and compare it with the script."
+        },
+        "roundtrip_min": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "music": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "caption",
+        "duration_s",
+        "seeds",
+        "chosen",
+        "cues"
+      ],
+      "properties": {
+        "caption": {
+          "type": "string",
+          "minLength": 20
+        },
+        "bpm": {
+          "type": "integer",
+          "minimum": 40,
+          "maximum": 200
+        },
+        "keyscale": {
+          "type": "string"
+        },
+        "duration_s": {
+          "type": "number",
+          "minimum": 10,
+          "maximum": 600
+        },
+        "seeds": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "uniqueItems": true
+        },
+        "chosen": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1,
+          "description": "1-based number of the chosen candidate. null = not chosen yet, the placeholder plays."
+        },
+        "chosen_reason": {
+          "type": "string"
+        },
+        "gain_db": {
+          "type": "number",
+          "minimum": -30,
+          "maximum": 6
+        },
+        "cues": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "at_shot",
+              "note"
+            ],
+            "properties": {
+              "at_shot": {
+                "type": "string"
+              },
+              "note": {
+                "type": "string",
+                "minLength": 3
+              }
+            }
+          }
+        }
+      }
+    },
+    "end_card": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "duration_s",
+        "lines"
+      ],
+      "properties": {
+        "duration_s": {
+          "type": "number",
+          "minimum": 2,
+          "maximum": 5
+        },
+        "lines": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 60
+          }
+        }
+      }
+    },
+    "shots": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 40,
+      "items": {
+        "$ref": "#/$defs/shot"
+      }
+    },
+    "video": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Settings of the image-to-video job. They are part of the cache key of every Wan clip.",
+      "properties": {
+        "max_area": {
+          "type": "integer",
+          "minimum": 65536,
+          "description": "Pixels per frame. 399360 is 480x832, a draft size that fits a 16 GB GPU."
+        },
+        "num_frames": {
+          "type": "integer",
+          "minimum": 9,
+          "maximum": 161
+        },
+        "steps": {
+          "type": "integer",
+          "minimum": 4,
+          "maximum": 60
+        },
+        "guidance": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 12
+        }
+      }
+    }
+  },
+  "$defs": {
+    "lang": {
+      "type": "string",
+      "pattern": "^[a-z]{2,3}$"
+    },
+    "size": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "width",
+        "height"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 16,
+          "multipleOf": 2
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 16,
+          "multipleOf": 2
+        }
+      }
+    },
+    "character": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "description",
+        "real_person",
+        "consent"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 10,
+          "description": "Added to the prompt of every shot this character is in, word for word, so the look does not drift."
+        },
+        "reference_prompt": {
+          "type": "string",
+          "description": "Prompt for the character's reference sheet image. Omit for characters that need no sheet."
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "real_person": {
+          "type": "boolean"
+        },
+        "consent": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "recorded",
+                "pending",
+                "not_required"
+              ]
+            },
+            "record": {
+              "type": "string",
+              "pattern": "^consent-[a-z0-9-]+$",
+              "description": "ID of the consent row in ETHICS.md."
+            }
+          }
+        }
+      }
+    },
+    "shot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "reason",
+        "size",
+        "characters",
+        "min_duration_s",
+        "keyframe",
+        "motion",
+        "narration"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^s[0-9]{2}$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 15,
+          "description": "Why this shot exists. If you cannot say it in a sentence, the film may not need the shot."
+        },
+        "size": {
+          "enum": [
+            "extreme wide",
+            "wide",
+            "medium",
+            "medium close-up",
+            "close-up",
+            "extreme close-up",
+            "insert",
+            "over-the-shoulder",
+            "pov"
+          ]
+        },
+        "characters": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "min_duration_s": {
+          "type": "number",
+          "minimum": 2,
+          "maximum": 20,
+          "description": "The shot never runs shorter than this. It runs longer when its narration needs more time."
+        },
+        "keyframe": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "prompt",
+            "seed"
+          ],
+          "properties": {
+            "prompt": {
+              "type": "string",
+              "minLength": 20,
+              "description": "What is in the picture. The style block and character descriptions are added by the pipeline."
+            },
+            "seed": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "candidates": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 4
+            },
+            "pick": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 1,
+              "maximum": 4,
+              "description": "Human override: 1-based candidate to use, whatever the judge scored."
+            }
+          }
+        },
+        "motion": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "backend",
+            "camera",
+            "prompt"
+          ],
+          "properties": {
+            "backend": {
+              "enum": [
+                "kenburns",
+                "wan"
+              ],
+              "description": "kenburns = pan and zoom over the keyframe, made locally. wan = image-to-video on a GPU."
+            },
+            "camera": {
+              "enum": [
+                "push_in",
+                "pull_out",
+                "pan_left",
+                "pan_right",
+                "tilt_up",
+                "tilt_down",
+                "static"
+              ]
+            },
+            "prompt": {
+              "type": "string",
+              "description": "Motion and camera only. The keyframe already holds the subject."
+            },
+            "seed": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "narration": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "minProperties": 1,
+              "additionalProperties": false,
+              "patternProperties": {
+                "^[a-z]{2,3}$": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          ]
+        },
+        "review": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "confirmed"
+          ],
+          "properties": {
+            "confirmed": {
+              "type": "boolean",
+              "description": "false = a fact or wording in this shot is still a guess. Strict mode refuses to release the film until it is true."
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

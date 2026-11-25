@@ -1,0 +1,11 @@
+{
+  "_how_to_use": "List prices for the 'list price' column of COSTS.md. The pipeline was run on free tiers, so nothing was paid: this column says what the same calls would cost at list price. Fill in usd only from the provider's own pricing page, with the date you checked. A model with no entry, or usd null, shows as n/a.",
+  "_units": "per_image | per_megapixel | per_1k_chars | per_1m_tokens (usd_in, usd_out) | per_gpu_minute",
+  "models": {
+    "gemini-3.8-flash": {"unit": "per_1m_tokens", "usd_in": null, "usd_out": null, "source": "https://ai.google.dev/gemini-api/docs/pricing", "checked": null},
+    "gemini-3.8-flash-tts": {"unit": "per_1k_chars", "usd": null, "source": "https://ai.google.dev/gemini-api/docs/pricing", "checked": null, "note": "If the page prices speech per token, convert once and write the conversion here."},
+    "@cf/black-forest-labs/flux-2-klein-4b": {"unit": "per_image", "usd": null, "source": "https://developers.cloudflare.com/workers-ai/platform/pricing/", "checked": null},
+    "@cf/black-forest-labs/flux-1-schnell": {"unit": "per_image", "usd": null, "source": "https://developers.cloudflare.com/workers-ai/platform/pricing/", "checked": null},
+    "kaggle_gpu": {"unit": "per_gpu_minute", "usd": null, "source": "price of a comparable rented T4, for example a public cloud's on-demand page", "checked": null}
+  }
+}

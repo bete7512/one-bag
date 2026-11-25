@@ -1,0 +1,545 @@
+"""Shared plumbing for every stage: storyboard validation, cache, run log, retries, timeline, FFmpeg.
+
+The ideas, in the order a reader needs them:
+
+* storyboard.json is the only contract. `load_storyboard` validates it against the JSON Schema and
+  then checks the things a schema cannot express (unknown character ids, consent rows, drafts).
+* A stage is a list of `Unit`s. A unit is one thing to produce (one narration line, one keyframe)
+  plus a `fingerprint`: every input that can change its output. `run_units` hashes the fingerprint,
+  and regenerates the unit only when the hash is new. That is the whole cache.
+* Every model call goes through `model_call`, which retries with backoff and writes one line per
+  attempt to runs.jsonl: model, parameters, seed, latency, cost, status.
+"""
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+import re
+import shutil
+import subprocess
+import textwrap
+import time
+import uuid
+import wave
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Callable
+
+ROOT = Path(__file__).resolve().parent.parent
+STAGES = ["script", "narration", "keyframes", "shots", "music", "assemble"]
+# Bump a stage's number when its logic changes in a way that changes its output, so old cache entries stop matching.
+STAGE_VERSION = {"script": 1, "narration": 1, "keyframes": 1, "shots": 1, "music": 1, "assemble": 1}
+
+
+class PipelineError(Exception):
+    """A problem the user can fix. Printed without a traceback."""
+
+
+class StoryboardError(PipelineError):
+    pass
+
+
+class ProviderError(Exception):
+    """A failed model call. `retryable` says whether trying again can help."""
+
+    def __init__(self, message: str, status: int | None = None, retryable: bool = False, retry_after: float | None = None):
+        super().__init__(message)
+        self.status = status
+        self.retryable = retryable
+        self.retry_after = retry_after
+
+
+# ----------------------------------------------------------------------------- context
+
+
+@dataclass
+class Ctx:
+    root: Path
+    sb: dict
+    mock: bool = False
+    lang: str = ""
+    strict: bool = False
+    run_id: str = field(default_factory=lambda: datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "-" + uuid.uuid4().hex[:6])
+    sleep: Callable[[float], None] = time.sleep
+    quiet: bool = False
+    pause_s: float = 0.0  # wait after each real model call, for free tiers with a low calls-per-minute limit
+
+    @property
+    def out(self) -> Path:
+        # Mock runs never share a folder or a log with real runs.
+        return self.root / ("outputs_mock" if self.mock else "outputs")
+
+    @property
+    def runlog(self) -> Path:
+        return self.out / "runs.mock.jsonl" if self.mock else self.root / "runs.jsonl"
+
+    @property
+    def narration_lang(self) -> str:
+        return self.lang or self.sb["language"]["narration"]
+
+    def say(self, msg: str) -> None:
+        if not self.quiet:
+            print(msg, flush=True)
+
+
+def load_env(root: Path) -> None:
+    """Read KEY=VALUE lines from .env into the environment. Real environment variables win."""
+    env = root / ".env"
+    if not env.exists():
+        return
+    for line in env.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
+
+
+def make_ctx(root: Path | None = None, mock: bool | None = None, lang: str | None = None, strict: bool = False, quiet: bool = False) -> Ctx:
+    root = Path(root or os.environ.get("HERITAGE_ROOT") or ROOT).resolve()
+    load_env(root)
+    if mock is None:
+        mock = os.environ.get("HERITAGE_PROVIDER", "real") == "mock"
+    sb, problems = load_storyboard(root, strict=strict)
+    ctx = Ctx(root=root, sb=sb, mock=mock, lang=lang or "", strict=strict, quiet=quiet,
+              pause_s=0.0 if mock else float(os.environ.get("HERITAGE_PAUSE_S", "0") or 0))
+    for level, code, msg in problems:
+        if level == "warning":
+            ctx.say(f"  warning [{code}] {msg}")
+    return ctx
+
+
+# ----------------------------------------------------------------------------- storyboard
+
+STRICT_CODES = {"draft", "unconfirmed", "consent_pending", "music_not_chosen", "shot_count", "subtitle_missing"}
+
+
+def consent_rows(root: Path) -> dict[str, dict]:
+    """Consent records in ETHICS.md: table rows whose first cell is an id like `consent-author`."""
+    path = root / "ETHICS.md"
+    rows: dict[str, dict] = {}
+    if not path.exists():
+        return rows
+    for line in path.read_text(encoding="utf-8").splitlines():
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if cells and re.fullmatch(r"consent-[a-z0-9-]+", cells[0]):
+            date = next((c for c in cells[1:] if re.fullmatch(r"\d{4}-\d{2}-\d{2}", c)), None)
+            rows[cells[0]] = {"date": date, "cells": cells}
+    return rows
+
+
+def check_storyboard(sb: Any, root: Path) -> list[tuple[str, str, str]]:
+    """Return (level, code, message) for every problem. level is 'error' or 'warning'."""
+    import jsonschema
+
+    problems: list[tuple[str, str, str]] = []
+    schema = json.loads((root / "schema" / "storyboard.schema.json").read_text(encoding="utf-8"))
+    validator = jsonschema.Draft202012Validator(schema)
+    for err in sorted(validator.iter_errors(sb), key=lambda e: list(e.absolute_path)):
+        where = "/".join(str(p) for p in err.absolute_path) or "(top level)"
+        problems.append(("error", "schema", f"{where}: {err.message}"))
+    if problems:
+        return problems  # the checks below assume the shape is right
+
+    fmt, shots = sb["format"], sb["shots"]
+    ids = [s["id"] for s in shots]
+    for dup in sorted({i for i in ids if ids.count(i) > 1}):
+        problems.append(("error", "duplicate_id", f"shot id {dup} is used more than once"))
+    names = [e["name"] for e in fmt["exports"]]
+    if len(set(names)) != len(names):
+        problems.append(("error", "duplicate_export", "export names must be unique"))
+    if fmt["min_total_s"] > fmt["max_total_s"]:
+        problems.append(("error", "format", "format.min_total_s is larger than format.max_total_s"))
+
+    chars = {c["id"]: c for c in sb["characters"]}
+    rows = consent_rows(root)
+    for c in sb["characters"]:
+        status, record = c["consent"]["status"], c["consent"].get("record")
+        if c["real_person"] and status == "not_required":
+            problems.append(("error", "consent", f"character {c['id']} is a real person: consent cannot be 'not_required'"))
+        if status == "recorded":
+            if not record:
+                problems.append(("error", "consent", f"character {c['id']}: consent is 'recorded' but no record id is given"))
+            elif record not in rows or not rows[record]["date"]:
+                problems.append(("error", "consent", f"character {c['id']}: ETHICS.md has no dated row for {record}"))
+        if c["real_person"] and status == "pending":
+            problems.append(("warning", "consent_pending", f"consent for {c['id']} is pending: real providers will not generate shots with this person"))
+
+    narr_lang, sub_lang = sb["language"]["narration"], sb["language"]["subtitles"]
+    for s in shots:
+        for cid in s["characters"]:
+            if cid not in chars:
+                problems.append(("error", "unknown_character", f"{s['id']}: character '{cid}' is not defined"))
+        kf = s["keyframe"]
+        n_cand = kf.get("candidates", sb.get("qa", {}).get("keyframe_candidates", 1))
+        if kf.get("pick") and kf["pick"] > n_cand:
+            problems.append(("error", "pick", f"{s['id']}: keyframe.pick is {kf['pick']} but there are only {n_cand} candidates"))
+        if s["narration"] is not None:
+            if narr_lang not in s["narration"]:
+                problems.append(("error", "narration_missing", f"{s['id']}: no narration line for language '{narr_lang}'"))
+            if sub_lang not in s["narration"]:
+                problems.append(("warning", "subtitle_missing", f"{s['id']}: no '{sub_lang}' subtitle, it will be machine translated"))
+        if s.get("review") and not s["review"]["confirmed"]:
+            problems.append(("warning", "unconfirmed", f"{s['id']}: {s['review'].get('note', 'not confirmed yet')}"))
+
+    for cue in sb["music"]["cues"]:
+        if cue["at_shot"] not in ids:
+            problems.append(("error", "cue", f"music cue points at unknown shot {cue['at_shot']}"))
+    chosen = sb["music"]["chosen"]
+    if chosen is None:
+        problems.append(("warning", "music_not_chosen", "music.chosen is null: the placeholder plays until you choose a candidate"))
+    elif chosen > len(sb["music"]["seeds"]):
+        problems.append(("error", "music", f"music.chosen is {chosen} but there are only {len(sb['music']['seeds'])} seeds"))
+
+    for key in ("audience", "intent"):
+        if sb[key].strip().upper().startswith("DRAFT"):
+            problems.append(("warning", "draft", f"{key} is still marked DRAFT"))
+    if not 8 <= len(shots) <= 12:
+        problems.append(("warning", "shot_count", f"{len(shots)} shots: the brief suggests eight to twelve"))
+    floor = sum(s["min_duration_s"] for s in shots) + sb["end_card"]["duration_s"]
+    if floor > fmt["max_total_s"]:
+        problems.append(("error", "too_long", f"minimum durations already add up to {floor:.0f}s, over the {fmt['max_total_s']:.0f}s limit"))
+    return problems
+
+
+def load_storyboard(root: Path, strict: bool = False) -> tuple[dict, list[tuple[str, str, str]]]:
+    path = root / "storyboard.json"
+    try:
+        sb = json.loads(path.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        raise StoryboardError(f"{path} not found") from None
+    except json.JSONDecodeError as e:
+        raise StoryboardError(f"storyboard.json is not valid JSON: {e}") from None
+    problems = check_storyboard(sb, root)
+    if strict:
+        problems = [("error" if code in STRICT_CODES else level, code, msg) for level, code, msg in problems]
+    errors = [f"[{code}] {msg}" for level, code, msg in problems if level == "error"]
+    if errors:
+        raise StoryboardError("storyboard.json is not valid:\n  " + "\n  ".join(errors))
+    return sb, problems
+
+
+def shot_text(shot: dict, lang: str) -> str | None:
+    return None if shot["narration"] is None else shot["narration"].get(lang)
+
+
+# ----------------------------------------------------------------------------- hashing and cache
+
+
+def sha(obj: Any) -> str:
+    return hashlib.sha256(json.dumps(obj, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode("utf-8")).hexdigest()
+
+
+def file_sha(path: Path) -> str:
+    h = hashlib.sha256()
+    with open(path, "rb") as fh:
+        for block in iter(lambda: fh.read(1 << 20), b""):
+            h.update(block)
+    return h.hexdigest()[:16]
+
+
+def _flatten(d: Any, prefix: str = "") -> dict[str, Any]:
+    if isinstance(d, dict):
+        out: dict[str, Any] = {}
+        for k, v in d.items():
+            out.update(_flatten(v, f"{prefix}{k}."))
+        return out
+    return {prefix[:-1]: d}
+
+
+@dataclass
+class Unit:
+    """One thing a stage produces. `fingerprint` holds every input that can change the output."""
+
+    stage: str
+    id: str
+    fingerprint: dict
+    ext: str
+    produce: Callable[[Path], dict | None] | None = None  # None: made outside this machine (a GPU job)
+
+
+@dataclass
+class Result:
+    unit: str
+    path: Path | None
+    key: str
+    hit: bool
+    reason: str
+    meta: dict
+
+
+class Cache:
+    """outputs/<stage>/<unit>__<key>.<ext> plus manifest.json. The key is the hash of the fingerprint."""
+
+    def __init__(self, ctx: Ctx, stage: str):
+        self.dir = ctx.out / stage
+        self.path = self.dir / "manifest.json"
+        self.data = {"units": {}, "entries": {}}
+        if self.path.exists():
+            self.data = json.loads(self.path.read_text(encoding="utf-8"))
+
+    def file(self, unit: str, key: str, ext: str) -> Path:
+        return self.dir / f"{unit}__{key}.{ext}"
+
+    def explain(self, unit: Unit) -> str:
+        """Say why a unit has to be rebuilt, by comparing with the fingerprint it was last built from."""
+        last = self.data["units"].get(unit.id)
+        if not last:
+            return "new"
+        old, new = _flatten(last["fingerprint"]), _flatten(unit.fingerprint)
+        changed = sorted(k for k in set(old) | set(new) if old.get(k) != new.get(k))
+        return "changed: " + ", ".join(changed[:4]) + (" ..." if len(changed) > 4 else "") if changed else "file missing"
+
+    def commit(self, unit: Unit, key: str, path: Path, meta: dict) -> None:
+        entry = {"key": key, "file": path.name, "fingerprint": unit.fingerprint, "meta": meta, "created": now()}
+        self.data["units"][unit.id] = entry
+        self.data["entries"][key] = {"unit": unit.id, "file": path.name, "meta": meta}
+        self.dir.mkdir(parents=True, exist_ok=True)
+        tmp = self.path.with_suffix(".json.tmp")
+        tmp.write_text(json.dumps(self.data, ensure_ascii=False, indent=1), encoding="utf-8")
+        os.replace(tmp, self.path)
+
+
+def run_units(ctx: Ctx, units: list[Unit], plan_only: bool = False) -> dict[str, Result]:
+    """Build every unit whose fingerprint is new. Everything else is a cache hit and costs nothing."""
+    results: dict[str, Result] = {}
+    caches: dict[str, Cache] = {}
+    for u in units:
+        cache = caches.setdefault(u.stage, Cache(ctx, u.stage))
+        key = sha(u.fingerprint)[:16]
+        path = cache.file(u.id, key, u.ext)
+        entry = cache.data["entries"].get(key)
+        if entry and path.exists():
+            results[u.id] = Result(u.id, path, key, True, "cached", entry["meta"])
+            ctx.say(f"  [{u.stage}] {u.id:<22} HIT")
+            log_event(ctx, stage=u.stage, unit=u.id, key=key, event="hit")
+            continue
+        reason = cache.explain(u)
+        if plan_only or u.produce is None:
+            note = "would build" if plan_only and u.produce else "waiting for an external job"
+            results[u.id] = Result(u.id, None, key, False, reason, {})
+            ctx.say(f"  [{u.stage}] {u.id:<22} MISS ({reason}) {note}")
+            continue
+        cache.dir.mkdir(parents=True, exist_ok=True)
+        tmp = path.with_name(f"tmp-{uuid.uuid4().hex[:8]}-{path.name}")  # keeps the extension: ffmpeg picks the format from it
+        t0 = time.time()
+        try:
+            meta = u.produce(tmp) or {}
+            os.replace(tmp, path)  # atomic: a stopped run never leaves a half-written file under the final name
+        finally:
+            if tmp.exists():
+                tmp.unlink()
+        cache.commit(u, key, path, meta)
+        results[u.id] = Result(u.id, path, key, False, reason, meta)
+        ctx.say(f"  [{u.stage}] {u.id:<22} MISS ({reason}) built in {time.time() - t0:.1f}s")
+        log_event(ctx, stage=u.stage, unit=u.id, key=key, event="built", reason=reason, seconds=round(time.time() - t0, 2))
+    return results
+
+
+# ----------------------------------------------------------------------------- logs
+
+
+def now() -> str:
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _append(path: Path, rec: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "a", encoding="utf-8") as fh:
+        fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
+
+
+def log_run(ctx: Ctx, **rec: Any) -> None:
+    """One line per model call in runs.jsonl."""
+    _append(ctx.runlog, {"ts": now(), "run_id": ctx.run_id, **rec})
+
+
+def log_event(ctx: Ctx, **rec: Any) -> None:
+    """Cache hits and builds. Not model calls, so they live in their own file."""
+    _append(ctx.out / "logs" / "events.jsonl", {"ts": now(), "run_id": ctx.run_id, **rec})
+
+
+def read_jsonl(path: Path) -> list[dict]:
+    if not path.exists():
+        return []
+    return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+
+
+def model_call(ctx: Ctx, *, stage: str, unit: str, provider: str, model: str, params: dict, seed: int | None,
+               fn: Callable[[], tuple[Any, dict]], attempts: int = 4) -> tuple[Any, dict]:
+    """Run one model call with retries. Every attempt, failed or not, is one line in the run log."""
+    delay = 2.0
+    for attempt in range(1, attempts + 1):
+        t0 = time.time()
+        base = {"stage": stage, "unit": unit, "provider": provider, "model": model, "params": params, "seed": seed, "attempt": attempt}
+        try:
+            out, meta = fn()
+        except ProviderError as e:
+            log_run(ctx, **base, status="error", http_status=e.status, latency_s=round(time.time() - t0, 3), error=str(e)[:400])
+            if not e.retryable or attempt == attempts:
+                raise PipelineError(f"{provider} call for {unit} failed: {e}") from None
+            wait = min(e.retry_after or delay, 90.0)
+            ctx.say(f"  [{stage}] {unit}: {e} Waiting {wait:.0f}s, then attempt {attempt + 1} of {attempts}.")
+            ctx.sleep(wait)
+            delay *= 2
+            continue
+        log_run(ctx, **base, status="ok", latency_s=round(time.time() - t0, 3), **meta)
+        if ctx.pause_s:
+            ctx.sleep(ctx.pause_s)
+        return out, meta
+    raise AssertionError("unreachable")
+
+
+# ----------------------------------------------------------------------------- timeline and subtitles
+
+
+def plan_timeline(sb: dict, narration_s: dict[str, float]) -> dict:
+    """Picture follows the voice: a shot lasts as long as its narration needs, never less than its minimum."""
+    fmt = sb["format"]
+    fps, lead, tail = fmt["fps"], fmt.get("lead_in_s", 0.4), fmt.get("tail_s", 0.5)
+    t, shots = 0.0, []
+    for s in sb["shots"]:
+        nd = narration_s.get(s["id"], 0.0)
+        frames = round(max(s["min_duration_s"], lead + nd + tail if nd else 0.0) * fps)
+        dur = frames / fps
+        shots.append({"id": s["id"], "start": round(t, 4), "duration": round(dur, 4), "frames": frames,
+                      "narration_start": round(t + lead, 4) if nd else None, "narration_s": round(nd, 3)})
+        t += dur
+    end = round(sb["end_card"]["duration_s"] * fps) / fps
+    return {"fps": fps, "shots": shots, "end_card_start": round(t, 4), "end_card_s": end, "total_s": round(t + end, 4)}
+
+
+def subtitle_cues(text: str, start: float, duration: float, max_chars: int = 40, max_lines: int = 2) -> list[tuple[float, float, list[str]]]:
+    """Split one narration line into cues of at most two lines of 40 characters, timed by their length."""
+    def lines_of(t: str) -> list[str]:
+        return textwrap.wrap(t, width=max_chars, break_long_words=False) or [""]
+
+    chunks: list[str] = []
+    cur = ""
+    for sentence in re.split(r"(?<=[.!?;:])\s+", text.strip()):
+        cand = f"{cur} {sentence}".strip()
+        if len(lines_of(cand)) <= max_lines:
+            cur = cand
+            continue
+        if cur:
+            chunks.append(cur)
+        lines = lines_of(sentence)
+        groups = [" ".join(lines[i:i + max_lines]) for i in range(0, len(lines), max_lines)]
+        chunks.extend(groups[:-1])
+        cur = groups[-1]
+    if cur:
+        chunks.append(cur)
+    total = sum(len(c) for c in chunks) or 1
+    cues, t = [], start
+    for c in chunks:
+        d = duration * len(c) / total
+        cues.append((round(t, 3), round(t + d, 3), lines_of(c)))
+        t += d
+    return cues
+
+
+# ----------------------------------------------------------------------------- media helpers
+
+
+def need_tool(name: str) -> None:
+    if shutil.which(name) is None:
+        raise PipelineError(f"{name} is not installed or not on PATH. Install FFmpeg (https://ffmpeg.org/download.html) and try again.")
+
+
+def ff(args: list[str], cwd: Path | None = None) -> None:
+    """Run ffmpeg quietly. On failure, raise with the end of its error output."""
+    need_tool("ffmpeg")
+    cmd = ["ffmpeg", "-hide_banner", "-loglevel", "error", "-nostdin", "-y", *args]
+    p = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, encoding="utf-8", errors="replace")
+    if p.returncode != 0:
+        raise PipelineError("ffmpeg failed:\n" + p.stderr.strip()[-900:] + "\ncommand: ffmpeg " + " ".join(args)[:600])
+
+
+def ff_capture(args: list[str]) -> str:
+    """Run ffmpeg for its measurements (loudness). Returns stderr."""
+    need_tool("ffmpeg")
+    p = subprocess.run(["ffmpeg", "-hide_banner", "-nostdin", *args], capture_output=True, text=True, encoding="utf-8", errors="replace")
+    if p.returncode != 0:
+        raise PipelineError("ffmpeg failed:\n" + p.stderr.strip()[-900:])
+    return p.stderr
+
+
+def media_info(path: Path) -> dict:
+    need_tool("ffprobe")
+    p = subprocess.run(["ffprobe", "-v", "error", "-print_format", "json", "-show_format", "-show_streams", str(path)],
+                       capture_output=True, text=True, encoding="utf-8", errors="replace")
+    if p.returncode != 0:
+        raise PipelineError(f"ffprobe cannot read {path}: {p.stderr.strip()[-300:]}")
+    data = json.loads(p.stdout)
+    info: dict[str, Any] = {"duration": float(data["format"].get("duration", 0.0))}
+    for st in data["streams"]:
+        if st["codec_type"] == "video" and "width" not in info:
+            num, den = (st.get("avg_frame_rate") or "0/1").split("/")
+            info.update(width=st["width"], height=st["height"], vcodec=st["codec_name"], pix_fmt=st.get("pix_fmt"),
+                        fps=float(num) / float(den) if float(den) else 0.0,
+                        r_frame_rate=st.get("r_frame_rate"), avg_frame_rate=st.get("avg_frame_rate"))
+        if st["codec_type"] == "audio" and "acodec" not in info:
+            info.update(acodec=st["codec_name"], sample_rate=int(st.get("sample_rate", 0)), channels=st.get("channels"))
+    return info
+
+
+def wav_seconds(path: Path) -> float:
+    try:
+        with wave.open(str(path), "rb") as w:
+            return w.getnframes() / float(w.getframerate())
+    except (wave.Error, EOFError):
+        return media_info(path)["duration"]
+
+
+def loudness(path: Path, seconds: float | None = None) -> dict:
+    """Integrated loudness (LUFS) and true peak (dBTP), measured the way the platforms do (EBU R128)."""
+    head = ["-t", f"{seconds:.3f}"] if seconds else []
+    err = ff_capture([*head, "-i", str(path), "-map", "0:a:0", "-af", "ebur128=peak=true", "-f", "null", "-"])
+    summary = err[err.rfind("Summary:"):]
+    i = re.search(r"I:\s*(-?[\d.]+) LUFS", summary)
+    tp = re.search(r"Peak:\s*(-?[\d.]+|-inf) dBFS", summary)
+    if not i:
+        raise PipelineError(f"could not measure loudness of {path}")
+    return {"lufs": float(i.group(1)), "true_peak_db": float(tp.group(1)) if tp and tp.group(1) != "-inf" else -99.0}
+
+
+# ----------------------------------------------------------------------------- stage indexes
+# Each stage writes outputs/<stage>/index.json: what it produced, under which cache key. The next
+# stage reads that file, or the copy passed along in `state` during one run (which also works for
+# `plan`, where nothing is written).
+
+
+def index_path(ctx: Ctx, stage: str, per_lang: bool = False) -> Path:
+    return ctx.out / stage / (f"index.{ctx.narration_lang}.json" if per_lang else "index.json")
+
+
+def write_index(ctx: Ctx, stage: str, data: dict, per_lang: bool = False) -> None:
+    path = index_path(ctx, stage, per_lang)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
+def get_index(ctx: Ctx, state: dict, stage: str, per_lang: bool = False, required: bool = True) -> dict:
+    if stage in state:
+        return state[stage]
+    path = index_path(ctx, stage, per_lang)
+    if path.exists():
+        return json.loads(path.read_text(encoding="utf-8"))
+    if required:
+        raise PipelineError(f"the {stage} stage has not run yet. Run: python -m pipeline stage {stage}")
+    return {}
+
+
+def estimate_seconds(text: str) -> float:
+    """Rough speaking time, used only before the real narration exists."""
+    letters = sum(1 for ch in text if ch.isalnum())
+    return round(max(1.0, letters / (14.0 if text.isascii() else 6.0)), 2)
+
+
+def rel(ctx: Ctx, path: Path) -> str:
+    try:
+        return path.resolve().relative_to(ctx.root).as_posix()
+    except ValueError:
+        return str(path)

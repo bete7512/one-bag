@@ -1,0 +1,31 @@
+# secrets
+.env
+kaggle.json
+
+# python
+__pycache__/
+*.pyc
+.venv/
+
+# offline test runs: never evidence, never committed
+outputs_mock/
+
+# scratch inside real outputs
+outputs/tmp/
+outputs/assemble/work/
+outputs/*/ingest_tmp/
+tmp-*
+
+# keep the answer key of a blind test out of sight until the votes are in
+outputs/blindtest/*/key.json
+
+# re-renders that FFmpeg rebuilds from the files that ARE kept (no model call needed)
+outputs/assemble/*.mp4
+outputs/assemble/*.wav
+outputs/shots/*_kenburns__*.mp4
+outputs/keyframes/*_card__*.png
+outputs/*/kaggle_job/
+outputs/*/kaggle_job.zip
+.dev
+# local settings of the coding agent
+.claude/
