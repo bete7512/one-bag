@@ -717,6 +717,38 @@ class TakeTests(Project):
         self.assertFalse((self.root / "outputs_mock" / "narration" / "takes").exists())
         self.assertTrue(all(line["roundtrip"] == 1.0 for line in index.values()), index)
 
+    def test_a_line_spoken_by_an_addis_voice_is_fetched_from_the_address_in_the_answer(self):
+        from unittest import mock
+        wav = providers.pcm_to_wav(b"\x10\x00" * 44100, rate=44100)
+        asked = []
+
+        class Answer:
+            def __init__(self, body=None, content=b""):
+                self._body, self.content, self.text = body, content, json.dumps(body)
+            def json(self):
+                return self._body
+
+        def request(method, url, headers=None, json_body=None, files=None, timeout=300):
+            asked.append((method, url, json_body))
+            return Answer({"data": {"id": "clip_1", "audio_url": "https://signed.example/clip.wav"}}) if method == "POST" else Answer(content=wav)
+
+        with mock.patch.object(providers, "_request", request), mock.patch.dict(os.environ, {"ADDIS_API_KEY": "sk_test"}):
+            raw, meta = providers._addis_tts("ሰላም ለሁላችሁ።", "am-hamen", "am")
+        self.assertEqual((raw, meta["audio_seconds"], meta["clip_id"]), (wav, 1.0, "clip_1"))
+        self.assertEqual([a[:2] for a in asked], [("POST", providers.ADDIS + "/voice/generations"), ("GET", "https://signed.example/clip.wav")])
+        self.assertEqual({k: asked[0][2][k] for k in ("text", "voice_id", "language", "output_format")},
+                         {"text": "ሰላም ለሁላችሁ።", "voice_id": "am-hamen", "language": "am", "output_format": "wav_44100"})
+
+    def test_the_narration_can_be_spoken_by_an_addis_voice(self):
+        sb = read_sb(self.root)
+        sb["models"]["tts"] = "addis-voices-2"
+        sb["voice"] = {"name": "am-hamen", "style": "not used by this provider", "one_take": False}
+        write_sb(self.root, sb)
+        index, speech = self.narrate()
+        self.assertEqual([r["unit"] for r in speech], list(index))                         # one request a line: this provider has no take
+        self.assertTrue(all(r["model"] == "addis-voices-2" and "style" not in r["params"] for r in speech))
+        self.assertTrue(all(line["roundtrip"] == 1.0 for line in index.values()), index)
+
     def test_phrases_go_to_the_line_they_sound_like(self):
         from pipeline import narration
         lines = ["ክፍሉ ባለ አንድ አልጋ ነበር። ንጹሕ ነበር።", "ጠዋት ትኬት ቆረጥን።", "ኑረው።"]

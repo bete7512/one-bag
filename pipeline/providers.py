@@ -26,6 +26,7 @@ from .core import Ctx, PipelineError, ProviderError, ff, model_call, sha
 
 GEMINI = "https://generativelanguage.googleapis.com/v1beta"
 CLOUDFLARE = "https://api.cloudflare.com/client/v4/accounts/{account}/ai/run/{model}"
+ADDIS = "https://api.addisassistant.com/api/v1"  # Addis AI: speech models built for Ethiopian languages
 
 
 def _env(name: str) -> str:
@@ -185,11 +186,59 @@ def speech_config(voice: str, seed: int | None) -> dict:
     return {"speech_config": [{"voice": voice}], **({"seed": seed} if seed is not None else {})}
 
 
+def _request(method: str, url: str, headers: dict | None = None, json_body: dict | None = None, files: list | None = None, timeout: int = 300) -> Any:
+    """Any 2xx answer is returned. Every failure becomes a ProviderError that says whether a retry can help."""
+    import requests
+
+    try:
+        resp = requests.request(method, url, headers=headers or {}, json=json_body, files=files, timeout=timeout)
+    except requests.RequestException as e:
+        raise ProviderError(f"network error ({type(e).__name__}).", retryable=True) from None
+    if 200 <= resp.status_code < 300:
+        return resp
+    body = " ".join(resp.text.split())[:1200]
+    if resp.status_code == 429:
+        raise ProviderError(f"HTTP 429, rate limit or quota reached. {body}", 429, True, _retry_after(resp))
+    if resp.status_code >= 500:
+        raise ProviderError(f"HTTP {resp.status_code}, the provider had an error. {body}", resp.status_code, True)
+    hint = {401: "The API key was rejected.", 402: "The account has no credit left.", 404: "Endpoint, voice or clip not found."}.get(resp.status_code, "")
+    raise ProviderError(f"HTTP {resp.status_code}. {hint} {body}", resp.status_code, False)
+
+
+def addis_voices(language: str) -> list[dict]:
+    """The voices Addis AI offers for a language: id, name, gender and whether each can be used now."""
+    data = _json(_request("GET", f"{ADDIS}/voice/voices?language={language}", {"x-api-key": _env("ADDIS_API_KEY")}))
+    found = data.get("data", data) if isinstance(data, dict) else data
+    if isinstance(found, dict):  # the documentation does not show the shape: accept a list under a key as well
+        found = next((v for v in found.values() if isinstance(v, list)), [])
+    return [v for v in found if isinstance(v, dict)]
+
+
+def _addis_tts(text: str, voice: str, language: str) -> tuple[bytes, dict]:
+    """One text spoken by an Addis AI voice. The answer holds a signed address of the audio, which is fetched at once."""
+    body = {"text": text, "voice_id": voice, "language": language, "output_format": "wav_44100", "client_request_id": uuid.uuid4().hex}
+    data = _json(_request("POST", f"{ADDIS}/voice/generations", {"x-api-key": _env("ADDIS_API_KEY")}, json_body=body))
+    clip = data.get("data", data) if isinstance(data, dict) else {}
+    url = clip.get("audio_url") if isinstance(clip, dict) else None
+    if not url:  # the documentation mentions an answer that says the clip is still being made: that is worth another try
+        raise ProviderError("the answer held no audio address: " + json.dumps(data, ensure_ascii=False)[:400], retryable=True)
+    raw = _request("GET", url, timeout=120).content
+    if not raw.startswith(b"RIFF"):
+        raise ProviderError("the audio address did not return a WAV file")
+    return raw, {"audio_bytes": len(raw), "audio_seconds": audio_seconds(raw), "clip_id": clip.get("id"), "reported_usage": clip.get("usage")}
+
+
 def tts(ctx: Ctx, stage: str, unit: str, text: str, *, voice: str, style: str, model: str | None = None,
         seed: int | None = None) -> tuple[bytes, dict]:
-    """Text to speech. Returns WAV bytes (24 kHz mono 16-bit)."""
+    """Text to speech. Returns WAV bytes. A model id that starts with `addis-` goes to Addis AI, any other to the Gemini API."""
     model = model or ctx.sb["models"]["tts"]
     params = {"voice": voice, "style": style, "chars": len(text), "text_sha": sha(text)[:12]}
+    if model.startswith("addis-"):
+        params = {"voice": voice, "chars": len(text), "text_sha": sha(text)[:12], "language": ctx.narration_lang}  # this API takes no style and no seed
+        language = ctx.narration_lang
+        return model_call(ctx, stage=stage, unit=unit, provider="mock" if ctx.mock else "addis", model=model, params=params, seed=None,
+                          fn=(lambda: (pcm_to_wav(_mock_speech(text), note=text), {"audio_seconds": None})) if ctx.mock
+                          else (lambda: _addis_tts(text, voice, language)))
 
     def real() -> tuple[bytes, dict]:
         body = {

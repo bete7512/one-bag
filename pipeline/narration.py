@@ -286,7 +286,8 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
                     f"with certainty costs one more request")
         else:
             ctx.say(f"  [narration] {len(missing)} line(s) to speak, each in a request of its own{left}")
-    one_take = voice.get("one_take", True) and len(missing) > 1 and not plan_only
+    # a take needs the pause tag and the cutting that go with the Gemini speech model: an Addis voice is asked line by line
+    one_take = voice.get("one_take", True) and len(missing) > 1 and not plan_only and not model.startswith("addis-")
     pieces = take(ctx, {sid: script["lines"][sid]["text"] for sid in missing}, voice, model) if one_take else {}
 
     units = []

@@ -127,6 +127,7 @@ def build_parser() -> argparse.ArgumentParser:
     sub.add_parser("doctor", parents=[common], help="check tools, FFmpeg features, packages and keys on this machine")
     sub.add_parser("review", parents=[common], help="one HTML page with every shot, line, candidate and clip, for review by eye and ear")
     sub.add_parser("site", parents=[common], help="the film's public page, built from the repository into site/")
+    sub.add_parser("voices", parents=[common], help="list the Addis AI voices for the narration language (needs ADDIS_API_KEY)")
     sub.add_parser("desk", parents=[common], help="a local page where the author confirms lines and picks pictures by clicking").add_argument("--port", type=int, default=8765, help="port on 127.0.0.1 (default: 8765)")
     ing = sub.add_parser("ingest", parents=[common], help="bring finished GPU work into the cache")
     ing.add_argument("stage", choices=["shots", "music"])
@@ -191,6 +192,10 @@ def main(argv: list[str] | None = None) -> int:
         elif args.cmd == "site":
             from . import site
             site.run(ctx)
+        elif args.cmd == "voices":
+            for v in providers.addis_voices(ctx.narration_lang):
+                usable = v.get("is_available", v.get("isAvailable", True))
+                ctx.say(f"  {str(v.get('id')):<16} {str(v.get('name')):<12} {str(v.get('gender')):<7} {str(v.get('style') or v.get('descriptor') or ''):<24} {'' if usable else 'not available'}")
         elif args.cmd == "desk":
             from . import desk
             desk.run(ctx, args.port)
