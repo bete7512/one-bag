@@ -132,8 +132,13 @@ def push(ctx: Ctx, stage: str, dataset: str, kernel: str) -> None:
             "is_private": "true", "enable_gpu": "true", "enable_internet": "true", "machine_shape": "NvidiaTeslaT4",
             "dataset_sources": [dataset], "competition_sources": [], "kernel_sources": [], "model_sources": []}
     (folder / "kernel-metadata.json").write_text(json.dumps(meta, indent=1), encoding="utf-8")
-    for line in kaggle(["kernels", "push", "-p", str(folder)]).stdout.strip().splitlines() or ["pushed"]:
+    lines = kaggle(["kernels", "push", "-p", str(folder)]).stdout.strip().splitlines() or ["pushed"]
+    for line in lines:
         ctx.say(f"  [{stage}] {line.strip()}")  # every line: a warning about the accelerator or the data would be printed here
+    refused = [line.strip() for line in lines if "push error" in line.lower()]
+    if refused:  # the tool exits with 0 here, so its words are the only sign. Seen: "Maximum batch GPU session count of 2 reached."
+        raise PipelineError(f"Kaggle did not start the {stage} run: {refused[0]} Nothing is running for this push. "
+                            f"Wait for the earlier runs to end (python -m pipeline kaggle status {stage}) and run it again.")
 
 
 def status(kernel: str) -> str:

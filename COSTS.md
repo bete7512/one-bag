@@ -57,6 +57,8 @@ From the job's own `results.json`, the run log (`provider: kaggle`) and `outputs
 
 The session time is mostly not generation: building ACE-Step's own Python environment and downloading the model take about three of the four minutes. The three candidates together took 22 seconds of GPU. At that speed a second set with another caption costs four minutes, so the score can be iterated like a prompt.
 
+What the same GPU time costs when rented: one T4 is 0.35 USD an hour on demand at Google Cloud (its GPU pricing page, read on 2026-11-25, the GPU alone). The 22 seconds of generation on two T4s come to 0.004 USD, and the whole session of 229 seconds to 0.045 USD. The three lines of that run were logged before the price was read, so they show n/a in the table above: the log is not rewritten.
+
 No clip has been made with Wan 2.2 yet. The first job, two shots, was sent to Kaggle on the evening of 25 Nov.
 
 ## Frontier comparison

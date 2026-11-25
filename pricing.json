@@ -83,10 +83,10 @@
     },
     "kaggle_gpu": {
       "unit": "per_gpu_minute",
-      "usd": null,
-      "source": "the on-demand price of one rented NVIDIA T4, from a public cloud's pricing page",
-      "checked": null,
-      "note": "Kaggle's GPUs are free. This entry stays null, and GPU work shows as n/a, until a price has been read from a provider's page."
+      "usd": 0.005833,
+      "source": "https://cloud.google.com/products/compute/gpus-pricing : NVIDIA T4, 16 GB, 0.35 USD per GPU per hour on demand in Iowa (us-central1). 0.35 / 60 = 0.005833 per GPU minute",
+      "checked": "2026-11-25",
+      "note": "Kaggle's GPUs are free. This is what one rented T4 costs, as a reference. It is the GPU alone: the page says each GPU adds to the cost of the machine it is attached to. Lines logged before this price was read keep a null cost."
     }
   }
 }

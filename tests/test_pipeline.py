@@ -785,6 +785,8 @@ elif args[:2] in (["datasets", "create"], ["datasets", "version"]):
     old = json.loads((state / "dataset.json").read_text())["current_version_number"] if (state / "dataset.json").exists() else 0
     (state / "dataset.json").write_text(json.dumps({"status": "ready", "current_version_number": old + 1}))
     (state / "uploaded.json").write_text(json.dumps(sorted(p.name for p in folder().iterdir())))
+elif args[:2] == ["kernels", "push"] and (state / "refuse_push").exists():
+    print("Kernel push error: Maximum batch GPU session count of 2 reached.")   # the real tool says this and exits with 0
 elif args[:2] == ["kernels", "push"]:
     shutil.copytree(folder(), state / "kernel", dirs_exist_ok=True)
     (state / "status.json").write_text(json.dumps(["QUEUED", "RUNNING", "COMPLETE"]))
@@ -827,6 +829,14 @@ class KaggleRunTests(Project):
             "stage": "music", "job_id": "job1", "job_created": created, "model": "acestep-v15-turbo", "gpu": "Tesla T4, Tesla T4",
             "results": [{"unit": job["unit"], "key": job["key"], "fingerprint": job["fingerprint"], "seed": job["seed"], "params": {},
                          "status": "ok", "file": name, "latency_s": 90.0, "peak_mem_gb": 3.1}]}), encoding="utf-8")
+
+    def test_a_push_that_kaggle_refuses_is_not_reported_as_running(self):
+        from pipeline import kagglerun
+        ctx = self.ctx(mock=False)
+        music.run(ctx, {})
+        (self.state / "refuse_push").write_text("")
+        with self.assertRaisesRegex(core.PipelineError, "did not start the music run: Kernel push error: Maximum batch GPU session count"):
+            kagglerun.run(ctx, "run", "music")
 
     def test_a_job_goes_to_kaggle_and_its_result_comes_back_into_the_cache(self):
         from pipeline import kagglerun
