@@ -12,7 +12,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from pipeline import assemble, cli, core, keyframes, music, providers
+from pipeline import assemble, cli, core, keyframes, music, pricing, providers
 from pipeline.blindtest import sign_test
 from pipeline.narration import similarity
 
@@ -36,7 +36,8 @@ def make_project(folder: Path, small: bool = True) -> Path:
     """
     for name in ("schema", "kaggle"):
         shutil.copytree(REPO / name, folder / name)
-    shutil.copy2(REPO / "storyboard.json", folder / "storyboard.json")
+    for name in ("storyboard.json", "pricing.json"):
+        shutil.copy2(REPO / name, folder / name)
     (folder / "ETHICS.md").write_text(ETHICS_DRAFT, encoding="utf-8")
     sb = read_sb(folder)
     sb["audience"] = "DRAFT, a test audience."
@@ -211,8 +212,8 @@ class RunLogTests(Project):
         self.assertEqual(out, "ok")
         self.assertEqual([r["status"] for r in runs], ["error", "error", "ok"])
         self.assertEqual([r["attempt"] for r in runs], [1, 2, 3])
-        for key in ("ts", "run_id", "stage", "unit", "provider", "model", "params", "seed", "latency_s"):
-            self.assertIn(key, runs[-1])
+        for key in ("ts", "run_id", "stage", "unit", "provider", "model", "params", "seed", "latency_s", "cost_usd"):
+            self.assertIn(key, runs[-1])                                        # what the brief asks of every line
 
     def test_a_rejected_request_is_not_retried(self):
         ctx, attempts = self.ctx(), []
@@ -320,6 +321,7 @@ class RequestShapeTests(Project):
         wav = providers.pcm_to_wav(b"\x01\x00" * 240)
         reply = self.Reply({"steps": [{"type": "model_output", "content": [{"type": "audio", "data": base64.b64encode(wav).decode()}]}]})
         sent, post, env = self.capture(reply)
+        speech_model = read_sb(self.root)["models"]["tts"]
         with post, env:
             raw, _ = providers.tts(self.ctx(mock=False), "narration", "s01", "ሰላም", voice="Charon", style="calm")
         self.assertEqual(raw, wav)
@@ -327,12 +329,14 @@ class RequestShapeTests(Project):
         self.assertEqual(req["url"], "https://generativelanguage.googleapis.com/v1beta/interactions")
         self.assertEqual(req["headers"], {"x-goog-api-key": "test-gemini"})
         self.assertEqual(req["json"], {
-            "model": "gemini-3.8-flash-tts",
+            "model": speech_model,
             "input": [{"type": "user_input", "content": [{"type": "text", "text": "ሰላም", "annotations": [{"type": "speech_metadata", "style": "calm"}]}]}],
             "response_format": {"type": "audio"},
             "generation_config": {"speech_config": [{"voice": "Charon"}]}})
         logged = core.read_jsonl(self.root / "runs.jsonl")[-1]
-        self.assertEqual((logged["provider"], logged["model"], logged["status"]), ("gemini", "gemini-3.8-flash-tts", "ok"))
+        self.assertEqual((logged["provider"], logged["model"], logged["status"]), ("gemini", speech_model, "ok"))
+        self.assertEqual(logged["audio_seconds"], 0.01)                         # speech is priced by the second
+        self.assertGreater(logged["cost_usd"], 0)
         self.assertNotIn("test-gemini", json.dumps(logged))                     # the key never reaches the log
 
     def test_image_request_is_a_multipart_form_with_reference_images(self):
@@ -370,11 +374,11 @@ class RequestShapeTests(Project):
             out, meta = providers.text(self.ctx(mock=False), "keyframes", "s01_c1_judge", "Score it.", kind="judge",
                                        parts=[("image/jpeg", b"img")], json_mode=True, temperature=0.0)
         req = sent[0]
-        self.assertTrue(req["url"].endswith("/v1beta/models/gemini-3.8-flash:generateContent"))
+        self.assertTrue(req["url"].endswith(f"/v1beta/models/{read_sb(self.root)['models']['text']}:generateContent"))
         parts = req["json"]["contents"][0]["parts"]
         self.assertEqual([list(p)[0] for p in parts], ["inlineData", "text"])
         self.assertEqual(req["json"]["generationConfig"], {"temperature": 0.0, "responseMimeType": "application/json"})
-        self.assertEqual((out, meta["usage"]), ('{"artifacts": 4}', {"input_tokens": 9, "output_tokens": 3}))
+        self.assertEqual((out, meta["usage"]), ('{"artifacts": 4}', {"input_tokens": 9, "output_tokens": 3, "thoughts_tokens": None}))
 
 
 class ChecksThatOnlyMeasureTests(Project):
@@ -413,7 +417,8 @@ class ChecksThatOnlyMeasureTests(Project):
         sid = first["id"]
         with self.busy({f"{sid}_c2_judge"}):
             index = keyframes.run(self.ctx(), {})
-        self.assertEqual((index[sid]["candidate"], index[sid]["picked_by"], index[sid]["unscored"]), (1, "first candidate (judge incomplete)", [2]))
+        self.assertEqual((index[sid]["candidate"], index[sid]["picked_by"], index[sid]["unscored"]),
+                         (1, "first full-frame candidate (judge incomplete)", [2]))
         self.assertTrue(index[sid]["file"])                                     # the picture is there all the same
         index = keyframes.run(self.ctx(), {})                                   # the model answers again
         self.assertEqual((index[sid]["picked_by"], index[sid]["unscored"]), ("judge", []))
@@ -428,6 +433,125 @@ class ChecksThatOnlyMeasureTests(Project):
         self.assertTrue(index[sid]["file"])
         self.assertNotIn("roundtrip", index[sid])
         self.assertTrue(all("roundtrip" in line for other, line in index.items() if other != sid))
+
+
+class TakeTests(Project):
+    """The free speech tier counts requests, not lines: the lines missing from the cache are spoken in one request."""
+
+    def narrate(self, ctx=None) -> tuple[dict, list]:
+        from pipeline import narration, script
+        ctx, state = ctx or self.ctx(), {}
+        before = len(core.read_jsonl(ctx.runlog))
+        script.run(ctx, state)
+        index = narration.run(ctx, state)
+        speech = [r for r in core.read_jsonl(ctx.runlog)[before:] if r["model"] == ctx.sb["models"]["tts"]]
+        return index, speech
+
+    def test_all_lines_cost_one_request_and_one_changed_line_costs_one(self):
+        index, speech = self.narrate()
+        self.assertEqual([(r["unit"], r["params"]["lines"]) for r in speech], [("take", len(index))])
+        self.assertTrue(all(line["file"] and line["seconds"] > 0.5 and line["roundtrip"] == 1.0 for line in index.values()), index)
+        takes = sorted((self.root / "outputs_mock" / "narration" / "takes").glob("*"))
+        self.assertEqual([p.suffix for p in takes], [".json", ".wav"])               # the model's answer is kept as it came
+
+        _, speech = self.narrate()
+        self.assertEqual(speech, [])                                                 # nothing changed: nothing is spoken
+
+        sb = read_sb(self.root)
+        changed = next(s for s in sb["shots"] if s["narration"])
+        changed["narration"][sb["language"]["narration"]] += " በጣም።"
+        write_sb(self.root, sb)
+        _, speech = self.narrate()
+        self.assertEqual([r["unit"] for r in speech], [changed["id"]])               # that line alone, in a request of its own
+
+    def test_a_take_is_cut_at_its_longest_pauses(self):
+        from pipeline import narration
+        take = self.root / "take.wav"   # three lines of 1.0, 2.0 and 1.5 s. The second has a short breath inside it.
+        parts = ["sine=f=300:d=1.0", "anullsrc=d=1.2", "sine=f=300:d=0.8", "anullsrc=d=0.4", "sine=f=300:d=0.8", "anullsrc=d=1.2", "sine=f=300:d=1.5"]
+        inputs = [arg for part in parts for arg in ("-f", "lavfi", "-i", part + (":r=24000" if part.startswith("sine") else ":r=24000:cl=mono"))]
+        core.ff([*inputs, "-filter_complex", "".join(f"[{i}:a]" for i in range(len(parts))) + f"concat=n={len(parts)}:v=0:a=1", "-ar", "24000", str(take)])
+        spans, margin = narration.speech_spans(take, 3)
+        self.assertEqual([round(b - a, 1) for a, b in spans], [1.2, 2.3, 1.6])       # each line with its small pads, the breath left inside
+        self.assertEqual(margin, 3.0)                                                # the cuts are three times longer than that breath
+        with self.assertRaisesRegex(core.PipelineError, "cannot be cut"):
+            narration.speech_spans(take, 5)
+
+    def test_one_audio_per_line_needs_no_cutting(self):
+        from unittest import mock
+        from pipeline import narration
+
+        def one_per_line(ctx, stage, unit, texts, **kw):
+            return [providers.pcm_to_wav(providers._mock_speech(text) + b"\x00\x00" * 24000) for text in texts], {"audio_blocks": len(texts)}
+
+        ctx = self.ctx()
+        with mock.patch.object(providers, "tts_take", one_per_line):
+            pieces = narration.take(ctx, {"s01": "ሰላም ለሁላችሁ ይሁን።", "s03": "እንደምን አደራችሁ።"}, ctx.sb["voice"], "speech-model")
+        self.assertEqual(sorted(pieces), ["s01", "s03"])
+        self.assertTrue(all(1.0 <= core.wav_seconds(path) < 3.6 for path in pieces.values()))   # the second of silence at the end is trimmed
+
+
+class FreeTierTests(Project):
+    """Ten speech requests a day are easy to spend by accident. The run log is the counter."""
+
+    LIMITS = {"speech-model": {"unit": "per_audio_second", "usd_out": 0.0, "free_tier": {"requests_per_minute": 3, "requests_per_day": 2, "reset": "pacific"}}}
+
+    def call(self, ctx):
+        return core.model_call(ctx, stage="narration", unit="take", provider="gemini", model="speech-model", params={}, seed=None,
+                               fn=lambda: (b"", {"audio_seconds": 1.0}))
+
+    def test_a_request_over_the_daily_limit_is_not_sent(self):
+        ctx, waits = self.ctx(mock=False), []
+        ctx._prices, ctx.sleep = self.LIMITS, waits.append
+        self.call(ctx)
+        self.call(ctx)
+        self.assertEqual(core.free_tier_use(ctx, "speech-model")["requests"], 2)
+        with self.assertRaisesRegex(core.PipelineError, "allows 2 requests a day.*Nothing was sent"):
+            self.call(ctx)
+        self.assertEqual(len(core.read_jsonl(ctx.runlog)), 2)                        # the refused request never reached the log or the provider
+        self.assertEqual(len(waits), 1)                                              # and the second call waited for the per-minute limit
+        self.assertTrue(19.0 < waits[0] <= 20.0, waits)
+
+    def test_a_model_without_a_known_limit_is_not_held_back(self):
+        ctx = self.ctx(mock=False)
+        ctx._prices = {}
+        self.assertIsNone(core.free_tier_use(ctx, "speech-model"))
+        self.call(ctx)
+
+
+class BorderTests(Project):
+    """A painted look can come back as a framed picture on a page. The margin would show in the film."""
+
+    def picture(self, graph: str) -> Path:
+        out = self.root / "picture.png"
+        core.ff(["-f", "lavfi", "-i", graph, "-frames:v", "1", str(out)])
+        return out
+
+    def test_bare_paper_is_counted_side_by_side(self):
+        ctx = self.ctx()
+        painted = "color=c=0x336699:s=224x224"
+        self.assertEqual(keyframes.paper_edges(ctx, self.picture(f"{painted},scale=256:256")), 0)                           # fills the frame
+        self.assertEqual(keyframes.paper_edges(ctx, self.picture(f"{painted},pad=256:256:16:16:color=0xF4F1EA")), 4)        # a framed page
+        self.assertEqual(keyframes.paper_edges(ctx, self.picture(f"{painted},pad=224:256:0:32:color=white,scale=256:256")), 1)  # a white sky
+        self.assertEqual(keyframes.paper_edges(ctx, self.picture("color=c=0xC8DCF0:s=256x256")), 0)                         # pale blue is not paper
+
+    def test_a_full_frame_candidate_is_preferred_to_a_bordered_one(self):
+        from unittest import mock
+        sb = read_sb(self.root)
+        sb["qa"].update(keyframe_candidates=2, judge=True)
+        first = sb["shots"][0]
+        first["keyframe"] = {k: v for k, v in first["keyframe"].items() if k not in ("pick", "candidates")}
+        write_sb(self.root, sb)
+        sid = first["id"]
+        def edges(ctx, image):  # candidate 1 of the first shot has a border, everything else fills its frame
+            return 4 if image.name.startswith(f"{sid}_c1__") else 0
+
+        def generous(ctx, stage, unit, prompt, **kw):  # the judge likes the bordered one more
+            total = 5 if unit == f"{sid}_c1_judge" else 4
+            return json.dumps({"character_match": total, "prompt_adherence": total, "artifacts": total, "text_in_image": False}), {}
+
+        with mock.patch.object(keyframes, "paper_edges", edges), mock.patch.object(providers, "text", generous):
+            index = keyframes.run(self.ctx(), {})
+        self.assertEqual((index[sid]["candidate"], index[sid]["border"], index[sid]["paper_sides"]), (2, False, {"1": 4, "2": 0}))
 
 
 class SceneTests(Project):
@@ -461,6 +585,43 @@ class SceneTests(Project):
         meta, scene = self.scene(clip_s=2, frames=48)
         self.assertEqual((meta["slowdown"], meta["tail"], meta["tail_s"]), (1.0, "none", 0.0))
         self.assertAlmostEqual(core.media_info(scene)["duration"], 2.0, places=2)
+
+
+class ListPriceTests(unittest.TestCase):
+    """cost_usd in the run log: the list price of a call, or None. Never a guess."""
+
+    PRICES = {"text-model": {"unit": "per_1m_tokens", "usd_in": 0.30, "usd_out": 2.50},
+              "thinking-model": {"unit": "per_1m_tokens", "usd_in": 0.75, "usd_out": 3.75, "thinks": True},
+              "speech-model": {"unit": "per_audio_second", "usd_in": 0.50, "usd_out": 0.000225},
+              "image-model": {"unit": "per_512_tile", "usd_out": 0.000287, "usd_in": 0.000059},
+              "step-model": {"unit": "per_512_tile", "usd_out": 0.0000528, "usd_step": 0.0001056, "default_steps": 4},
+              "kaggle_gpu": {"unit": "per_gpu_minute", "usd": None}}
+
+    def cost(self, **run):
+        return pricing.cost_usd({"status": "ok", **run}, self.PRICES)
+
+    def test_tokens_seconds_and_tiles(self):
+        self.assertEqual(self.cost(model="text-model", usage={"input_tokens": 1331, "output_tokens": 69}), 0.000572)
+        self.assertEqual(self.cost(model="thinking-model", usage={"input_tokens": 1000, "output_tokens": 10, "thoughts_tokens": 90}), 0.001125)
+        self.assertEqual(self.cost(model="speech-model", audio_seconds=8.0), 0.0018)
+        self.assertEqual(self.cost(model="image-model", params={"width": 1024, "height": 1024, "refs": 1}), 0.001207)   # 4 tiles out, 1 in
+        self.assertEqual(self.cost(model="step-model", params={"width": 1024, "height": 1024}), 0.000634)               # 4 tiles, 4 steps
+
+    def test_what_is_not_known_is_not_priced(self):
+        self.assertIsNone(self.cost(model="a model with no entry", usage={"input_tokens": 1, "output_tokens": 1}))
+        self.assertIsNone(self.cost(model="thinking-model", usage={"input_tokens": 8, "output_tokens": 1}))   # thinking tokens not logged
+        self.assertIsNone(self.cost(model="speech-model"))                                                    # length not logged
+        self.assertIsNone(self.cost(provider="kaggle", model="any", gpu_minutes=12.5, gpu_count=2))           # no price read yet
+
+    def test_a_failed_api_call_costs_nothing(self):
+        self.assertEqual(pricing.cost_usd({"status": "error", "model": "text-model"}, self.PRICES), 0.0)
+
+    def test_every_price_in_the_repository_names_its_source_and_date(self):
+        for model, price in pricing.load(REPO).items():
+            numbers = [v for k, v in price.items() if k.startswith("usd")]
+            if any(v is not None for v in numbers):
+                self.assertTrue(price.get("source", "").startswith("https://"), model)
+                self.assertRegex(price.get("checked") or "", r"^\d{4}-\d{2}-\d{2}$", model)
 
 
 class SmallToolTests(unittest.TestCase):

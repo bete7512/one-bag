@@ -61,6 +61,8 @@ def run(ctx: Ctx, state: dict | None = None) -> dict:
     keyframes = get_index(ctx, state, "keyframes", required=False)
     blocked = [sid for sid, k in keyframes.items() if k.get("blocked")]
     check("must", "pictures: no shot is waiting for consent", not blocked, ", ".join(blocked) or "all shots have a picture")
+    bordered = [sid for sid, k in keyframes.items() if k.get("border")]
+    check("note", "pictures: every picked keyframe fills its frame", not bordered, ", ".join(bordered) or "no paper border")
     unscored = [sid for sid, k in keyframes.items() if k.get("unscored")]
     check("note", "pictures: the judge scored every candidate", not unscored, ", ".join(unscored) or "all scored")
     shots = get_index(ctx, state, "shots", per_lang=True, required=False)

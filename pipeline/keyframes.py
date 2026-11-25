@@ -7,9 +7,10 @@ Order matters here:
    still assembles.
 2. Reference sheet first. Each character with a `reference_prompt` gets one sheet, and every shot
    that character is in is generated against it.
-3. Candidates, then a judge. Each shot gets a few candidates with consecutive seeds. A vision model
-   scores each one (character match, prompt adherence, artifacts, stray writing) and the best is
-   kept. `keyframe.pick` in the storyboard overrides the judge: the human has the last word.
+3. Candidates, then two checks. Each shot gets a few candidates with consecutive seeds. A border
+   check measures whether the picture fills the frame, and a vision model scores each candidate
+   (character match, prompt adherence, artifacts, stray writing). The best full-frame candidate is
+   kept. `keyframe.pick` in the storyboard overrides both: the human has the last word.
 """
 from __future__ import annotations
 
@@ -19,7 +20,7 @@ import uuid
 from pathlib import Path
 
 from . import providers
-from .core import STAGE_VERSION, Ctx, PipelineError, Unit, ff, run_units, write_index
+from .core import STAGE_VERSION, Cache, Ctx, PipelineError, Unit, ff, run_units, sha, write_index
 
 JUDGE_PROMPT = """You are checking a storyboard keyframe before GPU time is spent animating it.
 The last image is the candidate keyframe. Any images before it are reference sheets of the characters.
@@ -48,15 +49,34 @@ def cleared(ctx: Ctx, character: dict) -> bool:
     return ctx.mock or not character["real_person"] or character["consent"]["status"] == "recorded"
 
 
-def to_master(ctx: Ctx, raw: bytes, out: Path, width: int, height: int) -> None:
-    """Store the provider's image at the master size as PNG, and keep the untouched original beside it."""
-    originals = ctx.out / "keyframes" / "original"
-    originals.mkdir(parents=True, exist_ok=True)
-    stem = re.sub(r"^tmp-[0-9a-f]{8}-", "", out.stem)
-    original = originals / f"{stem}.{providers.image_ext(raw)}"
-    original.write_bytes(raw)  # provenance metadata (C2PA) lives in the original file, so it is never thrown away
-    ff(["-i", str(original), "-vf", f"scale={width}:{height}:force_original_aspect_ratio=increase:flags=lanczos,crop={width}:{height}",
-        "-frames:v", "1", str(out)])
+def draw(ctx: Ctx, unit: str, raw_fp: dict, tmp: Path, *, prompt: str, seed: int, refs: list[bytes] | None = None, trim: float = 0.0) -> dict:
+    """One generated picture at the master size.
+
+    The model's untouched answer is kept in keyframes/original/ under a hash of what was sent to the
+    model (`raw_fp`), and the master is cut from that file by FFmpeg. So the model is called only when
+    no original exists yet: changing the cut (the size, the edge trim) costs no model call. Provenance
+    metadata (C2PA) lives in the original file, which is never altered.
+
+    `trim` is the share of each side cut away. Painted pictures often come back with a ragged paper
+    edge that is too thin for the border check and still shows as a light line in the film.
+    """
+    raw_key = sha(raw_fp)[:16]
+    folder = ctx.out / "keyframes" / "original"
+    kept = sorted(folder.glob(f"{unit}__{raw_key}.*")) if folder.exists() else []
+    if kept:
+        original = kept[0]
+        seed_applied = Cache(ctx, "keyframes").data["entries"].get(raw_key, {}).get("meta", {}).get("seed_applied")
+    else:
+        raw, meta = providers.image(ctx, "keyframes", unit, prompt, width=raw_fp["w"], height=raw_fp["h"], seed=seed, refs=refs or [])
+        folder.mkdir(parents=True, exist_ok=True)
+        original = folder / f"{unit}__{raw_key}.{providers.image_ext(raw)}"
+        original.write_bytes(raw)
+        seed_applied = meta.get("seed_applied")
+    width, height = raw_fp["w"], raw_fp["h"]
+    grown = f"{round(width * (1 + 2 * trim))}:{round(height * (1 + 2 * trim))}"
+    ff(["-i", str(original), "-vf", f"scale={grown}:force_original_aspect_ratio=increase:flags=lanczos,crop={width}:{height}",
+        "-frames:v", "1", str(tmp)])
+    return {"seed": seed, "seed_applied": seed_applied, "original": original.name}
 
 
 def small_jpeg(ctx: Ctx, image: Path, side: int = 448) -> bytes:
@@ -67,6 +87,37 @@ def small_jpeg(ctx: Ctx, image: Path, side: int = 448) -> bytes:
     data = tmp.read_bytes()
     tmp.unlink()
     return data
+
+
+# A painted look invites the model to paint a framed picture on a page. Cropped to a film frame, the
+# margin shows as a white band. Paper is bright and has no colour: every channel above PAPER_MIN and
+# the channels within PAPER_SPREAD of each other. A pale blue sky or a yellow wall does not qualify.
+PAPER_MIN, PAPER_SPREAD = 185, 28
+PAPER_STRIP = 4 / 256   # how much of each side is measured: its outer 1.6%
+PAPER_SIDE = 0.6        # a side is bare paper when this share of its strip is
+BORDER_SIDES = 2        # this many bare sides make a border. One alone can be a white sky or a pale road.
+
+
+def paper_edges(ctx: Ctx, image: Path) -> int:
+    """How many of the four sides of a picture are bare paper. Measured, no model involved."""
+    side = 256
+    band = max(1, round(side * PAPER_STRIP))
+    tmp = ctx.out / "tmp" / f"edges-{uuid.uuid4().hex[:8]}.rgb"
+    tmp.parent.mkdir(parents=True, exist_ok=True)
+    ff(["-i", str(image), "-vf", f"scale={side}:{side}:flags=area", "-frames:v", "1", "-f", "rawvideo", "-pix_fmt", "rgb24", str(tmp)])
+    px = tmp.read_bytes()
+    tmp.unlink()
+
+    def paper(x: int, y: int) -> bool:
+        at = 3 * (y * side + x)
+        r, g, b = px[at], px[at + 1], px[at + 2]
+        return min(r, g, b) > PAPER_MIN and max(r, g, b) - min(r, g, b) < PAPER_SPREAD
+
+    strips = ([(x, y) for y in range(band) for x in range(side)],                  # top
+              [(x, y) for y in range(side - band, side) for x in range(side)],     # bottom
+              [(x, y) for x in range(band) for y in range(side)],                  # left
+              [(x, y) for x in range(side - band, side) for y in range(side)])     # right
+    return sum(1 for cells in strips if sum(paper(x, y) for x, y in cells) / len(cells) >= PAPER_SIDE)
 
 
 def judge_total(scores: dict, has_character: bool) -> float:
@@ -97,6 +148,8 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
     W, H = sb["format"]["master"]["width"], sb["format"]["master"]["height"]
     qa = sb.get("qa", {})
     chars = {c["id"]: c for c in sb["characters"]}
+    trim = sb["format"].get("edge_trim", 0.0)
+    cut = {"trim": trim} if trim else {}  # part of a picture's fingerprint, but not of what the model is sent
 
     # 1. reference sheets
     ref_units = []
@@ -104,14 +157,12 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
         if not c.get("reference_prompt") or not cleared(ctx, c):
             continue
         prompt = " ".join((sb["style"]["block"], c["reference_prompt"], c["description"]))
-        fp = {"v": V, "prompt": prompt, "seed": c.get("seed", 0), "model": model, "w": W, "h": H}
+        raw_fp = {"v": V, "prompt": prompt, "seed": c.get("seed", 0), "model": model, "w": W, "h": H}  # what the model is sent
 
-        def produce(tmp: Path, cid: str = c["id"], prompt: str = prompt, seed: int = c.get("seed", 0)) -> dict:
-            raw, meta = providers.image(ctx, "keyframes", f"ref_{cid}", prompt, width=W, height=H, seed=seed)
-            to_master(ctx, raw, tmp, W, H)
-            return {"seed_applied": meta.get("seed_applied")}
+        def produce(tmp: Path, cid: str = c["id"], prompt: str = prompt, seed: int = c.get("seed", 0), raw_fp: dict = raw_fp) -> dict:
+            return draw(ctx, f"ref_{cid}", raw_fp, tmp, prompt=prompt, seed=seed, trim=trim)
 
-        ref_units.append(Unit("keyframes", f"ref_{c['id']}", fp, "png", produce))
+        ref_units.append(Unit("keyframes", f"ref_{c['id']}", {**raw_fp, **cut}, "png", produce))
     refs = run_units(ctx, ref_units, plan_only)
 
     # 2. candidates (or a plain card when consent is missing)
@@ -141,15 +192,14 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
         plan[s["id"]] = {"blocked": [], "n": n, "prompt": prompt, "refs": ref_ids}
         for i in range(1, n + 1):
             seed = s["keyframe"]["seed"] + i - 1
-            fp = {"v": V, "prompt": prompt, "seed": seed, "model": model, "w": W, "h": H, "refs": [refs[r].key for r in ref_ids]}
+            raw_fp = {"v": V, "prompt": prompt, "seed": seed, "model": model, "w": W, "h": H, "refs": [refs[r].key for r in ref_ids]}
 
-            def produce(tmp: Path, sid: str = s["id"], i: int = i, prompt: str = prompt, seed: int = seed, ref_ids: list = ref_ids) -> dict:
+            def produce(tmp: Path, sid: str = s["id"], i: int = i, prompt: str = prompt, seed: int = seed, ref_ids: list = ref_ids,
+                        raw_fp: dict = raw_fp) -> dict:
                 ref_bytes = [small_jpeg(ctx, refs[r].path) for r in ref_ids]
-                raw, meta = providers.image(ctx, "keyframes", f"{sid}_c{i}", prompt, width=W, height=H, seed=seed, refs=ref_bytes)
-                to_master(ctx, raw, tmp, W, H)
-                return {"seed": seed, "seed_applied": meta.get("seed_applied")}
+                return draw(ctx, f"{sid}_c{i}", raw_fp, tmp, prompt=prompt, seed=seed, refs=ref_bytes, trim=trim)
 
-            units.append(Unit("keyframes", f"{s['id']}_c{i}", fp, "png", produce))
+            units.append(Unit("keyframes", f"{s['id']}_c{i}", {**raw_fp, **cut}, "png", produce))
     made = run_units(ctx, units, plan_only)
 
     # 3. judge
@@ -192,24 +242,35 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
         scores = {i: judged[f"{sid}_c{i}_judge"].meta for i in numbers
                   if f"{sid}_c{i}_judge" in judged and judged[f"{sid}_c{i}_judge"].meta.get("total") is not None}
         unscored = [i for i in numbers if i not in scores] if qa.get("judge") else []
+        sides = {i: paper_edges(ctx, made[f"{sid}_c{i}"].path) for i in numbers if made[f"{sid}_c{i}"].path}
+
+        def margin(i: int) -> int:
+            """0 for a picture that fills its frame, otherwise how many of its sides are bare paper."""
+            return sides.get(i, 0) if sides.get(i, 0) >= BORDER_SIDES else 0
+
+        least = min(margin(i) for i in numbers)
+        full_frame = [i for i in numbers if margin(i) == least]  # the candidates with the least margin: the judge chooses among these
         pick, by = s["keyframe"].get("pick"), "human"
         if not pick:
             if p["n"] == 1:
                 pick, by = 1, "only candidate"
             elif not qa.get("judge"):
-                pick, by = 1, "first candidate (judge off)"
+                pick, by = full_frame[0], "first full-frame candidate (judge off)"
             elif unscored:  # a pick between a scored and an unscored picture would not be a comparison
-                pick, by = 1, "first candidate (judge incomplete)"
+                pick, by = full_frame[0], "first full-frame candidate (judge incomplete)"
             else:
-                pick, by = max(scores, key=lambda i: scores[i]["total"]), "judge"
+                pick, by = max(full_frame, key=lambda i: scores[i]["total"]), "judge"
         res = made[f"{sid}_c{pick}"]
         index[sid] = {"file": res.path.name if res.path else None, "key": res.key, "blocked": [], "candidate": pick,
-                      "picked_by": by, "scores": {str(i): v for i, v in scores.items()}, "unscored": unscored, "prompt": p["prompt"]}
+                      "picked_by": by, "scores": {str(i): v for i, v in scores.items()}, "unscored": unscored,
+                      "paper_sides": {str(i): n for i, n in sides.items()}, "border": sides.get(pick, 0) >= BORDER_SIDES, "prompt": p["prompt"]}
         flagged = scores.get(pick, {})
         if flagged.get("text_in_image") or flagged.get("total", 5) < 3:
             ctx.say(f"  look at {sid}: judge total {flagged.get('total')}, text in image: {flagged.get('text_in_image')}. {flagged.get('notes', '')}")
         if unscored and not plan_only:
             ctx.say(f"  look at {sid}: the judge has not scored candidate {', '.join(map(str, unscored))}. The next run tries again.")
+        if index[sid]["border"]:
+            ctx.say(f"  look at {sid}: the picked picture has bare paper on {sides[pick]} of its 4 sides. It will show as a white band in the film.")
     state["keyframes"] = index
     if not plan_only:
         write_index(ctx, "keyframes", index)

@@ -34,8 +34,15 @@ def tiles(width: float, height: float) -> int:
     return math.ceil(width / 512) * math.ceil(height / 512)
 
 
+def billable(run: dict) -> bool:
+    """A failed API call is not charged. A GPU is charged for its time whether the clip came out or not."""
+    return run.get("status") == "ok" or run.get("provider") == "kaggle"
+
+
 def cost_usd(run: dict, prices: dict) -> float | None:
     """List-price equivalent of one logged call, or None when it cannot be worked out."""
+    if not billable(run):
+        return 0.0
     price = prices.get("kaggle_gpu" if run.get("provider") == "kaggle" else run.get("model"))
     if not price:
         return None
@@ -45,6 +52,8 @@ def cost_usd(run: dict, prices: dict) -> float | None:
         if unit == "per_1m_tokens":
             if usage.get("input_tokens") is None or usage.get("output_tokens") is None:
                 return None
+            if price.get("thinks") and "thoughts_tokens" not in usage:
+                return None  # this model thinks by default and bills it as output: without the count there is no price
             spent_out = usage["output_tokens"] + (usage.get("thoughts_tokens") or 0)
             usd = (price["usd_in"] * usage["input_tokens"] + price["usd_out"] * spent_out) / 1e6
         elif unit == "per_audio_second":

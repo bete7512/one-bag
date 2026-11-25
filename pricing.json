@@ -1,35 +1,82 @@
 {
-  "_how_to_use": "List prices behind the cost_usd field of runs.jsonl and the list-price column of COSTS.md. Every call ran on a free tier, so nothing was paid: these numbers say what the same calls cost at list price. Each price is copied from the provider's own pricing page on the date in 'checked'. A model with no entry, or with a null price, gives a cost of null (shown as n/a).",
+  "_how_to_use": "List prices and free-tier limits per model. Prices are behind the cost_usd field of runs.jsonl and the list-price column of COSTS.md: every call ran on a free tier, so nothing was paid, and these numbers say what the same calls cost at list price. Each price is copied from the provider's own pricing page on the date in 'checked'. A model with no entry, or with a null price, gives a cost of null (shown as n/a). 'free_tier' holds the limits that apply to this project: the pipeline refuses a request that would go over a daily limit, and waits out a per-minute limit.",
   "_units": "per_1m_tokens (usd_in, usd_out; output includes thinking tokens) | per_audio_second (usd_out per second of audio, usd_in per 1M input tokens) | per_512_tile (usd_out per output tile, usd_in per reference image, usd_step per step) | per_gpu_minute (usd per GPU)",
   "models": {
     "gemini-3.8-flash": {
-      "unit": "per_1m_tokens", "usd_in": 0.75, "usd_out": 3.75,
-      "source": "https://ai.google.dev/gemini-api/docs/pricing", "checked": "2026-11-25",
-      "note": "Paid tier, standard. The page gives these prices through 31 December 2026 and 1.50 / 7.50 from 1 January 2027."
+      "unit": "per_1m_tokens",
+      "usd_in": 0.75,
+      "usd_out": 3.75,
+      "thinks": true,
+      "source": "https://ai.google.dev/gemini-api/docs/pricing",
+      "checked": "2026-11-25",
+      "note": "Paid tier, standard. The page gives these prices through 31 December 2026 and 1.50 / 7.50 from 1 January 2027. This model thinks by default and bills thinking as output, so a call is priced only when its thinking tokens were logged.",
+      "free_tier": {
+        "requests_per_minute": 5,
+        "requests_per_day": 20,
+        "reset": "pacific",
+        "source": "the rate-limit page of this project in Google AI Studio (aistudio.google.com/rate-limit), read on 2026-11-25"
+      }
     },
     "gemini-3.5-flash-lite": {
-      "unit": "per_1m_tokens", "usd_in": 0.30, "usd_out": 2.50,
-      "source": "https://ai.google.dev/gemini-api/docs/pricing", "checked": "2026-11-25",
-      "note": "Paid tier, standard. One input price for text, image, video and audio."
+      "unit": "per_1m_tokens",
+      "usd_in": 0.3,
+      "usd_out": 2.5,
+      "source": "https://ai.google.dev/gemini-api/docs/pricing",
+      "checked": "2026-11-25",
+      "note": "Paid tier, standard. One input price for text, image, video and audio.",
+      "free_tier": {
+        "requests_per_minute": 15,
+        "requests_per_day": 500,
+        "reset": "pacific",
+        "source": "the rate-limit page of this project in Google AI Studio (aistudio.google.com/rate-limit), read on 2026-11-25"
+      }
     },
     "gemini-3.8-flash-tts": {
-      "unit": "per_audio_second", "usd_in": 0.50, "usd_out": 0.000225,
-      "source": "https://ai.google.dev/gemini-api/docs/pricing", "checked": "2026-11-25",
-      "note": "The page prices audio output at 9.00 USD per 1M tokens, says that audio tokens correspond to 25 tokens per second, and gives 0.00225 USD per 10 s of audio: 0.000225 per second. Text input is 0.50 USD per 1M tokens and is counted when the response reports input tokens. Prices through 31 December 2026."
+      "unit": "per_audio_second",
+      "usd_in": 0.5,
+      "usd_out": 0.000225,
+      "source": "https://ai.google.dev/gemini-api/docs/pricing",
+      "checked": "2026-11-25",
+      "note": "The page prices audio output at 9.00 USD per 1M tokens, says that audio tokens correspond to 25 tokens per second, and gives 0.00225 USD per 10 s of audio: 0.000225 per second. Text input is 0.50 USD per 1M tokens and is counted when the response reports input tokens. Prices through 31 December 2026.",
+      "free_tier": {
+        "requests_per_minute": 3,
+        "requests_per_day": 10,
+        "reset": "pacific",
+        "source": "the rate-limit page of this project in Google AI Studio (aistudio.google.com/rate-limit), read on 2026-11-25"
+      }
     },
     "@cf/black-forest-labs/flux-2-klein-4b": {
-      "unit": "per_512_tile", "usd_out": 0.000287, "usd_in": 0.000059,
-      "source": "https://developers.cloudflare.com/workers-ai/platform/pricing/", "checked": "2026-11-25",
-      "note": "0.000287 USD (26.05 neurons) per output 512x512 tile and 0.000059 USD (5.37 neurons) per input 512x512 tile. A 1024x1024 picture is four output tiles. Each reference image is sent smaller than 512x512 and is counted as one input tile. 1,000 neurons cost 0.011 USD, and 10,000 a day are free."
+      "unit": "per_512_tile",
+      "usd_out": 0.000287,
+      "usd_in": 5.9e-05,
+      "source": "https://developers.cloudflare.com/workers-ai/platform/pricing/",
+      "checked": "2026-11-25",
+      "note": "0.000287 USD (26.05 neurons) per output 512x512 tile and 0.000059 USD (5.37 neurons) per input 512x512 tile. A 1024x1024 picture is four output tiles. Each reference image is sent smaller than 512x512 and is counted as one input tile. 1,000 neurons cost 0.011 USD, and 10,000 a day are free.",
+      "free_tier": {
+        "usd_per_day": 0.11,
+        "reset": "utc",
+        "source": "10,000 neurons a day at 0.011 USD per 1,000 neurons, reset at 00:00 UTC: https://developers.cloudflare.com/workers-ai/platform/pricing/ read on 2026-11-25"
+      }
     },
     "@cf/black-forest-labs/flux-1-schnell": {
-      "unit": "per_512_tile", "usd_out": 0.0000528, "usd_step": 0.0001056, "default_steps": 4,
-      "source": "https://developers.cloudflare.com/workers-ai/platform/pricing/", "checked": "2026-11-25",
-      "note": "0.0000528 USD (4.80 neurons) per 512x512 tile plus 0.0001056 USD (9.60 neurons) per step."
+      "unit": "per_512_tile",
+      "usd_out": 5.28e-05,
+      "usd_step": 0.0001056,
+      "default_steps": 4,
+      "source": "https://developers.cloudflare.com/workers-ai/platform/pricing/",
+      "checked": "2026-11-25",
+      "note": "0.0000528 USD (4.80 neurons) per 512x512 tile plus 0.0001056 USD (9.60 neurons) per step.",
+      "free_tier": {
+        "usd_per_day": 0.11,
+        "reset": "utc",
+        "source": "10,000 neurons a day at 0.011 USD per 1,000 neurons, reset at 00:00 UTC: https://developers.cloudflare.com/workers-ai/platform/pricing/ read on 2026-11-25"
+      }
     },
     "kaggle_gpu": {
-      "unit": "per_gpu_minute", "usd": null,
-      "source": "the on-demand price of one rented NVIDIA T4, from a public cloud's pricing page", "checked": null,
+      "unit": "per_gpu_minute",
+      "usd": null,
+      "source": "the on-demand price of one rented NVIDIA T4, from a public cloud's pricing page",
+      "checked": null,
       "note": "Kaggle's GPUs are free. This entry stays null, and GPU work shows as n/a, until a price has been read from a provider's page."
     }
   }

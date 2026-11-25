@@ -78,6 +78,12 @@
           "$ref": "#/$defs/size",
           "description": "Size of keyframes and of every shot clip. Exports are cut from it."
         },
+        "edge_trim": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.1,
+          "description": "Share of each side cut from every generated picture before it becomes a keyframe. Painted pictures often come back with a ragged paper edge."
+        },
         "exports": {
           "type": "array",
           "minItems": 1,

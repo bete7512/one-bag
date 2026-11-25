@@ -53,7 +53,7 @@ def _post(url: str, headers: dict, json_body: dict | None = None, files: list | 
         raise ProviderError(f"network error ({type(e).__name__}).", retryable=True) from None
     if resp.status_code == 200:
         return resp
-    body = " ".join(resp.text.split())[:300]
+    body = " ".join(resp.text.split())[:1200]  # long enough to keep which quota was hit and its limit
     if resp.status_code == 429:
         raise ProviderError(f"HTTP 429, rate limit or quota reached. {body}", 429, True, _retry_after(resp))
     if resp.status_code >= 500:
@@ -110,7 +110,7 @@ def image_ext(raw: bytes) -> str:
     return "jpg"
 
 
-def wav_seconds(data: bytes) -> float | None:
+def audio_seconds(data: bytes) -> float | None:
     """Length of WAV audio held in memory. Speech is priced by the second, so this goes into the run log."""
     try:
         with wave.open(io.BytesIO(data), "rb") as w:
@@ -130,21 +130,35 @@ def _usage(data: Any) -> dict:
                       "output_tokens": first("total_output_tokens", "output_tokens", "candidatesTokenCount")}}
 
 
-def _find_audio(node: Any) -> tuple[str, str] | None:
-    """Find the last audio payload in a response, whatever nesting the API uses this month."""
-    found = None
+def _find_audios(node: Any) -> list[tuple[str, str]]:
+    """Every audio payload in a response, in order, whatever nesting the API uses this month."""
+    found: list[tuple[str, str]] = []
     if isinstance(node, dict):
         if node.get("type") == "audio" and isinstance(node.get("data"), str):
-            found = (node["data"], node.get("mime_type") or node.get("mimeType") or "audio/wav")
+            found.append((node["data"], node.get("mime_type") or node.get("mimeType") or "audio/wav"))
         inline = node.get("inlineData") or node.get("inline_data")
         if isinstance(inline, dict) and str(inline.get("mimeType") or inline.get("mime_type", "")).startswith("audio/"):
-            found = (inline["data"], inline.get("mimeType") or inline.get("mime_type"))
+            found.append((inline["data"], inline.get("mimeType") or inline.get("mime_type")))
         for value in node.values():
-            found = _find_audio(value) or found
+            found += _find_audios(value)
     elif isinstance(node, list):
         for value in node:
-            found = _find_audio(value) or found
+            found += _find_audios(value)
     return found
+
+
+def _find_audio(node: Any) -> tuple[str, str] | None:
+    """The last audio payload in a response."""
+    found = _find_audios(node)
+    return found[-1] if found else None
+
+
+def _as_wav(data: str, mime: str | None) -> bytes:
+    raw = base64.b64decode(data)
+    if not raw.startswith(b"RIFF"):  # headerless PCM: wrap it
+        rate = re.search(r"rate=(\d+)", mime or "")
+        raw = pcm_to_wav(raw, int(rate.group(1)) if rate else 24000)
+    return raw
 
 
 # ----------------------------------------------------------------------------- speech
@@ -183,15 +197,51 @@ def tts(ctx: Ctx, stage: str, unit: str, text: str, *, voice: str, style: str, m
         found = _find_audio(data)
         if not found:
             raise ProviderError("the response held no audio: " + " ".join(resp.text.split())[:200])
-        raw = base64.b64decode(found[0])
-        if not raw.startswith(b"RIFF"):  # headerless PCM: wrap it
-            rate = re.search(r"rate=(\d+)", found[1] or "")
-            raw = pcm_to_wav(raw, int(rate.group(1)) if rate else 24000)
-        return raw, {"audio_bytes": len(raw), "audio_seconds": wav_seconds(raw), **_usage(data)}
+        raw = _as_wav(*found)
+        return raw, {"audio_bytes": len(raw), "audio_seconds": audio_seconds(raw), **_usage(data)}
 
     def mock() -> tuple[bytes, dict]:
         raw = pcm_to_wav(_mock_speech(text), note=text)
-        return raw, {"audio_bytes": len(raw), "audio_seconds": wav_seconds(raw)}
+        return raw, {"audio_bytes": len(raw), "audio_seconds": audio_seconds(raw)}
+
+    return model_call(ctx, stage=stage, unit=unit, provider="mock" if ctx.mock else "gemini", model=model,
+                      params=params, seed=None, fn=mock if ctx.mock else real)
+
+
+PAUSE = "<long pause>"  # an inline tag from the speech docs: "Insert <short pause> or <long pause> at exact points in the script."
+MOCK_PAUSE_S = 1.5
+
+
+def tts_take(ctx: Ctx, stage: str, unit: str, texts: list[str], *, voice: str, style: str, model: str | None = None) -> tuple[list[bytes], dict]:
+    """Several lines in ONE speech request. Returns the audio the model sent back as WAV, in order.
+
+    The free tier counts requests (10 a day when this was written), not lines, so a take of the
+    whole narration costs one request where a request per line costs eight. Each line is its own
+    content item and ends with a long pause. The response holds either one audio per line or one
+    audio for everything: the caller cuts a single audio at the pauses.
+    """
+    model = model or ctx.sb["models"]["tts"]
+    params = {"voice": voice, "style": style, "lines": len(texts), "chars": sum(len(t) for t in texts), "text_sha": sha(texts)[:12]}
+
+    def real() -> tuple[list[bytes], dict]:
+        content = [{"type": "text", "text": text if n == len(texts) else f"{text} {PAUSE}",
+                    "annotations": [{"type": "speech_metadata", "style": style}]} for n, text in enumerate(texts, start=1)]
+        body = {"model": model, "input": [{"type": "user_input", "content": content}], "response_format": {"type": "audio"},
+                "generation_config": {"speech_config": [{"voice": voice}]}}
+        resp = _post(f"{GEMINI}/interactions", {"x-goog-api-key": _env("GEMINI_API_KEY")}, json_body=body)
+        data = _json(resp)
+        found = _find_audios(data)
+        if not found:
+            raise ProviderError("the response held no audio: " + " ".join(resp.text.split())[:200])
+        wavs = [_as_wav(*item) for item in found]
+        seconds = [audio_seconds(w) for w in wavs]
+        return wavs, {"audio_blocks": len(wavs), "audio_bytes": sum(len(w) for w in wavs),
+                      "audio_seconds": round(sum(x or 0 for x in seconds), 3), **_usage(data)}
+
+    def mock() -> tuple[list[bytes], dict]:
+        gap = b"\x00\x00" * int(MOCK_PAUSE_S * 24000)
+        raw = pcm_to_wav(gap.join(_mock_speech(text) for text in texts))  # one audio for everything, pauses between the lines
+        return [raw], {"audio_blocks": 1, "audio_bytes": len(raw), "audio_seconds": audio_seconds(raw)}
 
     return model_call(ctx, stage=stage, unit=unit, provider="mock" if ctx.mock else "gemini", model=model,
                       params=params, seed=None, fn=mock if ctx.mock else real)

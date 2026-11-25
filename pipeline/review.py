@@ -59,7 +59,10 @@ def run(ctx: Ctx) -> Path:
                 continue
             score = key_units.get(f"{sid}_c{i}_judge", {}).get("meta", {})
             chosen = picked.get("candidate") == i
-            caption = f"candidate {i}" + (f" &middot; judge {score.get('total')}" if score else "") + (f" &middot; <b>picked by {e(picked.get('picked_by', ''))}</b>" if chosen else "")
+            sides = picked.get("paper_sides", {}).get(str(i), 0)
+            caption = (f"candidate {i}" + (f" &middot; judge {score.get('total')}" if score else "")
+                       + (f" &middot; <span class='bad'>paper border on {sides} sides</span>" if sides >= 2 else "")
+                       + (f" &middot; <b>picked by {e(picked.get('picked_by', ''))}</b>" if chosen else ""))
             note = f"<br><small>{e(str(score.get('notes', '')))}</small>" if score.get("notes") else ""
             row.append(f"<figure class='{'pick' if chosen else ''}'><img loading='lazy' src='keyframes/{e(unit['file'])}'><figcaption>{caption}{note}</figcaption></figure>")
         clip = shots.get(sid, {})

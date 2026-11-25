@@ -67,7 +67,8 @@ def ingest(ctx: Ctx, stage: str, src: Path, ext: str, convert: Callable[[Path, P
             continue  # the same results file ingested twice must not double the run log
         log_run(ctx, stage=stage, unit=r["unit"], provider="kaggle", model=results["model"], params=r.get("params", {}),
                 seed=r.get("seed"), attempt=1, status=r["status"], latency_s=r.get("latency_s"),
-                gpu=results.get("gpu"), gpu_minutes=round((r.get("latency_s") or 0) / 60, 2),
+                gpu=results.get("gpu"), gpu_count=len([g for g in str(results.get("gpu") or "").split(",") if g.strip()]) or None,
+                gpu_minutes=round((r.get("latency_s") or 0) / 60, 2),
                 peak_mem_gb=r.get("peak_mem_gb"), **({"error": r["error"][:400]} if r.get("error") else {}))
         seen.add(tag)
         if r["status"] != "ok":

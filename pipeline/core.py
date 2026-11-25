@@ -23,7 +23,7 @@ import time
 import uuid
 import wave
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Callable
 
@@ -68,6 +68,7 @@ class Ctx:
     quiet: bool = False
     pause_s: float = 0.0  # wait after each real model call, for free tiers with a low calls-per-minute limit
     _prices: dict | None = field(default=None, repr=False)
+    _last_call: dict = field(default_factory=dict, repr=False)  # model -> time of its last request, for the per-minute limit
 
     @property
     def prices(self) -> dict:
@@ -314,6 +315,12 @@ class Cache:
         os.replace(tmp, self.path)
 
 
+def is_cached(ctx: Ctx, unit: Unit) -> bool:
+    """Would `run_units` find this unit in the cache?"""
+    cache, key = Cache(ctx, unit.stage), sha(unit.fingerprint)[:16]
+    return key in cache.data["entries"] and cache.file(unit.id, key, unit.ext).exists()
+
+
 def run_units(ctx: Ctx, units: list[Unit], plan_only: bool = False) -> dict[str, Result]:
     """Build every unit whose fingerprint is new. Everything else is a cache hit and costs nothing."""
     results: dict[str, Result] = {}
@@ -380,7 +387,7 @@ def log_run(ctx: Ctx, **rec: Any) -> None:
     free tiers. It is 0 for a failed attempt and for a mock call, and null when the price is not known.
     """
     rec = {"ts": now(), "run_id": ctx.run_id, **rec}
-    rec["cost_usd"] = pricing.cost_usd(rec, ctx.prices) if rec.get("status") == "ok" and not ctx.mock else 0.0
+    rec["cost_usd"] = 0.0 if ctx.mock else pricing.cost_usd(rec, ctx.prices)
     _append(ctx.runlog, rec)
 
 
@@ -398,20 +405,73 @@ def read_jsonl(path: Path) -> list[dict]:
 RETRY_WAITS = (10.0, 30.0, 90.0)  # seconds before attempts 2, 3 and 4, unless the provider says how long to wait
 
 
+def day_start(reset: str) -> datetime:
+    """When the provider's current quota day began, in UTC. Gemini counts from midnight Pacific time, Cloudflare from 00:00 UTC."""
+    moment = datetime.now(timezone.utc)
+    if reset == "pacific":
+        try:
+            from zoneinfo import ZoneInfo
+            local = moment.astimezone(ZoneInfo("America/Los_Angeles"))
+        except Exception:  # noqa: BLE001  no time zone data on this machine: Pacific standard time
+            local = moment.astimezone(timezone(timedelta(hours=-8)))
+        return local.replace(hour=0, minute=0, second=0, microsecond=0).astimezone(timezone.utc)
+    return moment.replace(hour=0, minute=0, second=0, microsecond=0)
+
+
+def free_tier_use(ctx: Ctx, model: str) -> dict | None:
+    """What the run log says was used of a model's free allowance since its last reset. None when no limit is known.
+
+    Every attempt is counted, failed ones too: the provider's own counter did the same on the day the limits were read.
+    """
+    limit = (ctx.prices.get(model) or {}).get("free_tier")
+    if not limit:
+        return None
+    since = day_start(limit.get("reset", "utc")).strftime("%Y-%m-%dT%H:%M:%SZ")
+    today = [r for r in read_jsonl(ctx.runlog) if r.get("model") == model and r.get("ts", "") >= since]
+    usd = sum(r["cost_usd"] if r.get("cost_usd") is not None else (pricing.cost_usd(r, ctx.prices) or 0.0) for r in today)
+    next_reset = day_start(limit.get("reset", "utc")) + timedelta(days=1)
+    return {"requests": len(today), "usd": round(usd, 6), "limit": limit, "resets": next_reset.astimezone().strftime("%H:%M on %d %b")}
+
+
+def keep_within_free_tier(ctx: Ctx, model: str) -> None:
+    """Called before every real request. Refuses a request the free tier would refuse, and waits out the per-minute limit.
+
+    A daily allowance of ten speech requests is easy to spend by accident. A run that would go over it stops
+    here with nothing sent, instead of finding out from the provider one failed call at a time.
+    """
+    use = free_tier_use(ctx, model)
+    if not use:
+        return
+    limit = use["limit"]
+    if limit.get("requests_per_day") and use["requests"] >= limit["requests_per_day"]:
+        raise PipelineError(f"{model}: the free tier allows {limit['requests_per_day']} requests a day and the run log holds {use['requests']} "
+                            f"since the last reset. Nothing was sent. The allowance resets at {use['resets']}.")
+    if limit.get("usd_per_day") and use["usd"] >= limit["usd_per_day"]:
+        raise PipelineError(f"{model}: the free daily allowance (worth {limit['usd_per_day']} USD at list price) is used up. "
+                            f"Nothing was sent. It resets at {use['resets']}.")
+    if limit.get("requests_per_minute") and model in ctx._last_call:
+        wait = 60.0 / limit["requests_per_minute"] - (time.time() - ctx._last_call[model])
+        if wait > 0:
+            ctx.sleep(wait)
+
+
 def model_call(ctx: Ctx, *, stage: str, unit: str, provider: str, model: str, params: dict, seed: int | None,
                fn: Callable[[], tuple[Any, dict]], attempts: int = 4) -> tuple[Any, dict]:
     """Run one model call with retries. Every attempt, failed or not, is one line in the run log."""
     for attempt in range(1, attempts + 1):
+        if not ctx.mock:
+            keep_within_free_tier(ctx, model)
+            ctx._last_call[model] = time.time()
         t0 = time.time()
         base = {"stage": stage, "unit": unit, "provider": provider, "model": model, "params": params, "seed": seed, "attempt": attempt}
         try:
             out, meta = fn()
         except ProviderError as e:
-            log_run(ctx, **base, status="error", http_status=e.status, latency_s=round(time.time() - t0, 3), error=str(e)[:400])
+            log_run(ctx, **base, status="error", http_status=e.status, latency_s=round(time.time() - t0, 3), error=str(e)[:1500])
             if not e.retryable or attempt == attempts:
-                raise PipelineError(f"{provider} call for {unit} failed: {e}") from None
+                raise PipelineError(f"{provider} call for {unit} failed: {str(e)[:300]}") from None
             wait = min(e.retry_after or RETRY_WAITS[min(attempt, len(RETRY_WAITS)) - 1], 90.0)
-            ctx.say(f"  [{stage}] {unit}: {e} Waiting {wait:.0f}s, then attempt {attempt + 1} of {attempts}.")
+            ctx.say(f"  [{stage}] {unit}: {str(e)[:200]} Waiting {wait:.0f}s, then attempt {attempt + 1} of {attempts}.")
             ctx.sleep(wait)
             continue
         log_run(ctx, **base, status="ok", latency_s=round(time.time() - t0, 3), **meta)

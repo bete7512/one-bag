@@ -4,7 +4,8 @@
     python -m pipeline radio             narration over placeholder music on a black screen
     python -m pipeline plan              what would be regenerated, and why. Calls no model.
     python -m pipeline stage keyframes   one stage
-    python -m pipeline ingest shots results.zip    bring finished GPU work into the cache
+    python -m pipeline kaggle run music  run an exported GPU job on Kaggle: upload, push, wait, fetch, ingest
+    python -m pipeline ingest shots results.zip    bring GPU work that was run by hand into the cache
     python -m pipeline review            one HTML page to look at and listen to everything
     python -m pipeline doctor            check this machine before the first run
 
@@ -127,6 +128,10 @@ def build_parser() -> argparse.ArgumentParser:
     ing = sub.add_parser("ingest", parents=[common], help="bring finished GPU work into the cache")
     ing.add_argument("stage", choices=["shots", "music"])
     ing.add_argument("path", type=Path)
+    kg = sub.add_parser("kaggle", parents=[common], help="run an exported GPU job on Kaggle: upload, push, wait, fetch, ingest")
+    kg.add_argument("action", choices=["run", "status", "fetch", "logs"])
+    kg.add_argument("stage", choices=["shots", "music"])
+    kg.add_argument("--no-wait", action="store_true", help="push the job and return. Fetch the results later with `kaggle fetch`")
     lt = sub.add_parser("langtest", parents=[common], help="speak test lines in several languages and score them by listening back")
     lt.add_argument("--langs", default="am,ti,so,om")
     bt = sub.add_parser("blindtest", parents=[common], help="blind A/B preference test")
@@ -183,6 +188,9 @@ def main(argv: list[str] | None = None) -> int:
         elif args.cmd == "ingest":
             count = (shots if args.stage == "shots" else music).ingest(ctx, args.path)
             ctx.say(f"  {count} file(s) ingested. Run `python -m pipeline film` to use them.")
+        elif args.cmd == "kaggle":
+            from . import kagglerun
+            return kagglerun.run(ctx, args.action, args.stage, wait_for_it=not args.no_wait)
         elif args.cmd == "langtest":
             from . import langtest
             langtest.run(ctx, [code.strip() for code in args.langs.split(",") if code.strip()])

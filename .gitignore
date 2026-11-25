@@ -24,8 +24,14 @@ outputs/assemble/*.mp4
 outputs/assemble/*.wav
 outputs/shots/*_kenburns__*.mp4
 outputs/keyframes/*_card__*.png
+outputs/keyframes/*_c[0-9]__*.png
+outputs/keyframes/ref_*__*.png
+outputs/music/placeholder__*.wav
 outputs/*/kaggle_job/
 outputs/*/kaggle_job.zip
+outputs/*/kaggle_upload/
+outputs/*/kaggle_kernel/
+outputs/*/kaggle_output/
 .dev
 # local settings of the coding agent
 .claude/

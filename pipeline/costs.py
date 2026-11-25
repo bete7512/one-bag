@@ -24,11 +24,8 @@ def summarise(ctx: Ctx) -> tuple[str, dict]:
         row["ok" if r.get("status") == "ok" else "errors"] += 1
         row["latency_s"] += r.get("latency_s") or 0.0
         row["gpu_minutes"] += r.get("gpu_minutes") or 0.0
-        if r.get("status") != "ok":
-            usd = 0.0
-        elif r.get("cost_usd") is not None:
-            usd = r["cost_usd"]                      # the price on the day of the call
-        else:
+        usd = r.get("cost_usd")                      # the price on the day of the call
+        if usd is None:
             usd = pricing.cost_usd(r, ctx.prices)    # a line written before its price was known
         if usd is None:
             row["unpriced"] += 1
@@ -40,16 +37,18 @@ def summarise(ctx: Ctx) -> tuple[str, dict]:
              "|---|---|---|---:|---:|---:|---:|---:|---:|"]
     totals = {"calls": 0, "errors": 0, "latency_s": 0.0, "gpu_minutes": 0.0, "usd": 0.0, "unpriced": 0}
     for (stage, provider, model), row in sorted(rows.items(), key=lambda kv: (order.get(kv[0][0], 99), kv[0])):
-        price = "n/a" if row["unpriced"] else f"{row['usd']:.4f}"
+        price = "n/a" if row["unpriced"] == row["calls"] else f"{row['usd']:.4f}" + (f" + {row['unpriced']} n/a" if row["unpriced"] else "")
         lines.append(f"| {stage} | {provider} | `{model}` | {row['calls']} | {row['errors']} | {row['latency_s']:.1f} | "
                      f"{row['latency_s'] / max(1, row['calls']):.1f} | {row['gpu_minutes']:.1f} | {price} |")
         for k in totals:
             totals[k] += row[k]
-    price = "n/a" if totals["unpriced"] or not runs else f"{totals['usd']:.4f}"
+    price = "n/a" if not runs or totals["unpriced"] == totals["calls"] else f"{totals['usd']:.4f}" + (f" + {totals['unpriced']} n/a" if totals["unpriced"] else "")
     lines.append(f"| **Total** | | | {totals['calls']} | {totals['errors']} | {totals['latency_s']:.1f} | | {totals['gpu_minutes']:.1f} | {price} |")
     table = "\n".join(lines) + f"\n\nSource: `{ctx.runlog.relative_to(ctx.root).as_posix()}`, {len(runs)} model calls."
+    table += " List price is what the calls would cost without the free tier: nothing was paid."
     if totals["unpriced"]:
-        table += f" {totals['unpriced']} call(s) have no checked price in `pricing.json`, so their list price is n/a."
+        table += (f" {totals['unpriced']} call(s) are n/a and not in the sums: their price, or the usage it applies to, "
+                  "was not known when they were logged.")
     return table, totals
 
 
