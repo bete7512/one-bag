@@ -179,7 +179,14 @@ def _mock_speech(text: str) -> bytes:
     return out[:int(seconds * rate)].tobytes()
 
 
-def tts(ctx: Ctx, stage: str, unit: str, text: str, *, voice: str, style: str, model: str | None = None) -> tuple[bytes, dict]:
+def speech_config(voice: str, seed: int | None) -> dict:
+    """The same seed for every request of a film is the one documented setting for reproducible decoding.
+    Lines spoken in separate requests came back up to 7 semitones apart without it."""
+    return {"speech_config": [{"voice": voice}], **({"seed": seed} if seed is not None else {})}
+
+
+def tts(ctx: Ctx, stage: str, unit: str, text: str, *, voice: str, style: str, model: str | None = None,
+        seed: int | None = None) -> tuple[bytes, dict]:
     """Text to speech. Returns WAV bytes (24 kHz mono 16-bit)."""
     model = model or ctx.sb["models"]["tts"]
     params = {"voice": voice, "style": style, "chars": len(text), "text_sha": sha(text)[:12]}
@@ -190,7 +197,7 @@ def tts(ctx: Ctx, stage: str, unit: str, text: str, *, voice: str, style: str, m
             "input": [{"type": "user_input", "content": [{"type": "text", "text": text,
                                                          "annotations": [{"type": "speech_metadata", "style": style}]}]}],
             "response_format": {"type": "audio"},
-            "generation_config": {"speech_config": [{"voice": voice}]},
+            "generation_config": speech_config(voice, seed),
         }
         resp = _post(f"{GEMINI}/interactions", {"x-goog-api-key": _env("GEMINI_API_KEY")}, json_body=body)
         data = _json(resp)
@@ -205,14 +212,15 @@ def tts(ctx: Ctx, stage: str, unit: str, text: str, *, voice: str, style: str, m
         return raw, {"audio_bytes": len(raw), "audio_seconds": audio_seconds(raw)}
 
     return model_call(ctx, stage=stage, unit=unit, provider="mock" if ctx.mock else "gemini", model=model,
-                      params=params, seed=None, fn=mock if ctx.mock else real)
+                      params=params, seed=seed, fn=mock if ctx.mock else real)
 
 
 PAUSE = "<long pause>"  # an inline tag from the speech docs: "Insert <short pause> or <long pause> at exact points in the script."
 MOCK_PAUSE_S = 1.5
 
 
-def tts_take(ctx: Ctx, stage: str, unit: str, texts: list[str], *, voice: str, style: str, model: str | None = None) -> tuple[list[bytes], dict]:
+def tts_take(ctx: Ctx, stage: str, unit: str, texts: list[str], *, voice: str, style: str, model: str | None = None,
+             seed: int | None = None) -> tuple[list[bytes], dict]:
     """Several lines in ONE speech request. Returns the audio the model sent back as WAV, in order.
 
     The free tier counts requests (10 a day when this was written), not lines, so a take of the
@@ -224,10 +232,12 @@ def tts_take(ctx: Ctx, stage: str, unit: str, texts: list[str], *, voice: str, s
     params = {"voice": voice, "style": style, "lines": len(texts), "chars": sum(len(t) for t in texts), "text_sha": sha(texts)[:12]}
 
     def real() -> tuple[list[bytes], dict]:
-        content = [{"type": "text", "text": text if n == len(texts) else f"{text} {PAUSE}",
-                    "annotations": [{"type": "speech_metadata", "style": style}]} for n, text in enumerate(texts, start=1)]
+        # One text, with the pause tag between the lines. The docs show the tag inside a script, "at exact points ... where
+        # a speaker should pause". The first take had each line as an item of its own that ended on the tag, and the
+        # model read the tag aloud after some of them (F04).
+        content = [{"type": "text", "text": f" {PAUSE} ".join(texts), "annotations": [{"type": "speech_metadata", "style": style}]}]
         body = {"model": model, "input": [{"type": "user_input", "content": content}], "response_format": {"type": "audio"},
-                "generation_config": {"speech_config": [{"voice": voice}]}}
+                "generation_config": speech_config(voice, seed)}
         resp = _post(f"{GEMINI}/interactions", {"x-goog-api-key": _env("GEMINI_API_KEY")}, json_body=body)
         data = _json(resp)
         found = _find_audios(data)
@@ -244,7 +254,7 @@ def tts_take(ctx: Ctx, stage: str, unit: str, texts: list[str], *, voice: str, s
         return [raw], {"audio_blocks": 1, "audio_bytes": len(raw), "audio_seconds": audio_seconds(raw)}
 
     return model_call(ctx, stage=stage, unit=unit, provider="mock" if ctx.mock else "gemini", model=model,
-                      params=params, seed=None, fn=mock if ctx.mock else real)
+                      params=params, seed=seed, fn=mock if ctx.mock else real)
 
 
 # ----------------------------------------------------------------------------- text, vision, listening

@@ -189,7 +189,8 @@ def cut(ctx: Ctx, wav: Path, start: float, end: float, out: Path, note: str | No
 
 def take_key(lines: dict[str, str], voice: dict, model: str) -> str:
     """What the model was asked. How its answer is cut is not part of it: a better cut must not cost a new request."""
-    return sha({"lines": list(lines.items()), "voice": voice["name"], "style": voice["style"], "model": model})[:16]
+    return sha({"lines": list(lines.items()), "voice": voice["name"], "style": voice["style"], "model": model,
+                **({"seed": voice["seed"]} if voice.get("seed") is not None else {})})[:16]
 
 
 def take_audio(ctx: Ctx, lines: dict[str, str], voice: dict, model: str, stage: str = "narration") -> Path | None:
@@ -212,7 +213,8 @@ def take(ctx: Ctx, lines: dict[str, str], voice: dict, model: str, stage: str = 
     folder = ctx.out / stage / "takes"
     record = folder / f"take__{key}.json"
     if not record.exists():  # the model's answer is kept as it came, so it is asked for once
-        wavs, meta = providers.tts_take(ctx, stage, unit, list(lines.values()), voice=voice["name"], style=voice["style"], model=model)
+        wavs, meta = providers.tts_take(ctx, stage, unit, list(lines.values()), voice=voice["name"], style=voice["style"], model=model,
+                                        seed=voice.get("seed"))
         folder.mkdir(parents=True, exist_ok=True)
         files = []
         for n, data in enumerate(wavs, start=1):
@@ -272,8 +274,9 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
     script = get_index(ctx, state, "script", per_lang=True)
     voice, qa, model = sb["voice"], sb.get("qa", {}), sb["models"]["tts"]
 
+    seeded = {"seed": voice["seed"]} if voice.get("seed") is not None else {}  # left out when unset, so lines spoken before the seed existed stay cached
     fingerprints = {sid: {"v": STAGE_VERSION["narration"], "text": line["text"], "lang": lang, "voice": voice["name"],
-                          "style": voice["style"], "model": model} for sid, line in script["lines"].items()}
+                          "style": voice["style"], "model": model, **seeded} for sid, line in script["lines"].items()}
     missing = [sid for sid, fp in fingerprints.items() if not is_cached(ctx, Unit("narration", sid, fp, "wav"))]
     if missing:
         use = None if ctx.mock else free_tier_use(ctx, model)
@@ -293,7 +296,7 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
             if sid in pieces:
                 shutil.copy2(pieces[sid], tmp)
             else:
-                raw, _ = providers.tts(ctx, "narration", sid, text, voice=voice["name"], style=voice["style"])
+                raw, _ = providers.tts(ctx, "narration", sid, text, voice=voice["name"], style=voice["style"], seed=voice.get("seed"))
                 tmp.write_bytes(raw)
             return {"seconds": round(wav_seconds(tmp), 3), "from_take": sid in pieces}
 

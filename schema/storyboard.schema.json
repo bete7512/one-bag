@@ -218,6 +218,11 @@
           "type": "string",
           "minLength": 3
         },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Sent with every speech request, so that lines recorded in separate requests are decoded the same way. Leave it out and each request sounds a little different."
+        },
         "one_take": {
           "type": "boolean",
           "description": "True: the lines that are missing are first spoken in one request and cut apart, which costs fewer requests when the cut is clean. False: each line is spoken in a request of its own and needs no cutting. Default true."
