@@ -57,7 +57,7 @@
     }
   ],
   "video": {"max_area": 399360, "num_frames": 81, "steps": 30, "guidance": 5.0},
-  "voice": {"name": "Charon", "style": "calm, warm and unhurried, like telling a memory to family", "max_pause_s": 0.6, "one_take": false},
+  "voice": {"name": "Charon", "style": "calm, warm storyteller", "max_pause_s": 0.6, "one_take": false, "seed": 7},
   "qa": {"keyframe_candidates": 2, "judge": true, "roundtrip": true, "roundtrip_min": 0.6, "subtitle_check": true},
   "music": {
     "caption": "Solo krar, the Ethiopian six-string lyre, plucked slowly. A sparse pentatonic melody in the tizita mood. One instrument only, in a quiet room. No drums, no vocals.",
@@ -95,10 +95,10 @@
       },
       "motion": {"backend": "kenburns", "camera": "push_in", "prompt": "He shifts the backpack on his shoulders and steps toward the bus door. Fixed camera."},
       "narration": {
-        "am": "ሁለት ሺህ አሥራ ሁለት ዓመተ ምሕረት። እኩለ ቀን ላይ ከአንኮበር ተነሳሁ። አንድ የጀርባ ቦርሳ ብቻ ይዤ። አንድ ጓደኛዬ ሸኘኝ።",
-        "en": "It was 2012 in the Ethiopian calendar. At midday I left Ankober. Just one backpack. A friend saw me off."
+        "am": "መስከረም ሁለት ሺህ አሥራ ሁለት። እኩለ ቀን ላይ ከአንኮበር ተነሳሁ። አንድ የጀርባ ቦርሳ ብቻ ይዤ። አንድ ጓደኛዬ ሸኘኝ።",
+        "en": "Meskerem 2012. At midday I left Ankober. Just one backpack. A friend saw me off."
       },
-      "review": {"confirmed": false, "note": "Rewritten on 25 Nov after the first three listeners: fewer uses of the word for \"was\", and a story that says something to its audience. Written by the coding agent, whom the author told to decide the wording. Not confirmed by the author yet."}
+      "review": {"confirmed": false, "note": "Rewritten on 25 and 26 Nov after the first listeners and the author's own comments: no word for \"was\" left, the month before the year, the order night, morning, today. Written by the coding agent, whom the author told to decide the wording. Not confirmed by the author yet."}
     },
     {
       "id": "s02",
@@ -114,10 +114,10 @@
       },
       "motion": {"backend": "wan", "camera": "pan_right", "prompt": "The small bus moves slowly along the road and its dust drifts away. Slow pan to the right.", "seed": 202},
       "narration": {
-        "am": "እስከ ደብረ ብርሃን መንገዱ ፒስታ ነበር። ከዚያ በኋላ አስፋልት።",
-        "en": "The road was gravel as far as Debre Birhan. After that, asphalt."
+        "am": "እስከ ደብረ ብርሃን ድረስ ፒስታ መንገድ። ከዚያ በኋላ አስፋልት።",
+        "en": "A gravel road as far as Debre Birhan. After that, asphalt."
       },
-      "review": {"confirmed": false, "note": "Draft written on 2026-11-25 from the story Bete told by voice that day. He has not read this line yet."}
+      "review": {"confirmed": false, "note": "Rewritten on 25 and 26 Nov after the first listeners and the author's own comments: no word for \"was\" left, the month before the year, the order night, morning, today. Written by the coding agent, whom the author told to decide the wording. Not confirmed by the author yet."}
     },
     {
       "id": "s03",
@@ -127,17 +127,20 @@
       "characters": ["boy"],
       "min_duration_s": 7,
       "keyframe": {
-        "prompt": "Inside an old country bus, seen from the aisle: two rows of worn seats, and a row of side windows full of steep forested mountain slopes in afternoon light. On the window seat in the foreground one young passenger sits, seen from behind and cut off by the edge of the frame: only the back of his head and one shoulder, his face turned to the window, a backpack on his lap.",
+        "prompt": "Inside an old country bus, seen from the seat directly behind him: in the foreground the back of a young passenger's head and his shoulders in a dark jacket, above the worn back of his seat. He is turned to the large side window beside him, so his face cannot be seen. Through the window, steep forested mountain slopes of the Ethiopian highlands in afternoon light. More worn seats and windows ahead of him.",
         "seed": 103,
+        "candidates": 3,
+        "pick": 1,
         "reference": false,
+        "focus_x": {"vertical": 0.25},
         "focus_y": 0.35
       },
       "motion": {"backend": "kenburns", "camera": "pan_left", "prompt": "Forest and mountain slopes slide slowly past the window. Slight shake of a moving bus.", "seed": 203},
       "narration": {
-        "am": "በአውቶቡሱ መስኮት በኩል ተቀምጬ ነበር። ውጪው ደንና ተራራ ነው። እይታው ድንቅ ነበር።",
-        "en": "I sat by the window of the bus. Outside, forest and mountains. The view was amazing."
+        "am": "በመስኮት በኩል ተቀመጥኩ። ውጪው ደንና ተራራ ብቻ። እይታው አስደነቀኝ።",
+        "en": "I sat by the window. Outside, only forest and mountains. The view amazed me."
       },
-      "review": {"confirmed": false, "note": "Draft written on 2026-11-25 from the story Bete told by voice that day. He has not read this line yet."}
+      "review": {"confirmed": false, "note": "Rewritten on 25 and 26 Nov after the first listeners and the author's own comments: no word for \"was\" left, the month before the year, the order night, morning, today. Written by the coding agent, whom the author told to decide the wording. Not confirmed by the author yet."}
     },
     {
       "id": "s04",
@@ -152,27 +155,30 @@
         "reference": false,
         "focus_y": 0.75
       },
-      "motion": {"backend": "wan", "camera": "pull_out", "prompt": "Traffic moves slowly along the avenue: cars and minibuses roll forward and their headlights pass. The young man stands still with his back to us. The camera does not move.", "seed": 204},
+      "motion": {"backend": "kenburns", "camera": "pull_out", "prompt": "Traffic moves slowly along the avenue: cars and minibuses roll forward and their headlights pass. The young man stands still with his back to us. The camera does not move.", "seed": 204},
       "narration": {
         "am": "ላምበረት የደረስኩት ከመሸ በኋላ ነው። ጓደኛዬ እዚያው ጠበቀኝ። ሰው፣ መብራት፣ መኪና፤ ሁሉም በአንድ ጊዜ።",
-        "en": "I reached Lamberet after dark. My friend was there, waiting for me. People, lights, cars: everything at once."
+        "en": "I reached Lamberet after dark. My friend was there, waiting for me. People, lights, cars, everything at once."
       },
       "review": {"confirmed": false, "note": "Rewritten on 25 Nov after the first three listeners: fewer uses of the word for \"was\", and a story that says something to its audience. Written by the coding agent, whom the author told to decide the wording. Not confirmed by the author yet."}
     },
     {
       "id": "s05",
-      "title": "Across the city",
-      "reason": "A breath between two crowded places, with no words: only the lights of a city he did not know yet, passing a window.",
-      "size": "pov",
+      "title": "Autobus Tera, from far",
+      "reason": "Where the night is going: the big bus station, seen whole and from far, before we are in the middle of it. No words, only the place.",
+      "size": "extreme wide",
       "characters": [],
       "min_duration_s": 4,
       "keyframe": {
-        "prompt": "An abstract painting of night city lights far out of focus, with no person, no figure and no object in it. The lights themselves are the subject: large soft round glows of amber, white, red and teal scattered over the whole frame on a dark blue-black ground, a few of them stretched sideways into short streaks by movement.",
-        "seed": 105
+        "prompt": "The paint covers the whole frame and runs off all four edges, with no paper showing. Wide view from a little above of a large bus station yard in Addis Ababa, Ethiopia, at night: long rows of parked long-distance buses, tall lamp posts with warm light, dust hanging in the air, many small dark figures of people moving between the buses, and the dark city with a few lit windows behind. Nobody in the foreground.",
+        "seed": 135,
+        "candidates": 4,
+        "edge_trim": 0.075,
+        "pick": 2
       },
-      "motion": {"backend": "kenburns", "camera": "pan_right", "prompt": "City lights streak slowly past the window and reflections slide across the glass.", "seed": 205},
+      "motion": {"backend": "kenburns", "camera": "push_in", "prompt": "People move between the buses and the dust drifts in the lamp light. Slow push in.", "seed": 205},
       "narration": null,
-      "review": {"confirmed": false, "note": "To check with Bete: that he and his friend went on from Lamberet to Autobus Tera the same night. He was not sure about the taxi, so no vehicle is named or shown from outside."}
+      "review": {"confirmed": false, "note": "A new picture on 26 Nov: the first one, blurred city lights, said nothing. The author said on 25 Nov that he was not sure about the vehicle they took, so none is shown."}
     },
     {
       "id": "s06",
@@ -209,10 +215,10 @@
       },
       "motion": {"backend": "kenburns", "camera": "push_in", "prompt": "Very slow push in toward the bed and the backpack."},
       "narration": {
-        "am": "ክፍሉ ባለ አንድ አልጋ ነበር። በጣም ጥሩ አይደለም፣ መጥፎም አይደለም። ንጹሕ ነበር።",
-        "en": "The room had one bed. Not very good, not bad. It was clean."
+        "am": "ክፍሉ ባለ አንድ አልጋ። በጣም ጥሩ አይደለም፤ መጥፎም አይደለም። ግን ንጹሕ።",
+        "en": "One bed in the room. Not very good, not bad. But clean."
       },
-      "review": {"confirmed": false, "note": "Draft written on 2026-11-25 from the story Bete told by voice that day. He has not read this line yet."}
+      "review": {"confirmed": false, "note": "Rewritten on 25 and 26 Nov after the first listeners and the author's own comments: no word for \"was\" left, the month before the year, the order night, morning, today. Written by the coding agent, whom the author told to decide the wording. Not confirmed by the author yet."}
     },
     {
       "id": "s08",
@@ -222,10 +228,11 @@
       "characters": ["boy"],
       "min_duration_s": 5.5,
       "keyframe": {
-        "prompt": "Early morning in the open yard of a bus station in Addis Ababa, Ethiopia, soft gold light and long shadows, seen from a little above: one single long line of men and women, all seen from behind, winds across the whole yard to a small ticket window in a low building. One of the last people in the line is a young man with a backpack, small in the frame. Long-distance buses are parked along one side.",
+        "prompt": "Early morning in the open yard of a bus station in Addis Ababa, Ethiopia, soft gold light and long shadows. One single-file queue of men and women, all seen from behind and standing one behind another, runs in a long curve across the yard to a small ticket window in a low building. A young man with a backpack, a dark jacket and grey-green trousers is the last person in the queue, nearest to us, seen from behind. Long-distance buses are parked along one side.",
         "seed": 108,
-        "reference": false,
+        "candidates": 3,
         "pick": 2,
+        "reference": false,
         "focus_y": 0.65
       },
       "motion": {"backend": "kenburns", "camera": "pan_left", "prompt": "The queue shuffles forward a step. Slow pan along the line."},
@@ -247,12 +254,12 @@
         "seed": 109,
         "focus_y": 0.25
       },
-      "motion": {"backend": "wan", "camera": "push_in", "prompt": "A light wind moves his shirt and the first city lights come on far away. He stands still. Slow push in.", "seed": 209},
+      "motion": {"backend": "kenburns", "camera": "push_in", "prompt": "A light wind moves his shirt and the first city lights come on far away. He stands still. Slow push in.", "seed": 209},
       "narration": {
-        "am": "ያ ሌሊት ግራ አጋባኝ። ዛሬ ግን ከቤቱ ለሚወጣ ሁሉ አንድ ነገር እላለሁ፦ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። አትሽሽ። አጣጥመው።",
-        "en": "That night confused me. Today I tell everyone who leaves home one thing: the first night is always confusing. Do not run from it. Savour it."
+        "am": "ዛሬ ያንን የመጀመሪያ ሌሊት ሳስታውስ፣ ከቤቱ ለሚወጣ ሁሉ አንድ ነገር እላለሁ፦ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። አትሽሽ። አጣጥመው።",
+        "en": "Today, remembering that first night, I tell all who leave home one thing: the first night is always confusing. Do not run from it. Savour it."
       },
-      "review": {"confirmed": false, "note": "Rewritten on 25 Nov after the first three listeners: fewer uses of the word for \"was\", and a story that says something to its audience. Written by the coding agent, whom the author told to decide the wording. Not confirmed by the author yet."}
+      "review": {"confirmed": false, "note": "Rewritten on 25 and 26 Nov after the first listeners and the author's own comments: no word for \"was\" left, the month before the year, the order night, morning, today. Written by the coding agent, whom the author told to decide the wording. Not confirmed by the author yet."}
     }
   ]
 }

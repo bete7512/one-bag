@@ -216,6 +216,9 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
         # a shot can ask to be drawn from its words alone: the reference pulls every picture toward one centred figure (F05)
         ref_ids = [f"ref_{cid}" for cid in s["characters"] if f"ref_{cid}" in refs] if s["keyframe"].get("reference", True) else []
         plan[s["id"]] = {"blocked": [], "n": n, "prompt": prompt, "refs": ref_ids}
+        # a shot whose pictures come back with a wider paper margin can be cut closer than the others, from the kept originals
+        shot_trim = s["keyframe"].get("edge_trim", trim)
+        shot_cut = {"trim": shot_trim} if shot_trim else {}
         for i in range(1, n + 1):
             seed = s["keyframe"]["seed"] + i - 1
             # the references are named by their untouched originals, so a change to the cut does not redraw every character shot
@@ -223,12 +226,12 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
                       "refs": [refs[r].meta.get("original", refs[r].key) for r in ref_ids]}
 
             def produce(tmp: Path, sid: str = s["id"], i: int = i, prompt: str = prompt, seed: int = seed, ref_ids: list = ref_ids,
-                        raw_fp: dict = raw_fp) -> dict:
+                        raw_fp: dict = raw_fp, trim: float = shot_trim) -> dict:
                 ref_bytes = [small_jpeg(ctx, ctx.out / "keyframes" / "original" / refs[r].meta["original"] if refs[r].meta.get("original")
                                         else refs[r].path) for r in ref_ids]
                 return draw(ctx, f"{sid}_c{i}", raw_fp, tmp, prompt=prompt, seed=seed, refs=ref_bytes, trim=trim)
 
-            units.append(Unit("keyframes", f"{s['id']}_c{i}", {**raw_fp, **cut}, "png", produce))
+            units.append(Unit("keyframes", f"{s['id']}_c{i}", {**raw_fp, **shot_cut}, "png", produce))
     made = run_units(ctx, units, plan_only)
 
     # 3. judge

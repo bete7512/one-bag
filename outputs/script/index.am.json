@@ -3,46 +3,46 @@
  "subtitles": "en",
  "lines": {
   "s01": {
-   "text": "ሁለት ሺህ አሥራ ሁለት ዓመተ ምሕረት። እኩለ ቀን ላይ ከአንኮበር ተነሳሁ። አንድ የጀርባ ቦርሳ ብቻ ይዤ። አንድ ጓደኛዬ ሸኘኝ።",
-   "subtitle": "It was 2012 in the Ethiopian calendar. At midday I left Ankober. Just one backpack. A friend saw me off.",
+   "text": "መስከረም ሁለት ሺህ አሥራ ሁለት። እኩለ ቀን ላይ ከአንኮበር ተነሳሁ። አንድ የጀርባ ቦርሳ ብቻ ይዤ። አንድ ጓደኛዬ ሸኘኝ።",
+   "subtitle": "Meskerem 2012. At midday I left Ankober. Just one backpack. A friend saw me off.",
    "machine_translated": false,
-   "estimate_s": 9.83,
+   "estimate_s": 9.5,
    "subtitle_check": {
     "faithful": true,
-    "literal": "Two thousand twelve, Year of Mercy. At midday I set out from Ankober. Carrying only one backpack. A friend of mine saw me off.",
+    "literal": "Meskerem 2012. At midday I set out from Ankober. Carrying only one backpack. A friend of mine saw me off.",
     "differences": []
    }
   },
   "s02": {
-   "text": "እስከ ደብረ ብርሃን መንገዱ ፒስታ ነበር። ከዚያ በኋላ አስፋልት።",
-   "subtitle": "The road was gravel as far as Debre Birhan. After that, asphalt.",
+   "text": "እስከ ደብረ ብርሃን ድረስ ፒስታ መንገድ። ከዚያ በኋላ አስፋልት።",
+   "subtitle": "A gravel road as far as Debre Birhan. After that, asphalt.",
    "machine_translated": false,
    "estimate_s": 5.17,
    "subtitle_check": {
     "faithful": true,
-    "literal": "Up to Debre Birhan the road was gravel (unpaved). After that, asphalt.",
+    "literal": "As far as Debre Birhan, a gravel road. After that, asphalt.",
     "differences": []
    }
   },
   "s03": {
-   "text": "በአውቶቡሱ መስኮት በኩል ተቀምጬ ነበር። ውጪው ደንና ተራራ ነው። እይታው ድንቅ ነበር።",
-   "subtitle": "I sat by the window of the bus. Outside, forest and mountains. The view was amazing.",
+   "text": "በመስኮት በኩል ተቀመጥኩ። ውጪው ደንና ተራራ ብቻ። እይታው አስደነቀኝ።",
+   "subtitle": "I sat by the window. Outside, only forest and mountains. The view amazed me.",
    "machine_translated": false,
-   "estimate_s": 6.83,
+   "estimate_s": 5.67,
    "subtitle_check": {
     "faithful": true,
-    "literal": "I was sitting by the window of the bus. Outside is forest and mountain. The view was wonderful.",
+    "literal": "I sat by the window. Outside, only forest and mountain. The view amazed me.",
     "differences": []
    }
   },
   "s04": {
    "text": "ላምበረት የደረስኩት ከመሸ በኋላ ነው። ጓደኛዬ እዚያው ጠበቀኝ። ሰው፣ መብራት፣ መኪና፤ ሁሉም በአንድ ጊዜ።",
-   "subtitle": "I reached Lamberet after dark. My friend was there, waiting for me. People, lights, cars: everything at once.",
+   "subtitle": "I reached Lamberet after dark. My friend was there, waiting for me. People, lights, cars, everything at once.",
    "machine_translated": false,
    "estimate_s": 8.17,
    "subtitle_check": {
     "faithful": true,
-    "literal": "It was after dark that I reached Lamberet. My friend waited for me right there. People, lights, cars; all at once.",
+    "literal": "It was after dark that I arrived at Lamberet. My friend waited for me right there. People, lights, cars; all at once.",
     "differences": []
    }
   },
@@ -58,13 +58,13 @@
    }
   },
   "s07": {
-   "text": "ክፍሉ ባለ አንድ አልጋ ነበር። በጣም ጥሩ አይደለም፣ መጥፎም አይደለም። ንጹሕ ነበር።",
-   "subtitle": "The room had one bed. Not very good, not bad. It was clean.",
+   "text": "ክፍሉ ባለ አንድ አልጋ። በጣም ጥሩ አይደለም፤ መጥፎም አይደለም። ግን ንጹሕ።",
+   "subtitle": "One bed in the room. Not very good, not bad. But clean.",
    "machine_translated": false,
-   "estimate_s": 6.5,
+   "estimate_s": 5.83,
    "subtitle_check": {
     "faithful": true,
-    "literal": "The room was a one-bed room. Not very good, and not bad either. It was clean.",
+    "literal": "The room is a single-bed room. It is not very good; it is not bad either. But clean.",
     "differences": []
    }
   },
@@ -80,16 +80,16 @@
    }
   },
   "s09": {
-   "text": "ያ ሌሊት ግራ አጋባኝ። ዛሬ ግን ከቤቱ ለሚወጣ ሁሉ አንድ ነገር እላለሁ፦ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። አትሽሽ። አጣጥመው።",
-   "subtitle": "That night confused me. Today I tell everyone who leaves home one thing: the first night is always confusing. Do not run from it. Savour it.",
+   "text": "ዛሬ ያንን የመጀመሪያ ሌሊት ሳስታውስ፣ ከቤቱ ለሚወጣ ሁሉ አንድ ነገር እላለሁ፦ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። አትሽሽ። አጣጥመው።",
+   "subtitle": "Today, remembering that first night, I tell all who leave home one thing: the first night is always confusing. Do not run from it. Savour it.",
    "machine_translated": false,
-   "estimate_s": 10.17,
+   "estimate_s": 11.0,
    "subtitle_check": {
     "faithful": true,
-    "literal": "That night confused me. But today I say one thing to everyone who leaves home: the first night always confuses. Do not flee. Savour it.",
+    "literal": "Today, when I remember that first night, I say one thing to everyone who leaves home: the first night is always confusing. Do not flee. Savour it.",
     "differences": []
    }
   }
  },
- "estimate_total_s": 59.8
+ "estimate_total_s": 58.5
 }

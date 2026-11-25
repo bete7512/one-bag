@@ -1,250 +1,254 @@
 {
  "s01": {
-  "file": "s01_tight__36c3dea7f6164bfd.wav",
-  "key": "36c3dea7f6164bfd",
-  "seconds": 9.362,
-  "as_spoken": "s01__8549541531555b39.wav",
-  "as_spoken_seconds": 10.13,
+  "file": "s01_tight__394b4a36f9b1e013.wav",
+  "key": "394b4a36f9b1e013",
+  "seconds": 10.11,
+  "as_spoken": "s01__0037cc18223f4f09.wav",
+  "as_spoken_seconds": 11.5,
   "pauses_shortened": 3,
-  "removed_s": 0.768,
+  "removed_s": 1.39,
   "pauses": [
    [
-    1.89,
-    2.49
+    2.45,
+    3.05
    ],
    [
-    2.49,
-    2.79
+    5.05,
+    5.65
    ],
    [
-    4.76,
-    5.36
+    8.01,
+    8.62
    ],
    [
-    7.1,
-    7.7
-   ],
-   [
-    9.06,
-    9.36
+    9.62,
+    10.11
    ]
   ],
-  "heard": "ሁለተኛው የአሰራሁለተኛው ምዕራፍ እኩለ ቀን ላይ ከአንኮበር ተነሳው አንዲት የጀርባ ወርሳ ብቻ ይዤ አንድጓደኛዬ የሰነኟኝ",
-  "roundtrip": 0.758
+  "heard": "መስከረም 2012 እኩል ዕለት ላይ ከአንኮበር ተነሳው። አንድ የጀርባ ቦርሳ ብቻ ይዤ አንድጓደኛዬ ሸኘኝ።",
+  "roundtrip": 0.797
  },
  "s02": {
-  "file": "s02_tight__e49fbae6fdf6853f.wav",
-  "key": "e49fbae6fdf6853f",
-  "seconds": 4.664,
-  "as_spoken": "s02__899429c2c94529c1.wav",
-  "as_spoken_seconds": 4.904,
-  "pauses_shortened": 1,
-  "removed_s": 0.24,
+  "file": "s02_tight__debb4f302571d8ce.wav",
+  "key": "debb4f302571d8ce",
+  "seconds": 5.951,
+  "as_spoken": "s02__3cba14439412e28b.wav",
+  "as_spoken_seconds": 6.63,
+  "pauses_shortened": 3,
+  "removed_s": 0.679,
   "pauses": [
    [
-    0.87,
-    1.16
-   ],
-   [
-    2.46,
-    3.06
-   ],
-   [
-    3.64,
-    3.9
-   ]
-  ],
-  "heard": "ስክለብሮ በራሀን መንገዱ ፒስታ ነበር፣ ከዚያ በኋላ አስፋልት።",
-  "roundtrip": 0.789
- },
- "s03": {
-  "file": "s03_tight__e39f30d4388a9016.wav",
-  "key": "e39f30d4388a9016",
-  "seconds": 6.53,
-  "as_spoken": "s03__0a4eb04db117b841.wav",
-  "as_spoken_seconds": 6.911,
-  "pauses_shortened": 1,
-  "removed_s": 0.381,
-  "pauses": [
-   [
-    2.07,
-    2.5
+    1.57,
+    2.17
    ],
    [
     2.94,
-    3.26
+    3.54
    ],
    [
-    4.36,
-    4.96
+    4.26,
+    4.86
+   ],
+   [
+    5.57,
+    5.95
    ]
   ],
-  "heard": "ባውብሱ ሞስኮት በኩል ተካሚ ጨነበር ውጪው ደንና ተራራ ነው። እይታው ድንቅ ነበር።",
-  "roundtrip": 0.863
+  "heard": "እስከ ድብራ ብርሃን ድረስ ፒስታ መንገድ ከዚያ በኋላ አስፋልት",
+  "roundtrip": 0.949
  },
- "s04": {
-  "file": "s04_tight__0674ca4fa02f3b44.wav",
-  "key": "0674ca4fa02f3b44",
-  "seconds": 9.779,
-  "as_spoken": "s04__c3fd35829b8ffb58.wav",
-  "as_spoken_seconds": 10.42,
+ "s03": {
+  "file": "s03_tight__ca62bd6af2e229e6.wav",
+  "key": "ca62bd6af2e229e6",
+  "seconds": 6.041,
+  "as_spoken": "s03__1b9cdeb875d8e2e0.wav",
+  "as_spoken_seconds": 6.66,
   "pauses_shortened": 2,
-  "removed_s": 0.641,
+  "removed_s": 0.619,
   "pauses": [
    [
-    1.25,
-    1.56
+    1.49,
+    2.09
    ],
    [
-    2.63,
-    3.23
+    2.52,
+    2.8
    ],
    [
-    4.71,
-    5.31
+    4.07,
+    4.67
    ],
    [
-    5.95,
-    6.28
+    5.76,
+    6.04
+   ]
+  ],
+  "heard": "በመሱት በኩል ተቀምጦ ውጪው ድንዘና ተራራ ብቻ እይታ ዋስደንነቀኝ።",
+  "roundtrip": 0.819
+ },
+ "s04": {
+  "file": "s04_tight__0f73efc6e1f4b04c.wav",
+  "key": "0f73efc6e1f4b04c",
+  "seconds": 9.955,
+  "as_spoken": "s04__9ccf919711d9ccf4.wav",
+  "as_spoken_seconds": 10.25,
+  "pauses_shortened": 2,
+  "removed_s": 0.295,
+  "pauses": [
+   [
+    2.62,
+    3.22
    ],
    [
-    6.93,
-    7.21
+    4.53,
+    5.13
    ],
    [
-    7.87,
+    5.7,
+    6.2
+   ],
+   [
+    6.91,
+    7.33
+   ],
+   [
+    7.86,
     8.4
    ],
    [
-    9.46,
-    9.78
+    9.63,
+    9.96
    ]
   ],
-  "heard": "ልምበርት የደረስኩት ከመሸ በኋላ ነው። ጓደኛዬ እዚያው ጠበቀኝ። ሰው፣ መብራት፣ መኪና ሁሉም በአንድ ጊዜ።",
-  "roundtrip": 0.968
+  "heard": "Lambaret, hederesko, kemeche bohalenaw?\nGwadegne, eziyaw tebelegne.\nSebe, mebrat, mequina,\nhulum ba-and gize.",
+  "roundtrip": 0.16
  },
  "s06": {
-  "file": "s06_tight__af7e0c8d54f028e3.wav",
-  "key": "af7e0c8d54f028e3",
-  "seconds": 11.633,
-  "as_spoken": "s06__27e28f0d6e356e5e.wav",
-  "as_spoken_seconds": 12.82,
-  "pauses_shortened": 4,
-  "removed_s": 1.187,
-  "pauses": [
-   [
-    3.69,
-    4.29
-   ],
-   [
-    5.18,
-    5.81
-   ],
-   [
-    6.08,
-    6.68
-   ],
-   [
-    7.47,
-    8.07
-   ],
-   [
-    8.65,
-    9.24
-   ],
-   [
-    9.92,
-    10.45
-   ]
-  ],
-  "heard": "አውቶቡስ ተራ ስንደርስ, ደላላች ከበቡን። አልጋ ትፈልጋላችሁ? አልጋ? ኬ አቅጣጫው? ግራገባን። በመጨረሻ አንዱን መረጠን።",
-  "roundtrip": 0.936
- },
- "s07": {
-  "file": "s07_tight__67ed25709eb1043f.wav",
-  "key": "67ed25709eb1043f",
-  "seconds": 6.818,
-  "as_spoken": "s07__e895cafb0fd84c6f.wav",
-  "as_spoken_seconds": 8.18,
-  "pauses_shortened": 3,
-  "removed_s": 1.362,
-  "pauses": [
-   [
-    2.05,
-    2.65
-   ],
-   [
-    3.63,
-    4.23
-   ],
-   [
-    5.14,
-    5.74
-   ],
-   [
-    6.4,
-    6.82
-   ]
-  ],
-  "heard": "ቁፍሉ ዋጋ ለአንዲት ጋርብ፣ በጣም ሦስት ደለብ፣ መጥፎም አይደለም፣ ንጹሕ ነበር።",
-  "roundtrip": 0.742
- },
- "s08": {
-  "file": "s08_tight__ae8cd7abc35ed762.wav",
-  "key": "ae8cd7abc35ed762",
-  "seconds": 3.95,
-  "as_spoken": "s08__7bafc738823d3f67.wav",
-  "as_spoken_seconds": 3.95,
+  "file": "s06_tight__b66fc7df2dec71ee.wav",
+  "key": "b66fc7df2dec71ee",
+  "seconds": 9.85,
+  "as_spoken": "s06__e079376c6e6799fb.wav",
+  "as_spoken_seconds": 9.85,
   "pauses_shortened": 0,
   "removed_s": 0.0,
   "pauses": [
    [
-    3.65,
-    3.95
+    2.55,
+    3.08
+   ],
+   [
+    4.02,
+    4.37
+   ],
+   [
+    4.66,
+    4.98
+   ],
+   [
+    5.83,
+    6.44
+   ],
+   [
+    7.11,
+    7.72
+   ],
+   [
+    8.31,
+    8.69
    ]
   ],
-  "heard": "እርጥ, ረጅም ሰልፍ ተሰልፈን ቲኬት ኮረጥን።",
-  "roundtrip": 0.808
+  "heard": "አውቶቡስ ተራ ስንደርስ ደላሎች ከበቡን። አልጋ ትፈልጋላችሁ? አልጋ? ከየት አጣጫው? ግራ ገባን። በመጨረሻ አንዱን መረጠን።",
+  "roundtrip": 0.965
  },
- "s09": {
-  "file": "s09_tight__8e25294d2c7c48c5.wav",
-  "key": "8e25294d2c7c48c5",
-  "seconds": 12.914,
-  "as_spoken": "s09__b344dc8acc7b40e2.wav",
-  "as_spoken_seconds": 14.0,
-  "pauses_shortened": 3,
-  "removed_s": 1.086,
+ "s07": {
+  "file": "s07_tight__8e64c4c00abad08a.wav",
+  "key": "8e64c4c00abad08a",
+  "seconds": 6.418,
+  "as_spoken": "s07__a9bb846210e2dbc6.wav",
+  "as_spoken_seconds": 6.69,
+  "pauses_shortened": 1,
+  "removed_s": 0.272,
   "pauses": [
    [
-    1.94,
-    2.55
+    1.6,
+    2.2
    ],
    [
-    3.18,
-    3.58
+    3.12,
+    3.7
    ],
    [
-    5.17,
-    5.51
+    4.56,
+    5.17
    ],
    [
-    6.65,
-    7.25
+    5.41,
+    5.73
    ],
    [
-    9.96,
-    10.56
-   ],
-   [
-    11.32,
-    11.92
-   ],
-   [
-    12.61,
-    12.91
+    6.11,
+    6.42
    ]
   ],
-  "heard": "ይህ ሌሊት ግራ ያጋባኛል። ዛሬ ግን ከቤቱ ለሚወጣው ሁሉ አንድ ነገር እላለሁ። የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። አትሸሽ፣ አታጣውም።",
-  "roundtrip": 0.907
+  "heard": "ቁጥቁጥ ባለ አንዳልጋ በጣም ጥሩ አይደለም፣ መጥፎም አይደለም፣ ግን ንጹህ",
+  "roundtrip": 0.854
+ },
+ "s08": {
+  "file": "s08_tight__770c4bbfc27b1542.wav",
+  "key": "770c4bbfc27b1542",
+  "seconds": 4.11,
+  "as_spoken": "s08__c013c00caab2debd.wav",
+  "as_spoken_seconds": 4.11,
+  "pauses_shortened": 0,
+  "removed_s": 0.0,
+  "pauses": [
+   [
+    0.62,
+    1.06
+   ],
+   [
+    2.67,
+    2.98
+   ]
+  ],
+  "heard": "እዕት ረጅም ሰልፍ ተሰልፈን ቲኬት ቆረጥን።",
+  "roundtrip": 0.885
+ },
+ "s09": {
+  "file": "s09_tight__3eac3ddd1051690d.wav",
+  "key": "3eac3ddd1051690d",
+  "seconds": 10.866,
+  "as_spoken": "s09__7155b2aecf2d2eee.wav",
+  "as_spoken_seconds": 10.98,
+  "pauses_shortened": 1,
+  "removed_s": 0.114,
+  "pauses": [
+   [
+    2.64,
+    3.02
+   ],
+   [
+    5.27,
+    5.91
+   ],
+   [
+    6.86,
+    7.15
+   ],
+   [
+    8.29,
+    8.89
+   ],
+   [
+    9.48,
+    9.99
+   ],
+   [
+    10.58,
+    10.87
+   ]
+  ],
+  "heard": "ዋሪ! ያንን የመጀመሪያ ሌሊት ሳስታውስ ከቤቱ ለሚወጣው ሁሉ አንድ ነገር እላለሁ። የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። አትሸሽ፣ አታጥመው።",
+  "roundtrip": 0.946
  }
 }

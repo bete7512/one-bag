@@ -1,61 +1,61 @@
 {
  "units": {
   "s01_subtitle_check": {
-   "key": "5806dd2c7ab4fdf2",
-   "file": "s01_subtitle_check__5806dd2c7ab4fdf2.json",
+   "key": "bbe94232347df0bc",
+   "file": "s01_subtitle_check__bbe94232347df0bc.json",
    "fingerprint": {
     "v": 1,
     "check": 1,
-    "text": "ሁለት ሺህ አሥራ ሁለት ዓመተ ምሕረት። እኩለ ቀን ላይ ከአንኮበር ተነሳሁ። አንድ የጀርባ ቦርሳ ብቻ ይዤ። አንድ ጓደኛዬ ሸኘኝ።",
-    "subtitle": "It was 2012 in the Ethiopian calendar. At midday I left Ankober. Just one backpack. A friend saw me off.",
+    "text": "መስከረም ሁለት ሺህ አሥራ ሁለት። እኩለ ቀን ላይ ከአንኮበር ተነሳሁ። አንድ የጀርባ ቦርሳ ብቻ ይዤ። አንድ ጓደኛዬ ሸኘኝ።",
+    "subtitle": "Meskerem 2012. At midday I left Ankober. Just one backpack. A friend saw me off.",
     "from": "am",
     "to": "en",
     "model": "claude-opus-5-5"
    },
    "meta": {
-    "literal": "Two thousand twelve, Year of Mercy. At midday I set out from Ankober. Carrying only one backpack. A friend of mine saw me off.",
+    "literal": "Meskerem 2012. At midday I set out from Ankober. Carrying only one backpack. A friend of mine saw me off.",
     "faithful": true,
     "differences": []
    },
-   "created": "2026-11-25T20:14:38Z"
+   "created": "2026-11-25T21:05:50Z"
   },
   "s03_subtitle_check": {
-   "key": "1b225da88f9310ae",
-   "file": "s03_subtitle_check__1b225da88f9310ae.json",
+   "key": "53e342865126b79e",
+   "file": "s03_subtitle_check__53e342865126b79e.json",
    "fingerprint": {
     "v": 1,
     "check": 1,
-    "text": "በአውቶቡሱ መስኮት በኩል ተቀምጬ ነበር። ውጪው ደንና ተራራ ነው። እይታው ድንቅ ነበር።",
-    "subtitle": "I sat by the window of the bus. Outside, forest and mountains. The view was amazing.",
+    "text": "በመስኮት በኩል ተቀመጥኩ። ውጪው ደንና ተራራ ብቻ። እይታው አስደነቀኝ።",
+    "subtitle": "I sat by the window. Outside, only forest and mountains. The view amazed me.",
     "from": "am",
     "to": "en",
     "model": "claude-opus-5-5"
    },
    "meta": {
-    "literal": "I was sitting by the window of the bus. Outside is forest and mountain. The view was wonderful.",
+    "literal": "I sat by the window. Outside, only forest and mountain. The view amazed me.",
     "faithful": true,
     "differences": []
    },
-   "created": "2026-11-25T16:42:30Z"
+   "created": "2026-11-25T21:05:54Z"
   },
   "s04_subtitle_check": {
-   "key": "8a70ee43097c8f01",
-   "file": "s04_subtitle_check__8a70ee43097c8f01.json",
+   "key": "96316ea7ad83aba6",
+   "file": "s04_subtitle_check__96316ea7ad83aba6.json",
    "fingerprint": {
     "v": 1,
     "check": 1,
     "text": "ላምበረት የደረስኩት ከመሸ በኋላ ነው። ጓደኛዬ እዚያው ጠበቀኝ። ሰው፣ መብራት፣ መኪና፤ ሁሉም በአንድ ጊዜ።",
-    "subtitle": "I reached Lamberet after dark. My friend was there, waiting for me. People, lights, cars: everything at once.",
+    "subtitle": "I reached Lamberet after dark. My friend was there, waiting for me. People, lights, cars, everything at once.",
     "from": "am",
     "to": "en",
     "model": "claude-opus-5-5"
    },
    "meta": {
-    "literal": "It was after dark that I reached Lamberet. My friend waited for me right there. People, lights, cars; all at once.",
+    "literal": "It was after dark that I arrived at Lamberet. My friend waited for me right there. People, lights, cars; all at once.",
     "faithful": true,
     "differences": []
    },
-   "created": "2026-11-25T20:15:07Z"
+   "created": "2026-11-25T21:19:57Z"
   },
   "s05_subtitle_check": {
    "key": "7632695e5da2ba15",
@@ -96,23 +96,23 @@
    "created": "2026-11-25T20:14:47Z"
   },
   "s07_subtitle_check": {
-   "key": "e5238109700975f6",
-   "file": "s07_subtitle_check__e5238109700975f6.json",
+   "key": "b47ea2453cf8330a",
+   "file": "s07_subtitle_check__b47ea2453cf8330a.json",
    "fingerprint": {
     "v": 1,
     "check": 1,
-    "text": "ክፍሉ ባለ አንድ አልጋ ነበር። በጣም ጥሩ አይደለም፣ መጥፎም አይደለም። ንጹሕ ነበር።",
-    "subtitle": "The room had one bed. Not very good, not bad. It was clean.",
+    "text": "ክፍሉ ባለ አንድ አልጋ። በጣም ጥሩ አይደለም፤ መጥፎም አይደለም። ግን ንጹሕ።",
+    "subtitle": "One bed in the room. Not very good, not bad. But clean.",
     "from": "am",
     "to": "en",
     "model": "claude-opus-5-5"
    },
    "meta": {
-    "literal": "The room was a one-bed room. Not very good, and not bad either. It was clean.",
+    "literal": "The room is a single-bed room. It is not very good; it is not bad either. But clean.",
     "faithful": true,
     "differences": []
    },
-   "created": "2026-11-25T16:42:39Z"
+   "created": "2026-11-25T21:20:00Z"
   },
   "s08_subtitle_check": {
    "key": "82b372a958a68af8",
@@ -153,42 +153,42 @@
    "created": "2026-11-25T13:19:39Z"
   },
   "s02_subtitle_check": {
-   "key": "0f0369eda7a9bfa6",
-   "file": "s02_subtitle_check__0f0369eda7a9bfa6.json",
+   "key": "c6a639eb4f9a6240",
+   "file": "s02_subtitle_check__c6a639eb4f9a6240.json",
    "fingerprint": {
     "v": 1,
     "check": 1,
-    "text": "እስከ ደብረ ብርሃን መንገዱ ፒስታ ነበር። ከዚያ በኋላ አስፋልት።",
-    "subtitle": "The road was gravel as far as Debre Birhan. After that, asphalt.",
+    "text": "እስከ ደብረ ብርሃን ድረስ ፒስታ መንገድ። ከዚያ በኋላ አስፋልት።",
+    "subtitle": "A gravel road as far as Debre Birhan. After that, asphalt.",
     "from": "am",
     "to": "en",
     "model": "claude-opus-5-5"
    },
    "meta": {
-    "literal": "Up to Debre Birhan the road was gravel (unpaved). After that, asphalt.",
+    "literal": "As far as Debre Birhan, a gravel road. After that, asphalt.",
     "faithful": true,
     "differences": []
    },
-   "created": "2026-11-25T16:42:24Z"
+   "created": "2026-11-25T21:05:15Z"
   },
   "s09_subtitle_check": {
-   "key": "e61b977c310e536b",
-   "file": "s09_subtitle_check__e61b977c310e536b.json",
+   "key": "f1fc2285bceddb57",
+   "file": "s09_subtitle_check__f1fc2285bceddb57.json",
    "fingerprint": {
     "v": 1,
     "check": 1,
-    "text": "ያ ሌሊት ግራ አጋባኝ። ዛሬ ግን ከቤቱ ለሚወጣ ሁሉ አንድ ነገር እላለሁ፦ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። አትሽሽ። አጣጥመው።",
-    "subtitle": "That night confused me. Today I tell everyone who leaves home one thing: the first night is always confusing. Do not run from it. Savour it.",
+    "text": "ዛሬ ያንን የመጀመሪያ ሌሊት ሳስታውስ፣ ከቤቱ ለሚወጣ ሁሉ አንድ ነገር እላለሁ፦ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። አትሽሽ። አጣጥመው።",
+    "subtitle": "Today, remembering that first night, I tell all who leave home one thing: the first night is always confusing. Do not run from it. Savour it.",
     "from": "am",
     "to": "en",
     "model": "claude-opus-5-5"
    },
    "meta": {
-    "literal": "That night confused me. But today I say one thing to everyone who leaves home: the first night always confuses. Do not flee. Savour it.",
+    "literal": "Today, when I remember that first night, I say one thing to everyone who leaves home: the first night is always confusing. Do not flee. Savour it.",
     "faithful": true,
     "differences": []
    },
-   "created": "2026-11-25T20:14:51Z"
+   "created": "2026-11-25T21:20:04Z"
   }
  },
  "entries": {
@@ -384,6 +384,111 @@
    "file": "s04_subtitle_check__8a70ee43097c8f01.json",
    "meta": {
     "literal": "It was after dark that I reached Lamberet. My friend waited for me right there. People, lights, cars; all at once.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "f49feaf1f27450d1": {
+   "unit": "s01_subtitle_check",
+   "file": "s01_subtitle_check__f49feaf1f27450d1.json",
+   "meta": {
+    "literal": "Meskerem two thousand twelve. At midday I set out from Ankober. Carrying only one backpack. A friend of mine saw me off.",
+    "faithful": false,
+    "differences": [
+     "The subtitle adds \"in the Ethiopian calendar\", which is not spoken in the line."
+    ]
+   }
+  },
+  "c6a639eb4f9a6240": {
+   "unit": "s02_subtitle_check",
+   "file": "s02_subtitle_check__c6a639eb4f9a6240.json",
+   "meta": {
+    "literal": "As far as Debre Birhan, a gravel road. After that, asphalt.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "013476fe9fd011db": {
+   "unit": "s03_subtitle_check",
+   "file": "s03_subtitle_check__013476fe9fd011db.json",
+   "meta": {
+    "literal": "I sat by the window. Outside, only forest and mountain. The view is amazing.",
+    "faithful": false,
+    "differences": [
+     "The spoken line says the view 'is amazing' (present tense), but the subtitle says 'was amazing' (past tense)."
+    ]
+   }
+  },
+  "18a88aaa23c19c5d": {
+   "unit": "s07_subtitle_check",
+   "file": "s07_subtitle_check__18a88aaa23c19c5d.json",
+   "meta": {
+    "literal": "The room is a one-bed room. It is not very good; it is not bad either. But clean.",
+    "faithful": false,
+    "differences": [
+     "The spoken line is in the present tense (\"is not\"), but the subtitle puts it in the past (\"had\")."
+    ]
+   }
+  },
+  "ef2a0359eca549b2": {
+   "unit": "s09_subtitle_check",
+   "file": "s09_subtitle_check__ef2a0359eca549b2.json",
+   "meta": {
+    "literal": "Today, when I remember that first night, I say one thing to everyone who leaves the house: the first night is always confusing. Do not flee. Savour it.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "bbe94232347df0bc": {
+   "unit": "s01_subtitle_check",
+   "file": "s01_subtitle_check__bbe94232347df0bc.json",
+   "meta": {
+    "literal": "Meskerem 2012. At midday I set out from Ankober. Carrying only one backpack. A friend of mine saw me off.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "53e342865126b79e": {
+   "unit": "s03_subtitle_check",
+   "file": "s03_subtitle_check__53e342865126b79e.json",
+   "meta": {
+    "literal": "I sat by the window. Outside, only forest and mountain. The view amazed me.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "b08461773c85f04a": {
+   "unit": "s07_subtitle_check",
+   "file": "s07_subtitle_check__b08461773c85f04a.json",
+   "meta": {
+    "literal": "The room is a one-bed room. It is not very good; it is not bad either. But clean.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "96316ea7ad83aba6": {
+   "unit": "s04_subtitle_check",
+   "file": "s04_subtitle_check__96316ea7ad83aba6.json",
+   "meta": {
+    "literal": "It was after dark that I arrived at Lamberet. My friend waited for me right there. People, lights, cars; all at once.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "b47ea2453cf8330a": {
+   "unit": "s07_subtitle_check",
+   "file": "s07_subtitle_check__b47ea2453cf8330a.json",
+   "meta": {
+    "literal": "The room is a single-bed room. It is not very good; it is not bad either. But clean.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "f1fc2285bceddb57": {
+   "unit": "s09_subtitle_check",
+   "file": "s09_subtitle_check__f1fc2285bceddb57.json",
+   "meta": {
+    "literal": "Today, when I remember that first night, I say one thing to everyone who leaves home: the first night is always confusing. Do not flee. Savour it.",
     "faithful": true,
     "differences": []
    }

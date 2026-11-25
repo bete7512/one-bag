@@ -1,9 +1,9 @@
 {
  "s01": {
-  "file": "s01_kenburns__d104b4680264b44e.mp4",
-  "key": "d104b4680264b44e",
+  "file": "s01_kenburns__c0aebd6d802ca761.mp4",
+  "key": "c0aebd6d802ca761",
   "source": "kenburns",
-  "seconds": 10.25
+  "seconds": 11.0
  },
  "s02": {
   "file": "s02_wan__a5009af75983891d.mp4",
@@ -12,28 +12,28 @@
   "seconds": 3.375
  },
  "s03": {
-  "file": "s03_kenburns__f80f66055ed6961e.mp4",
-  "key": "f80f66055ed6961e",
+  "file": "s03_kenburns__2054911b69648406.mp4",
+  "key": "2054911b69648406",
   "source": "kenburns",
-  "seconds": 7.417
+  "seconds": 7.0
  },
  "s04": {
-  "file": "s04_kenburns__4b658ed6800a6b5f.mp4",
-  "key": "4b658ed6800a6b5f",
-  "source": "kenburns_fallback",
-  "seconds": 10.667
+  "file": "s04_kenburns__46011903e0863041.mp4",
+  "key": "46011903e0863041",
+  "source": "kenburns",
+  "seconds": 10.875
  },
  "s05": {
-  "file": "s05_kenburns__de8288df31a7426c.mp4",
-  "key": "de8288df31a7426c",
+  "file": "s05_kenburns__908e789870008624.mp4",
+  "key": "908e789870008624",
   "source": "kenburns",
   "seconds": 4.0
  },
  "s06": {
-  "file": "s06_kenburns__0e3726a62119af7b.mp4",
-  "key": "0e3726a62119af7b",
+  "file": "s06_kenburns__d416efe63187ccd6.mp4",
+  "key": "d416efe63187ccd6",
   "source": "kenburns",
-  "seconds": 12.542
+  "seconds": 10.75
  },
  "s07": {
   "file": "s07_kenburns__13513e3cc9831d72.mp4",
@@ -42,15 +42,15 @@
   "seconds": 8.0
  },
  "s08": {
-  "file": "s08_kenburns__fb5d4559d40ab8fa.mp4",
-  "key": "fb5d4559d40ab8fa",
+  "file": "s08_kenburns__4c3fe0f0f81a26a4.mp4",
+  "key": "4c3fe0f0f81a26a4",
   "source": "kenburns",
   "seconds": 5.5
  },
  "s09": {
-  "file": "s09_kenburns__e825aaac2482b063.mp4",
-  "key": "e825aaac2482b063",
-  "source": "kenburns_fallback",
-  "seconds": 13.833
+  "file": "s09_kenburns__cd6a25b4887bae36.mp4",
+  "key": "cd6a25b4887bae36",
+  "source": "kenburns",
+  "seconds": 11.75
  }
 }

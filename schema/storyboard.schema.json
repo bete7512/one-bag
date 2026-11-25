@@ -584,6 +584,12 @@
               "maximum": 4,
               "description": "Human override: 1-based candidate to use, whatever the judge scored."
             },
+            "edge_trim": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 0.2,
+              "description": "The share of each side cut away from this shot's pictures, in place of format.edge_trim. For a shot whose pictures come back with a wider paper margin than the others. The cut is made from the kept originals: no picture is drawn again."
+            },
             "reference": {
               "type": "boolean",
               "description": "Set to false to draw this shot from its words alone, without the reference picture of its characters. A reference pulls a shot toward its own layout, one figure in the centre: use this where the scene should lead. Default true."

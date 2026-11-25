@@ -46,6 +46,7 @@ def summarise(ctx: Ctx) -> tuple[str, dict]:
     lines.append(f"| **Total** | | | {totals['calls']} | {totals['errors']} | {totals['latency_s']:.1f} | | {totals['gpu_minutes']:.1f} | {price} |")
     table = "\n".join(lines) + f"\n\nSource: `{ctx.runlog.relative_to(ctx.root).as_posix()}`, {len(runs)} model calls."
     paid = sum((r.get("cost_usd") or 0.0) for r in runs if (ctx.prices.get(r.get("model")) or {}).get("paid"))
+    paid += over_allowance(ctx, runs)
     table += (" List price is what the calls would cost without the free tiers."
               + (f" Really paid: {paid:.4f} USD, for the calls to models that have no free tier. Everything else ran free." if paid
                  else " Nothing was paid: every call ran on a free tier."))
@@ -53,6 +54,21 @@ def summarise(ctx: Ctx) -> tuple[str, dict]:
         table += (f" {totals['unpriced']} call(s) are n/a and not in the sums: their price, or the usage it applies to, "
                   "was not known when they were logged.")
     return table, totals
+
+
+def over_allowance(ctx: Ctx, runs: list[dict]) -> float:
+    """What was paid on an account that has a free daily allowance and pays for the rest: the part of each day over the allowance."""
+    total = 0.0
+    for model, price in ctx.prices.items():
+        tier = (price or {}).get("free_tier") or {}
+        if not (tier.get("then_paid_from") and tier.get("usd_per_day")):
+            continue
+        days: dict[str, float] = {}
+        for r in runs:
+            if r.get("model") == model and r["ts"][:10] >= tier["then_paid_from"][:10]:  # this allowance is counted per UTC day
+                days[r["ts"][:10]] = days.get(r["ts"][:10], 0.0) + (r.get("cost_usd") or 0.0)
+        total += sum(max(0.0, used - tier["usd_per_day"]) for used in days.values())
+    return total
 
 
 def run(ctx: Ctx, write: bool = False) -> str:

@@ -789,6 +789,22 @@ class FreeTierTests(Project):
         self.assertEqual(len(waits), 1)                                              # and the second call waited for the per-minute limit
         self.assertTrue(19.0 < waits[0] <= 20.0, waits)
 
+    def test_an_account_that_pays_for_the_rest_is_not_stopped_at_the_free_allowance(self):
+        ctx = self.ctx(mock=False)
+        price = {"unit": "per_512_tile", "usd_out": 0.03, "free_tier": {"usd_per_day": 0.1, "reset": "utc"}}
+        ctx._prices = {"picture-model": price}
+        call = lambda: core.model_call(ctx, stage="keyframes", unit="s01_c1", provider="cloudflare", model="picture-model",  # noqa: E731
+                                       params={"width": 512, "height": 512, "refs": 0}, seed=1, fn=lambda: (b"", {}))
+        for _ in range(4):
+            call()                                                                   # 0.12 USD at list price: over the allowance of 0.10
+        with self.assertRaisesRegex(core.PipelineError, "free daily allowance.*Nothing was sent"):
+            call()
+        price["free_tier"]["then_paid_from"] = "2020-01-01T00:00:00Z"                # the account now pays for what goes over
+        call()
+        self.assertEqual(len(core.read_jsonl(ctx.runlog)), 5)
+        from pipeline import costs
+        self.assertAlmostEqual(costs.over_allowance(ctx, core.read_jsonl(ctx.runlog)), 0.05, places=4)   # five calls, 0.15, less the free 0.10
+
     def test_a_model_without_a_known_limit_is_not_held_back(self):
         ctx = self.ctx(mock=False)
         ctx._prices = {}

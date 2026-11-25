@@ -69,6 +69,7 @@ class Ctx:
     pause_s: float = 0.0  # wait after each real model call, for free tiers with a low calls-per-minute limit
     _prices: dict | None = field(default=None, repr=False)
     _last_call: dict = field(default_factory=dict, repr=False)  # model -> time of its last request, for the per-minute limit
+    _over_allowance: set = field(default_factory=set, repr=False)  # models already announced as over their free allowance in this run
 
     @property
     def prices(self) -> dict:
@@ -439,6 +440,7 @@ def free_tier_use(ctx: Ctx, model: str) -> dict | None:
     if not limit:
         return None
     since = day_start(limit.get("reset", "utc")).strftime("%Y-%m-%dT%H:%M:%SZ")
+    since = max(since, limit.get("counted_from", ""))  # an allowance belongs to a key: when the key is replaced, its count starts there
     today = [r for r in read_jsonl(ctx.runlog) if r.get("model") == model and r.get("ts", "") >= since]
     usd = sum(r["cost_usd"] if r.get("cost_usd") is not None else (pricing.cost_usd(r, ctx.prices) or 0.0) for r in today)
     next_reset = day_start(limit.get("reset", "utc")) + timedelta(days=1)
@@ -459,8 +461,13 @@ def keep_within_free_tier(ctx: Ctx, model: str) -> None:
         raise PipelineError(f"{model}: the free tier allows {limit['requests_per_day']} requests a day and the run log holds {use['requests']} "
                             f"since the last reset. Nothing was sent. The allowance resets at {use['resets']}.")
     if limit.get("usd_per_day") and use["usd"] >= limit["usd_per_day"]:
-        raise PipelineError(f"{model}: the free daily allowance (worth {limit['usd_per_day']} USD at list price) is used up. "
-                            f"Nothing was sent. It resets at {use['resets']}.")
+        if limit.get("then_paid_from") and now() >= limit["then_paid_from"]:  # the account pays for what goes over the allowance
+            if model not in ctx._over_allowance:
+                ctx._over_allowance.add(model)
+                ctx.say(f"  {model}: over the free daily allowance (worth {limit['usd_per_day']} USD). From here each call is paid for at list price.")
+        else:
+            raise PipelineError(f"{model}: the free daily allowance (worth {limit['usd_per_day']} USD at list price) is used up. "
+                                f"Nothing was sent. It resets at {use['resets']}.")
     if limit.get("requests_per_minute") and model in ctx._last_call:
         wait = 60.0 / limit["requests_per_minute"] - (time.time() - ctx._last_call[model])
         if wait > 0:
