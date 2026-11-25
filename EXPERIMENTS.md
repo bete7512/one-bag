@@ -2,28 +2,28 @@
 
 One entry per experiment: a hypothesis, the one thing changed, how it is measured, the result, the decision. Change one thing at a time and keep the seed fixed, or the result cannot be read.
 
-**Status on 25 Nov 2026, 23:30: E08, E12 and E15 to E24 have been run. E01 to E07, E09 to E11, E13 and E14 have not.** Each hypothesis is written down before its run on purpose, so the result cannot bend it. A result is filled in only from a real run, with the evidence it points to (`runs.jsonl` lines, a listening sheet, a blind-test result).
+**Status on 26 Nov 2026, 04:15: E08, E12 and E15 to E28 have a result. E01, E03, E04, E06, E07, E09, E10, E13 and E14 were not run. E02, E05 and E11 were not run as planned: a later experiment answered each in another form.** Each hypothesis is written down before its run on purpose, so the result cannot bend it. E26 and E27 are the exceptions, and their entries say so. A result is filled in only from a real run, with the evidence it points to (`runs.jsonl` lines, a listening sheet, a blind-test result).
 
 ## Plan
 
-Rows E01 to E14 were written before the first real run. An empty result means not run. Three of them were answered by a later experiment in another form, and the row says which.
+Rows E01 to E14 were written before the first real run. A row that was never run says "Not run." and has no decision. Three of them were answered by a later experiment in another form, and the row says which.
 
 | ID | Hypothesis | The one thing changed | Measured by | Result | Decision |
 |---|---|---|---|---|---|
-| E01 | A style instruction ("calm, warm, unhurried") makes Amharic narration sound more natural than none. | `voice.style` for line s09 only | 3 listeners rate both takes 1 to 5; listening-check score | | |
-| E02 | Voices differ in how they say Ankober, Lamberet and Autobus Tera. | `voice.name`, three voices, the lines that hold those names (s01, s04, s06) | Native-speaker rating; which names are said wrongly | | |
-| E03 | Writing the year in words avoids a misread "2019". | Digits against words in line s01, once the year is in it | Listening-check transcript; one native listener | Not run: the year is not in a line yet. | |
-| E04 | The listening check agrees with a human ear often enough to be a useful screen. | Nothing: compare its score with human ratings on all 8 lines | Rank agreement between score and rating | | |
+| E01 | A style instruction ("calm, warm, unhurried") makes Amharic narration sound more natural than none. | `voice.style` for line s09 only | 3 listeners rate both takes 1 to 5; listening-check score | Not run. The voice now in the cut takes no style instruction (E26). | |
+| E02 | Voices differ in how they say Ankober, Lamberet and Autobus Tera. | `voice.name`, three voices, the lines that hold those names (s01, s04, s06) | Native-speaker rating; which names are said wrongly | Not run in this form. E26 compared four voices on all eight lines, by a listening model and by pitch. Nobody rated how each voice says the three names. | See E26. |
+| E03 | Writing the year in words avoids a misread "2019". | Digits against words in line s01, once the year is in it | Listening-check transcript; one native listener | Not run. The year is in line s01 since 26 Nov, written in words: ሁለት ሺህ አሥራ ሁለት, 2012 in the Ethiopian calendar. The same line with digits was never recorded. | |
+| E04 | The listening check agrees with a human ear often enough to be a useful screen. | Nothing: compare its score with human ratings on all 8 lines | Rank agreement between score and rating | Not run. No person has rated the lines one by one: the listeners of user test 1 wrote free comments (`DESIGN.md`). | |
 | E05 | A reference sheet keeps the young man recognisably the same person across shots. | Keyframes with and without `reference_prompt`, same seeds | Judge `character_match`; 3 viewers answer "same person?" | Not run in this form. E19 asked it the other way round: the sheet was the cause of the worst fault. | See E19. |
-| E06 | FLUX.2 klein follows the prompt better than FLUX.1 schnell at the same seed. | `models.image`, shots s01, s04, s08 | Judge scores; my own side-by-side | | |
-| E07 | Two candidates per shot are enough: a third rarely wins. | `qa.keyframe_candidates` 2 against 3 | How often candidate 3 is picked; image quota used | | |
-| E08 | Wan 2.2 fits a 16 GB T4 at 480x832 with 81 frames, and not at 720p. | `video.max_area` and `video.num_frames` | Peak memory and latency per clip from the job results | It fits at the small size: 13.45 GB at the peak for 608 x 608 and 81 frames, 821 and 890 s a clip. 720p was not tried: 1.6 GB are left. The second clip of the first job was killed (F07). Of the two clips one is used. | The settings stay. One clip per job until the fix for several is proven. Only the road shot moves. |
-| E09 | A motion-only prompt gives a steadier clip than one that describes the subject again. | `motion.prompt` for s03, same keyframe and seed | Side-by-side; flicker and drift noted | | |
-| E10 | Viewers prefer a Wan clip to a pan over the still for the same shot. | `motion.backend` for the shots that have a Wan clip | Blind A/B with at least five people (`blindtest`) | | |
+| E06 | FLUX.2 klein follows the prompt better than FLUX.1 schnell at the same seed. | `models.image`, shots s01, s04, s08 | Judge scores; my own side-by-side | Not run. `flux-1-schnell` was never called (`runs.jsonl`). | |
+| E07 | Two candidates per shot are enough: a third rarely wins. | `qa.keyframe_candidates` 2 against 3 | How often candidate 3 is picked; image quota used | Not run. | |
+| E08 | Wan 2.2 fits a 16 GB T4 at 480x832 with 81 frames, and not at 720p. | `video.max_area` and `video.num_frames` | Peak memory and latency per clip from the job results | It fits at the small size: 13.45 to 13.46 GB at the peak for 608 x 608 and 81 frames, 766 to 890 s a clip. 720p was not tried: 1.6 GB are left. The second clip of the first job was killed (F07). Of the four clips made, one is used. | The settings stay. A job of several clips works since the fix in F07. Only the road shot moves. |
+| E09 | A motion-only prompt gives a steadier clip than one that describes the subject again. | `motion.prompt` for s03, same keyframe and seed | Side-by-side; flicker and drift noted | Not run. | |
+| E10 | Viewers prefer a Wan clip to a pan over the still for the same shot. | `motion.backend` for the shots that have a Wan clip | Blind A/B with at least five people (`blindtest`) | Not run. It is the blind pair of user test 2, which is not done (`DESIGN.md`). | |
 | E11 | A longer, more specific music caption gives a score that leaves more room for the voice. | `music.caption` short against long, same seeds | Listening under the narration at low volume; my choice and why | Not run in this form. E22 compared a long and a short description by what a listener hears in them. | See E22. |
 | E12 | The brief's ducking settings are right for this voice and score. | Ratio 6 against 3 in the sidechain compressor | Planned: listening on a phone speaker and on headphones. Done: measured, because nobody was there to listen that evening | At ratio 6 the voice stands 18.4 dB over the score, at ratio 3 16.7 dB. Measuring it found three faults in the mix that listening had not. | Ratio 6 stays. The mix was rewritten twice. |
-| E13 | Enlarging a square crop for the vertical film is not noticed in a painted style. | Vertical from a square master against a vertical keyframe, one shot | Blind A/B | | |
-| E14 | The speech model handles Tigrinya and Somali, and fails on Afaan Oromo, which is not on its supported list. | Language of the same four lines (`langtest`) | Listening-check score and a native speaker's rating per language | | |
+| E13 | Enlarging a square crop for the vertical film is not noticed in a painted style. | Vertical from a square master against a vertical keyframe, one shot | Blind A/B | Not run. | |
+| E14 | The speech model handles Tigrinya and Somali, and fails on Afaan Oromo, which is not on its supported list. | Language of the same four lines (`langtest`) | Listening-check score and a native speaker's rating per language | Not run. No call of the language test is in `runs.jsonl`. | |
 | E15 | The lighter text model does the checking calls in seconds, where `gemini-3.8-flash` needs minutes on the free tier, and gives the same verdicts. Added on 25 Nov after failure F01. | `models.text`: `gemini-3.5-flash-lite` against `gemini-3.8-flash`, same pictures, same judge prompt | Latency and failed attempts per call in `runs.jsonl`; the two sets of judge scores side by side | Half right. 1.8 to 9.8 s a call against 104 and 144 s, and 15 of 15 judge calls answered against 2 of 6. But it gave 5.0 to pictures the other model gave 4.0, and 5.0 to pictures with a white frame. | Kept for the checks, because it answers. Its scores no longer decide alone: see the log. |
 | E16 | One sentence in the style block ("the painting fills the whole frame") removes the white paper border that five of the first six pictures came back with. Added on 25 Nov after the first real pictures. | One sentence added to `style.block`, same prompts and seeds | Edges that are bare paper, counted by the border check, on the same six candidates | Bordered candidates went from 5 of 6 to 2 of 6. A thin ragged edge stayed on the picks. | Sentence kept. The frame is now guaranteed by the border check and an edge trim, not by wording. |
 | E17 | A judge asked to find what is wrong (yes or no questions, a list of what must be visible) tells pictures apart that the 1 to 5 judge scored the same. A stronger model does it better than the light one: it flags a border on the pictures the border check counts as bordered. Added on 25 Nov after E15. | Two steps, one change each: the question (same model, `gemini-3.5-flash-lite`), then the model (`claude-opus-5-5`, same question) | On the same 12 pictures: how many of the 7 measured borders each judge flags, how many different totals it gives, seconds and list price per call | The question did most of it: the light model went from 0 borders flagged to 8. The stronger model then flagged all 9 pictures that have one, gave nine different totals, and named faults nobody had seen. | The new question is the pipeline's judge, and `models.judge` is `claude-opus-5-5`: about 0.016 USD a picture. |
@@ -31,9 +31,13 @@ Rows E01 to E14 were written before the first real run. An empty result means no
 | E19 | The character sheet with three poses is being copied into the scenes: one figure seen from behind as the reference gives one young man per picture, seen from behind. Added on 25 Nov after the first ten pictures with a person in them. This is E05 asked the other way round. | `reference_prompt` of the young man: a sheet of three poses against one back view. Same prompts, same seeds | A model counts, for each of 20 pictures, how often he appears and whether a face is turned to the viewer | More than one copy: 8 of 10 with the sheet, 3 of 10 with the back view. A face to the viewer: 8 of 10 against 1 of 10. | The back view is the reference. The friend gets one of his own. |
 | E20 | All lines spoken in one request can be cut into one file per line at the long pauses, so the narration costs one of the day's ten speech requests and not eight. Written into `pipeline/narration.py` before the first take. | One request for eight lines, against the brief's tip of one request per line | The margin between the pauses used as cuts and the pauses left inside lines; how many lines two cutting methods agree on; requests spent | Margin 1.24, where 1.5 is needed. The methods agree on 4 of 8 lines. 5 speech requests in all. | A line is kept from a take only where both methods agree. The rest are spoken alone. See F04. |
 | E21 | The listening check scored two correct lines 0.16 because of how it was asked, not because of how they were spoken. Added on 25 Nov after the first eight scores. | The question to the listener: "the script of the language being spoken" against naming the language. Same eight audio files | The match between line and transcript, per line | The two lines rose from 0.16 to 0.91 and 0.81. Another fell from 0.84 to 0.64 with no change in its audio. | The language is named. A score is read as a screen, never as a verdict on the voice. |
-| E22 | A short description that names one instrument gets that instrument. The first description asked for a krar, a washint flute and a drone in 42 words, and the listening model heard a music box and a piano in two of the three candidates. Written on 25 Nov at 21:05, while the second job was running on Kaggle and before any of its music had been heard. | `music.caption`: 42 words and three instruments against 27 words and one instrument ("Solo krar ... One instrument only"). Same seeds, tempo, length and model | The instruments a listening model names in each candidate, with the same question as for the first set. Then my own ear | Not confirmed. No candidate is heard as a krar, and every candidate of the short description has two instruments. What changed is the family: two of three are now plucked zithers. | None yet: six candidates wait for my ear. |
+| E22 | A short description that names one instrument gets that instrument. The first description asked for a krar, a washint flute and a drone in 42 words, and the listening model heard a music box and a piano in two of the three candidates. Written on 25 Nov at 21:05, while the second job was running on Kaggle and before any of its music had been heard. | `music.caption`: 42 words and three instruments against 27 words and one instrument ("Solo krar ... One instrument only"). Same seeds, tempo, length and model | The instruments a listening model names in each candidate, with the same question as for the first set. Then my own ear | Not confirmed. No candidate is heard as a krar, and every candidate of the short description has two instruments. What changed is the family: two of three are now plucked zithers. | Candidate 2 of the short description is in the cut since 25 Nov (`music.chosen`). The coding agent picked it from the listener's descriptions, on my instruction to decide. I have not compared the six by ear yet. |
 | E23 | A stranger who clones the repository can rebuild the cut with one command, no key, and no call to any model, because every answer a model gave is committed and everything else is cut from those answers by FFmpeg. | Nothing in the film: a fresh clone in an empty folder, no `.env`, no key in the environment, `make setup`, then `python -m pipeline film` | Lines added to `runs.jsonl`; units that were cache hits against units that were rebuilt; the final-cut check | 0 model calls. 42 hits on model outputs, 53 units rebuilt by FFmpeg, in 1 min 49 s. The check passes. | Kept as a step before every release. |
 | E24 | The reference picture decides the layout of a shot: every shot drawn with it comes out as one figure standing in the centre. Drawn from the words alone, the scene leads and the figure does what the words say. Written into the schema and the storyboard before the run, after a second review found four of nine shots to be the same composition. | `keyframe.reference`: on against off, for three shots. Same words, same seeds | A model measures, in each of 12 pictures, how much of the height he takes, whether he stands or sits, and whether he is in the middle | With the reference he stands in the middle at half the height or more in 5 of 6 pictures. From the words alone, in 1 of 6, and he sits by the bus window in both pictures of that shot. | The three shots are drawn without the reference. The price: in the bus seat shot his face shows from the side. |
+| E25 | The voice did not continue from one line to the next because the eight lines came from three sittings, and that shows as steps in pitch. Recorded in one sitting, with one seed and a short style, the step from line to line comes down. Written down on 25 Nov at 23:45, after my comment on the cut and before the new recording. | How the lines were recorded: three sittings with no seed, against one sitting with `voice.seed` 7 and a style of three words, each line in a request of its own. Three changes at once, and five lines also got new words | The median pitch of each line and the step between neighbouring lines, in semitones (`outputs/experiments/E25/results.json`) | The largest step went from 4.5 to 1.8 semitones. The eight lines lay 7.1 semitones apart and now lie 4.5 apart. | The seed and the short style went into the storyboard (commit `4ed0344`). An hour later the voice itself was replaced: see E26. |
+| E26 | No hypothesis was written before the run: see the entry. The question: does a voice of Addis AI, a provider built for Ethiopian languages, say the eight lines as well as the Gemini voice, and do its lines sit as close together in pitch? Added on 26 Nov. | `models.tts` and `voice.name`: three voices of Addis AI against the Gemini voice `Charon`, on the same eight lines | The match of the listening check for each line, where the listener is a model, and the largest step in pitch between neighbouring lines | Mean match 0.78, 0.87 and 0.81 for the three voices, against 0.80 for the Gemini voice, which has one line at 0.16. Largest step 2.2, 1.7 and 1.6 semitones, against 1.8. | `am-nahom` is in the cut, picked from these numbers by the coding agent. The choice by ear is mine and is not made yet. |
+| E27 | No hypothesis was written in this file before the run: see the entry. Two questions. Does a speech model built for Amharic hear the eight lines better than the text model that had been the listener? And how far off was the pipeline's way of finding where a spoken sentence ends, which the subtitles are timed by? Added on 26 Nov. | The listener (`models.listener`): the text model against Addis AI's speech-to-text, on the same eight audio files. And the way a sentence end is found: letters and measured pauses, against the times of the heard words | The match of what was heard with the script, per line. The distance between the two sentence ends, for 18 ends | Mean match 0.96 against 0.84, lowest line 0.89 against 0.72. The two ways of finding a sentence end are 0.26 s apart on average and 0.53 s at most. | The speech model is the listener, and the subtitles are timed from the words it heard (commit `ac3ac21`). |
+| E28 | His clothes and backpack change from shot to shot because the description names no colour. With the colours written into the description, a shot drawn from the words alone holds them. Stated in a written review of the cut at 00:45 on 26 Nov, before any picture was redrawn. | The character description: colours named, against none. Not the only change: every shot with him is now drawn without the reference picture, and three prompts were rewritten | One model names the colour of his jacket, trousers and backpack and what is on his feet, in the picked picture of each shot, before and after | Backpack as described in 7 of 7 shots (before: 0 of 6, in four colours). Plastic sandals in 5 of 5 (before: 1 of 5). Trousers 4 of 5 (before: 2 of 5). Jacket grey or charcoal grey in 5 of 5 (before: 2 of 5, three navy blue). | The description keeps its colours and no shot uses the reference picture (commit `ac3ac21`). |
 
 ## Log
 
@@ -49,6 +53,144 @@ Result:
 Decision:           (what went into storyboard.json or the code)
 What it changed:
 ```
+
+### E28  The colours written down, and no reference picture  (26 Nov 2026)
+
+Hypothesis: a written review of the cut of 01:13 (commit `531e84a`), done by a second coding session before anything here was run, said: his jacket, trousers, shoes and backpack change from shot to shot, because the three shots drawn without the reference picture (E24) are held only by a description that names no colour. Name the colours once in the description, and the words alone will hold them. The review is kept outside the repository. Its sentence about the cause is repeated here as the hypothesis.
+
+Changed: the description of the young man in `storyboard.json`. Before: "a plain dark jacket over a light shirt, plain trousers and moulded plastic sandals ..., carrying one simple backpack". After: "a charcoal grey jacket over a white shirt, olive green trousers rolled at the ankle, and dark blue moulded plastic sandals with a closed toe and a buckle strap on bare feet. He carries one olive green canvas backpack." The backpack in the room (s07) and on the balcony (s09) is named "olive green canvas" as well.
+
+Not held fixed, and I say so: the reference picture is switched off for the two shots that still had it (s01, s06), and the prompts of three shots were rewritten for other faults (the bus seat, the first shot, the last shot). So this is the cut before against the cut after, not one change alone.
+
+Evidence: the pictures were drawn in runs `20261125T224053Z-057fc1`, `20261125T224945Z-2d707d`, `20261125T225537Z-cad423` and `20261125T225747Z-f466f8` (42 pictures, 41 answers of the judge). I looked at every candidate and pinned one a shot (`keyframe.pick`). The measure is `python experiments/e28_clothes.py`: the same question to `claude-opus-5-5` about the picked picture of each of seven shots, before (the index of commit `531e84a`) and after. Answers in `outputs/experiments/E28/results.json`, counts in `summary.json`, calls under run `20261125T230458Z-5bbddc`.
+
+Result:
+
+| In the picked pictures | Before | After |
+|---|---|---|
+| Backpack is olive green | 0 of 6 (sage green 3, tan 1, charcoal grey 1, brown 1) | 7 of 7 |
+| Plastic sandals on his feet | 1 of 5 (leather sandals 2, closed shoes 2) | 5 of 5 |
+| Trousers are olive green | 2 of 5 (cream 1, grey 1, sage green 1) | 4 of 5 (sage green 1) |
+| Jacket is charcoal grey | 2 of 5 (navy blue 3) | 2 of 5 (grey 3) |
+| Jacket is grey or charcoal grey | 2 of 5 | 5 of 5 |
+
+Before, the backpack could not be seen in the bus seat picture. Now it is on the seat beside him. The man on the balcony (s09) is seven years older and dressed differently on purpose: only his backpack is counted there.
+
+Two things went wrong on the way, both with the reference picture. With the new description the reference came out as it should (grey jacket, olive trousers, blue sandals, olive backpack). Then:
+
+- The first shot (s01), drawn with it, showed him in front of a thatched hut in all four candidates. The bus that the words ask for was in none (judge totals 2.7, 2.7, 0.6, 2.35). From the words alone all four have the bus (3.0, 2.5, 2.5, 3.1).
+- The brokers shot (s06) is given two reference pictures, his and his friend's. None of its three candidates shows the scene: one is a single figure on blank paper in a white shirt and jeans, one a figure in a green hooded top, one a figure in a white shirt among grey outlines (judge totals 0.9, -1.85, 1.5). From the words alone all four candidates show two young men from behind among the brokers at the bus station (2.8 each).
+
+Fourteen answers in 2.4 to 7.1 s, 0.18 USD. The redraw itself: 42 pictures and 41 judge answers, 0.93 USD for the judge.
+
+Decision: the description keeps its colours. No shot is given the reference picture (`"reference": false` on s01, s03, s04, s06 and s08). The reference picture of each character is still drawn first, because it is the quickest way to see what a description gives.
+
+What it changed: the brief's tip is to draw a character sheet first and give it to every keyframe. E19 found the right sheet, E24 showed that it fixes the layout as well as the person, and here it broke two shots outright. What held him together in the end is thirty words of description. Limits: the measure is one model's reading of small pictures, "grey" and "charcoal grey" are neighbours on its list, and it says nothing about his build or his hair. The judge still scores three of the picked pictures under 3 (s03 2.6, s05 1.6, s06 2.8): I picked them by eye, and the final-cut check lists them.
+
+### E27  A listener built for Amharic, and where a sentence ends  (26 Nov 2026)
+
+Hypothesis: none was written in this file before the run, and I say so. Two things led to it. The listening check had given 0.16 three times to a line that its listener, a general text model, wrote down in Latin letters (E21, E26). And a review of the cut found the first subtitle holding four sentences for the whole line, and the brokers' subtitles changing at the wrong moments. Addis AI, whose voice now speaks the lines, also has a speech-to-text model for Amharic that returns the time of each word. A first try on two lines (run `20261125T224350Z-965c72`) came back nearly word for word, with times. The change went into the code after that, and the measure over all eight lines after the change.
+
+Changed, part 1: the listener. `gemini-3.5-flash-lite`, given the audio and asked to write it down, against Addis AI's speech-to-text (`models.listener: addis-scribe`).
+
+Changed, part 2: how the end of a spoken sentence is found. Before: the speaking time is shared out by the number of letters in each sentence, and an end moves to a measured pause that is near. After: the words of the script are matched in order to the words the speech model heard, and a sentence ends where its last word ends.
+
+Held fixed: the eight audio files of the cut (voice `am-nahom`, the same files for both listeners) and the script. Both listeners are scored in the same way, with Ethiopic letters that are written differently and said the same counted as one (ሰ and ሠ, ሀ and ሐ, አ and ዐ, ጸ and ፀ).
+
+Evidence: `python experiments/e27_subtitle_timing.py` reads what each listener heard (the index of commit `531e84a` for the text model, the index as it is now for the speech model) and calls no model. Numbers in `outputs/experiments/E27/results.json`. The speech model's eight answers are run `20261125T225947Z-bf79b2`.
+
+Result, the listening check:
+
+| Line | Text model | Speech model |
+|---|---:|---:|
+| s01 | 0.75 | 0.98 |
+| s02 | 0.93 | 0.96 |
+| s03 | 0.72 | 0.98 |
+| s04 | 0.87 | 0.98 |
+| s06 | 0.91 | 0.95 |
+| s07 | 0.83 | 0.99 |
+| s08 | 0.78 | 0.89 |
+| s09 | 0.92 | 0.95 |
+| Mean | 0.84 | 0.96 |
+
+The first line shows the difference. The text model wrote "እስከ መጋቢት 12 በኩልቀን ላይ ካንኮበር ተነሳው ...", which begins "until Megabit 12". The speech model wrote "መስከረም ሁለት ሺህ አስራ ሁለት እኩለ ቀን ላይ ካንኮበር ተነሣሁ ...", which is the line, with two spellings of the same sounds.
+
+Result, the sentence ends: the eight lines have 26 sentences, so 18 ends inside a line. The two ways are 0.26 s apart on average and 0.53 s at most. The largest is the first sentence of the brokers' line: the letters put its end at 2.72 s, and the last word of that sentence ends at 3.25 s. In the same line one of the two measured pauses lies inside the last sentence ("in the end", then a breath, "we picked one"), so a rule that moves a change of subtitle to the nearest pause moves it into the middle of a sentence. That is what the review saw.
+
+Ten answers in 1.7 to 5.0 s. Each answer reports its own price: 3.5 ETB for 1,000 characters written down, about 0.01 USD for all ten, taken from the sign-up credit.
+
+Decision: `models.listener` is `addis-scribe`. A subtitle is shown sentence by sentence, each while its sentence is spoken, by the heard words. Short sentences share a cue until it has been up for 1.5 s. The film has 23 cues where it had 13, and no cue is one left-over word. Without a speech model as listener the letters and the pauses are still used.
+
+What it changed: the listening check no longer raises a false alarm on a line because of the script its listener chose to write in. Limits: the listener and the voice now come from one provider, and a model that hears its own provider's voice well may hear another voice less well. The match is still a model's. Whether each word is said as an Amharic speaker says it is for a person to hear, and that is me.
+
+### E26  Three voices of Addis AI against the Gemini voice  (26 Nov 2026)
+
+Hypothesis: none was written down before this run. I say so because every other entry has one. I had proposed Addis AI, a speech provider built for Ethiopian languages, after the voice kept changing from line to line (F10 in `FAILURES.md`). The message of commit `4a86d88` says what the new provider was for: "it is there to be compared by ear with the Gemini voice". The numbers below answer two smaller questions. Does the listening check understand these voices as well as the Gemini voice? Do their lines sit as close together in pitch?
+
+Changed: the speech model and the voice (`models.tts`, `voice.name`). Addis Voices 2 with three of its voices, `am-yohanes-calm`, `am-nahom` and `am-dawit`, against `gemini-3.8-flash-tts` with `Charon` as recorded for E25.
+
+Held fixed: the eight lines, word for word, each in a request of its own. The listener (`gemini-3.5-flash-lite`, with the question that names Amharic) and the pitch measure of E25. Not the same on both sides: the Gemini requests carried a seed and a style, and the Addis AI API takes neither.
+
+Evidence: `runs.jsonl`, provider `addis`: runs `20261125T220304Z-b4be2b` (`am-yohanes-calm`), `20261125T220531Z-bff449` (`am-nahom`) and `20261125T220736Z-d20818` (`am-dawit`), eight requests each. The audio of every line and what the listener wrote for it are in `outputs/narration/`. The numbers are in `outputs/voices/results.json` and `outputs/voices/summary.json`, beside a radio cut for each voice. That folder is on my machine and is git-ignored. For the Gemini voice the pitch is that of E25, and the listening check is in `outputs/narration/index.am.json` as commit `4ed0344` has it.
+
+Result:
+
+| | `Charon` (Gemini) | `am-yohanes-calm` | `am-nahom` | `am-dawit` |
+|---|---:|---:|---:|---:|
+| Listening check, mean match over the eight lines | 0.80 | 0.78 | 0.87 | 0.81 |
+| Listening check, lowest line | 0.16 (s04) | 0.61 (s02) | 0.71 (s07) | 0.69 (s08) |
+| Lines under the floor of 0.6 | 1 | 0 | 0 | 0 |
+| Largest step in pitch between neighbouring lines | 1.8 semitones | 2.2 | 1.7 | 1.6 |
+| Speech in the eight lines, as spoken | 66.7 s | 55.8 s | 50.7 s | 50.1 s |
+
+The Gemini line under the floor is s04. The listener wrote it in Latin letters ("Lambaret, hederesko, kemeche ..."), which is the fault of E21 again, although the question now names the language. Without that line the Gemini mean is 0.89. So by the listening check the Gemini voice and `am-nahom` are level, and the other two are a little lower.
+
+By the largest step in pitch the order is `am-dawit` (1.6), `am-nahom` (1.7), the Gemini voice (1.8), `am-yohanes-calm` (2.2). The first three are 0.2 semitones apart. The voices of Addis AI speak faster: 50 to 56 s for the eight lines, against 67 s.
+
+Two limits of these numbers. The listener is a model. It has now given 0.16 three times to a line that it wrote down in Latin letters, and it is no Amharic ear. And the pitch is one property of a voice: the pace and the tone are not in it. The numbers can screen out a voice that garbles the words. They do not say which voice sounds right.
+
+The lines in the cut are not the lines in this table. They are a second recording of `am-nahom` (run `20261125T221023Z-84565e`). The style text in the storyboard was changed to "not used by this voice". The style is part of a line's fingerprint in the cache, so all eight lines were asked for again, although this API is sent no style. The numbers of `am-nahom` above are from the first recording. The second one scores 0.84 on average in the listening check, with its lowest line at 0.72 (`outputs/narration/index.am.json`). Its pitch has not been measured.
+
+The 32 requests gave 206.7 s of audio in 6.1 to 11.0 s a request: 0.11 USD at the list price of 0.000533 USD a second, taken from the sign-up credit of 3.17 USD (`pricing.json`).
+
+Decision: `models.tts` is `addis-voices-2` and `voice.name` is `am-nahom` (commit `531e84a`). The coding agent picked it from this table. The commit message calls it the steadiest of the three. By the listening check it is the best of the three. By the largest step in pitch `am-dawit` is steadier, by 0.1 semitones. The Gemini recording stays in the cache as the other choice. The choice by ear is mine, between the radio cuts in `outputs/voices/`, and I have not made it yet.
+
+What it changed: the narration no longer hangs on a limit of ten requests a day (F09), and a line is one request with nothing to cut. What it did not change: no number here replaces listening. And an entry without a hypothesis can only describe what was found. It cannot confirm anything.
+
+### E25  One sitting and one seed, against lines from three sittings  (26 Nov 2026)
+
+Hypothesis: I heard the cut of 25 Nov, 23:20, and wrote that the voice does not continue from one line to the next (F10 in `FAILURES.md`). The eight lines of that cut came from three sittings, and no request carried a seed. So the lines differ in pitch, and that can be measured. Recorded again in one sitting, with one seed and a short style, the step in pitch from one line to the next comes down. The plan and the measure were written down at 23:45 on 25 Nov, before the new recording, in my working notes, which are not in the repository.
+
+Changed: how the eight lines were recorded. Before: a take at 16:43 UTC and single requests at 17:13 and at 20:15, no seed, the style "calm, warm and unhurried, like telling a memory to family". After: every line in a request of its own between 21:10 and 21:16 UTC, `voice.seed` 7, the style "calm, warm storyteller". That is three changes at once: the sitting, the seed and the style. Five lines also got new words in the same recording (s01, s02, s03, s07 and s09). So the result says what the three did together. It does not say which of them did it.
+
+Held fixed: the model (`gemini-3.8-flash-tts`), the voice (`Charon`) and the measure.
+
+Evidence: `outputs/experiments/E25/results.json`. The measure is the median pitch of each line as spoken, in Hz: autocorrelation on frames of 40 ms at 8 kHz, voiced frames only. The script that computed it is not in the repository. The recordings are in `runs.jsonl`: runs `20261125T164336Z-2fb093`, `20261125T171237Z-6f6e51` and `20261125T201514Z-906fdc` before, runs `20261125T210610Z-743eb1` and `20261125T211402Z-9d7c8e` after.
+
+Result:
+
+| Line | Before: median pitch | Step from the line before | After: median pitch | Step from the line before |
+|---|---:|---:|---:|---:|
+| s01 | 90.9 Hz | | 105.3 Hz | |
+| s02 | 117.6 Hz | +4.5 semitones | 115.9 Hz | +1.7 semitones |
+| s03 | 98.8 Hz | -3.0 | 108.8 Hz | -1.1 |
+| s04 | 98.8 Hz | 0.0 | 108.8 Hz | 0.0 |
+| s06 | 115.9 Hz | +2.8 | 117.6 Hz | +1.3 |
+| s07 | 136.8 Hz | +2.9 | 127.0 Hz | +1.3 |
+| s08 | 115.9 Hz | -2.9 | 136.8 Hz | +1.3 |
+| s09 | 114.3 Hz | -0.2 | 123.1 Hz | -1.8 |
+| Largest step | | 4.5 | | 1.8 |
+| Lowest line to highest line (span) | | 7.1 | | 4.5 |
+
+For the step the hypothesis holds. Before, five of the seven steps were 2.8 semitones or more. After, none is over 1.8. The step I had heard, from s04 to s06, went from 2.8 to 1.3.
+
+For the voice as a whole it holds only in part. With one seed the pitch still drifts upward, from 105.3 Hz at s01 to 136.8 Hz at s08. A seed did not give one fixed voice. And the measure is pitch only: the pace and the tone are not in it.
+
+A first try in the same sitting, one take for all eight lines, could not be cut and is not in these numbers (F10).
+
+Decision: `voice.seed` 7 and `voice.style` "calm, warm storyteller" went into the storyboard with commit `4ed0344`. One request per line (`voice.one_take` false) was there already, since commit `9935183`. The seed and the style held for about one hour. Then the voice was replaced by one of another provider, which takes no seed and no style (E26).
+
+What it changed: until this measure "the voice is different" was something I heard and could not point at. A pitch for each line makes it a table, and the table can be made before a listener has to say it. It also shows the price of E20: saving speech requests with a take and single re-takes is what put three sittings into one film.
 
 ### E22  A short description of the score, against a long one  (25 Nov 2026)
 
@@ -77,7 +219,7 @@ The hypothesis is not confirmed. No candidate is heard as a krar. "One instrumen
 
 One caution about the measure itself. The listener named a koto and a guzheng. It may not know a krar when it hears one, the same way it wrote correct Amharic in Latin letters (E21). So the names are a screen, and whether any of the six sounds like a krar playing tizita is for an Ethiopian ear.
 
-Decision: none yet. All six candidates wait for my ear. If none sounds right, the next change is the model's own vocabulary: ask for "lyre" or "harp" with no country in the description.
+Decision: candidate 2 of the short description is in the cut since the evening of 25 Nov (`music.chosen` 2, commit `9935183`). The coding agent picked it from the listener's descriptions, on my instruction to decide: a plucked string instrument and bells, slow, with no busy moment, where candidate 1 brings in a flute and candidate 3 percussion (`music.chosen_reason` in the storyboard). I have not compared the six by ear yet. If none sounds right, the next change is the model's own vocabulary: ask for "lyre" or "harp" with no country in the description.
 
 What it changed: I expected the music model to follow a named instrument the way an image model follows a named object. It does not know this one. A description steers the mood, the tempo and the family of the sound, and the rest has to be chosen by listening.
 
@@ -111,7 +253,7 @@ A second clip, made an hour later with the same settings, shows a fourth limit. 
 
 Two more clips were made in the night, for the shots that had been left as pans without trying: the traffic at Lamberet (s04) and the man on the balcony (s09). Both ran without a fault. Neither is used. In the Lamberet clip the minibuses lose their shape from frame to frame and a car swells to fill a third of the picture. In the balcony clip the man and the city hold still, and marks that were not painted spread over his shirt and the backpack. Read from five frames of each clip by the coding agent (`outputs/shots/s04_wan__5da9f760d846e94e.mp4`, `outputs/shots/s09_wan__e3ac1eb447610abb.mp4`).
 
-Decision: the settings stay. The road shot (s02) keeps its clip: it plays slowed to 4.2 s and the last 2.8 s of the shot are a slow push over its last frame. The other three shots that were tried (s04, s05, s09) stay as pans over their stills. Of four clips, one is in the film. Whether a softer moving shot is better than a sharp pan is not mine to decide by looking at stills: it is the blind pair in the second user test (E10).
+Decision: the settings stay. The road shot (s02) keeps its clip: it plays slowed to 4.2 s and the rest of the shot is a slow push over its last frame. That was 2.8 s while the shot lasted 7 s, and it is 1.8 s since the shot was cut to 6 s. The other three shots that were tried (s04, s05, s09) stay as pans over their stills. Of four clips, one is in the film. Whether a softer moving shot is better than a sharp pan is not mine to decide by looking at stills: it is the blind pair in the second user test (E10).
 
 What it changed: the question was whether it would run at all on a free GPU. It does, at 14 minutes a clip. The price is not memory or time. It is sharpness, which the plan had not listed, and it is that the model needs something in the picture that can move.
 
@@ -189,7 +331,7 @@ The price shows in the same table. Seated and turned to the window, his face is 
 
 Twelve answers in 3.5 to 6.9 s, 0.12 USD.
 
-Decision: the bus seat, Lamberet and the queue are drawn without the reference (`"reference": false` in the storyboard). The shots where he stands close to us, Ankober and the brokers, keep it. For the queue the second candidate is picked by hand, because it has him in the line and the judge scored both 2.8.
+Decision: the bus seat, Lamberet and the queue are drawn without the reference (`"reference": false` in the storyboard). The shots where he stands close to us, Ankober and the brokers, keep it. For the queue the second candidate is picked by hand, because it has him in the line and the judge scored both 2.8. A day later the last two shots lost the reference as well, and all the pictures of this entry were replaced: see E28.
 
 What it changed: E19 found the right reference and F05 saw its pull, and I had kept the reference on every shot with him in it, as the brief's tip says. It should be on only where the shot is about him. Where the shot is about a place, the place has to be drawn first.
 

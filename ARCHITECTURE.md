@@ -5,7 +5,7 @@
 ```mermaid
 flowchart LR
     SB[storyboard.json<br/>validated by schema/] --> S1[1 script]
-    S1 --> S2[2 narration<br/>one take, cut into lines, listening check]
+    S1 --> S2[2 narration<br/>one request per line, long pauses shortened, listening check]
     SB --> S3[3 keyframes<br/>reference sheet, candidates, border check, judge]
     S2 --> S4[4 shots<br/>Ken Burns here, Wan 2.2 on Kaggle]
     S3 --> S4
@@ -24,7 +24,7 @@ One file is the contract. Every stage reads `storyboard.json`, does one job, and
 | Stage | Reads | Writes |
 |---|---|---|
 | script | storyboard | `outputs/script/index.<lang>.json`: the line and subtitle of every narrated shot |
-| narration | script index | `outputs/narration/<shot>__<key>.wav`, the takes they were cut from in `takes/`, `index.<lang>.json` with seconds and the listening score |
+| narration | script index | each line as it was spoken in `outputs/narration/<shot>__<key>.wav`, the same line with its long pauses shortened in `<shot>_tight__<key>.wav`, a take in `takes/` when one was made, `index.<lang>.json` with seconds, the listening score and, when the listener is a speech model, the time of each word it heard |
 | keyframes | storyboard, `ETHICS.md` | the model's pictures in `outputs/keyframes/original/`, keyframes cut from them, `index.json` with the border count, the scores and the pick |
 | shots | keyframes index, narration index | `outputs/shots/<shot>_<backend>__<key>.mp4`, `index.<lang>.json`, a GPU job folder |
 | music | storyboard | `outputs/music/*.wav`, `index.json`, a GPU job folder |
@@ -38,10 +38,11 @@ A stage is a list of units. A unit is one thing to produce plus a **fingerprint*
 
 | Unit | Fingerprint |
 |---|---|
-| narration line | text, language, voice, style, model |
-| keyframe candidate | full prompt, seed, model, size, keys of the reference sheets |
+| narration line | text, language, voice, style, model, and the seed when one is set |
+| keyframe candidate | full prompt (style, shot, and the description of each character in it), seed, model, size, keys of the reference sheets it is given |
+| listening check | the audio itself, the line, the listener model |
 | Ken Burns clip | keyframe key, camera move, number of frames, size |
-| scene (one shot, one export) | clip key, export size, subtitle cues, frames |
+| scene (one shot, one export) | clip key, export size, subtitle cues, frames, the crop anchor of that export (`focus_x`, `focus_y`) |
 | final film | keys of all scenes in order, key of the mix |
 
 `run_units` in `pipeline/core.py` hashes the fingerprint. If a file with that hash exists it is a hit and nothing runs. Otherwise the unit is built, written under a temporary name, renamed into place, and recorded in the stage's `manifest.json` together with its fingerprint. Because the old fingerprint is kept, a miss can say which input changed: `MISS (changed: text)`.
@@ -54,10 +55,10 @@ Keys flow downstream. A scene's fingerprint holds its clip's key, and the clip's
 
 Two stages keep the model's answer untouched and cut what the film needs from it with FFmpeg:
 
-- **Pictures.** Each answer of the image model is stored in `outputs/keyframes/original/` under a hash of what was sent to the model. The keyframe is cut from that file: scaled to the master size, with `format.edge_trim` taken off each side. The model is called only when no original exists, so a change to the cut costs nothing.
-- **Narration.** The lines missing from the cache are spoken in one request, a take, kept in `outputs/narration/takes/`. Each line carries a `<long pause>` tag at its end, and the take is cut at its longest pauses into one file per line. When those pauses do not stand out, each phrase of the take is transcribed and matched to the script, and a line is kept only where both methods put its two ends in the same place. Any other line is spoken again in a request of its own: nothing is guessed. The first real take needed this for four of its eight lines (F04 in `FAILURES.md`). The per-line files keep their own fingerprints, so everything downstream is unchanged, and a single changed line is spoken alone.
+- **Pictures.** Each answer of the image model is stored in `outputs/keyframes/original/` under a hash of what was sent to the model. The keyframe is cut from that file: scaled to the master size, with `format.edge_trim` taken off each side. The model is called only when no original exists, so a change to the cut costs nothing. A character is held from shot to shot by its description, which goes into the prompt of every shot it is in and names the colours of its clothes. A shot can also be given the character's reference picture (`keyframe.reference`, on unless a shot switches it off). In this film every shot with a person is drawn from the words alone: the reference picture forced one layout on every shot (E24), and with two reference pictures the model drew neither scene (E28).
+- **Narration.** Each line is spoken in a request of its own and kept as it came (`voice.one_take` is false in the storyboard). With a voice of Addis AI the request holds the text, the voice and the language: that API has no take, no style and no seed. With the Gemini speech model every request carries `voice.style` and, when it is set, the same `voice.seed`. For that model a take is still possible (`voice.one_take`): the missing lines go into one request with a `<long pause>` tag between them, the answer is kept in `outputs/narration/takes/`, and a line is cut from it only where the longest pauses and the transcribed words put both of its ends in the same place. Any other line is spoken alone: nothing is guessed (F04 in `FAILURES.md`). Silences inside a line that are longer than `voice.max_pause_s` are shortened by FFmpeg from the kept audio, so a new limit costs no speech request. The listening check names the language: in the question to the text model (E21), or as a parameter when the storyboard names a speech-to-text model as `models.listener`.
 
-The reason for the take is a limit, not taste: the free speech tier allows ten requests a day. A request per line would spend eight of them on one pass. The first pass cost five.
+The take was there because of a limit, not taste: the free Gemini speech tier allows ten requests a day, and a request per line spends eight of them on one pass. It is switched off because lines from a take and from single requests did not sound like one voice (F10 in `FAILURES.md`, E25 in `EXPERIMENTS.md`).
 
 ## The run log
 
@@ -71,7 +72,7 @@ The reason for the take is a limit, not taste: the free speech tier allows ten r
 | `params`, `seed` | what was asked: sizes, voice, style, hashes of the prompt text. `seed` is null where the provider has none |
 | `attempt`, `status` | 1 to 4, `ok` or `error`. An error line has `http_status` and the provider's message |
 | `latency_s` | measured around the request |
-| `cost_usd` | the list price of the call, 0 for a failed attempt, null when the price or the usage is not known. For the models on a free tier it is what the call would have cost. For Claude, which has none, it is what was paid. The first 35 lines of the log, up to 11:18 UTC on 25 Nov, were written before this field existed and do not have it: the log is never rewritten |
+| `cost_usd` | the list price of the call, 0 for a failed attempt, null when the price or the usage is not known. For a call on a free tier or on a sign-up credit it is what the call would have cost. For Claude, which has neither, it is what was paid. For pictures, the part of a day over the free allowance is paid since the account moved to a paid plan (`COSTS.md`). The first 35 lines of the log, up to 11:18 UTC on 25 Nov, were written before this field existed and do not have it: the log is never rewritten |
 
 A successful line also carries what its price depends on: token counts for text, seconds of audio for speech, and for GPU work the minutes and the peak memory that the job measured itself. Prices and their sources are in `pricing.json`, and the arithmetic is in `pipeline/pricing.py`.
 
@@ -80,13 +81,13 @@ A successful line also carries what its price depends on: token counts for text,
 | What can go wrong | What the pipeline does |
 |---|---|
 | A server error, a network error or a timeout | Up to four attempts, with waits of 10, 30 and 90 seconds, or the provider's `Retry-After` when given. Every attempt is one line in `runs.jsonl`. The first waits were 2, 4 and 8 seconds, which an overloaded model outlasted (F01). |
-| A free-tier limit | The limits that apply to this project are in `pricing.json`, and the run log is the counter. Before each request the day's use is read: over a daily limit the request is not sent and the message says when the allowance resets, and a per-minute limit is waited out. |
+| A free-tier limit | The limits that apply to this project are in `pricing.json`, and the run log is the counter. Before each request the day's use is read: over a daily limit the request is not sent and the message says when the allowance resets, and a per-minute limit is waited out. Where the account pays for what goes over a free daily allowance (`then_paid_from` in `pricing.json`, the picture model since 25 Nov), the request is sent and the run says once that calls are paid for from there. When a key is replaced, `counted_from` says from when the log is counted (F09). |
 | A rejected request (HTTP 400, 401, 403, 404) | No retry. The error names the likely cause (wrong model id, bad key, no access). |
 | A check cannot reach its model | The picture judge, the subtitle check and the listening check only measure, so they are optional units: the stage goes on without the result, the final-cut check lists what is missing, and the next run tries again. |
 | A provider changes its response shape | Responses are parsed tolerantly: the audio or image is searched for in the JSON, not read from one fixed path. |
 | A stopped run | Files are written under a temporary name and renamed when complete, so a half-written file is never used. The next run continues from the cache. |
 | A picture comes back with a paper border | Each candidate's four sides are measured for bare paper. The pick prefers the candidate with the fewest, and the final-cut check lists a pick that still has a border. |
-| A take cannot be cut into its lines with certainty | The lines that the pauses and the words agree on are kept. Each other line is spoken again alone. The take is kept, so a better way of cutting costs no speech request. |
+| A take cannot be cut into its lines with certainty (only when `voice.one_take` is on, with the Gemini speech model) | The lines that the pauses and the words agree on are kept. Each other line is spoken again alone. The take is kept, so a better way of cutting costs no speech request. |
 | The GPU job fails or has not run yet | The shot falls back to a pan and zoom over its keyframe. The index marks it `kenburns_fallback` and the final-cut check lists it. |
 | One clip fails on the GPU | The job script catches it, records the error and the peak memory, and goes on to the next clip. `results.json` is rewritten after every clip. |
 | A generated clip is shorter than its shot | It is slowed by at most 25%. The rest of the shot is a slow push in over the clip's last frame, so the picture never freezes under the voice. The final-cut check lists the shots and the seconds. |
@@ -95,13 +96,15 @@ A successful line also carries what its price depends on: token counts for text,
 
 ## Providers
 
-Request shapes were taken from each provider's documentation on 25 Nov 2026. They live in `pipeline/providers.py`.
+Request shapes were taken from each provider's documentation on 25 Nov 2026, and for Addis AI on 26 Nov. They live in `pipeline/providers.py`.
 
 | Job | Call |
 |---|---|
-| Speech | `POST https://generativelanguage.googleapis.com/v1beta/interactions`, model `gemini-3.8-flash-tts`, style given as a `speech_metadata` annotation, a prebuilt voice. A take sends each line as its own content item. Returns WAV, 24 kHz mono. No seed parameter is documented, so speech is logged with `seed: null`. |
-| Text, vision, listening | `POST .../v1beta/models/gemini-3.5-flash-lite:generateContent`, with images or audio as inline parts. |
-| Picture judge, subtitle check | `claude-opus-5-5` through the Anthropic SDK, with a JSON schema for the answer. Used while `models.judge` names it. It takes pictures and text, not audio, so the listening check stays on Gemini. |
+| Speech, Addis AI (while `models.tts` starts with `addis-`) | `POST https://api.addisassistant.com/api/v1/voice/generations` with the text, a voice id, the language and the format `wav_44100`. The answer holds an address of the audio, which is fetched at once. No style and no seed, so these lines are logged with `seed: null`. `python -m pipeline voices` lists the voices for the narration language. |
+| Speech, Gemini (any other `models.tts`) | `POST https://generativelanguage.googleapis.com/v1beta/interactions`, model `gemini-3.8-flash-tts`, style given as a `speech_metadata` annotation, a prebuilt voice, and a seed in `generation_config` when `voice.seed` is set. A take is one text with the `<long pause>` tag between its lines. Returns WAV, 24 kHz mono. |
+| Text, vision, and listening while no `models.listener` is named | `POST .../v1beta/models/gemini-3.5-flash-lite:generateContent`, with images or audio as inline parts. |
+| Listening, Addis AI (while `models.listener` starts with `addis-`) | `POST https://api.addisassistant.com/api/v1/scribe/transcribe?language=<code>&timestamps=word&format=json`, the audio as a multipart file. The answer holds the text it heard and the start and end of each word. |
+| Picture judge, subtitle check | `claude-opus-5-5` through the Anthropic SDK, with a JSON schema for the answer. Used while `models.judge` names it. It takes pictures and text, not audio. |
 | Images | `POST https://api.cloudflare.com/client/v4/accounts/<id>/ai/run/@cf/black-forest-labs/flux-2-klein-4b` as a multipart form (prompt, width, height, up to four reference images under 512 px). `flux-1-schnell` takes JSON instead, and the client handles both. |
 | Video | Wan 2.2 TI2V-5B through Diffusers in `kaggle/wan22_i2v.py`, run on Kaggle by `pipeline/kagglerun.py`. |
 | Music | ACE-Step 1.5 through its Python API in `kaggle/acestep_music.py`, run the same way. |
@@ -123,7 +126,7 @@ A shot lasts as long as its narration, and a generated clip lasts a few seconds.
 
 The two exports cut the square picture on different sides: the wide film loses height and the tall film loses width. So a shot says where its subject sits with `keyframe.focus_x` (0 left, 1 right) and `keyframe.focus_y` (0 top, 1 bottom), each as one number for every export or as one number per export: `{"vertical": 0.3, "horizontal": 0.5}`. The crop keeps that part, an export that is not named keeps the middle, and a changed anchor re-encodes that one scene.
 
-Subtitles are English, at most two lines of 40 characters, timed in proportion to their length, and placed above the area that phone apps cover with buttons.
+Subtitles are English, at most two lines of 40 characters, and placed above the area that phone apps cover with buttons. A subtitle is taken sentence by sentence, and each sentence is on screen while its sentence is spoken. When the listener is a speech model, that time comes from the words it heard: the words of the script are matched to the heard words in order, so a word that was misheard or split in two moves nothing. Without word times it is worked out from the number of letters in each spoken sentence and from the measured pauses. On this film's eight lines that estimate was 0.26 s away from the heard words on average and 0.53 s at most (E27). Short sentences share a cue until it has been up for 1.5 s and can be read at 20 characters a second, and a colon always ends a cue. Two lines of a cue are broken where they come out nearest in length, so no line is one left-over word (`subtitle_cues` in `pipeline/core.py`).
 
 ## One hard decision: two aspect ratios from one GPU budget
 
@@ -138,7 +141,7 @@ Options I considered:
 | Horizontal master, crop for vertical | 1x | Vertical loses two thirds of the frame |
 | **Square master, crop both ways** | 1x | Each export keeps 56% of the frame, full-bleed in both |
 
-I chose the square master (1024 x 1024). Every keyframe prompt puts the subject in the centre, and the style block says so, which is what makes a centre crop safe from side to side. From top to bottom it was not: the wide film keeps the middle band of the square, and a standing figure lost its head there. So a shot can say where its subject sits (`keyframe.focus_y`, 0 for the top, 1 for the bottom), and the crop keeps that part. The rule is in code, not in my head: when a crop would lose more than 45% of a clip it is placed over a blurred copy of itself instead. With square clips that rule never fires, but it protects the film if a clip comes back in another shape.
+I chose the square master (1024 x 1024). The style block asks for the subject in the centre of the frame, and I took that to make a centre crop safe. It was not, in either direction. The wide film keeps the middle band of the square, and a standing figure lost its head there. The tall film keeps the middle of the width, and the subject does not always sit there: the brokers' shot and the room shot were the first to get a sideways anchor of their own for the tall film (commit `c323726`). So a shot can say where its subject sits, with `keyframe.focus_x` and `keyframe.focus_y`, each as one number or as one number per export, and the crop keeps that part (see "Picture" above). The rule is in code, not in my head: when a crop would lose more than 45% of a clip it is placed over a blurred copy of itself instead. With square clips that rule never fires, but it protects the film if a clip comes back in another shape.
 
 The price is sharpness: the vertical export enlarges a 576-pixel-wide crop to 1080. A painted, grainy look hides that better than a photographic one would, which is one reason for the style. Whether viewers notice is an open question, and it is on the experiment list.
 

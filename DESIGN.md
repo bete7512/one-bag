@@ -1,6 +1,6 @@
 # Design
 
-The design was decided three times. A first version was drafted before anything was generated, from a few sentences. Twelve test pictures were made under it. Then I told the story in full and nearly every shot changed: that is in "The story" below. Then three people heard it, and it got an audience, a message and a new ending: that is in "User test 1". The storyboard carries the short version of the first two sections in its `audience` and `intent` fields.
+The design was decided three times. A first version was drafted before anything was generated, from a few sentences. Twelve test pictures were made under it. Then I told the story in full and nearly every shot changed: that is in "The story" below. Then three people heard it, and it got an audience, a message and a new ending: that is in "User test 1". On 26 November a review of the cut found faults in the pictures and the subtitles, and seven shots were drawn again: that is in the last table of this file. The storyboard carries the short version of the first two sections in its `audience` and `intent` fields.
 
 ## Who it is for
 
@@ -35,9 +35,9 @@ Rewritten with the storyboard on 25 November, after the story was told in full. 
 | Choice | Why |
 |---|---|
 | Confusion, not fear | That is how I tell it. The first draft made the night frightening because a frightened boy is an easy story. What happened was brokers on every side and two friends who had to pick a bed. |
-| One object runs through the film: the backpack | It is on my shoulders at the start, on the floor of the room, and at my feet at the end. An object stays the same across shots more easily than a face. |
-| The plastic sandals | I arrived in the moulded plastic sandals that are everywhere at home. They are drawn in every picture of me in 2019, next to the backpack. The first pictures had me in leather boots. |
-| Nobody's likeness is in the film | My friend is drawn from behind only, as he agreed. I am drawn from behind in every shot but one: on the bus seat I am seen from the side, looking out of the window. Drawn from the words alone, the model seated me as the voice says and turned me only half away (E24). That face is the model's invention. No photo of me, of him or of anyone was ever given to a model. |
+| One object runs through the film: the backpack | It is on my shoulders at the start, on the seat beside me on the bus, on the floor of the room, and at my feet at the end. An object stays the same across shots more easily than a face, but only once its colour is written down. Until 26 November the description said "one simple backpack", and it came out sage green, tan, charcoal and brown. Now it says "olive green canvas", and one model's reading of the seven pictures gives olive green seven times (E28 in `EXPERIMENTS.md`). |
+| The plastic sandals | I arrived in the moulded plastic sandals that are everywhere at home. The first pictures had me in leather boots. In the cut of 26 November, 01:13, one picture of five had the sandals and the others had leather sandals or shoes. After the redraw the same reading finds plastic sandals in all five pictures of me in 2019 (E28). My friend has them too in the brokers' picture. That is the model's choice: I did not ask for it. |
+| Nobody's likeness is in the film | My friend is drawn from behind only, as he agreed. I am drawn from behind in every shot. On the bus seat I am seen from behind and a little from the side, turned to the window, and part of a cheek shows. That cheek is the model's invention. No photo of me, of him or of anyone was ever given to a model. |
 | My friend is drawn in one shot only, with the brokers | He agreed to one scene. After I told the story in full, the storyboard had him in three: at Lamberet, with the brokers, and in the queue. Two things brought it back to one. It was more than he had said yes to. And the image model could not draw two people from behind in a crowd: of eight pictures for Lamberet and eight for the queue, over four runs, none was usable (F05 in `FAILURES.md`). So at Lamberet and in the queue I am alone in the frame, and the voice says he was there. |
 | The friend who said goodbye in Ankober is heard about, not shown | Showing him would put a third real person in the film. The voice says he came. |
 | The brokers are nobody | They are strangers, and the shot is about how many they were. I asked for their faces in shadow or turned away. In the picture that was kept the model lit them all the same. They are its invention and no real person's. |
@@ -45,8 +45,8 @@ Rewritten with the storyboard on 25 November, after the story was told in full. 
 | Day, then night, then morning | Midday and mountains for the road, night and electric light for the city, gold morning light for the queue. The light tells the time, so the voice does not have to. |
 | Painted, grainy look instead of photographic | It suits a memory, it hides the softness of enlarged crops, and it does not pretend to be footage of real events. |
 | Amharic narration, English subtitles | The story happened in Amharic. Subtitles let colleagues and the diaspora follow. |
-| A prebuilt voice, not my own | No voice is cloned. |
-| A krar and washint score in the tizita mood | Tizita is the music of memory and longing, which is what the film is. |
+| A ready-made voice, not my own | No voice is cloned. Since 26 November the narrator is an Amharic voice of Addis AI (`am-nahom`). Until then it was a prebuilt voice of the Gemini speech model, whose lines did not sound like one voice (F10 in `FAILURES.md`). I proposed the provider built for Ethiopian languages. Three of its voices were recorded on the eight lines and compared by numbers (E26). The choice by ear between them and the Gemini recording is mine, and I have not made it yet. |
+| A solo krar score in the tizita mood | Tizita is the music of memory and longing, which is what the film is. The description names one instrument, because a short description that names one gets it (E22). |
 
 ## A reason for every shot
 
@@ -55,14 +55,14 @@ The source of truth is the `reason` field of each shot in `storyboard.json`. The
 | Shot | Size | Reason |
 |---|---|---|
 | s01 Midday, Ankober | medium | Where it starts: a small highland town at midday and one backpack. The goodbye is said in the voice, because the friend who came to say it is not shown. |
-| s02 The gravel road | extreme wide | The journey itself, and the scale of it: one small bus on a gravel road under forested mountains. He said the view was amazing, so the shot is wide and takes its time. |
-| s03 The window seat | pov | The same journey from where he sat. Nobody travelled with him, so the shot is his alone: a window, and what was outside it. |
+| s02 The gravel road | extreme wide | The journey itself, and the scale of it: one small bus on a gravel road under forested mountains. He said the view was amazing, so the shot is wide. It lasts no longer than its generated clip can move. |
+| s03 The window seat | medium | The same journey from where he sat. Nobody travelled with him, so the shot is his alone: he at the window, his backpack on the seat beside him, and the mountains outside. |
 | s04 Lamberet at night | wide | The arrival, and the turn of the film: daylight and mountains give way to night, crowds, lit buildings and cars. He is alone in the frame, facing all of it. His friend is somewhere in that crowd, and the voice says so. |
 | s05 Autobus Tera, from far | extreme wide | Where the night is going: the big bus station, seen whole and from far, before we are in the middle of it. No words, only the place. |
 | s06 Do you want a bed? | medium | The heart of the story as he tells it: not fear but confusion. Brokers on every side offering a bed, and two friends who have to pick one. |
 | s07 The room | wide | Quiet after the noise, and exactly as he described it: one bed, not very good, not bad, clean. The backpack is the only thing of his in it. |
 | s08 The queue | wide | The morning after: the city is ordinary again, a long line of people waiting for a ticket. He is the last one in it, seen from behind. |
-| s09 Now | medium | The answer to the whole night, in two words of his. The same city, seen calmly by the man that boy became, with the same kind of backpack at his feet. |
+| s09 Now | medium | The answer to the whole night, in two words of his. The same city, seen calmly by the man that boy became, with the old backpack on the wall beside him. |
 
 ## User test 1: the radio cut
 
@@ -127,3 +127,21 @@ One row per change, so the storyboard's history can be read against what people 
 | 26 Nov | The author: "መስከረም 2012 is appropriate order" | The first line (s01) opens with መስከረም ሁለት ሺህ አሥራ ሁለት. | `4ed0344` |
 | 26 Nov | The author: "still many ነበር are being used" | The lines of s02, s03 and s07 are rewritten as well. No line holds the word now. | `4ed0344` |
 | 26 Nov | The author: "you bring some shit pic ... make sure bringing important picture for the video not just for trial" | No picture goes into the cut on the judge's score alone any more: each is looked at and pinned (`keyframe.pick`). The shot of blurred lights (s05) is replaced by the bus station at night. Three new candidates for Ankober were worse than the picture it had and were thrown out. | `4ed0344` |
+
+## Changes made after a review of the cut
+
+On 26 November at 00:45 a second coding session reviewed the cut of that hour against the brief, frame by frame, and wrote down what was wrong. I read its list and passed it to the coding agent that builds the film. The fixes below are the agent's work, done the same night. It looked at every new picture before pinning it. I confirm them when I confirm the film.
+
+| What the review found | What changed | Measured | Commit |
+|---|---|---|---|
+| His jacket, trousers, shoes and backpack change from shot to shot | The description of the young man names its colours, and every shot with him or his backpack is drawn again, from the words alone | E28: the backpack as described in 7 of 7 pictures (before: 0 of 6), plastic sandals in 5 of 5 (before: 1 of 5) | `ac3ac21` |
+| The bus seat picture has him at the front beside a dashboard with no driver, and the judge gave it 0.4 of 5 | A new picture: a passenger row, he in the window seat seen from behind, his backpack on the seat beside him | Judge total 2.6. Still under 3, and listed by the final-cut check | `ac3ac21` |
+| Garbled writing on the bus in the first shot | A new picture with the bus seen from its side. The judge finds no writing in it | Judge total 3.0 | `ac3ac21` |
+| The wide film's last shot has no backpack: it is outside the crop | The last shot is a wider view: his whole figure small in the middle, the backpack at his leg. Both formats hold both. The camera now pulls out and ends on the whole view | I looked at the first and the last frame of the shot in both films | `ac3ac21` |
+| "Meskerem 2012" reads as the year 2012 to an English reader | The first subtitle says "Meskerem 2012 (late 2019)." The voice is unchanged. The subtitle check was told that a correct gloss in brackets is not an addition, and passes it | Subtitle check: faithful | `ac3ac21` |
+| The first subtitle holds four sentences for ten seconds, and two subtitles end on one left-over word | A subtitle is shown sentence by sentence, each while its sentence is spoken, and two lines are balanced. 23 cues where there were 13 | E27. The final-cut check finds no cue faster than about 20 characters a second | `ac3ac21` |
+| Line s04 fails the pipeline's own listening check (0.16) | The listener is now a speech model built for Amharic. On the voice now in the film that line scores 0.98, and the lowest line 0.89 | E27 | `ac3ac21` |
+| The road shot moves for 3.4 seconds and then stands on its last frame | The shot lasts as long as its voice needs, 4.8 seconds. The clip, slowed by a quarter, fills 4.2 of them | The final-cut check no longer lists it | `ac3ac21` |
+| The last words of the film are on screen for 1.3 seconds | The last shot is 1.5 seconds longer, and "Do not run from it. Savour it." stays for 2.8 | Film length 70.9 s | `ac3ac21` |
+
+Not changed, and why: the bus station seen from far (s05) keeps its picture, which the judge scores 1.6 and I picked by eye. The story still does not say why I left Ankober or what the ticket was for: those are facts only I can add.

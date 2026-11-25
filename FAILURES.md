@@ -1,6 +1,6 @@
 # Failures
 
-What broke, what was tried, what fixed it. An entry is added the moment something breaks, while the error text is still on the screen.
+What broke, what was tried, what fixed it. An entry is added the moment something breaks, while the error text is still on the screen. F08 to F10 are the exception: the coding agent wrote them on 26 Nov, some hours after they happened, from the commits, the run log and the kept files.
 
 ## From real runs
 
@@ -136,7 +136,7 @@ What fixed it: the design changed, the prompt did not get cleverer. Where the mo
 
 The change also answers a question that was open at the same moment. His friend had agreed to be shown in one scene, and the storyboard had grown to three. Now it is one again (`ETHICS.md`).
 
-What it cost: 16 of the 81 pictures made that day, 0.34 USD of judge calls, and thirty-five minutes.
+What it cost: 16 of the 81 pictures made up to that hour, 0.34 USD of judge calls, and thirty-five minutes.
 
 What would be done differently: draw the hardest shot first, before writing eight more around it. And keep to the limit of three attempts: the fourth run on these two shots said nothing the third had not.
 
@@ -190,6 +190,75 @@ What it cost: the 14 minutes of the second clip were never spent. The cost is th
 
 What would be done differently: watch the machine's main memory as well as the GPU's. The script records GPU memory per clip and nothing about the other.
 
+### F08  The rough cut was published by mistake  (25 Nov 2026)
+
+Stage and tool: none of the pipeline. A git commit, made by the coding agent in my working session.
+
+What happened: commit `9935183` (25 Nov, 23:24) was about the changes after the first listeners. It also carried the rough cut: `outputs/film_vertical.mp4` (33.8 MB), `outputs/film_horizontal.mp4` (34.0 MB), `outputs/radio_cut.mp4` (2.3 MB), `outputs/qc_report.json` and three files under `outputs/assemble/`. The narration lines in that cut were not confirmed by me. The commit was pushed at 23:25, 71 seconds after it was made (`git reflog show origin/main` on my machine): my editor pushes when it syncs. The `site` workflow runs on every push to `main`. It builds the public page and copies the two films into it when they are in the checkout (`.github/workflows/site.yml`, `pipeline/site.py`). By those rules the page built from that push held the rough cut, under a notice that the cut is not final. The record of that workflow run is on GitHub, not in this repository.
+
+Cause, as far as it is known: the seven files were staged when the commit was made, and the list of staged files was not read before committing. The message of commit `683cfae` says so. Nothing in `.gitignore` kept them out. Until then the rule in the README was that the finished films are kept in `outputs/`, and no rule told a rough cut from a finished film.
+
+What was done:
+
+1. Commit `683cfae` (23:44, twenty minutes later) took the seven files out of the repository and added ignore rules for `outputs/film_*.mp4`, `outputs/radio_cut.mp4`, `outputs/qc_report.json` and `outputs/assemble/`. The files stay on my machine.
+2. That commit was pushed at 00:33 on 26 Nov, with the push of `434f5de` (`git reflog show origin/main`). On my machine `origin/main` holds `683cfae` since then.
+
+What is not undone: commit `9935183` stays in the history, so the three video files can still be read from it. The history of the pushed branch was not rewritten. Whether the public page was built again without the films after the push of 00:33 was not checked for this entry.
+
+What it cost: a rough cut with lines I had not confirmed was the newest state of the branch on GitHub for 67 minutes, and it stays in the history.
+
+What would be done differently: read the names of the staged files before every commit. And a file that must not be published gets its ignore rule on the day it is first made, not after it has gone out.
+
+### F09  The speech quota ran out, and a second free key was put in  (25 and 26 Nov 2026)
+
+Stage and model: narration. `gemini-3.8-flash-tts` on the free tier of the Gemini API: 10 requests a day. The day resets at midnight Pacific time (`pricing.json`), which is 11:00 East Africa Time.
+
+What happened: by 23:16 on 25 Nov the ten requests of the day were used (`runs.jsonl`): 1 in the smoke test, 1 take, 4 single lines after the take could not be cut (F04), and 4 lines rewritten after the first listeners (run `20261125T201514Z-906fdc`). All ten were answered. From there the guard in the pipeline refuses a request before it is sent. At about 23:35 I heard the cut and asked for changes that needed all eight lines recorded again (F10). No request was left until 11:00 the next morning.
+
+What was done, in order:
+
+1. At about 00:10 on 26 Nov I replaced the Gemini key in `.env` with another key. The pipeline counts a model's daily use from the run log, so the count was set to start again: `pricing.json` holds `counted_from` `2026-11-25T21:10:00Z` for the three Gemini models, with a note that says why.
+2. The eight lines were recorded with that key: a take, then each line alone (F10).
+3. At 00:14 a request for line s01 was refused (`runs.jsonl`, run `20261125T211402Z-9d7c8e`, attempt 1):
+
+```
+HTTP 429, rate limit or quota reached. {"error":{"message":"Rate limit exceeded for model gemini-3.8-flash-tts (limit: 10 requests per day on Free Tier). Please retry in 10h45m56s or upgrade your tier at https://ai.dev/rate-limit.","code":"too_many_requests"}}
+```
+
+The retry rule sent the same request again, and 97 seconds after the refusal it was answered (attempt 2). Why a request was answered after a refusal that names the daily limit is not known.
+
+What the message shows: the second key is a free-tier key too, with the same limit of 10 requests a day. It did not buy a larger allowance. It used a second free one on the same day.
+
+Speech requests by key, from `runs.jsonl`: with 21:10 UTC as the boundary, as `pricing.json` has it, 11 requests lie before it, all answered, and 9 after it, 8 answered and 1 refused. That time is approximate. The take of 21:06:30 UTC lies before it, but it was sent in the same run as the seven lines after 21:10 (`20261125T210610Z-743eb1`), and a run reads the key once, when it starts (`load_env` in `pipeline/core.py`). Counted by run, 10 requests went to the first key and 10 to the second: 9 answered, 1 refused.
+
+What has not been checked: whether Google's terms for the free tier allow a second key to be used when the first has reached its daily limit. I have not read them for this question. The licence table in `ETHICS.md` quotes those terms on ownership and on data only.
+
+What fixed it: nothing fixed the quota. Since 01:10 on 26 Nov the narration is spoken by a voice of Addis AI (E26 in `EXPERIMENTS.md`), which runs on a sign-up credit and states no daily limit on requests (`pricing.json`). The storyboard no longer names the Gemini speech model.
+
+What it cost: 50 minutes in which no line could be spoken, from 23:16 to 00:06. Twenty speech requests in one quota day, where one free key allows ten. And an open question about the provider's terms.
+
+What would be done differently: count what a change will need before the day's allowance is spent. And read the provider's terms before putting in a second key, not after.
+
+### F10  The voice changed from one line to the next  (25 and 26 Nov 2026)
+
+Stage and model: narration. `gemini-3.8-flash-tts` with the voice `Charon`, on the free tier.
+
+What happened: I heard the cut of 23:20 on 25 Nov and wrote: "audio continuity ... that audio isnt continued from previous it is alsmot different" (quoted in `DESIGN.md`). My message named the line about the brokers (s06). The eight lines of that cut came from three sittings: a take at 16:43 UTC, single requests at 17:13 and single requests at 20:15. No request carried a seed.
+
+What was measured: the median pitch of each line (`outputs/experiments/E25/results.json`). From one line to the next it moved by up to 4.5 semitones (s01 to s02), and by 2.8 semitones from s04 to s06. The lowest line is at 90.9 Hz and the highest at 136.8 Hz: 7.1 semitones apart.
+
+What was tried, in order:
+
+1. One take again, so that all lines come from one sitting. Since commit `ab3f224` a take is one text with the pause tag between the lines, and a speech request can carry a seed. The take of 00:06 on 26 Nov (run `20261125T210610Z-743eb1`, seed 7, style "calm, warm storyteller") gave 64.31 s of audio in 19.7 s. It could not be cut. Its record, `outputs/narration/takes/take__cc00c0151b072d82.json`, holds `cut_margin` 1.0, where 1.5 is the least the stage accepts, and `cut_from_take` names s01 only. The pauses between the lines were no longer than the pauses inside them.
+2. Every line in a request of its own, with the same seed and the short style. The seven other lines were spoken alone in the same run, and s01 alone at 00:15 (run `20261125T211402Z-9d7c8e`). Measured again the same way, the largest step is 1.8 semitones and the eight lines lie 4.5 semitones apart (E25 in `EXPERIMENTS.md`).
+3. Another provider. I proposed Addis AI, a speech service built for Ethiopian languages. Three of its voices were recorded on the same eight lines, each line in a request of its own: this API takes no seed and no style. In the first recording of the voice that is now in the cut, `am-nahom`, the largest step is 1.7 semitones (`outputs/voices/summary.json`, E26).
+
+What fixed it: not confirmed. The largest step came down from 4.5 to 1.8 and 1.7 semitones. That is a number, not an ear, and the pitch still drifts: with one seed the Gemini lines rise from 105.3 Hz at s01 to 136.8 Hz at s08. I have not said yet that the new cut sounds like one telling: every line in the storyboard is still marked `"confirmed": false`.
+
+What it cost: the ten speech attempts on the second free key (F09), and 32 requests to Addis AI, 0.11 USD at list price, taken from the sign-up credit.
+
+What would be done differently: record all lines of a film in one sitting from the first day, and measure the pitch of each line before a person has to hear the fault. The plan to save speech requests with a take and single re-takes (E20) is what put three sittings into one film.
+
 ## From the offline build (coding agent, 25 Nov 2026)
 
 These happened while the pipeline was first written, before any real model call. They are kept because each one changed the code.
@@ -202,7 +271,7 @@ What it means: the code for real calls follows the provider docs but had not tou
 ### B2  The speech API in the docs was not the one expected
 What happened: the Gemini speech page (25 Nov 2026) documents the Interactions API (`/v1beta/interactions`, style as a `speech_metadata` annotation, audio in `steps[].content[]`), not the older `generateContent` call with `speechConfig`.
 What was done: the client was written for the documented call, and the response parser searches the JSON for the audio wherever it sits, so either shape is read.
-Still open: no seed parameter is documented for speech, so two takes of one line may differ. Logged as `seed: null`.
+Open when this was written: no seed parameter was known for speech, so two takes of one line could differ, and speech was logged as `seed: null`. Changed on the night of 25 Nov: the message of commit `ab3f224` says the documentation names a seed for reproducible decoding. Since that commit every Gemini speech request carries one when `voice.seed` is set (`speech_config` in `pipeline/providers.py`), and the line is logged with it (F10).
 
 ### B3  The plan disagreed with the run
 What happened: after one narration line was changed, `plan` said four unrelated shots would be rebuilt. The run rebuilt only the right one.

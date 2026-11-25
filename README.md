@@ -10,28 +10,28 @@ That one command validates the storyboard, runs every stage, regenerates only wh
 
 ## Status
 
-Be clear about what is proven and what is not. Last updated 25 November 2026, 23:50 East Africa Time.
+Be clear about what is proven and what is not. Last updated 26 November 2026, 04:30 East Africa Time.
 
 | Part | Tested offline with mock providers | Run against the real model |
 |---|---|---|
 | Storyboard schema and checks | yes | not applicable |
-| Cache, run log, retries, free-tier guard | yes | yes: the retries and the guard both met a real quota (F01) |
+| Cache, run log, retries, free-tier guard | yes | yes: the retries and the guard both met a real quota (F01, F09) |
 | Script (subtitle translation) | yes | not yet: every line has a written subtitle |
-| Narration (Gemini TTS) | yes | yes: eight lines. One request for all of them gave four clean lines, the other four were spoken alone (F04, E20) |
-| Narration listening check | yes | yes: all eight lines at or above the floor, once the question named the language (E21) |
-| Keyframes (FLUX.2 klein on Workers AI) | yes | yes: all nine shots, after a reference sheet that copied itself into the scenes (E19) and two shots that had to be redesigned (F05) |
+| Narration (a voice of Addis AI, before it Gemini TTS) | yes | yes: eight lines, each spoken in a request of its own by the Addis AI voice `am-nahom` since 26 Nov (E26). Before that a Gemini voice spoke them: a take that gave four clean lines (F04, E20), then lines that did not sound like one voice (F10, E25) |
+| Narration listening check | yes | yes: all eight lines of the cut at or above the floor, the lowest at 0.89. Since 26 Nov the listener is Addis AI's speech-to-text model for Amharic, which also gives the time of each word (E27). Before it the text model listened, and gave 0.16 to lines that it wrote down in Latin letters (E21, E26). Either listener is a model: its score is a screen and not a verdict |
+| Keyframes (FLUX.2 klein on Workers AI) | yes | yes: all nine shots, after a reference sheet that copied itself into the scenes (E19) and two shots that had to be redesigned (F05). On 26 Nov seven shots were drawn again from the words alone, with the colours of his clothes and backpack written into the description (E28). Since the night of 25 Nov the account is on a paid plan, and pictures beyond the free daily allowance are paid for (`COSTS.md`) |
 | Keyframe judge | yes | yes, on three models (E15, E17) |
 | Subtitle check | yes | yes: it found two mismatches in the first draft (E18). The eight current subtitles pass |
 | Keyframe border check | yes | yes: it caught the white border on the first pictures (E16) |
 | Shots: Ken Burns (FFmpeg) | yes, real FFmpeg | not applicable |
-| Shots: Wan 2.2 on Kaggle | export, upload and ingest | yes: two clips of 3.4 s, 14 and 15 minutes each at 13.45 GB of GPU memory (E08). One is in the cut. The other invented content and is not used. The first job was killed after one clip (F07) |
-| Music: ACE-Step on Kaggle | export, upload and ingest | yes: two sets of three candidates from two descriptions, each described by a listening model (F02, F06, E22). None is chosen yet |
-| Assembly, ducking, loudness, both ratios | yes, real FFmpeg | yes: a rough cut of 80 s in both ratios, from the real narration and pictures. The mix was measured and rewritten twice (E12) |
-| Final-cut check | yes | yes, on the rough cut: every measured check passes. Its notes say what a person still has to look at: four picked pictures that the judge scored under 3, writing in one of them, and the shots that pan while their generated clip is not there |
+| Shots: Wan 2.2 on Kaggle | export, upload and ingest | yes: four clips of 3.4 s, 13 to 15 minutes each at about 13.5 GB of GPU memory (E08). Only the road shot uses its clip. The three other clips were made and rejected. The first job was killed after one clip (F07) |
+| Music: ACE-Step on Kaggle | export, upload and ingest | yes: two sets of three candidates from two descriptions, each described by a listening model (F02, F06, E22). Candidate 2 of the second set is in the cut. The coding agent chose it from those descriptions, on my instruction to decide. I have not compared the six by ear yet |
+| Assembly, ducking, loudness, both ratios | yes, real FFmpeg | yes: a rough cut of 71 s in both ratios, from the real narration and pictures. The mix was measured and rewritten twice (E12) |
+| Final-cut check | yes | yes, on the rough cut of 26 Nov, 03:35: every measured check passes. Its one note says what a person still has to look at: three picked pictures that the judge scored under 3 (s03, s05, s06) |
 
-`runs.jsonl` holds one line per attempt of a real model call, 360 so far. Mock runs write to `outputs_mock/`, which is git-ignored and is never evidence.
+`runs.jsonl` holds one line per attempt of a real model call: 707 at 04:20 on 26 Nov. Mock runs write to `outputs_mock/`, which is git-ignored and is never evidence.
 
-**The film is not finished.** What exists is a rough cut on the author's machine: real voice, real pictures, a placeholder score, one shot with generated motion (the road) and a slow pan on the others. The narration lines are not confirmed by the author yet, no score is chosen, and neither of the two user tests has happened. The rough cut is not in the repository, so that nothing unapproved is published by a push.
+**The film is not finished.** What exists is a rough cut on my machine: the voice of Addis AI, real pictures, a generated score, one shot with generated motion (the road) and a slow pan on the others. Four things in it are the coding agent's choice and not yet mine: the wording of the eight narration lines, which I have not confirmed, the score, the voice, and the seven pictures that were drawn again on 26 Nov after a review of the cut (`DESIGN.md`). User test 1 has happened: three people heard the radio cut on 25 Nov, and what they wrote changed the lines (`DESIGN.md`). User test 2 has not happened. The rough cut is not committed: `.gitignore` keeps it out until the release, so that nothing unapproved is published by a push. It was committed once by mistake and taken out again (F08).
 
 ## Run it
 
@@ -60,7 +60,8 @@ Keys go in `.env`, which is git-ignored. Nothing in this repository contains a s
 
 | Variable | Where it comes from | Needed for |
 |---|---|---|
-| `GEMINI_API_KEY` | Google AI Studio | speech, and the checks |
+| `GEMINI_API_KEY` | Google AI Studio | the listening check and the light checks. Speech too, while `models.tts` names a Gemini model |
+| `ADDIS_API_KEY` | addisassistant.com, after signing up | speech, while `models.tts` names an Addis AI model (`addis-voices-2`, as now), the listening check, while `models.listener` names one (`addis-scribe`, as now), and `python -m pipeline voices` |
 | `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN` | Cloudflare dashboard, a token with Workers AI permission | pictures |
 | `KAGGLE_API_TOKEN` | kaggle.com/settings/api, "Generate New Token" | running the GPU jobs from the command line. Optional: they can be run by hand |
 | `ANTHROPIC_API_KEY` | platform.claude.com, a key with credit | the picture judge and the subtitle check, while `models.judge` names a Claude model. Optional: remove that line from the storyboard and both run on the free Gemini model |
@@ -70,13 +71,13 @@ Keys go in `.env`, which is git-ignored. Nothing in this repository contains a s
 | # | Stage | Model | Where it runs | Reads | Writes |
 |---|---|---|---|---|---|
 | 1 | `script` | Gemini 3.5 Flash-Lite for a missing subtitle, Claude Opus 5.5 to check a written one | Gemini API, Claude API | `storyboard.json` | `outputs/script/` |
-| 2 | `narration` | Gemini 3.8 Flash TTS, then a listening check by Gemini 3.5 Flash-Lite | Gemini API | script | one WAV per shot |
+| 2 | `narration` | Addis Voices 2 (`addis-voices-2`) with the voice `am-nahom`. Gemini 3.8 Flash TTS is the other speech model the stage can call. Then a listening check by a model: `models.listener` when the storyboard names one, else `models.text` | Addis AI API, Gemini API | script | one WAV per narrated shot |
 | 3 | `keyframes` | FLUX.2 klein 4B, then a border check and a judge (Claude Opus 5.5) | Cloudflare Workers AI, Claude API | storyboard | reference sheets, candidates, the pick |
 | 4 | `shots` | Wan 2.2 TI2V-5B, or Ken Burns | Kaggle GPU, or FFmpeg here | keyframes, narration timing | one clip per shot |
 | 5 | `music` | ACE-Step 1.5, or a placeholder drone | Kaggle GPU, or FFmpeg here | storyboard | score candidates |
 | 6 | `assemble` | none (FFmpeg) | here | everything above | both films, subtitles |
 
-The model ids are in `storyboard.json` under `models`. They changed twice on the first day. The checks started on Gemini 3.8 Flash and moved to Flash-Lite when it proved overloaded (F01 and E15). The picture judge then moved to Claude Opus 5.5, the one model here that is paid for, after it named faults the others had scored as perfect (E17).
+The model ids are in `storyboard.json` under `models`, and they changed as the work went on. The checks started on Gemini 3.8 Flash and moved to Flash-Lite when it proved overloaded (F01 and E15). The picture judge then moved to Claude Opus 5.5, which is paid for, after it named faults the others had scored as perfect (E17). On 26 Nov the speech moved from Gemini 3.8 Flash TTS to a voice of Addis AI, a provider built for Ethiopian languages (F10 and E26). `python -m pipeline voices` lists its voices for the narration language.
 
 The two GPU models do not run on my laptop. The pipeline writes a job folder, and `python -m pipeline kaggle run shots` uploads it to Kaggle, runs it on a free GPU, waits, downloads the result and puts the clips into the cache with the seconds the GPU measured. Until then every shot falls back to a pan and zoom over its keyframe, so a full film always assembles. The same job can be run by hand in a notebook. See `kaggle/README.md`.
 
@@ -103,14 +104,15 @@ python -m pipeline film
 
 Everything else prints `HIT`. In the offline test this is asserted: one changed line makes exactly three model calls (check its subtitle, speak it, listen to it), and one changed keyframe prompt regenerates only that shot.
 
-What is kept decides what a change costs. The model's own answers are stored untouched: every picture in `outputs/keyframes/original/`, every narration take in `outputs/narration/takes/`. What the film uses is cut from those by FFmpeg. So a new crop or a new way of cutting a take calls no model.
+What is kept decides what a change costs. The model's own answers are stored untouched: every picture in `outputs/keyframes/original/`, every narration line as it was spoken in `outputs/narration/`. What the film uses is cut from those by FFmpeg. So a new crop or a shorter pause inside a line calls no model.
 
 ## What makes it more than the floor
 
 - **A consent gate in code.** A shot that shows a real person is not generated until that person's consent is a dated row in `ETHICS.md` and marked in the storyboard. `make release` also refuses drafts and unconfirmed lines.
 - **Quality gates that measure.** Every keyframe candidate is measured for a paper border and scored by a vision model that is asked what is wrong with it, and the best full-frame one is kept, with a human override. Each written subtitle is checked against its Amharic line by a model that translates the line literally. Each narration line is transcribed back and compared with the script. The finished films are measured: length, both ratios, loudness, true peak, subtitle line length, the AI end card. A gate that cannot reach its model never stops a run: the picture is still made, and the next run asks again.
-- **A guard for the free tiers.** The limits that apply to this project are in `pricing.json`, and the run log is the counter. A request that would go over a daily limit is not sent, and `make plan` says how many speech requests are left today. The speech tier allows ten requests a day, so the lines are first spoken in one request and cut apart here. A line is kept from that take only where two ways of cutting agree, and any other line is spoken alone: the first pass cost five requests for eight lines (E20).
-- **The cost of every call.** Each line of `runs.jsonl` carries `cost_usd`, the list price of that call, from prices copied off the providers' pages with the date. For the free tiers it says what the same work costs without them. For Claude, the one paid model, it is what was paid.
+- **A guard for the free tiers.** The limits that apply to this project are in `pricing.json`, and the run log is the counter. A request that would go over a free daily limit is not sent, and for a speech model with a daily limit `make plan` says how many requests are left today. The first narration was built around such a limit, ten speech requests a day on the Gemini free tier: the lines were spoken in one request and cut apart here, and a line was kept from that take only where two ways of cutting agreed (E20). That way is still in the code for the Gemini speech model, and it is switched off: each line is now spoken in a request of its own (F10). For the pictures the account now pays for what goes over the free daily allowance, and the run says when that starts.
+- **Two speech providers.** `models.tts` names the speech model. An id that starts with `addis-` goes to Addis AI, any other to the Gemini API. `python -m pipeline voices` lists the Addis AI voices for the narration language.
+- **The cost of every call.** Each line of `runs.jsonl` carries `cost_usd`, the list price of that call, from prices copied off the providers' pages with the date. For a free tier or a credit it says what the same work costs without it. For Claude it is what was paid. `COSTS.md` says what is paid in all.
 - **GPU jobs from the command line.** `python -m pipeline kaggle run music` uploads the job, runs it on Kaggle, and brings the result back with the seconds and the peak memory the GPU measured.
 - **A review sheet.** `make review` writes `outputs/review.html`: each shot's reason, words, audio, candidates with their scores, and clip, side by side.
 - **A language test.** `python -m pipeline langtest` speaks the film's first lines in Amharic, Tigrinya, Somali and Afaan Oromo and scores each by listening back, with a rating sheet for a native speaker.
@@ -143,14 +145,23 @@ ETHICS.md            consent records, licences, labelling plan
 
 ## What is committed
 
-Model outputs are kept in `outputs/`, because they cost quota or GPU time and are the evidence: the original pictures, narration, ingested Wan clips, score candidates, the two finished films, and every `manifest.json` and `index.json`. Files that FFmpeg rebuilds from those without calling a model (keyframes cut from their originals, scene files, the mix, Ken Burns clips, the placeholder drone) are git-ignored.
+Model outputs are kept in `outputs/`, because they cost quota or GPU time and are the evidence: the original pictures, the narration lines, ingested Wan clips, score candidates, and the `manifest.json` and index files of the five stages that call a model or a GPU. Files that FFmpeg rebuilds from those without calling a model (keyframes cut from their originals, scene files, the mix, Ken Burns clips, the placeholder drone) are git-ignored.
 
-To check this yourself: clone the repository into an empty folder, add no key, run `make setup` and then `python -m pipeline film`. Nothing may be added to `runs.jsonl`. On 25 November this rebuilt the cut of that evening in 1 minute 49 seconds: 42 cache hits on model outputs, 53 units rebuilt by FFmpeg, no call to any model (E23 in `EXPERIMENTS.md`). What is reproduced is the cut from the kept answers of the models. Asking the models again gives other pictures and another voice.
+The two films are not committed yet. They will be committed with the release, when the lines are confirmed and the cut is final, and not before. Until then `.gitignore` keeps `outputs/film_*.mp4`, `outputs/radio_cut.mp4`, `outputs/qc_report.json` and `outputs/assemble/` out of the repository, because a push publishes them on the public page. A rough cut was committed once by mistake and taken out again. That commit stays in the history (F08 in `FAILURES.md`).
+
+To check this yourself: clone the repository into an empty folder, add no key, run `make setup` and then `python -m pipeline film`. Nothing may be added to `runs.jsonl`. On 25 November this rebuilt the cut of that evening in 1 minute 49 seconds: 42 cache hits on model outputs, 53 units rebuilt by FFmpeg, no call to any model (E23 in `EXPERIMENTS.md`). No later run of this check is recorded: it has to be repeated on the release commit. What is reproduced is the cut from the kept answers of the models. Asking the models again gives other pictures and another voice.
 
 ## What it costs
 
-Money: speech, pictures, the light checks and the GPU run on free tiers. The picture judge and the subtitle check run on Claude Opus 5.5, which is paid for: 1.88 USD on the first day. The limits that shape the work are quota and GPU time: ten speech requests a day, about 96 pictures a day, 30 GPU hours a week. `make costs` reads `runs.jsonl` and writes the measured table into `COSTS.md`, with the list price of every call and what was really paid.
+Money, by the run log as it stood on 26 November at 04:20:
+
+- The picture judge and the subtitle check run on Claude Opus 5.5, which is paid for every call: 4.03 USD so far.
+- The pictures run on Cloudflare Workers AI. Since the night of 25 Nov the account is on the Workers Paid plan: 5 USD a month, plus what goes over the free daily allowance, 0.06 USD so far.
+- The narration voice and the listening check of Addis AI run on a sign-up credit of 3.17 USD (500 ETB). Nothing is paid, and 0.12 USD of the credit is used at list price.
+- The light checks (Gemini) and the GPU (Kaggle) run on free tiers.
+
+The limits that shape the work are quota and GPU time: ten speech requests a day on the Gemini free tier, about 96 free pictures a day, 30 GPU hours a week. `make costs` reads `runs.jsonl` and writes the measured table into `COSTS.md`, with the list price of every call. `COSTS.md` also says what was really paid, and that a second free Gemini key was put in during the night of 25 to 26 Nov (F09).
 
 ## How this was built
 
-The stage scripts and the first storyboard were drafted by an AI coding agent (Claude) from my story and the challenge brief, in an offline sandbox against mock providers. The Status table says which parts have since run against real models. The story is mine, and so are the decisions that follow from the user tests. Lines in the storyboard marked `"confirmed": false` are still drafts. The film ends with a card that says it was made with AI.
+The stage scripts and the first storyboard were drafted by an AI coding agent (Claude) from my story and the challenge brief, in an offline sandbox against mock providers. The Status table says which parts have since run against real models. The story is mine. After user test 1 I gave the listeners' comments to the coding agent and told it to decide the changes itself: the rewritten lines, the choice of score and the choice of voice are its work, and I have not confirmed them yet (`DESIGN.md`, and E22 and E26 in `EXPERIMENTS.md`). Lines in the storyboard marked `"confirmed": false` are still drafts. The film ends with a card that says it was made with AI.
