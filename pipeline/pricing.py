@@ -1,7 +1,8 @@
-"""List prices: what one model call would cost without the free tier.
+"""List prices: what one model call costs, or would cost without the free tier.
 
-Every call in this project ran on a free tier, so nothing was paid. The brief still asks what the
-same work costs at list price, per call, so each line of runs.jsonl carries `cost_usd`. Prices live
+Most calls in this project ran on a free tier, where nothing is paid. The brief still asks what the
+same work costs at list price, per call, so each line of runs.jsonl carries `cost_usd`. For a model
+marked "paid" in pricing.json, which has no free tier, that number is what was really paid. Prices live
 in pricing.json. Each one is copied from the provider's own pricing page with the date it was read.
 When a price, or the usage it applies to, is not known, the cost is None: a missing number is
 better than an invented one.

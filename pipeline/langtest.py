@@ -18,9 +18,9 @@ from pathlib import Path
 
 from . import providers
 from .core import Ctx, PipelineError, Unit, file_sha, is_cached, run_units, shot_text
+from .narration import LANGUAGE_NAMES as NAMES
 from .narration import LISTEN_PROMPT, similarity, take
 
-NAMES = {"am": "Amharic", "ti": "Tigrinya", "so": "Somali", "om": "Afaan Oromo", "en": "English", "sw": "Swahili", "ar": "Arabic"}
 MAX_LINES = 4  # enough to hear the difference. One speech request per language, so four languages cost four of the day's ten
 
 
@@ -73,7 +73,10 @@ def run(ctx: Ctx, langs: list[str]) -> list[dict]:
         pieces: dict[str, Path] = {}
         if len(missing) > 1:
             try:
-                pieces = take(ctx, missing, voice, model, stage="langtest", unit=f"{lang}_take")
+                pieces = take(ctx, missing, voice, model, stage="langtest", unit=f"{lang}_take", lang=lang)
+                for row in mine:  # a line that cannot be cut out of the take is a finding too: one request per language, no more
+                    if row["shot"] in missing and row["shot"] not in pieces:
+                        row["error"] = "the take was spoken, but this line could not be cut out of it with certainty"
             except PipelineError as e:  # a language the model cannot speak is a finding, and no further request is spent on it
                 for row in mine:
                     if row["shot"] in missing:
@@ -98,7 +101,7 @@ def run(ctx: Ctx, langs: list[str]) -> list[dict]:
                 fp = {"audio": file_sha(wav), "model": sb["models"]["text"]}
 
                 def listen(tmp: Path, wav: Path = wav, text: str = text, sid: str = sid, lang: str = lang) -> dict:
-                    heard, _ = providers.text(ctx, "langtest", f"{lang}_{sid}_listen", LISTEN_PROMPT, kind="transcribe",
+                    heard, _ = providers.text(ctx, "langtest", f"{lang}_{sid}_listen", LISTEN_PROMPT.format(language=NAMES.get(lang, lang)), kind="transcribe",
                                               parts=[("audio/wav", wav.read_bytes())], temperature=0.0)
                     result = {"heard": heard, "score": similarity(text, heard)}
                     tmp.write_text(json.dumps(result, ensure_ascii=False), encoding="utf-8")

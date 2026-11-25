@@ -2,8 +2,8 @@
   "version": 1,
   "title": "One Bag",
   "language": {"narration": "am", "subtitles": "en"},
-  "audience": "DRAFT, confirm or rewrite: my family and the friends who also left home to study. They watch on a phone, mostly in vertical.",
-  "intent": "DRAFT, confirm or rewrite: they should feel that fear at the start of something new is normal, and that it passes.",
+  "audience": "DRAFT, confirm or rewrite: myself, and the friend who was waiting for me that night. We watch it on a phone.",
+  "intent": "DRAFT, confirm or rewrite: we should remember that night the way it was, confusing and new, and be glad we lived it. Experience it.",
   "format": {
     "fps": 24,
     "master": {"width": 1024, "height": 1024},
@@ -26,15 +26,15 @@
     "music": "acestep-v15-turbo"
   },
   "style": {
-    "block": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. The painting fills the whole frame from edge to edge. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture.",
+    "block": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. The painting fills the whole frame from edge to edge. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture: number plates, shop signs and screens are plain blank shapes.",
     "negative": "text, letters, signs with writing, watermark, logo, photorealistic, extra fingers"
   },
   "characters": [
     {
       "id": "boy",
       "label": "The author in 2019",
-      "description": "A slim Ethiopian young man of about nineteen with short black hair, wearing a plain dark jacket over a light shirt, carrying one worn canvas shoulder bag.",
-      "reference_prompt": "Character sheet on a plain warm background: the same young man shown three times, from the front, from the side and from behind, full figure, neutral pose, with his canvas shoulder bag.",
+      "description": "A slim Ethiopian young man of about nineteen with dark brown skin and short black curly hair, wearing a plain dark jacket over a light shirt, plain trousers and moulded plastic sandals with a closed toe and a buckle strap, carrying one simple backpack.",
+      "reference_prompt": "One single full-length figure on a plain warm background, seen from behind, standing in a neutral pose with his backpack on his shoulders, his feet and sandals in view. Only one figure in the picture.",
       "seed": 7001,
       "real_person": true,
       "consent": {"status": "recorded", "record": "consent-author"}
@@ -42,14 +42,16 @@
     {
       "id": "friend",
       "label": "The friend who knew the city",
-      "description": "A taller Ethiopian young man in his early twenties, always seen from behind, wearing a denim jacket.",
+      "description": "An Ethiopian young man of about the same age, a little taller, with dark brown skin and short black hair, always seen from behind, wearing a blue denim jacket and carrying nothing.",
+      "reference_prompt": "One single full-length figure on a plain warm background, seen from behind, standing in a neutral pose with empty hands. Only one figure in the picture.",
+      "seed": 7002,
       "real_person": true,
       "consent": {"status": "recorded", "record": "consent-friend"}
     },
     {
       "id": "man",
       "label": "The author today",
-      "description": "The same man seven years later, in his mid twenties, calm, wearing a plain shirt, seen from behind or in three-quarter view.",
+      "description": "The same man seven years later, in his mid twenties, with dark brown skin and short black curly hair, calm, wearing a plain shirt, always seen from behind.",
       "real_person": true,
       "consent": {"status": "recorded", "record": "consent-author"}
     }
@@ -58,19 +60,19 @@
   "voice": {"name": "Charon", "style": "calm, warm and unhurried, like telling a memory to family"},
   "qa": {"keyframe_candidates": 2, "judge": true, "roundtrip": true, "roundtrip_min": 0.6, "subtitle_check": true},
   "music": {
-    "caption": "Slow, sparse instrumental. A solo krar (Ethiopian lyre) plucks a gentle pentatonic melody in the tizita mood, a soft washint flute answers, warm low drone underneath. Intimate room sound, nostalgic and tender, a lot of space between notes. No drums, no vocals.",
+    "caption": "Solo krar, the Ethiopian six-string lyre, plucked slowly. A sparse pentatonic melody in the tizita mood. One instrument only, in a quiet room. No drums, no vocals.",
     "bpm": 66,
     "duration_s": 80,
     "seeds": [11, 22, 33],
     "chosen": null,
     "gain_db": 0,
     "cues": [
-      {"at_shot": "s01", "note": "Krar alone, very quiet. The bag."},
-      {"at_shot": "s03", "note": "Low drone enters under the taxi ride."},
-      {"at_shot": "s04", "note": "Tension: the melody thins out, the drone grows."},
+      {"at_shot": "s01", "note": "Krar alone, very quiet. Midday, the goodbye."},
+      {"at_shot": "s02", "note": "The melody opens up with the road and the mountains."},
+      {"at_shot": "s04", "note": "Night in the city: the melody thins out, a low drone enters."},
+      {"at_shot": "s06", "note": "The busiest moment, the brokers. Still quiet under the voice."},
       {"at_shot": "s07", "note": "Back to the krar alone. The room."},
-      {"at_shot": "s09", "note": "Flute enters. A lift, he gets on the bus."},
-      {"at_shot": "s10", "note": "The first melody returns and resolves. Fade under the end card."}
+      {"at_shot": "s09", "note": "The first melody returns and resolves. Fade under the end card."}
     ]
   },
   "end_card": {
@@ -80,177 +82,162 @@
   "shots": [
     {
       "id": "s01",
-      "title": "The bag",
-      "reason": "Opens on the one object that carries the whole film: the bag with the books. It sets up the last line about learning.",
-      "size": "insert",
+      "title": "Midday, Ankober",
+      "reason": "Where it starts: a small highland town at midday and one backpack. The goodbye is said in the voice, because the friend who came to say it is not shown.",
+      "size": "medium",
       "characters": ["boy"],
-      "min_duration_s": 7,
+      "min_duration_s": 8,
       "keyframe": {
-        "prompt": "View from above of an open worn canvas bag on a wooden bed, folded clothes and three old books inside, a young man's hands closing it. Soft daylight from a small window, a simple highland home.",
+        "prompt": "Midday in a small town in the Ethiopian highlands. One young man seen from behind, in the centre, a simple backpack on his shoulders, stands facing an old boxy country bus with its door open and bundles tied on its roof rack. Low houses with rusty corrugated tin roofs and mud-plastered walls, tall thin eucalyptus trees, red-brown dusty ground, high bright sun, short shadows. Nobody else in the foreground.",
         "seed": 101
       },
-      "motion": {"backend": "kenburns", "camera": "push_in", "prompt": "The hands slowly pull the bag closed. Fixed camera."},
+      "motion": {"backend": "kenburns", "camera": "push_in", "prompt": "He shifts the backpack on his shoulders and steps toward the bus door. Fixed camera."},
       "narration": {
-        "am": "በ2019 ከአንኮበር በአንድ ሻንጣ ወጣሁ። ጥቂት ልብስ። ጥቂት መጻሕፍት።",
-        "en": "In 2019 I left Ankober with one bag. Some clothes. Some books."
+        "am": "እኩለ ቀን አካባቢ ነበር፣ ከአንኮበር ስነሳ። አንድ የጀርባ ቦርሳ ብቻ ይዤ። አንድ ጓደኛዬ ሊሸኘኝ መጥቶ ነበር።",
+        "en": "It was around midday when I left Ankober. Just one backpack. A friend had come to see me off."
       },
-      "review": {"confirmed": false, "note": "Amharic is an AI draft: say it in your own words. Year: a listener hears '2019' in Amharic as the Ethiopian year, which is this year. Say the Ethiopian year in words (2011 if you travelled before 12 September 2019, 2012 if after) and keep 2019 in the English subtitle."}
+      "review": {"confirmed": false, "note": "Draft written on 2026-11-25 from the story Bete told by voice that day. He has not read this line yet. The year is left out until he says whether it was before or after 12 September 2019: in Amharic it has to be the Ethiopian year, in words."}
     },
     {
       "id": "s02",
-      "title": "The road out",
-      "reason": "Establishing shot: where he comes from, and how small he is against the journey. A breath before the city.",
+      "title": "The gravel road",
+      "reason": "The journey itself, and the scale of it: one small bus on a gravel road under forested mountains. He said the view was amazing, so the shot is wide and takes its time.",
       "size": "extreme wide",
       "characters": [],
-      "min_duration_s": 4,
+      "min_duration_s": 7,
       "keyframe": {
-        "prompt": "Extreme wide view of a narrow road crossing high green highland country in daylight, patchwork fields and stands of eucalyptus, one small bus far away on the road, low cloud on the far hills.",
+        "prompt": "Extreme wide view from high above: a pale gravel road winds along steep green mountainsides in the Ethiopian highlands. One tiny country bus on the road trails a long plume of dust. Dense dark green juniper and eucalyptus forest on the slopes, layer after layer of mountains fading into blue haze, early afternoon light. No people.",
         "seed": 102
       },
-      "motion": {"backend": "kenburns", "camera": "pan_right", "prompt": "The small bus moves slowly along the road, cloud drifts. Slow pan to the right."},
-      "narration": null,
-      "review": {"confirmed": false, "note": "By bus from Ankober: you confirmed this on 2026-11-25. The landscape is still a guess: describe the real road out of Ankober and change the prompt."}
+      "motion": {"backend": "wan", "camera": "pan_right", "prompt": "The small bus moves slowly along the road and its dust drifts away. Slow pan to the right.", "seed": 202},
+      "narration": {
+        "am": "እስከ ደብረ ብርሃን መንገዱ ፒስታ ነበር። ከዚያ በኋላ አስፋልት።",
+        "en": "The road was gravel as far as Debre Birhan. After that, asphalt."
+      },
+      "review": {"confirmed": false, "note": "Draft written on 2026-11-25 from the story Bete told by voice that day. He has not read this line yet."}
     },
     {
       "id": "s03",
-      "title": "Taxi across the city",
-      "reason": "The middle of the story: he is carried through a city he cannot read. Lights through glass need no faces.",
+      "title": "The window seat",
+      "reason": "The same journey from where he sat. Nobody travelled with him, so the shot is his alone: a window, and what was outside it.",
       "size": "pov",
       "characters": ["boy"],
       "min_duration_s": 8,
       "keyframe": {
-        "prompt": "Inside a minibus taxi at dusk, looking out through the side window: the last orange light low in the sky, the first street lamps and headlights coming on as soft blurred lights, reflections on the glass, the dark shoulder of a young passenger at the edge of the frame, a bag held on his knees.",
+        "prompt": "Inside an old country bus. In the foreground, seen from behind, one young passenger sits on a worn bus seat beside the side window: only his head, his shoulders and the top of the seat back are in view, and he holds a backpack on his lap. He looks out through the side window at steep forested mountain slopes of the Ethiopian highlands in afternoon light. A row of bus windows runs along the wall.",
         "seed": 103
       },
-      "motion": {"backend": "wan", "camera": "pan_left", "prompt": "City lights streak slowly past the window and reflections slide across the glass. Slight shake of a moving vehicle.", "seed": 203},
+      "motion": {"backend": "kenburns", "camera": "pan_left", "prompt": "Forest and mountain slopes slide slowly past the window. Slight shake of a moving bus.", "seed": 203},
       "narration": {
-        "am": "ከላምበረት ከጓደኛዬ ጋር ታክሲ ይዘን አዲስ አበባን አቋረጥን። እሱ ከተማዋን ያውቃታል። እኔ አላውቃትም ነበር።",
-        "en": "At Lamberet my friend and I took a taxi across Addis Ababa. He knew the city. I did not."
+        "am": "በአውቶቡሱ መስኮት በኩል ተቀምጬ ነበር። ውጪው ደንና ተራራ ነው። እይታው ድንቅ ነበር።",
+        "en": "I sat by the window of the bus. Outside, forest and mountains. The view was amazing."
       },
-      "review": {"confirmed": false, "note": "Amharic is an AI draft. Light: evening was starting when you reached Addis, you confirmed this on 2026-11-25."}
+      "review": {"confirmed": false, "note": "Draft written on 2026-11-25 from the story Bete told by voice that day. He has not read this line yet."}
     },
     {
       "id": "s04",
-      "title": "Autobus Tera",
-      "reason": "The fear needs a place. The wide shot makes him small and the station enormous.",
+      "title": "Lamberet at night",
+      "reason": "The arrival, and the turn of the film: daylight and mountains give way to night, crowds, lit buildings and cars. He is alone in the frame, facing all of it. His friend is somewhere in that crowd, and the voice says so.",
       "size": "wide",
       "characters": ["boy"],
-      "min_duration_s": 6,
+      "min_duration_s": 9,
       "keyframe": {
-        "prompt": "Wide view of a huge crowded bus station at nightfall, the last deep blue light in the sky, seen from behind a young man standing still with a bag on his shoulder. Rows of buses, hundreds of small figures as soft blurred shapes, bright lamps and headlights, dust in the light.",
+        "prompt": "Night on a wide avenue on the edge of Addis Ababa, Ethiopia. In the centre foreground, one young man seen from behind, a backpack on his shoulders, stands still and looks at the city in front of him. Before him the avenue is a river of white and red car lights with many blue and white minibus taxis, a thick crowd of people as soft dark shapes on both pavements, and tall concrete and glass buildings with hundreds of lit windows under a deep blue night sky.",
         "seed": 104
       },
-      "motion": {"backend": "kenburns", "camera": "pull_out", "prompt": "The crowd flows around him while he stands still. Slow pull back."},
+      "motion": {"backend": "kenburns", "camera": "pull_out", "prompt": "The two walk on while cars and people move around them. Slow pull back."},
       "narration": {
-        "am": "አውቶቡስ ተራ ወረድን። ፍርሃቱ የመጣው እዚያ ነው።",
-        "en": "We got out at Autobus Tera. That is where the fear came."
+        "am": "ላምበረት ስደርስ መሽቶ ነበር። ጓደኛዬ እየጠበቀኝ ነበር። ሰው በዝቷል፤ የሕንፃ መብራት፣ ብዙ መኪና።",
+        "en": "It was night when I reached Lamberet. My friend was waiting for me. So many people, lights on the buildings, so many cars."
       },
-      "review": {"confirmed": false, "note": "Amharic is an AI draft. Light: almost night at Autobus Tera, you confirmed this on 2026-11-25."}
+      "review": {"confirmed": false, "note": "Draft written on 2026-11-25 from the story Bete told by voice that day. He has not read this line yet."}
     },
     {
       "id": "s05",
-      "title": "Too much",
-      "reason": "Puts the viewer inside his head: no faces, only noise and light. The one shot that should feel too fast.",
+      "title": "Across the city",
+      "reason": "A breath between two crowded places, with no words: only the lights of a city he did not know yet, passing a window.",
       "size": "pov",
       "characters": [],
-      "min_duration_s": 6,
+      "min_duration_s": 5,
       "keyframe": {
-        "prompt": "Point of view inside a crowd at nightfall: dark silhouettes crossing close to the camera in both directions, overexposed lamps and headlights flaring, streaks of amber and white light, nothing in sharp focus.",
+        "prompt": "An abstract painting of night city lights far out of focus, with no person, no figure and no object in it. The lights themselves are the subject: large soft round glows of amber, white, red and teal scattered over the whole frame on a dark blue-black ground, a few of them stretched sideways into short streaks by movement.",
         "seed": 105
       },
-      "motion": {"backend": "wan", "camera": "pan_right", "prompt": "Silhouettes cross the frame in both directions, lights flare and drift. Handheld camera turning slowly.", "seed": 205},
-      "narration": {
-        "am": "ብዙ ሰው። ብዙ ጫጫታ። በብርሃን የተሞላች ከተማ።",
-        "en": "So many people. So much sound. A city full of light."
-      },
-      "review": {"confirmed": false, "note": "Amharic is an AI draft."}
+      "motion": {"backend": "wan", "camera": "pan_right", "prompt": "City lights streak slowly past the window and reflections slide across the glass.", "seed": 205},
+      "narration": null,
+      "review": {"confirmed": false, "note": "To check with Bete: that he and his friend went on from Lamberet to Autobus Tera the same night. He was not sure about the taxi, so no vehicle is named or shown from outside."}
     },
     {
       "id": "s06",
-      "title": "Follow him",
-      "reason": "Trust replaces fear: one back to follow. The grip on the bag keeps the object in the frame.",
-      "size": "over-the-shoulder",
+      "title": "Do you want a bed?",
+      "reason": "The heart of the story as he tells it: not fear but confusion. Brokers on every side offering a bed, and two friends who have to pick one.",
+      "size": "medium",
       "characters": ["boy", "friend"],
-      "min_duration_s": 8,
+      "min_duration_s": 10,
       "keyframe": {
-        "prompt": "Over-the-shoulder view following a taller young man seen from behind as he walks ahead through a crowd. In the foreground the follower's hand grips a bag strap. A narrow street near the station, stalls lit by warm bulbs.",
+        "prompt": "Night in the yard of a big crowded bus station in Addis Ababa. In the centre, seen from behind, two young men stand close together: the shorter one with a backpack, the other in a blue denim jacket with nothing on his back. Around them five men in a half circle lean in and gesture with open hands. The five are painted as dark silhouettes against the bright yard lamps, with no faces to be seen. Behind them rows of parked long-distance buses and dust hanging in the light.",
         "seed": 106
       },
-      "motion": {"backend": "kenburns", "camera": "push_in", "prompt": "The friend walks ahead and the camera follows at walking pace."},
+      "motion": {"backend": "kenburns", "camera": "push_in", "prompt": "The men around them gesture and step closer. Slow push in."},
       "narration": {
-        "am": "ሻንጣዬን አጥብቄ ይዤ በሕዝቡ መሃል ተከተልኩት፤ በመናኸሪያው አቅራቢያ ማደሪያ እየፈለግን።",
-        "en": "I held my bag and followed him through the crowd, looking for a room near the station."
+        "am": "አውቶቡስ ተራ ስንደርስ ደላሎች ከበቡን። «አልጋ ትፈልጋላችሁ?» ብዙ ነበሩ። ግራ ገባን። አንዱን መረጥን።",
+        "en": "At Autobus Tera the brokers closed in on us. \"Do you want a bed?\" There were so many. We were confused. We picked one."
       },
-      "review": {"confirmed": false, "note": "Amharic is an AI draft. Your friend appears here, seen from behind: his consent was recorded on 2026-11-25."}
+      "review": {"confirmed": false, "note": "Draft written on 2026-11-25 from the story Bete told by voice that day. He has not read this line yet."}
     },
     {
       "id": "s07",
       "title": "The room",
-      "reason": "Quiet after the noise. The room is the pause between home and what comes next.",
+      "reason": "Quiet after the noise, and exactly as he described it: one bed, not very good, not bad, clean. The backpack is the only thing of his in it.",
       "size": "wide",
       "characters": [],
-      "min_duration_s": 7,
+      "min_duration_s": 8,
       "keyframe": {
-        "prompt": "A small bare rented room at night: one narrow bed with a canvas bag on it, a single bare bulb, peeling painted walls, a small window with the lights of buses outside.",
+        "prompt": "A small plain rented room at night in Addis Ababa: one narrow single bed with one pillow and a clean sheet, neatly made, bare painted walls, a single bulb, a simple backpack on the floor beside the bed, one small window. Modest and clean.",
         "seed": 107
       },
-      "motion": {"backend": "kenburns", "camera": "push_in", "prompt": "Light from outside moves slowly across the wall. Very slow push in."},
+      "motion": {"backend": "kenburns", "camera": "push_in", "prompt": "Very slow push in toward the bed and the backpack."},
       "narration": {
-        "am": "ጠዋት አውቶቡስ ወደ ባሕር ዳር፣ ወደ ዩኒቨርሲቲ ይወስደኛል።",
-        "en": "In the morning a bus would take me to Bahir Dar, to the university."
+        "am": "ክፍሉ ባለ አንድ አልጋ ነበር። በጣም ጥሩ አይደለም፣ መጥፎም አይደለም። ንጹሕ ነበር።",
+        "en": "The room had one bed. Not very good, not bad. It was clean."
       },
-      "review": {"confirmed": false, "note": "Amharic is an AI draft. Guesses: 'in the morning' and 'to the university'. Keep only what is true."}
+      "review": {"confirmed": false, "note": "Draft written on 2026-11-25 from the story Bete told by voice that day. He has not read this line yet."}
     },
     {
       "id": "s08",
-      "title": "Awake",
-      "reason": "The only close-up of his face: the fear made small and private. The book by the pillow links to the ending.",
-      "size": "close-up",
+      "title": "The queue",
+      "reason": "The morning after: the city is ordinary again, a long line of people waiting for a ticket. He is the last one in it, seen from behind.",
+      "size": "wide",
       "characters": ["boy"],
-      "min_duration_s": 5,
+      "min_duration_s": 7,
       "keyframe": {
-        "prompt": "Close-up of the young man lying awake on a bed in the dark, eyes open, half of his face lit by light moving in from a window, one book beside the pillow.",
+        "prompt": "Early morning in the open yard of a bus station in Addis Ababa, Ethiopia, soft gold light and long shadows. In the foreground, one young man seen from behind, a backpack on his shoulders, stands at the end of a very long single-file queue. The queue of men and women, all seen from behind, runs away from him across the yard to a small ticket window in a low building far off. Long-distance buses are parked along one side.",
         "seed": 108
       },
-      "motion": {"backend": "wan", "camera": "static", "prompt": "Light from passing buses sweeps slowly across his face. He blinks once. Fixed camera.", "seed": 208},
+      "motion": {"backend": "kenburns", "camera": "pan_left", "prompt": "The queue shuffles forward a step. Slow pan along the line."},
       "narration": {
-        "am": "ያን ሌሊት እንቅልፍ አልወሰደኝም።",
-        "en": "That night I could not sleep."
+        "am": "ጠዋት ረጅም ሰልፍ ተሰልፈን ትኬት ቆረጥን።",
+        "en": "In the morning we stood in a long queue and got the ticket."
       },
-      "review": {"confirmed": false, "note": "Amharic is an AI draft. Guess: that you could not sleep. Replace the line with what really happened in the room."}
+      "review": {"confirmed": false, "note": "Draft written on 2026-11-25 from the story Bete told by voice that day. He has not read this line yet. To check: that his friend stood in the queue with him, and where the ticket was for."}
     },
     {
       "id": "s09",
-      "title": "Morning bus",
-      "reason": "He goes anyway. Shown, not said: the step onto the bus is the decision.",
-      "size": "wide",
-      "characters": ["boy"],
-      "min_duration_s": 5,
-      "keyframe": {
-        "prompt": "Dawn at a bus station in soft blue and gold light. The young man, seen from behind with his bag on his shoulder, steps up into a long-distance bus. A few people, cold morning air.",
-        "seed": 109
-      },
-      "motion": {"backend": "kenburns", "camera": "tilt_up", "prompt": "He steps up into the bus. Slow tilt up to the brightening sky."},
-      "narration": null,
-      "review": {"confirmed": false, "note": "Guess: that the bus to Bahir Dar left the next morning. Change the shot if it left at another time."}
-    },
-    {
-      "id": "s10",
       "title": "Now",
-      "reason": "The answer to the fear: the same city, seen calmly. The book returns for the last line.",
+      "reason": "The answer to the whole night, in two words of his. The same city, seen calmly by the man that boy became, with the same kind of backpack at his feet.",
       "size": "medium",
       "characters": ["man"],
-      "min_duration_s": 11,
+      "min_duration_s": 10,
       "keyframe": {
-        "prompt": "Golden hour. A man seen from behind at an open window, looking out over the wide city of Addis Ababa. An open book rests on the window sill beside him. Calm warm light.",
-        "seed": 110
+        "prompt": "Golden hour. One man alone, seen from behind, stands at the railing of a balcony and looks out over the wide city of Addis Ababa: low tin-roofed houses mixed with mid-rise concrete and glass buildings, and eucalyptus-covered hills on the horizon. A simple backpack rests on the floor beside his feet and nothing is on his back. Calm warm light.",
+        "seed": 109
       },
-      "motion": {"backend": "wan", "camera": "push_in", "prompt": "The curtain moves gently and the first city lights come on far away. Slow push in.", "seed": 210},
+      "motion": {"backend": "kenburns", "camera": "push_in", "prompt": "A light wind moves his shirt and the first city lights come on far away. Slow push in.", "seed": 209},
       "narration": {
-        "am": "ዛሬ ያንን ልጅ ማናገር ብችል እንዲህ እለው ነበር፦ አትፍራ። በሕይወት ውስጥ ብዙ የምትማረው ነገር አለ።",
-        "en": "If I could speak to that boy now, I would tell him: do not be scared. There is a lot to learn in life."
+        "am": "ዛሬ ያንን ልጅ ባገኘው አንድ ነገር ብቻ እለዋለሁ፦ ኑረው።",
+        "en": "If I met that boy today, I would tell him just one thing: experience it."
       },
-      "review": {"confirmed": false, "note": "Amharic is an AI draft. This is your own sentence: make sure it sounds like you."}
+      "review": {"confirmed": false, "note": "Draft written on 2026-11-25 from the story Bete told by voice that day. He has not read this line yet. The last word is his to give: he said 'experience it', and the Amharic here is a guess until he types his own."}
     }
   ]
 }

@@ -245,8 +245,9 @@ def run(ctx: Ctx, state: dict, mode: str = "film", plan_only: bool = False) -> d
     for t in timeline["shots"]:
         line = script["lines"].get(t["id"])
         if line and t["narration_start"] is not None:
-            cues[t["id"]] = subtitle_cues(line["subtitle"], t["narration_start"] - t["start"], t["narration_s"])
-            absolute += subtitle_cues(line["subtitle"], t["narration_start"], t["narration_s"])
+            inside = narration[t["id"]].get("pauses")
+            cues[t["id"]] = subtitle_cues(line["subtitle"], t["narration_start"] - t["start"], t["narration_s"], pauses=inside)
+            absolute += subtitle_cues(line["subtitle"], t["narration_start"], t["narration_s"], pauses=inside)
 
     narr_dir, music_dir = ctx.out / "narration", ctx.out / "music"
     placed = [(narr_dir / narration[t["id"]]["file"], t["narration_start"]) for t in timeline["shots"]

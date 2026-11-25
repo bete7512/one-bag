@@ -1,0 +1,462 @@
+{
+ "units": {
+  "s01": {
+   "key": "b1d7daeed8f6319a",
+   "file": "s01__b1d7daeed8f6319a.wav",
+   "fingerprint": {
+    "v": 2,
+    "text": "እኩለ ቀን አካባቢ ነበር፣ ከአንኮበር ስነሳ። አንድ የጀርባ ቦርሳ ብቻ ይዤ። አንድ ጓደኛዬ ሊሸኘኝ መጥቶ ነበር።",
+    "lang": "am",
+    "voice": "Charon",
+    "style": "calm, warm and unhurried, like telling a memory to family",
+    "model": "gemini-3.8-flash-tts"
+   },
+   "meta": {
+    "seconds": 8.582,
+    "from_take": true
+   },
+   "created": "2026-11-25T17:12:38Z"
+  },
+  "s02": {
+   "key": "899429c2c94529c1",
+   "file": "s02__899429c2c94529c1.wav",
+   "fingerprint": {
+    "v": 2,
+    "text": "እስከ ደብረ ብርሃን መንገዱ ፒስታ ነበር። ከዚያ በኋላ አስፋልት።",
+    "lang": "am",
+    "voice": "Charon",
+    "style": "calm, warm and unhurried, like telling a memory to family",
+    "model": "gemini-3.8-flash-tts"
+   },
+   "meta": {
+    "seconds": 4.904,
+    "from_take": true
+   },
+   "created": "2026-11-25T17:12:38Z"
+  },
+  "s03": {
+   "key": "0a4eb04db117b841",
+   "file": "s03__0a4eb04db117b841.wav",
+   "fingerprint": {
+    "v": 2,
+    "text": "በአውቶቡሱ መስኮት በኩል ተቀምጬ ነበር። ውጪው ደንና ተራራ ነው። እይታው ድንቅ ነበር።",
+    "lang": "am",
+    "voice": "Charon",
+    "style": "calm, warm and unhurried, like telling a memory to family",
+    "model": "gemini-3.8-flash-tts"
+   },
+   "meta": {
+    "seconds": 6.911,
+    "from_take": true
+   },
+   "created": "2026-11-25T17:12:38Z"
+  },
+  "s04": {
+   "key": "8ba30dec01f68c12",
+   "file": "s04__8ba30dec01f68c12.wav",
+   "fingerprint": {
+    "v": 2,
+    "text": "ላምበረት ስደርስ መሽቶ ነበር። ጓደኛዬ እየጠበቀኝ ነበር። ሰው በዝቷል፤ የሕንፃ መብራት፣ ብዙ መኪና።",
+    "lang": "am",
+    "voice": "Charon",
+    "style": "calm, warm and unhurried, like telling a memory to family",
+    "model": "gemini-3.8-flash-tts"
+   },
+   "meta": {
+    "seconds": 9.276,
+    "from_take": true
+   },
+   "created": "2026-11-25T17:12:38Z"
+  },
+  "s06": {
+   "key": "25b921d99f73e797",
+   "file": "s06__25b921d99f73e797.wav",
+   "fingerprint": {
+    "v": 2,
+    "text": "አውቶቡስ ተራ ስንደርስ ደላሎች ከበቡን። «አልጋ ትፈልጋላችሁ?» ብዙ ነበሩ። ግራ ገባን። አንዱን መረጥን።",
+    "lang": "am",
+    "voice": "Charon",
+    "style": "calm, warm and unhurried, like telling a memory to family",
+    "model": "gemini-3.8-flash-tts"
+   },
+   "meta": {
+    "seconds": 10.32,
+    "from_take": false
+   },
+   "created": "2026-11-25T17:12:45Z"
+  },
+  "s07": {
+   "key": "e895cafb0fd84c6f",
+   "file": "s07__e895cafb0fd84c6f.wav",
+   "fingerprint": {
+    "v": 2,
+    "text": "ክፍሉ ባለ አንድ አልጋ ነበር። በጣም ጥሩ አይደለም፣ መጥፎም አይደለም። ንጹሕ ነበር።",
+    "lang": "am",
+    "voice": "Charon",
+    "style": "calm, warm and unhurried, like telling a memory to family",
+    "model": "gemini-3.8-flash-tts"
+   },
+   "meta": {
+    "seconds": 8.18,
+    "from_take": false
+   },
+   "created": "2026-11-25T17:13:04Z"
+  },
+  "s08": {
+   "key": "7bafc738823d3f67",
+   "file": "s08__7bafc738823d3f67.wav",
+   "fingerprint": {
+    "v": 2,
+    "text": "ጠዋት ረጅም ሰልፍ ተሰልፈን ትኬት ቆረጥን።",
+    "lang": "am",
+    "voice": "Charon",
+    "style": "calm, warm and unhurried, like telling a memory to family",
+    "model": "gemini-3.8-flash-tts"
+   },
+   "meta": {
+    "seconds": 3.95,
+    "from_take": false
+   },
+   "created": "2026-11-25T17:13:23Z"
+  },
+  "s09": {
+   "key": "824c862c1872d293",
+   "file": "s09__824c862c1872d293.wav",
+   "fingerprint": {
+    "v": 2,
+    "text": "ዛሬ ያንን ልጅ ባገኘው አንድ ነገር ብቻ እለዋለሁ፦ ኑረው።",
+    "lang": "am",
+    "voice": "Charon",
+    "style": "calm, warm and unhurried, like telling a memory to family",
+    "model": "gemini-3.8-flash-tts"
+   },
+   "meta": {
+    "seconds": 6.09,
+    "from_take": false
+   },
+   "created": "2026-11-25T17:13:44Z"
+  },
+  "s01_listen": {
+   "key": "96742021a40e3b09",
+   "file": "s01_listen__96742021a40e3b09.json",
+   "fingerprint": {
+    "v": 2,
+    "audio": "86fb1b4d2ef00068",
+    "text": "እኩለ ቀን አካባቢ ነበር፣ ከአንኮበር ስነሳ። አንድ የጀርባ ቦርሳ ብቻ ይዤ። አንድ ጓደኛዬ ሊሸኘኝ መጥቶ ነበር።",
+    "model": "gemini-3.5-flash-lite",
+    "question": "ec4a06ca5dbb"
+   },
+   "meta": {
+    "heard": "ቁላ እስከ አሁን አካባቢያችን ከሀንኮቨር ስንነሳ አንድ የጀርባ ቦርሳ ብቻ ይዤ አንድ ጓደኛዬ ሊሸኘኝ መቶ ነበር።",
+    "score": 0.832
+   },
+   "created": "2026-11-25T17:17:04Z"
+  },
+  "s02_listen": {
+   "key": "dc5ba101f3403d21",
+   "file": "s02_listen__dc5ba101f3403d21.json",
+   "fingerprint": {
+    "v": 2,
+    "audio": "7ad7e8351200aaf9",
+    "text": "እስከ ደብረ ብርሃን መንገዱ ፒስታ ነበር። ከዚያ በኋላ አስፋልት።",
+    "model": "gemini-3.5-flash-lite",
+    "question": "ec4a06ca5dbb"
+   },
+   "meta": {
+    "heard": "እስክንድር አብረሃም መንገዱ ፒስታ ነበር። ከዚያ በኋላ አስፋልት",
+    "score": 0.846
+   },
+   "created": "2026-11-25T17:17:07Z"
+  },
+  "s03_listen": {
+   "key": "d42a4663cd1c73b7",
+   "file": "s03_listen__d42a4663cd1c73b7.json",
+   "fingerprint": {
+    "v": 2,
+    "audio": "c485ace1aa5d133f",
+    "text": "በአውቶቡሱ መስኮት በኩል ተቀምጬ ነበር። ውጪው ደንና ተራራ ነው። እይታው ድንቅ ነበር።",
+    "model": "gemini-3.5-flash-lite",
+    "question": "ec4a06ca5dbb"
+   },
+   "meta": {
+    "heard": "ማርቲን ሉተር ኪንግ በጣም ቁጡ ተናጋሪ ነበር። ውጪው ደንድና ተራራ ነው። ማየታቸው ድንቅ ነበር።",
+    "score": 0.636
+   },
+   "created": "2026-11-25T17:17:11Z"
+  },
+  "s04_listen": {
+   "key": "cfb14b00877f760d",
+   "file": "s04_listen__cfb14b00877f760d.json",
+   "fingerprint": {
+    "v": 2,
+    "audio": "878a23a3c33fb3c6",
+    "text": "ላምበረት ስደርስ መሽቶ ነበር። ጓደኛዬ እየጠበቀኝ ነበር። ሰው በዝቷል፤ የሕንፃ መብራት፣ ብዙ መኪና።",
+    "model": "gemini-3.5-flash-lite",
+    "question": "ec4a06ca5dbb"
+   },
+   "meta": {
+    "heard": "ላምበር ከደርስ መጥቶ ነበር። ጓደኛዬ እየጠበቀኝ ነበር። ሰው በዝቷል። የህንጻ መብራት ብዙ መኪና",
+    "score": 0.906
+   },
+   "created": "2026-11-25T17:17:15Z"
+  },
+  "s06_listen": {
+   "key": "5135096c30cb4e35",
+   "file": "s06_listen__5135096c30cb4e35.json",
+   "fingerprint": {
+    "v": 2,
+    "audio": "35d862bad8d76ab8",
+    "text": "አውቶቡስ ተራ ስንደርስ ደላሎች ከበቡን። «አልጋ ትፈልጋላችሁ?» ብዙ ነበሩ። ግራ ገባን። አንዱን መረጥን።",
+    "model": "gemini-3.5-flash-lite",
+    "question": "ec4a06ca5dbb"
+   },
+   "meta": {
+    "heard": "አውቶቡስ ተራ ስደርስ ጀላዎች ከበቡኝ አልጋ ፈለጋላችሁ? ብዙ ነበሩ። ግራ ገባን አንዱን መረጠን።",
+    "score": 0.898
+   },
+   "created": "2026-11-25T17:17:20Z"
+  },
+  "s07_listen": {
+   "key": "66eb8807d5f418c2",
+   "file": "s07_listen__66eb8807d5f418c2.json",
+   "fingerprint": {
+    "v": 2,
+    "audio": "922f9248fc440620",
+    "text": "ክፍሉ ባለ አንድ አልጋ ነበር። በጣም ጥሩ አይደለም፣ መጥፎም አይደለም። ንጹሕ ነበር።",
+    "model": "gemini-3.5-flash-lite",
+    "question": "ec4a06ca5dbb"
+   },
+   "meta": {
+    "heard": "ቁፍሉ ውላ አንዳልጋ ነበር።\nበጣም ሦስት አይደለም።\nመጥፎም አይደለም።\nንፁህ ነበር።",
+    "score": 0.808
+   },
+   "created": "2026-11-25T17:17:23Z"
+  },
+  "s08_listen": {
+   "key": "ba8e75f86eda4081",
+   "file": "s08_listen__ba8e75f86eda4081.json",
+   "fingerprint": {
+    "v": 2,
+    "audio": "f6ae3809b8b390a8",
+    "text": "ጠዋት ረጅም ሰልፍ ተሰልፈን ትኬት ቆረጥን።",
+    "model": "gemini-3.5-flash-lite",
+    "question": "ec4a06ca5dbb"
+   },
+   "meta": {
+    "heard": "እርጥ, ረጅም ሰልፍ ተሰልፈን ቲኬት ኮረጥን።",
+    "score": 0.808
+   },
+   "created": "2026-11-25T17:17:26Z"
+  },
+  "s09_listen": {
+   "key": "d34f486bb6d7fc0b",
+   "file": "s09_listen__d34f486bb6d7fc0b.json",
+   "fingerprint": {
+    "v": 2,
+    "audio": "6ff785c2d000ca6a",
+    "text": "ዛሬ ያንን ልጅ ባገኘው አንድ ነገር ብቻ እለዋለሁ፦ ኑረው።",
+    "model": "gemini-3.5-flash-lite",
+    "question": "ec4a06ca5dbb"
+   },
+   "meta": {
+    "heard": "ዛሬ ያንን ልጅ ባገኘው አንድ ነገር ብቻ አለው ኑረው",
+    "score": 0.912
+   },
+   "created": "2026-11-25T17:17:31Z"
+  }
+ },
+ "entries": {
+  "b1d7daeed8f6319a": {
+   "unit": "s01",
+   "file": "s01__b1d7daeed8f6319a.wav",
+   "meta": {
+    "seconds": 8.582,
+    "from_take": true
+   }
+  },
+  "899429c2c94529c1": {
+   "unit": "s02",
+   "file": "s02__899429c2c94529c1.wav",
+   "meta": {
+    "seconds": 4.904,
+    "from_take": true
+   }
+  },
+  "0a4eb04db117b841": {
+   "unit": "s03",
+   "file": "s03__0a4eb04db117b841.wav",
+   "meta": {
+    "seconds": 6.911,
+    "from_take": true
+   }
+  },
+  "8ba30dec01f68c12": {
+   "unit": "s04",
+   "file": "s04__8ba30dec01f68c12.wav",
+   "meta": {
+    "seconds": 9.276,
+    "from_take": true
+   }
+  },
+  "25b921d99f73e797": {
+   "unit": "s06",
+   "file": "s06__25b921d99f73e797.wav",
+   "meta": {
+    "seconds": 10.32,
+    "from_take": false
+   }
+  },
+  "e895cafb0fd84c6f": {
+   "unit": "s07",
+   "file": "s07__e895cafb0fd84c6f.wav",
+   "meta": {
+    "seconds": 8.18,
+    "from_take": false
+   }
+  },
+  "7bafc738823d3f67": {
+   "unit": "s08",
+   "file": "s08__7bafc738823d3f67.wav",
+   "meta": {
+    "seconds": 3.95,
+    "from_take": false
+   }
+  },
+  "824c862c1872d293": {
+   "unit": "s09",
+   "file": "s09__824c862c1872d293.wav",
+   "meta": {
+    "seconds": 6.09,
+    "from_take": false
+   }
+  },
+  "fd35deb0a2391946": {
+   "unit": "s01_listen",
+   "file": "s01_listen__fd35deb0a2391946.json",
+   "meta": {
+    "heard": "እቁለቃና አካባቢ ነበር ከ አንኮበር ስነሳ። አንድ የጀርባ ቦርሳ ብቻ ይዤ። አንድ ጓደኛዬ ሊሸኘኝ መቶ ነበር።",
+    "score": 0.932
+   }
+  },
+  "05320bcee3bcd896": {
+   "unit": "s02_listen",
+   "file": "s02_listen__05320bcee3bcd896.json",
+   "meta": {
+    "heard": "እስክንድር በረሃ እንግዲህ ፒስታ ነበር። ከዚያ በኋላ አስፋልት",
+    "score": 0.727
+   }
+  },
+  "3f04a23eae148b3d": {
+   "unit": "s03_listen",
+   "file": "s03_listen__3f04a23eae148b3d.json",
+   "meta": {
+    "heard": "ባውቶቡሱ መጥኮት በኩል ተካ መጀነበር ውጪው ደንና ተራራ ነው። ማየተው ድንቅ ነበር።",
+    "score": 0.835
+   }
+  },
+  "73fbce7fc7c29220": {
+   "unit": "s04_listen",
+   "file": "s04_listen__73fbce7fc7c29220.json",
+   "meta": {
+    "heard": "Lambara cders məniştə nappa. Gödəyə iştəbəkəyə nepar. Səvəstü al, yein səma mərəat, bi zuma kına.",
+    "score": 0.159
+   }
+  },
+  "ec6d1ce185a1e73a": {
+   "unit": "s06_listen",
+   "file": "s06_listen__ec6d1ce185a1e73a.json",
+   "meta": {
+    "heard": "አውቶቡስ ተራ ስደርስ ጀላዎች ከበቡኝ አልጋ ፈለጋላችሁ ብዙ ነበሩ ግራ ገባን አንዱን መረጠን",
+    "score": 0.898
+   }
+  },
+  "7156fff8f54bda9c": {
+   "unit": "s07_listen",
+   "file": "s07_listen__7156fff8f54bda9c.json",
+   "meta": {
+    "heard": "ቁፍሉ ዋላ አንዳልጋ ነበረ። በጣም ሦስት አይደለም። መጥፎም አይደለም። ንፁህ ነበረ።",
+    "score": 0.768
+   }
+  },
+  "3dd9f399d9026cfc": {
+   "unit": "s08_listen",
+   "file": "s08_listen__3dd9f399d9026cfc.json",
+   "meta": {
+    "heard": "Ort rečem self-service ticket korat.",
+    "score": 0.164
+   }
+  },
+  "fab85137430f3aa8": {
+   "unit": "s09_listen",
+   "file": "s09_listen__fab85137430f3aa8.json",
+   "meta": {
+    "heard": "ዛሬ ያንን ልጅ ባገኘው አንዲት ነገር ብቻ አለው ኑረው",
+    "score": 0.87
+   }
+  },
+  "96742021a40e3b09": {
+   "unit": "s01_listen",
+   "file": "s01_listen__96742021a40e3b09.json",
+   "meta": {
+    "heard": "ቁላ እስከ አሁን አካባቢያችን ከሀንኮቨር ስንነሳ አንድ የጀርባ ቦርሳ ብቻ ይዤ አንድ ጓደኛዬ ሊሸኘኝ መቶ ነበር።",
+    "score": 0.832
+   }
+  },
+  "dc5ba101f3403d21": {
+   "unit": "s02_listen",
+   "file": "s02_listen__dc5ba101f3403d21.json",
+   "meta": {
+    "heard": "እስክንድር አብረሃም መንገዱ ፒስታ ነበር። ከዚያ በኋላ አስፋልት",
+    "score": 0.846
+   }
+  },
+  "d42a4663cd1c73b7": {
+   "unit": "s03_listen",
+   "file": "s03_listen__d42a4663cd1c73b7.json",
+   "meta": {
+    "heard": "ማርቲን ሉተር ኪንግ በጣም ቁጡ ተናጋሪ ነበር። ውጪው ደንድና ተራራ ነው። ማየታቸው ድንቅ ነበር።",
+    "score": 0.636
+   }
+  },
+  "cfb14b00877f760d": {
+   "unit": "s04_listen",
+   "file": "s04_listen__cfb14b00877f760d.json",
+   "meta": {
+    "heard": "ላምበር ከደርስ መጥቶ ነበር። ጓደኛዬ እየጠበቀኝ ነበር። ሰው በዝቷል። የህንጻ መብራት ብዙ መኪና",
+    "score": 0.906
+   }
+  },
+  "5135096c30cb4e35": {
+   "unit": "s06_listen",
+   "file": "s06_listen__5135096c30cb4e35.json",
+   "meta": {
+    "heard": "አውቶቡስ ተራ ስደርስ ጀላዎች ከበቡኝ አልጋ ፈለጋላችሁ? ብዙ ነበሩ። ግራ ገባን አንዱን መረጠን።",
+    "score": 0.898
+   }
+  },
+  "66eb8807d5f418c2": {
+   "unit": "s07_listen",
+   "file": "s07_listen__66eb8807d5f418c2.json",
+   "meta": {
+    "heard": "ቁፍሉ ውላ አንዳልጋ ነበር።\nበጣም ሦስት አይደለም።\nመጥፎም አይደለም።\nንፁህ ነበር።",
+    "score": 0.808
+   }
+  },
+  "ba8e75f86eda4081": {
+   "unit": "s08_listen",
+   "file": "s08_listen__ba8e75f86eda4081.json",
+   "meta": {
+    "heard": "እርጥ, ረጅም ሰልፍ ተሰልፈን ቲኬት ኮረጥን።",
+    "score": 0.808
+   }
+  },
+  "d34f486bb6d7fc0b": {
+   "unit": "s09_listen",
+   "file": "s09_listen__d34f486bb6d7fc0b.json",
+   "meta": {
+    "heard": "ዛሬ ያንን ልጅ ባገኘው አንድ ነገር ብቻ አለው ኑረው",
+    "score": 0.912
+   }
+  }
+ }
+}

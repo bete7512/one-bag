@@ -55,9 +55,9 @@ Keys flow downstream. A scene's fingerprint holds its clip's key, and the clip's
 Two stages keep the model's answer untouched and cut what the film needs from it with FFmpeg:
 
 - **Pictures.** Each answer of the image model is stored in `outputs/keyframes/original/` under a hash of what was sent to the model. The keyframe is cut from that file: scaled to the master size, with `format.edge_trim` taken off each side. The model is called only when no original exists, so a change to the cut costs nothing.
-- **Narration.** The lines missing from the cache are spoken in one request, a take, kept in `outputs/narration/takes/`. Each line carries a `<long pause>` tag at its end, and the take is cut at its longest pauses into one file per line. The per-line files keep their own fingerprints, so everything downstream is unchanged, and a single changed line is spoken alone.
+- **Narration.** The lines missing from the cache are spoken in one request, a take, kept in `outputs/narration/takes/`. Each line carries a `<long pause>` tag at its end, and the take is cut at its longest pauses into one file per line. When those pauses do not stand out, each phrase of the take is transcribed and matched to the script, and a line is kept only where both methods put its two ends in the same place. Any other line is spoken again in a request of its own: nothing is guessed. The first real take needed this for four of its eight lines (F04 in `FAILURES.md`). The per-line files keep their own fingerprints, so everything downstream is unchanged, and a single changed line is spoken alone.
 
-The reason for the take is a limit, not taste: the free speech tier allows ten requests a day. A request per line would spend eight of them on one pass.
+The reason for the take is a limit, not taste: the free speech tier allows ten requests a day. A request per line would spend eight of them on one pass. The first pass cost five.
 
 ## The run log
 
@@ -71,7 +71,7 @@ The reason for the take is a limit, not taste: the free speech tier allows ten r
 | `params`, `seed` | what was asked: sizes, voice, style, hashes of the prompt text. `seed` is null where the provider has none |
 | `attempt`, `status` | 1 to 4, `ok` or `error`. An error line has `http_status` and the provider's message |
 | `latency_s` | measured around the request |
-| `cost_usd` | the list price of the call, 0 for a failed attempt, null when the price or the usage is not known. Nothing was paid: every call ran on a free tier |
+| `cost_usd` | the list price of the call, 0 for a failed attempt, null when the price or the usage is not known. For the models on a free tier it is what the call would have cost. For Claude, which has none, it is what was paid. The first 35 lines of the log, up to 11:18 UTC on 25 Nov, were written before this field existed and do not have it: the log is never rewritten |
 
 A successful line also carries what its price depends on: token counts for text, seconds of audio for speech, and for GPU work the minutes and the peak memory that the job measured itself. Prices and their sources are in `pricing.json`, and the arithmetic is in `pipeline/pricing.py`.
 
@@ -86,7 +86,7 @@ A successful line also carries what its price depends on: token counts for text,
 | A provider changes its response shape | Responses are parsed tolerantly: the audio or image is searched for in the JSON, not read from one fixed path. |
 | A stopped run | Files are written under a temporary name and renamed when complete, so a half-written file is never used. The next run continues from the cache. |
 | A picture comes back with a paper border | Each candidate's four sides are measured for bare paper. The pick prefers the candidate with the fewest, and the final-cut check lists a pick that still has a border. |
-| A take cannot be cut into its lines | The stage stops and says so. The take is kept, so a fix to the cutting costs no speech request. |
+| A take cannot be cut into its lines with certainty | The lines that the pauses and the words agree on are kept. Each other line is spoken again alone. The take is kept, so a better way of cutting costs no speech request. |
 | The GPU job fails or has not run yet | The shot falls back to a pan and zoom over its keyframe. The index marks it `kenburns_fallback` and the final-cut check lists it. |
 | One clip fails on the GPU | The job script catches it, records the error and the peak memory, and goes on to the next clip. `results.json` is rewritten after every clip. |
 | A generated clip is shorter than its shot | It is slowed by at most 25%. The rest of the shot is a slow push in over the clip's last frame, so the picture never freezes under the voice. The final-cut check lists the shots and the seconds. |

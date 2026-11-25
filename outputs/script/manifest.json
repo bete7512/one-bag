@@ -1,64 +1,61 @@
 {
  "units": {
   "s01_subtitle_check": {
-   "key": "5487e22aaf101201",
-   "file": "s01_subtitle_check__5487e22aaf101201.json",
+   "key": "7878eeeff12e0074",
+   "file": "s01_subtitle_check__7878eeeff12e0074.json",
    "fingerprint": {
     "v": 1,
     "check": 1,
-    "text": "በ2019 ከአንኮበር በአንድ ሻንጣ ወጣሁ። ጥቂት ልብስ። ጥቂት መጻሕፍት።",
-    "subtitle": "In 2019 I left Ankober with one bag. Some clothes. Some books.",
+    "text": "እኩለ ቀን አካባቢ ነበር፣ ከአንኮበር ስነሳ። አንድ የጀርባ ቦርሳ ብቻ ይዤ። አንድ ጓደኛዬ ሊሸኘኝ መጥቶ ነበር።",
+    "subtitle": "It was around midday when I left Ankober. Just one backpack. A friend had come to see me off.",
     "from": "am",
     "to": "en",
     "model": "claude-opus-5-5"
    },
    "meta": {
-    "literal": "In 2019 I left Ankober with one suitcase. A few clothes. A few books.",
+    "literal": "It was around midday when I set out from Ankober. Carrying only one backpack. A friend of mine had come to see me off.",
     "faithful": true,
     "differences": []
    },
-   "created": "2026-11-25T13:19:12Z"
+   "created": "2026-11-25T16:42:21Z"
   },
   "s03_subtitle_check": {
-   "key": "0f7ff0864f7326b2",
-   "file": "s03_subtitle_check__0f7ff0864f7326b2.json",
+   "key": "1b225da88f9310ae",
+   "file": "s03_subtitle_check__1b225da88f9310ae.json",
    "fingerprint": {
     "v": 1,
     "check": 1,
-    "text": "ከላምበረት ከጓደኛዬ ጋር ታክሲ ይዘን አዲስ አበባን አቋረጥን። እሱ ከተማዋን ያውቃታል። እኔ አላውቃትም ነበር።",
-    "subtitle": "At Lamberet my friend and I took a taxi across Addis Ababa. He knew the city. I did not.",
+    "text": "በአውቶቡሱ መስኮት በኩል ተቀምጬ ነበር። ውጪው ደንና ተራራ ነው። እይታው ድንቅ ነበር።",
+    "subtitle": "I sat by the window of the bus. Outside, forest and mountains. The view was amazing.",
     "from": "am",
     "to": "en",
     "model": "claude-opus-5-5"
    },
    "meta": {
-    "literal": "From Lamberet, my friend and I took a taxi and crossed Addis Ababa. He knows the city. I did not know it.",
-    "faithful": false,
-    "differences": [
-     "'from Lamberet' (the starting point) becomes 'at Lamberet'",
-     "'he knows the city' (present) becomes 'he knew the city' (past)"
-    ]
-   },
-   "created": "2026-11-25T13:19:18Z"
-  },
-  "s04_subtitle_check": {
-   "key": "b53bb5adfd6a8ded",
-   "file": "s04_subtitle_check__b53bb5adfd6a8ded.json",
-   "fingerprint": {
-    "v": 1,
-    "check": 1,
-    "text": "አውቶቡስ ተራ ወረድን። ፍርሃቱ የመጣው እዚያ ነው።",
-    "subtitle": "We got out at Autobus Tera. That is where the fear came.",
-    "from": "am",
-    "to": "en",
-    "model": "claude-opus-5-5"
-   },
-   "meta": {
-    "literal": "We got off at Autobus Tera. It was there that the fear came.",
+    "literal": "I was sitting by the window of the bus. Outside is forest and mountain. The view was wonderful.",
     "faithful": true,
     "differences": []
    },
-   "created": "2026-11-25T13:19:20Z"
+   "created": "2026-11-25T16:42:30Z"
+  },
+  "s04_subtitle_check": {
+   "key": "28afd7172b7acd59",
+   "file": "s04_subtitle_check__28afd7172b7acd59.json",
+   "fingerprint": {
+    "v": 1,
+    "check": 1,
+    "text": "ላምበረት ስደርስ መሽቶ ነበር። ጓደኛዬ እየጠበቀኝ ነበር። ሰው በዝቷል፤ የሕንፃ መብራት፣ ብዙ መኪና።",
+    "subtitle": "It was night when I reached Lamberet. My friend was waiting for me. So many people, lights on the buildings, so many cars.",
+    "from": "am",
+    "to": "en",
+    "model": "claude-opus-5-5"
+   },
+   "meta": {
+    "literal": "When I reached Lamberet, it had become evening. My friend was waiting for me. There were many people; building lights, many cars.",
+    "faithful": true,
+    "differences": []
+   },
+   "created": "2026-11-25T16:42:33Z"
   },
   "s05_subtitle_check": {
    "key": "7632695e5da2ba15",
@@ -80,63 +77,61 @@
    "created": "2026-11-25T13:19:23Z"
   },
   "s06_subtitle_check": {
-   "key": "75befae85109b5d8",
-   "file": "s06_subtitle_check__75befae85109b5d8.json",
+   "key": "fa87988700c20791",
+   "file": "s06_subtitle_check__fa87988700c20791.json",
    "fingerprint": {
     "v": 1,
     "check": 1,
-    "text": "ሻንጣዬን አጥብቄ ይዤ በሕዝቡ መሃል ተከተልኩት፤ በመናኸሪያው አቅራቢያ ማደሪያ እየፈለግን።",
-    "subtitle": "I held my bag and followed him through the crowd, looking for a room near the station.",
+    "text": "አውቶቡስ ተራ ስንደርስ ደላሎች ከበቡን። «አልጋ ትፈልጋላችሁ?» ብዙ ነበሩ። ግራ ገባን። አንዱን መረጥን።",
+    "subtitle": "At Autobus Tera the brokers closed in on us. \"Do you want a bed?\" There were so many. We were confused. We picked one.",
     "from": "am",
     "to": "en",
     "model": "claude-opus-5-5"
    },
    "meta": {
-    "literal": "Holding my suitcase tightly, I followed him through the crowd, as we looked for a place to stay near the bus station.",
+    "literal": "When we arrived at Autobus Tera, brokers surrounded us. \"Do you want a bed?\" They were many. We were confused. We chose one.",
     "faithful": true,
     "differences": []
    },
-   "created": "2026-11-25T13:19:27Z"
+   "created": "2026-11-25T16:42:36Z"
   },
   "s07_subtitle_check": {
-   "key": "739bbb537e9069af",
-   "file": "s07_subtitle_check__739bbb537e9069af.json",
+   "key": "e5238109700975f6",
+   "file": "s07_subtitle_check__e5238109700975f6.json",
    "fingerprint": {
     "v": 1,
     "check": 1,
-    "text": "ጠዋት አውቶቡስ ወደ ባሕር ዳር፣ ወደ ዩኒቨርሲቲ ይወስደኛል።",
-    "subtitle": "In the morning a bus would take me to Bahir Dar, to the university.",
+    "text": "ክፍሉ ባለ አንድ አልጋ ነበር። በጣም ጥሩ አይደለም፣ መጥፎም አይደለም። ንጹሕ ነበር።",
+    "subtitle": "The room had one bed. Not very good, not bad. It was clean.",
     "from": "am",
     "to": "en",
     "model": "claude-opus-5-5"
    },
    "meta": {
-    "literal": "In the morning a bus takes me to Bahir Dar, to the university.",
-    "faithful": false,
-    "differences": [
-     "Tense changed: the spoken line uses the present/future imperfective ('takes' or 'will take me'), but the subtitle's 'would take me' makes it a past habit or a conditional."
-    ]
-   },
-   "created": "2026-11-25T13:19:31Z"
-  },
-  "s08_subtitle_check": {
-   "key": "c6f9c72f314870f2",
-   "file": "s08_subtitle_check__c6f9c72f314870f2.json",
-   "fingerprint": {
-    "v": 1,
-    "check": 1,
-    "text": "ያን ሌሊት እንቅልፍ አልወሰደኝም።",
-    "subtitle": "That night I could not sleep.",
-    "from": "am",
-    "to": "en",
-    "model": "claude-opus-5-5"
-   },
-   "meta": {
-    "literal": "That night sleep did not take me.",
+    "literal": "The room was a one-bed room. Not very good, and not bad either. It was clean.",
     "faithful": true,
     "differences": []
    },
-   "created": "2026-11-25T13:19:34Z"
+   "created": "2026-11-25T16:42:39Z"
+  },
+  "s08_subtitle_check": {
+   "key": "82b372a958a68af8",
+   "file": "s08_subtitle_check__82b372a958a68af8.json",
+   "fingerprint": {
+    "v": 1,
+    "check": 1,
+    "text": "ጠዋት ረጅም ሰልፍ ተሰልፈን ትኬት ቆረጥን።",
+    "subtitle": "In the morning we stood in a long queue and got the ticket.",
+    "from": "am",
+    "to": "en",
+    "model": "claude-opus-5-5"
+   },
+   "meta": {
+    "literal": "In the morning we stood in a long line and bought tickets.",
+    "faithful": true,
+    "differences": []
+   },
+   "created": "2026-11-25T16:42:43Z"
   },
   "s10_subtitle_check": {
    "key": "f04e8fa959ee6463",
@@ -156,6 +151,44 @@
     "differences": []
    },
    "created": "2026-11-25T13:19:39Z"
+  },
+  "s02_subtitle_check": {
+   "key": "0f0369eda7a9bfa6",
+   "file": "s02_subtitle_check__0f0369eda7a9bfa6.json",
+   "fingerprint": {
+    "v": 1,
+    "check": 1,
+    "text": "እስከ ደብረ ብርሃን መንገዱ ፒስታ ነበር። ከዚያ በኋላ አስፋልት።",
+    "subtitle": "The road was gravel as far as Debre Birhan. After that, asphalt.",
+    "from": "am",
+    "to": "en",
+    "model": "claude-opus-5-5"
+   },
+   "meta": {
+    "literal": "Up to Debre Birhan the road was gravel (unpaved). After that, asphalt.",
+    "faithful": true,
+    "differences": []
+   },
+   "created": "2026-11-25T16:42:24Z"
+  },
+  "s09_subtitle_check": {
+   "key": "12aba6a829ed6715",
+   "file": "s09_subtitle_check__12aba6a829ed6715.json",
+   "fingerprint": {
+    "v": 1,
+    "check": 1,
+    "text": "ዛሬ ያንን ልጅ ባገኘው አንድ ነገር ብቻ እለዋለሁ፦ ኑረው።",
+    "subtitle": "If I met that boy today, I would tell him just one thing: experience it.",
+    "from": "am",
+    "to": "en",
+    "model": "claude-opus-5-5"
+   },
+   "meta": {
+    "literal": "If I met that boy today, I would tell him only one thing: live it.",
+    "faithful": true,
+    "differences": []
+   },
+   "created": "2026-11-25T16:42:47Z"
   }
  },
  "entries": {
@@ -232,6 +265,78 @@
    "file": "s10_subtitle_check__f04e8fa959ee6463.json",
    "meta": {
     "literal": "If I could speak to that child today, I would tell him this: Don't be afraid. There are many things you will learn in life.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "7878eeeff12e0074": {
+   "unit": "s01_subtitle_check",
+   "file": "s01_subtitle_check__7878eeeff12e0074.json",
+   "meta": {
+    "literal": "It was around midday when I set out from Ankober. Carrying only one backpack. A friend of mine had come to see me off.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "0f0369eda7a9bfa6": {
+   "unit": "s02_subtitle_check",
+   "file": "s02_subtitle_check__0f0369eda7a9bfa6.json",
+   "meta": {
+    "literal": "Up to Debre Birhan the road was gravel (unpaved). After that, asphalt.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "1b225da88f9310ae": {
+   "unit": "s03_subtitle_check",
+   "file": "s03_subtitle_check__1b225da88f9310ae.json",
+   "meta": {
+    "literal": "I was sitting by the window of the bus. Outside is forest and mountain. The view was wonderful.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "28afd7172b7acd59": {
+   "unit": "s04_subtitle_check",
+   "file": "s04_subtitle_check__28afd7172b7acd59.json",
+   "meta": {
+    "literal": "When I reached Lamberet, it had become evening. My friend was waiting for me. There were many people; building lights, many cars.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "fa87988700c20791": {
+   "unit": "s06_subtitle_check",
+   "file": "s06_subtitle_check__fa87988700c20791.json",
+   "meta": {
+    "literal": "When we arrived at Autobus Tera, brokers surrounded us. \"Do you want a bed?\" They were many. We were confused. We chose one.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "e5238109700975f6": {
+   "unit": "s07_subtitle_check",
+   "file": "s07_subtitle_check__e5238109700975f6.json",
+   "meta": {
+    "literal": "The room was a one-bed room. Not very good, and not bad either. It was clean.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "82b372a958a68af8": {
+   "unit": "s08_subtitle_check",
+   "file": "s08_subtitle_check__82b372a958a68af8.json",
+   "meta": {
+    "literal": "In the morning we stood in a long line and bought tickets.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "12aba6a829ed6715": {
+   "unit": "s09_subtitle_check",
+   "file": "s09_subtitle_check__12aba6a829ed6715.json",
+   "meta": {
+    "literal": "If I met that boy today, I would tell him only one thing: live it.",
     "faithful": true,
     "differences": []
    }

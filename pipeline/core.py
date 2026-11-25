@@ -32,7 +32,7 @@ from . import pricing
 ROOT = Path(__file__).resolve().parent.parent
 STAGES = ["script", "narration", "keyframes", "shots", "music", "assemble"]
 # Bump a stage's number when its logic changes in a way that changes its output, so old cache entries stop matching.
-STAGE_VERSION = {"script": 1, "narration": 1, "keyframes": 1, "shots": 1, "music": 1, "assemble": 2}
+STAGE_VERSION = {"script": 1, "narration": 2, "keyframes": 1, "shots": 1, "music": 1, "assemble": 2}
 
 
 class PipelineError(Exception):
@@ -384,8 +384,8 @@ def _append(path: Path, rec: dict) -> None:
 def log_run(ctx: Ctx, **rec: Any) -> None:
     """One line per model call in runs.jsonl.
 
-    `cost_usd` is what the call would cost at list price (pricing.json): nothing was paid on the
-    free tiers. It is 0 for a failed attempt and for a mock call, and null when the price is not known.
+    `cost_usd` is what the call costs at list price (pricing.json). On a free tier nothing was paid
+    for it. It is 0 for a failed attempt and for a mock call, and null when the price is not known.
     """
     rec = {"ts": now(), "run_id": ctx.run_id, **rec}
     rec["cost_usd"] = 0.0 if ctx.mock else pricing.cost_usd(rec, ctx.prices)
@@ -501,33 +501,52 @@ def plan_timeline(sb: dict, narration_s: dict[str, float]) -> dict:
     return {"fps": fps, "shots": shots, "end_card_start": round(t, 4), "end_card_s": end, "total_s": round(t + end, 4)}
 
 
-def subtitle_cues(text: str, start: float, duration: float, max_chars: int = 40, max_lines: int = 2) -> list[tuple[float, float, list[str]]]:
-    """Split one narration line into cues of at most two lines of 40 characters, timed by their length."""
+def subtitle_cues(text: str, start: float, duration: float, max_chars: int = 40, max_lines: int = 2,
+                  pauses: list | None = None) -> list[tuple[float, float, list[str]]]:
+    """Split one narration line into cues of at most two lines of 40 characters.
+
+    A colon ends a cue, so what follows it is not shown before it is said. The time is shared out by the
+    length of each cue. `pauses` are the silences measured inside the spoken line, in seconds from its start:
+    when they are given, each change of cue moves to the pause that fits it best, so a subtitle changes
+    when the voice does and not in the middle of a phrase.
+    """
     def lines_of(t: str) -> list[str]:
         return textwrap.wrap(t, width=max_chars, break_long_words=False) or [""]
 
     chunks: list[str] = []
-    cur = ""
-    for sentence in re.split(r"(?<=[.!?;:])\s+", text.strip()):
-        cand = f"{cur} {sentence}".strip()
-        if len(lines_of(cand)) <= max_lines:
-            cur = cand
-            continue
+    for part in re.split(r"(?<=:)\s+", text.strip()):
+        cur = ""
+        for sentence in re.split(r"(?<=[.!?;])\s+", part):
+            cand = f"{cur} {sentence}".strip()
+            if len(lines_of(cand)) <= max_lines:
+                cur = cand
+                continue
+            if cur:
+                chunks.append(cur)
+            lines = lines_of(sentence)
+            groups = [" ".join(lines[i:i + max_lines]) for i in range(0, len(lines), max_lines)]
+            chunks.extend(groups[:-1])
+            cur = groups[-1]
         if cur:
             chunks.append(cur)
-        lines = lines_of(sentence)
-        groups = [" ".join(lines[i:i + max_lines]) for i in range(0, len(lines), max_lines)]
-        chunks.extend(groups[:-1])
-        cur = groups[-1]
-    if cur:
-        chunks.append(cur)
     total = sum(len(c) for c in chunks) or 1
-    cues, t = [], start
-    for c in chunks:
-        d = duration * len(c) / total
-        cues.append((round(t, 3), round(t + d, 3), lines_of(c)))
-        t += d
-    return cues
+    ends, used = [], 0.0  # where each cue ends, in seconds from the start of the line
+    for c in chunks[:-1]:
+        used += duration * len(c) / total
+        ends.append(used)
+    free = sorted((float(a), float(b)) for a, b in (pauses or []) if 0.2 < a and b < duration - 0.2)
+    last = 0.0
+    for i, guess in enumerate(ends):
+        # the longest pause near the guess wins: a pause between sentences is longer than a breath inside one
+        near = [(b - a - 0.5 * abs((a + b) / 2 - guess), a, b) for a, b in free if b > last + 0.3 and abs((a + b) / 2 - guess) <= 2.5]
+        if near:
+            _, a, b = max(near)
+            ends[i] = max(a, b - 0.08)  # the next cue comes up just before the voice starts again
+            free = [p for p in free if p[0] > b]
+        ends[i] = max(ends[i], last + 0.3)
+        last = ends[i]
+    edges = [0.0, *[min(e, duration) for e in ends], duration]
+    return [(round(start + edges[i], 3), round(start + edges[i + 1], 3), lines_of(c)) for i, c in enumerate(chunks)]
 
 
 # ----------------------------------------------------------------------------- media helpers

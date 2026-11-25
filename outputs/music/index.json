@@ -5,47 +5,9 @@
  "chosen": null,
  "seconds": 80,
  "candidates": {
-  "candidate_1": "candidate_1__60136c244c5c865f.flac",
-  "candidate_2": "candidate_2__5e84c28c48f1a1a3.flac",
-  "candidate_3": "candidate_3__d847c6abd8ee5d1d.flac"
+  "candidate_1": null,
+  "candidate_2": null,
+  "candidate_3": null
  },
- "heard": {
-  "candidate_1": {
-   "vocals": false,
-   "instruments": [
-    "music box",
-    "piano"
-   ],
-   "tempo": "slow",
-   "mood": [
-    "nostalgic",
-    "melancholic",
-    "gentle"
-   ],
-   "busy_moments": [],
-   "notes": "This delicate music box cue creates a fragile, nostalgic atmosphere that easily leaves room for narration."
-  },
-  "candidate_2": {
-   "vocals": false,
-   "instruments": [
-    "zither"
-   ],
-   "tempo": "slow",
-   "mood": "meditative, gentle, tranquil",
-   "busy_moments": [],
-   "notes": "This calm, acoustic zither piece provides an unobtrusive backing track well-suited for voiceover."
-  },
-  "candidate_3": {
-   "vocals": false,
-   "instruments": [
-    "music box",
-    "chimes",
-    "strings"
-   ],
-   "tempo": "slow",
-   "mood": "calm, mysterious, nostalgic",
-   "busy_moments": [],
-   "notes": "A very quiet, delicate bed that will sit under narration easily without masking the voice."
-  }
- }
+ "heard": {}
 }

@@ -1,0 +1,202 @@
+{
+ "s01_c1__94b6a9fe37e14446": {
+  "reference": "sheet of three poses",
+  "shot": "s01",
+  "copies": 2,
+  "face_to_viewer": true,
+  "looks": "painted",
+  "notes": "I count two figures of the young man, with some uncertainty. The left figure wears a dark jacket, white tee and backpack straps, and faces the viewer straight on. The middle figure wears a similar dark jacket and is shown in profile, but he wears blue jeans instead of olive trousers and carries a brown satchel-style shoulder bag rather than a clear backpack. Count him only if that bag is meant to be the backpack. Neither figure is seen from behind, so the brief is not met. Separately, a disembodied pair of legs in jeans and boots stands at the back of the bus with no upper body. It is a generation artifact, not a full figure, so I did not count it. The image is a hand-drawn, inked and colored illustration, not a photograph.",
+  "latency_s": 8.818,
+  "cost_usd": 0.016228
+ },
+ "s01_c2__20231c855a884c58": {
+  "reference": "sheet of three poses",
+  "shot": "s01",
+  "copies": 2,
+  "face_to_viewer": true,
+  "looks": "painted",
+  "notes": "Two slim young men in dark jackets with tan backpacks appear, so the main character seems to be drawn twice instead of once. They are not identical: the left figure wears khaki trousers with a white T-shirt, and the right one wears blue jeans. Their jacket, backpack and build match closely, so I counted both. Neither is seen from behind. The left figure faces the viewer directly in front view. The right figure is in side profile, looking left, with the backpack visible. The image is a hand-painted watercolor and ink illustration, not a photograph.",
+  "latency_s": 6.291,
+  "cost_usd": 0.014448
+ },
+ "s03_c1__da3fe41be9de9068": {
+  "reference": "sheet of three poses",
+  "shot": "s03",
+  "copies": 3,
+  "face_to_viewer": true,
+  "looks": "painted",
+  "notes": "Three standing figures repeat the main character: a slim young man in a dark grey jacket with a tan backpack. On the left he faces the viewer head-on. In the middle he is in profile or slight three-quarter view, looking out the window. On the right he is seen from behind. One small difference: the left figure wears brown trousers, while the middle one wears blue jeans. The two seated foreground figures wear light blue shirts and are not counted. The required single back view appears only in the right figure, so the frame breaks the brief: the character appears three times and is shown from the front. The picture is a hand-painted watercolor-style illustration, not a photograph.",
+  "latency_s": 6.357,
+  "cost_usd": 0.015488
+ },
+ "s03_c2__b33f4baecd14e015": {
+  "reference": "sheet of three poses",
+  "shot": "s03",
+  "copies": 3,
+  "face_to_viewer": true,
+  "looks": "painted",
+  "notes": "There are three figures that read as the same slim young man in a dark jacket with a backpack. (1) Standing on the left in front of the window: dark jacket, white T-shirt, khaki trousers, backpack straps, face turned toward the viewer in near-frontal view. (2) Standing in the centre: dark jacket, backpack, jeans, face in side profile. (3) Seated in the right foreground: dark top, backpack straps, jeans, seen from behind and over the shoulder; this is the one that fits the intended shot. The details are not fully consistent: the left figure wears khaki trousers rather than jeans, and the seated figure's top looks more like a dark shirt than a jacket. The seated person on the far left in a light-blue shirt is someone else and is not counted. The intended single from-behind view is broken by the two extra standing copies, one of which shows his face. The picture looks hand-painted, like watercolour and ink illustration, not a photograph.",
+  "latency_s": 8.348,
+  "cost_usd": 0.018788
+ },
+ "s04_c1__aaa66f93dd6f8110": {
+  "reference": "sheet of three poses",
+  "shot": "s04",
+  "copies": 1,
+  "face_to_viewer": false,
+  "looks": "photograph",
+  "notes": "The main character is the slim young man on the right in the foreground. He wears a dark navy jacket, blue jeans and brown shoes, carries a tan backpack, and is seen from behind. A second person on the left also wears a dark jacket and backpack and is seen from behind, but I did not count him as a copy: he has khaki trousers, a dark grey backpack and a heavier build, so the clothes and build do not match. Neither figure turns his face to the viewer; only a sliver of cheek shows on the right figure. The image looks like a realistic night photograph of a street crowded with buses and people, though some details suggest it may be AI-generated.",
+  "latency_s": 6.231,
+  "cost_usd": 0.014708
+ },
+ "s04_c2__9b926646c6455889": {
+  "reference": "sheet of three poses",
+  "shot": "s04",
+  "copies": 2,
+  "face_to_viewer": true,
+  "looks": "painted",
+  "notes": "Two copies of the young man appear in the center, one standing directly behind and above the other, both in dark jackets with backpack straps. Both faces are turned toward the viewer in roughly frontal and three-quarter views, so this does not meet the requirement of a single figure seen from behind. The picture is a hand-painted watercolor-style illustration of a rainy night street with buses, cars, crowds and apartment blocks.",
+  "latency_s": 4.215,
+  "cost_usd": 0.010668
+ },
+ "s06_c1__db4edebc9fa76144": {
+  "reference": "sheet of three poses",
+  "shot": "s06",
+  "copies": 3,
+  "face_to_viewer": true,
+  "looks": "painted",
+  "notes": "Three figures look like the backpack-carrying young man in a dark jacket, so he appears three times instead of once. The center figure in jeans with a tan backpack matches the brief: seen from behind, face turned away. The figure on the left of center has a dark jacket and backpack straps but wears khaki pants; he faces the viewer head-on, which breaks the from-behind requirement. The figure on the right, gesturing, has the same dark jacket, jeans and tan backpack but has stubble and looks a bit older and heavier. He is shown in three-quarter profile. Treating him as a copy is a judgment call; if he is meant to be a different person, the count would be 2. The other men in the scene do not carry backpacks and were not counted. The image is a hand-painted watercolor-style illustration, not a photograph.",
+  "latency_s": 11.242,
+  "cost_usd": 0.024148
+ },
+ "s06_c2__97a75521eab9415b": {
+  "reference": "sheet of three poses",
+  "shot": "s06",
+  "copies": 3,
+  "face_to_viewer": true,
+  "looks": "painted",
+  "notes": "Three figures could be the backpack-carrying young man in a dark jacket. The left-center figure faces the viewer head-on; he wears a dark jacket, white shirt and backpack straps, but khaki trousers instead of jeans, so his outfit is not an exact match. The center figure is shown in side profile, with a dark jacket, jeans, brown boots and a tan backpack. The right-center figure is seen from behind, with a dark jacket, jeans, brown boots and a tan backpack. The required single back-view appearance is present, but the character is repeated, and one copy's face is fully turned to the viewer. The image is a hand-drawn watercolor and ink style illustration, not a photograph.",
+  "latency_s": 7.69,
+  "cost_usd": 0.016888
+ },
+ "s08_c1__de08e0e97287b266": {
+  "reference": "sheet of three poses",
+  "shot": "s08",
+  "copies": 2,
+  "face_to_viewer": true,
+  "looks": "painted",
+  "notes": "The main character appears twice instead of once. The central figure wears a dark jacket, white T-shirt, brown trousers and brown backpack straps, and he faces the viewer in front view, which breaks the 'seen from behind' requirement. A second, similar figure on the left wears a dark jacket and a tan backpack and is seen from behind. Its trousers look greyer, but it reads as the same character drawn again. The man in the denim jacket beside the central figure has no backpack and different clothes, so he does not count. The picture is a hand-drawn, watercolor-style illustration, not a photograph.",
+  "latency_s": 6.074,
+  "cost_usd": 0.013888
+ },
+ "s08_c2__3d46c81588c9e696": {
+  "reference": "sheet of three poses",
+  "shot": "s08",
+  "copies": 1,
+  "face_to_viewer": false,
+  "looks": "painted",
+  "notes": "Only one figure matches the main character: the slim young man left of center in a dark navy jacket with a tan backpack and brown trousers, seen from behind. The taller man in the center wears a light denim jacket, light jeans and an olive backpack, so he does not count, even though he is the most prominent figure. Other backpack wearers (a gray-blue jacket at left, a brown jacket at far right) also wear different clothes. The matching figure's face is turned away. The image is a hand-drawn, colored-pencil or watercolor style illustration, not a photograph.",
+  "latency_s": 5.659,
+  "cost_usd": 0.013468
+ },
+ "s01_c1__539e0090fd6742db": {
+  "reference": "one back view",
+  "shot": "s01",
+  "copies": 1,
+  "face_to_viewer": false,
+  "looks": "painted",
+  "notes": "The young man appears exactly once, standing in the foreground with his back to the viewer. He wears a dark jacket and trousers, brown shoes and a khaki backpack. His face is not visible to the viewer. No other figures appear in the scene, which shows an old green-and-cream bus, eucalyptus trees, small houses and hills. The picture has a hand-painted illustration style, with visible brushwork and a watercolor/gouache look, rather than looking like a photograph.",
+  "latency_s": 3.44,
+  "cost_usd": 0.008668
+ },
+ "s01_c2__d8374f29bdaeca74": {
+  "reference": "one back view",
+  "shot": "s01",
+  "copies": 1,
+  "face_to_viewer": false,
+  "looks": "painted",
+  "notes": "The young man appears exactly once, standing in the center foreground with his back to the viewer. He wears a dark jacket and dark trousers and carries a beige backpack. His face is not visible. No other people appear in the scene. The setting is a rural village with tin-roofed houses, eucalyptus trees and hills, and an old rusty bus stands with its door open. The soft washes and paper-like texture make it look like a hand-painted watercolor illustration rather than a photograph.",
+  "latency_s": 2.995,
+  "cost_usd": 0.008648
+ },
+ "s03_c1__f19d8a90695f79a8": {
+  "reference": "one back view",
+  "shot": "s03",
+  "copies": 1,
+  "face_to_viewer": false,
+  "looks": "painted",
+  "notes": "Exactly one figure of the young man appears, standing at the center on a rocky overlook. He wears a dark jacket, gray-green trousers and brown boots, and carries a backpack. He is seen fully from behind, looking out over forested mountains, so his face is not visible. No other people are in the scene. The image has a hand-painted watercolor look, with soft washes, visible paper texture and loose brushwork.",
+  "latency_s": 3.044,
+  "cost_usd": 0.008248
+ },
+ "s03_c2__7e088cb585c800a3": {
+  "reference": "one back view",
+  "shot": "s03",
+  "copies": 1,
+  "face_to_viewer": false,
+  "looks": "painted",
+  "notes": "Only one figure clearly matches the main character: the slim young man standing at the window, seen from behind, wearing an olive-gray jacket and trousers and carrying a light backpack. A second figure sits in the left foreground and could be mistaken for a repeat. He also wears a dark jacket, and a dark strap may be visible at the bottom edge. However, he looks younger and rounder-faced, has lighter auburn hair, and wears a bluish jacket, so he reads as a different person and is not counted. That is my judgment call; if he is meant to be the protagonist, the count would be 2. Neither figure faces the viewer. The standing man is seen fully from behind, and the foreground figure is in rear or lost-profile view, showing only his ear and the edge of his cheek, not a front or three-quarter view. The image looks hand-painted, in a watercolor style with visible washes and brushwork.",
+  "latency_s": 8.281,
+  "cost_usd": 0.018148
+ },
+ "s04_c1__6870a32709a02922": {
+  "reference": "one back view",
+  "shot": "s04",
+  "copies": 2,
+  "face_to_viewer": false,
+  "looks": "painted",
+  "notes": "The main character appears twice. Two near-identical figures stand side by side in the center of the street, both seen from behind. Each is a slim young man with short black hair, a dark green-grey jacket, blue-grey trousers, brown shoes and a beige backpack. It should be one figure, so this is a duplication error. Neither face is turned toward the viewer; both show only the back of the head. The other commuters wear different clothes and do not count. The image has a hand-painted watercolor look, with soft washes, ink outlines and paper texture, not a photograph.",
+  "latency_s": 4.059,
+  "cost_usd": 0.009748
+ },
+ "s04_c2__13083ecca2fad8b3": {
+  "reference": "one back view",
+  "shot": "s04",
+  "copies": 1,
+  "face_to_viewer": false,
+  "looks": "painted",
+  "notes": "The young man in the dark jacket with the tan backpack appears once, in the center foreground, seen from behind with his head turned slightly toward the taller man; his face is not visible to the viewer. The taller man beside him in the denim jacket faces the viewer, but he is a different person (different clothes, no backpack, larger build), so he does not count. None of the background pedestrians near the buses is a clear second copy of the main character. The image is a hand-painted watercolor-style illustration of a rainy city street at night with buses and apartment blocks, not a photograph.",
+  "latency_s": 4.697,
+  "cost_usd": 0.011588
+ },
+ "s06_c1__329cbb4d69461290": {
+  "reference": "one back view",
+  "shot": "s06",
+  "copies": 2,
+  "face_to_viewer": false,
+  "looks": "painted",
+  "notes": "The main character appears twice: two near-identical figures stand side by side in the center foreground, both seen from behind, in matching dark grey jackets and trousers, tan backpacks and brown shoes. This contradicts the requirement that he appear exactly once. Neither duplicate turns his face toward the viewer; both show only the back of the head. The other men (in brown leather jackets and green hoodies, two on each side) are different characters and were not counted. The image looks hand-painted, like ink and watercolor illustration, set at a foggy night bus station with street lamps and red buses.",
+  "latency_s": 4.053,
+  "cost_usd": 0.009288
+ },
+ "s06_c2__13d8852260818c3b": {
+  "reference": "one back view",
+  "shot": "s06",
+  "copies": 1,
+  "face_to_viewer": false,
+  "looks": "painted",
+  "notes": "The slim young man in the dark jacket with the light backpack appears once, center-left in the foreground, seen from behind; his face is not visible. No other figure repeats his clothes, build and backpack. The man beside him in the denim jacket is a different, broader character. The image is a hand-painted watercolor-style illustration with visible paper texture and brushwork, not a photograph.",
+  "latency_s": 3.794,
+  "cost_usd": 0.009348
+ },
+ "s08_c1__b3639bff24e44df3": {
+  "reference": "one back view",
+  "shot": "s08",
+  "copies": 2,
+  "face_to_viewer": true,
+  "looks": "painted",
+  "notes": "Two figures match the young man in a dark jacket with a backpack. The first stands at center-left facing the viewer, in front view, wearing a dark jacket, gray T-shirt, dark trousers and backpack straps. The second is at left, seen from behind, in a dark jacket and dark trousers with a brown backpack. The repeat at center-left breaks the rule that he appears once and only from behind. The other backpack wearers do not count: one at far left wears an olive-green jacket, and one at right wears a brown jacket with a black backpack. The young man in the denim jacket has no backpack. The picture looks hand-painted, like a watercolor or colored-pencil illustration, not a photograph.",
+  "latency_s": 6.835,
+  "cost_usd": 0.015468
+ },
+ "s08_c2__f117b7c941cf77eb": {
+  "reference": "one back view",
+  "shot": "s08",
+  "copies": 1,
+  "face_to_viewer": false,
+  "looks": "painted",
+  "notes": "The main character appears once: the slim young man on the left of center, in a dark gray jacket and trousers with a beige backpack, seen from behind. The man beside him in a denim jacket and jeans has no backpack, so he is a different person. A figure at the far right edge carries a backpack, but his clothing differs, so he is not a duplicate. The main character's face is not visible. The image has a hand-painted, illustrated look with soft brushwork and a rough vignette border, not photographic.",
+  "latency_s": 4.446,
+  "cost_usd": 0.011268
+ }
+}

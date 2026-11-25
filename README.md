@@ -106,7 +106,7 @@ What is kept decides what a change costs. The model's own answers are stored unt
 - **A consent gate in code.** A shot that shows a real person is not generated until that person's consent is a dated row in `ETHICS.md` and marked in the storyboard. `make release` also refuses drafts and unconfirmed lines.
 - **Quality gates that measure.** Every keyframe candidate is measured for a paper border and scored by a vision model that is asked what is wrong with it, and the best full-frame one is kept, with a human override. Each written subtitle is checked against its Amharic line by a model that translates the line literally. Each narration line is transcribed back and compared with the script. The finished films are measured: length, both ratios, loudness, true peak, subtitle line length, the AI end card. A gate that cannot reach its model never stops a run: the picture is still made, and the next run asks again.
 - **A guard for the free tiers.** The limits that apply to this project are in `pricing.json`, and the run log is the counter. A request that would go over a daily limit is not sent, and `make plan` says how many speech requests are left today. The speech tier allows ten requests a day, so the narration is spoken in one request and cut into lines here.
-- **The cost of every call.** Each line of `runs.jsonl` carries `cost_usd`, the list price of that call, from prices copied off the providers' pages with the date. Nothing was paid: it says what the same work costs without the free tiers.
+- **The cost of every call.** Each line of `runs.jsonl` carries `cost_usd`, the list price of that call, from prices copied off the providers' pages with the date. For the free tiers it says what the same work costs without them. For Claude, the one paid model, it is what was paid.
 - **GPU jobs from the command line.** `python -m pipeline kaggle run music` uploads the job, runs it on Kaggle, and brings the result back with the seconds and the peak memory the GPU measured.
 - **A review sheet.** `make review` writes `outputs/review.html`: each shot's reason, words, audio, candidates with their scores, and clip, side by side.
 - **A language test.** `python -m pipeline langtest` speaks the film's first lines in Amharic, Tigrinya, Somali and Afaan Oromo and scores each by listening back, with a rating sheet for a native speaker.
@@ -135,7 +135,6 @@ EXPERIMENTS.md       hypothesis, change, result
 FAILURES.md          what broke, what was tried, what fixed it
 COSTS.md             measured latency and GPU minutes per stage, list-price equivalent
 ETHICS.md            consent records, licences, labelling plan
-RUNBOOK.md           the order of work from first key to public post
 ```
 
 ## What is committed

@@ -3,98 +3,93 @@
  "subtitles": "en",
  "lines": {
   "s01": {
-   "text": "በ2019 ከአንኮበር በአንድ ሻንጣ ወጣሁ። ጥቂት ልብስ። ጥቂት መጻሕፍት።",
-   "subtitle": "In 2019 I left Ankober with one bag. Some clothes. Some books.",
+   "text": "እኩለ ቀን አካባቢ ነበር፣ ከአንኮበር ስነሳ። አንድ የጀርባ ቦርሳ ብቻ ይዤ። አንድ ጓደኛዬ ሊሸኘኝ መጥቶ ነበር።",
+   "subtitle": "It was around midday when I left Ankober. Just one backpack. A friend had come to see me off.",
    "machine_translated": false,
-   "estimate_s": 5.83,
+   "estimate_s": 8.67,
    "subtitle_check": {
     "faithful": true,
-    "literal": "In 2019 I left Ankober with one suitcase. A few clothes. A few books.",
+    "literal": "It was around midday when I set out from Ankober. Carrying only one backpack. A friend of mine had come to see me off.",
+    "differences": []
+   }
+  },
+  "s02": {
+   "text": "እስከ ደብረ ብርሃን መንገዱ ፒስታ ነበር። ከዚያ በኋላ አስፋልት።",
+   "subtitle": "The road was gravel as far as Debre Birhan. After that, asphalt.",
+   "machine_translated": false,
+   "estimate_s": 5.17,
+   "subtitle_check": {
+    "faithful": true,
+    "literal": "Up to Debre Birhan the road was gravel (unpaved). After that, asphalt.",
     "differences": []
    }
   },
   "s03": {
-   "text": "ከላምበረት ከጓደኛዬ ጋር ታክሲ ይዘን አዲስ አበባን አቋረጥን። እሱ ከተማዋን ያውቃታል። እኔ አላውቃትም ነበር።",
-   "subtitle": "At Lamberet my friend and I took a taxi across Addis Ababa. He knew the city. I did not.",
+   "text": "በአውቶቡሱ መስኮት በኩል ተቀምጬ ነበር። ውጪው ደንና ተራራ ነው። እይታው ድንቅ ነበር።",
+   "subtitle": "I sat by the window of the bus. Outside, forest and mountains. The view was amazing.",
    "machine_translated": false,
-   "estimate_s": 9.0,
-   "subtitle_check": {
-    "faithful": false,
-    "literal": "From Lamberet, my friend and I took a taxi and crossed Addis Ababa. He knows the city. I did not know it.",
-    "differences": [
-     "'from Lamberet' (the starting point) becomes 'at Lamberet'",
-     "'he knows the city' (present) becomes 'he knew the city' (past)"
-    ]
-   }
-  },
-  "s04": {
-   "text": "አውቶቡስ ተራ ወረድን። ፍርሃቱ የመጣው እዚያ ነው።",
-   "subtitle": "We got out at Autobus Tera. That is where the fear came.",
-   "machine_translated": false,
-   "estimate_s": 4.0,
+   "estimate_s": 6.83,
    "subtitle_check": {
     "faithful": true,
-    "literal": "We got off at Autobus Tera. It was there that the fear came.",
+    "literal": "I was sitting by the window of the bus. Outside is forest and mountain. The view was wonderful.",
     "differences": []
    }
   },
-  "s05": {
-   "text": "ብዙ ሰው። ብዙ ጫጫታ። በብርሃን የተሞላች ከተማ።",
-   "subtitle": "So many people. So much sound. A city full of light.",
+  "s04": {
+   "text": "ላምበረት ስደርስ መሽቶ ነበር። ጓደኛዬ እየጠበቀኝ ነበር። ሰው በዝቷል፤ የሕንፃ መብራት፣ ብዙ መኪና።",
+   "subtitle": "It was night when I reached Lamberet. My friend was waiting for me. So many people, lights on the buildings, so many cars.",
    "machine_translated": false,
-   "estimate_s": 3.67,
+   "estimate_s": 7.83,
    "subtitle_check": {
     "faithful": true,
-    "literal": "Many people. Much noise. A city filled with light.",
+    "literal": "When I reached Lamberet, it had become evening. My friend was waiting for me. There were many people; building lights, many cars.",
     "differences": []
    }
   },
   "s06": {
-   "text": "ሻንጣዬን አጥብቄ ይዤ በሕዝቡ መሃል ተከተልኩት፤ በመናኸሪያው አቅራቢያ ማደሪያ እየፈለግን።",
-   "subtitle": "I held my bag and followed him through the crowd, looking for a room near the station.",
+   "text": "አውቶቡስ ተራ ስንደርስ ደላሎች ከበቡን። «አልጋ ትፈልጋላችሁ?» ብዙ ነበሩ። ግራ ገባን። አንዱን መረጥን።",
+   "subtitle": "At Autobus Tera the brokers closed in on us. \"Do you want a bed?\" There were so many. We were confused. We picked one.",
    "machine_translated": false,
-   "estimate_s": 7.67,
+   "estimate_s": 8.0,
    "subtitle_check": {
     "faithful": true,
-    "literal": "Holding my suitcase tightly, I followed him through the crowd, as we looked for a place to stay near the bus station.",
+    "literal": "When we arrived at Autobus Tera, brokers surrounded us. \"Do you want a bed?\" They were many. We were confused. We chose one.",
     "differences": []
    }
   },
   "s07": {
-   "text": "ጠዋት አውቶቡስ ወደ ባሕር ዳር፣ ወደ ዩኒቨርሲቲ ይወስደኛል።",
-   "subtitle": "In the morning a bus would take me to Bahir Dar, to the university.",
+   "text": "ክፍሉ ባለ አንድ አልጋ ነበር። በጣም ጥሩ አይደለም፣ መጥፎም አይደለም። ንጹሕ ነበር።",
+   "subtitle": "The room had one bed. Not very good, not bad. It was clean.",
    "machine_translated": false,
-   "estimate_s": 4.83,
-   "subtitle_check": {
-    "faithful": false,
-    "literal": "In the morning a bus takes me to Bahir Dar, to the university.",
-    "differences": [
-     "Tense changed: the spoken line uses the present/future imperfective ('takes' or 'will take me'), but the subtitle's 'would take me' makes it a past habit or a conditional."
-    ]
-   }
-  },
-  "s08": {
-   "text": "ያን ሌሊት እንቅልፍ አልወሰደኝም።",
-   "subtitle": "That night I could not sleep.",
-   "machine_translated": false,
-   "estimate_s": 2.83,
+   "estimate_s": 6.5,
    "subtitle_check": {
     "faithful": true,
-    "literal": "That night sleep did not take me.",
+    "literal": "The room was a one-bed room. Not very good, and not bad either. It was clean.",
     "differences": []
    }
   },
-  "s10": {
-   "text": "ዛሬ ያንን ልጅ ማናገር ብችል እንዲህ እለው ነበር፦ አትፍራ። በሕይወት ውስጥ ብዙ የምትማረው ነገር አለ።",
-   "subtitle": "If I could speak to that boy now, I would tell him: do not be scared. There is a lot to learn in life.",
+  "s08": {
+   "text": "ጠዋት ረጅም ሰልፍ ተሰልፈን ትኬት ቆረጥን።",
+   "subtitle": "In the morning we stood in a long queue and got the ticket.",
    "machine_translated": false,
-   "estimate_s": 8.17,
+   "estimate_s": 3.5,
    "subtitle_check": {
     "faithful": true,
-    "literal": "If I could speak to that child today, I would tell him this: Don't be afraid. There are many things you will learn in life.",
+    "literal": "In the morning we stood in a long line and bought tickets.",
+    "differences": []
+   }
+  },
+  "s09": {
+   "text": "ዛሬ ያንን ልጅ ባገኘው አንድ ነገር ብቻ እለዋለሁ፦ ኑረው።",
+   "subtitle": "If I met that boy today, I would tell him just one thing: experience it.",
+   "machine_translated": false,
+   "estimate_s": 4.5,
+   "subtitle_check": {
+    "faithful": true,
+    "literal": "If I met that boy today, I would tell him only one thing: live it.",
     "differences": []
    }
   }
  },
- "estimate_total_s": 46.0
+ "estimate_total_s": 51.0
 }

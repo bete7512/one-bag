@@ -297,7 +297,7 @@ def _claude(model: str, prompt: str, parts: list[tuple[str, bytes]], system: str
 def text(ctx: Ctx, stage: str, unit: str, prompt: str, *, kind: str, parts: list[tuple[str, bytes]] | None = None,
          system: str | None = None, json_mode: bool = False, schema: dict | None = None, temperature: float = 0.2,
          model: str | None = None) -> tuple[str, dict]:
-    """One text answer. `parts` are images or audio the model should look at or listen to.
+    """One text answer. `parts` are images or audio the model should look at or listen to. A `text/plain` part is a label between them.
 
     `kind` names the job (translate, judge, transcribe). It is logged, and tells the mock what to answer.
     A model id that starts with `claude-` goes to the Claude API, where `schema` makes the answer valid JSON of
@@ -306,7 +306,8 @@ def text(ctx: Ctx, stage: str, unit: str, prompt: str, *, kind: str, parts: list
     model = model or ctx.sb["models"]["text"]
     parts = parts or []
     on_claude = model.startswith("claude-")
-    params = {"kind": kind, "json_mode": json_mode or bool(schema), "prompt_sha": sha(prompt)[:12], "inputs": [mime for mime, _ in parts]}
+    params = {"kind": kind, "json_mode": json_mode or bool(schema), "prompt_sha": sha(prompt)[:12],
+              "inputs": [mime for mime, _ in parts if mime != "text/plain"]}
     if not on_claude:
         params["temperature"] = temperature  # this Claude model sets its own sampling, so there is none to log
 
@@ -314,7 +315,8 @@ def text(ctx: Ctx, stage: str, unit: str, prompt: str, *, kind: str, parts: list
         return _claude(model, prompt, parts, system, schema)
 
     def real() -> tuple[str, dict]:
-        content = [{"inlineData": {"mimeType": mime, "data": base64.b64encode(data).decode("ascii")}} for mime, data in parts]
+        content = [{"text": data.decode("utf-8")} if mime == "text/plain"  # a label between two clips or pictures
+                   else {"inlineData": {"mimeType": mime, "data": base64.b64encode(data).decode("ascii")}} for mime, data in parts]
         body: dict[str, Any] = {"contents": [{"role": "user", "parts": [*content, {"text": prompt}]}],
                                 "generationConfig": {"temperature": temperature}}
         if json_mode:

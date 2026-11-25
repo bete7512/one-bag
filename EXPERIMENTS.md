@@ -2,15 +2,15 @@
 
 One entry per experiment: a hypothesis, the one thing changed, how it is measured, the result, the decision. Change one thing at a time and keep the seed fixed, or the result cannot be read.
 
-**Status on 25 Nov 2026, 16:40: E15, E16, E17 and E18 have been run. The others have not.** Each hypothesis is written down before its run on purpose, so the result cannot bend it. A result is filled in only from a real run, with the evidence it points to (`runs.jsonl` lines, a listening sheet, a blind-test result).
+**Status on 25 Nov 2026, 20:40: E15 to E21 have been run. E01 to E14 have not.** Each hypothesis is written down before its run on purpose, so the result cannot bend it. A result is filled in only from a real run, with the evidence it points to (`runs.jsonl` lines, a listening sheet, a blind-test result).
 
 ## Plan
 
 | ID | Hypothesis | The one thing changed | Measured by | Result | Decision |
 |---|---|---|---|---|---|
-| E01 | A style instruction ("calm, warm, unhurried") makes Amharic narration sound more natural than none. | `voice.style` for line s10 only | 3 listeners rate both takes 1 to 5; listening-check score | | |
-| E02 | Voices differ in how they say Ankober, Lamberet and Autobus Tera. | `voice.name`, three voices, line s03 | Native-speaker rating; which names are said wrongly | | |
-| E03 | Writing the year in words avoids a misread "2019". | Digits against words in line s01 | Listening-check transcript; one native listener | | |
+| E01 | A style instruction ("calm, warm, unhurried") makes Amharic narration sound more natural than none. | `voice.style` for line s09 only | 3 listeners rate both takes 1 to 5; listening-check score | | |
+| E02 | Voices differ in how they say Ankober, Lamberet and Autobus Tera. | `voice.name`, three voices, the lines that hold those names (s01, s04, s06) | Native-speaker rating; which names are said wrongly | | |
+| E03 | Writing the year in words avoids a misread "2019". | Digits against words in line s01, once the year is in it | Listening-check transcript; one native listener | | |
 | E04 | The listening check agrees with a human ear often enough to be a useful screen. | Nothing: compare its score with human ratings on all 8 lines | Rank agreement between score and rating | | |
 | E05 | A reference sheet keeps the young man recognisably the same person across shots. | Keyframes with and without `reference_prompt`, same seeds | Judge `character_match`; 3 viewers answer "same person?" | | |
 | E06 | FLUX.2 klein follows the prompt better than FLUX.1 schnell at the same seed. | `models.image`, shots s01, s04, s08 | Judge scores; my own side-by-side | | |
@@ -22,10 +22,13 @@ One entry per experiment: a hypothesis, the one thing changed, how it is measure
 | E12 | The brief's ducking settings are right for this voice and score. | Ratio 6 against 3 in the sidechain compressor | Listening on a phone speaker and on headphones | | |
 | E13 | Enlarging a square crop for the vertical film is not noticed in a painted style. | Vertical from a square master against a vertical keyframe, one shot | Blind A/B | | |
 | E14 | The speech model handles Tigrinya and Somali, and fails on Afaan Oromo, which is not on its supported list. | Language of the same four lines (`langtest`) | Listening-check score and a native speaker's rating per language | | |
-| E15 | The lighter text model does the checking calls in seconds, where `gemini-3.8-flash` needs minutes on the free tier, and gives the same verdicts. Added on 25 Nov after failure F01. | `models.text`: `gemini-3.5-flash-lite` against `gemini-3.8-flash`, same pictures, same judge prompt | Latency and failed attempts per call in `runs.jsonl`; the two sets of judge scores side by side | Half right. 1.8 to 9.8 s a call against 104 and 144 s, and 15 of 15 pictures scored against 2 of 6. But it gave 5.0 to pictures the other model gave 4.0, and 5.0 to pictures with a white frame. | Kept for the checks, because it answers. Its scores no longer decide alone: see the log. |
+| E15 | The lighter text model does the checking calls in seconds, where `gemini-3.8-flash` needs minutes on the free tier, and gives the same verdicts. Added on 25 Nov after failure F01. | `models.text`: `gemini-3.5-flash-lite` against `gemini-3.8-flash`, same pictures, same judge prompt | Latency and failed attempts per call in `runs.jsonl`; the two sets of judge scores side by side | Half right. 1.8 to 9.8 s a call against 104 and 144 s, and 15 of 15 judge calls answered against 2 of 6. But it gave 5.0 to pictures the other model gave 4.0, and 5.0 to pictures with a white frame. | Kept for the checks, because it answers. Its scores no longer decide alone: see the log. |
 | E16 | One sentence in the style block ("the painting fills the whole frame") removes the white paper border that five of the first six pictures came back with. Added on 25 Nov after the first real pictures. | One sentence added to `style.block`, same prompts and seeds | Edges that are bare paper, counted by the border check, on the same six candidates | Bordered candidates went from 5 of 6 to 2 of 6. A thin ragged edge stayed on the picks. | Sentence kept. The frame is now guaranteed by the border check and an edge trim, not by wording. |
 | E17 | A judge asked to find what is wrong (yes or no questions, a list of what must be visible) tells pictures apart that the 1 to 5 judge scored the same. A stronger model does it better than the light one: it flags a border on the pictures the border check counts as bordered. Added on 25 Nov after E15. | Two steps, one change each: the question (same model, `gemini-3.5-flash-lite`), then the model (`claude-opus-5-5`, same question) | On the same 12 pictures: how many of the 7 measured borders each judge flags, how many different totals it gives, seconds and list price per call | The question did most of it: the light model went from 0 borders flagged to 8. The stronger model then flagged all 9 pictures that have one, gave nine different totals, and named faults nobody had seen. | The new question is the pipeline's judge, and `models.judge` is `claude-opus-5-5`: about 0.016 USD a picture. |
 | E18 | A model that reads Amharic finds the subtitle that does not say what its line says. Expected before the run: it finds at least the tense mismatch in s03, which had been noticed by hand that morning. | Nothing in the film: a new check, each written subtitle against its Amharic line | What it reports for the eight draft lines, against a reading by hand | Found the s03 mismatch, and a second one in s07 that the reading by hand had missed. | The check is part of the script stage. Both lines go back to the author. |
+| E19 | The character sheet with three poses is being copied into the scenes: one figure seen from behind as the reference gives one young man per picture, seen from behind. Added on 25 Nov after the first ten pictures with a person in them. This is E05 asked the other way round. | `reference_prompt` of the young man: a sheet of three poses against one back view. Same prompts, same seeds | A model counts, for each of 20 pictures, how often he appears and whether a face is turned to the viewer | More than one copy: 8 of 10 with the sheet, 3 of 10 with the back view. A face to the viewer: 8 of 10 against 1 of 10. | The back view is the reference. The friend gets one of his own. |
+| E20 | All lines spoken in one request can be cut into one file per line at the long pauses, so the narration costs one of the day's ten speech requests and not eight. Written into `pipeline/narration.py` before the first take. | One request for eight lines, against the brief's tip of one request per line | The margin between the pauses used as cuts and the pauses left inside lines; how many lines two cutting methods agree on; requests spent | Margin 1.24, where 1.5 is needed. The methods agree on 4 of 8 lines. 5 speech requests in all. | A line is kept from a take only where both methods agree. The rest are spoken alone. See F04. |
+| E21 | The listening check scored two correct lines 0.16 because of how it was asked, not because of how they were spoken. Added on 25 Nov after the first eight scores. | The question to the listener: "the script of the language being spoken" against naming the language. Same eight audio files | The match between line and transcript, per line | The two lines rose from 0.16 to 0.91 and 0.81. Another fell from 0.84 to 0.64 with no change in its audio. | The language is named. A score is read as a screen, never as a verdict on the voice. |
 
 ## Log
 
@@ -42,6 +45,84 @@ Decision:           (what went into storyboard.json or the code)
 What it changed:
 ```
 
+### E21  Does the listening check measure the voice or the listener  (25 Nov 2026)
+
+Hypothesis: two of the first eight narration lines scored 0.16 in the listening check, far under the floor of 0.6. The transcripts were in Latin letters ("Lambara cders məniştə nappa" for `ላምበረት ስደርስ መሽቶ ነበር`). Read aloud they are the right words. So the low score comes from the question, which asked for "the script of the language being spoken", and not from the speech.
+
+Changed: the question to the listener. It now says the audio is narration in Amharic and asks for the usual script of Amharic (`LISTEN_PROMPT` in `pipeline/narration.py`).
+
+Held fixed: the eight audio files, byte for byte. The listener, `gemini-3.5-flash-lite`, at temperature 0.
+
+Evidence: `runs.jsonl`, units `s01_listen` to `s09_listen`, run `20261125T171237Z-6f6e51` with the old question and run `20261125T171701Z-c303d6` with the new one. The transcripts are in `outputs/narration/`.
+
+Result:
+
+| Line | Old question | Language named |
+|---|---:|---:|
+| s01 | 0.93 | 0.83 |
+| s02 | 0.73 | 0.85 |
+| s03 | 0.84 | 0.64 |
+| s04 | 0.16 | 0.91 |
+| s06 | 0.90 | 0.90 |
+| s07 | 0.77 | 0.81 |
+| s08 | 0.16 | 0.81 |
+| s09 | 0.87 | 0.91 |
+
+The two lines written in Latin letters are now written in Ethiopic and pass. All eight are at or above the floor. But s03 fell by 0.20 on the same audio: this time the listener began its transcript with a sentence about Martin Luther King that nobody spoke.
+
+Decision: the language is named in the question. The check stays what its docstring says: it measures, it does not decide. A low score sends a person to listen to that line, and a high one does not excuse them.
+
+What it changed: until this run a low score was read as "the speech model said the line badly". On these eight lines the score moved by up to 0.75 with no change in the sound. The largest part of it is the listener.
+
+### E20  One take for all lines, against one request per line  (25 Nov 2026)
+
+Hypothesis: the free speech tier allows ten requests a day, so eight lines spoken one by one leave two for every re-take. Spoken in one request, with the documented pause tag after each line, the answer can be cut at its longest pauses into one file per line. Written into the narration stage before the first real take.
+
+Changed: one request for the eight lines, where the brief's tip is one request per line.
+
+Held fixed: the voice (`Charon`), the style sentence, the lines.
+
+Evidence: the take is `outputs/narration/takes/take__49b531e67e924f58_1.wav`, with what the listener heard in each of its 35 phrases in the record beside it. `runs.jsonl`: unit `take` in run `20261125T164336Z-2fb093`, units `take_phrase_01` to `take_phrase_35` in run `20261125T170143Z-902d5d`, units `s06` to `s09` in run `20261125T171237Z-6f6e51`. The whole story is F04 in `FAILURES.md`.
+
+Result: one request gave 70.19 s of audio in 19 s. It could not be cut as planned.
+
+| | |
+|---|---|
+| Pauses of 0.25 s or more in the take | 36 |
+| The seven longest, which should be the seven gaps between lines | 1.42 to 1.90 s |
+| The longest pause left inside a line | 1.15 s |
+| Margin between the two (1.5 is the least the stage accepts) | 1.24 |
+| Lines where the cut by pauses and the cut by words agree | 4 of 8 (s01 to s04) |
+| Phrases the listener heard as the pause tag itself | phrase 23 as `long pause`, phrase 28 as `ሎንግ` |
+| Speech requests spent on the eight lines | 5: the take and four single lines |
+
+Decision: the take stays as the first try, because four lines for one request is still a gain. What changed is the rule for trusting it: a line is cut from a take only where the pauses and the words agree on both of its ends, and any other line is spoken alone.
+
+What it changed: the brief says "generating narration line by line, one file per shot, makes re-takes cheap and timing easy to adjust". This project took the first half as a cost and set out to avoid it. The tip is about the second half: a line that comes back alone needs no cutting, and cutting is where an evening went. With ten requests a day the honest price of eight lines is between five and eight requests, not one.
+
+### E19  The character sheet that copied itself into the scenes  (25 Nov 2026)
+
+Hypothesis: the brief suggests a reference sheet for each character, and the first storyboard asked for the usual one: the young man three times, from the front, the side and behind. In the first pictures he stood in the scene two or three times, in those same three poses, face to the viewer. So the image model treats the sheet as content to keep. A reference with one figure seen from behind should give one figure, seen from behind.
+
+Changed: the `reference_prompt` of the young man, and nothing else. Before: "Character sheet on a plain warm background: the same young man shown three times, from the front, from the side and from behind". After: "One single full-length figure on a plain warm background, seen from behind".
+
+Held fixed: the five shot prompts with him in them (s01, s03, s04, s06, s08), their seeds, two candidates each, the model (FLUX.2 klein 4B), the style block.
+
+Evidence: the twenty pictures are in `outputs/keyframes/original/`, drawn in runs `20261125T165037Z-d7d28c` and `20261125T170301Z-fdd723`. The count is `python experiments/e19_reference.py`: one question to `claude-opus-5-5` for each picture, the same for both sets. Answers in `outputs/experiments/E19/results.json`, calls in `runs.jsonl` under run `20261125T171008Z-ca221d`.
+
+Result:
+
+| Reference | Pictures | He appears more than once | A face is turned to the viewer | Looks like a photograph |
+|---|---:|---:|---:|---:|
+| Sheet of three poses | 10 | 8 | 8 | 1 |
+| One back view | 10 | 3 | 1 | 0 |
+
+With the sheet, both candidates of s03 and of s06 held him three times. With the back view, the three pictures that still show two of him are all shots with his friend in them (s04, s06, s08): the model drew the friend as a second copy of the only reference it was given. Twenty answers in 3.0 to 11.2 s, 0.27 USD.
+
+Decision: the reference for a character is one figure, in the view the film uses. The friend got a reference of his own, with different clothes. That settled the one shot where the two stand side by side (s06). It did not rescue the two shots that put them in a crowd: see F05 in `FAILURES.md`.
+
+What it changed: a reference sheet was taken as plain good practice, and E05 was planned to ask only whether it helps. It was the cause of the worst fault in the first pictures. It also matters beyond looks: the rule of this film is that nobody's face is generated, and the sheet put a face in eight pictures of ten.
+
 ### E18  Does the subtitle say what the line says  (25 Nov 2026)
 
 Hypothesis: a model that reads Amharic finds the subtitle that does not say what its line says. Before the run one such case was known: in s03 the line says "he knows the city" and the subtitle "he knew". It had been noticed by hand that morning, so the check had to find at least that one.
@@ -50,7 +131,7 @@ Changed: nothing in the film. A new check in the script stage: for each written 
 
 Held fixed: the eight draft lines and their subtitles as they stood, the model (`claude-opus-5-5`).
 
-Evidence: `outputs/script/index.am.json` holds each literal translation and each difference. The eight calls are in `runs.jsonl`, units `s01_subtitle_check` to `s10_subtitle_check`.
+Evidence: `outputs/script/index.am.json` holds each literal translation and each difference. The eight calls are in `runs.jsonl`, units `s01_subtitle_check` to `s10_subtitle_check`. These were the lines of the first draft, with ten shots. The storyboard was rewritten the same evening from the story as the author told it, and the check ran again on the eight new lines: all eight subtitles pass.
 
 Result: six subtitles pass. Two do not.
 
@@ -164,7 +245,7 @@ These were measured on 25 Nov 2026 with the mock providers. They show that the p
 | Check | Result |
 |---|---|
 | Full pipeline from a clean copy, mock providers | 72.5 s film in both ratios, final-cut check passed |
-| Change one narration line, run again | 2 model calls (speak, listen); 7 units rebuilt; everything else a cache hit |
+| Change one narration line, run again | 3 model calls (subtitle check, speak, listen); 8 units rebuilt, 9 when the longer line makes its shot longer; everything else a cache hit |
 | Change one keyframe prompt, run again | 4 model calls (2 candidates, 2 judge calls); only that shot's clip and scenes rebuilt |
 | Run again with nothing changed | 0 model calls, 0 units rebuilt |
 | Mix loudness on the mock audio | -13.9 LUFS integrated |

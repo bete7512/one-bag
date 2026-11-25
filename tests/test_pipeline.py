@@ -254,6 +254,22 @@ class RunLogTests(Project):
 
 
 class TimingTests(unittest.TestCase):
+    def test_a_subtitle_changes_where_the_voice_pauses(self):
+        text = "It was night when I reached Lamberet. My friend was waiting for me. So many people, lights on the buildings, so many cars."
+        by_length = core.subtitle_cues(text, 10.0, 9.0)
+        self.assertEqual(len(by_length), 2)
+        self.assertAlmostEqual(by_length[0][1], 15.02, places=1)                     # shared out by length alone
+        # the voice stops for a breath at 2.0 s, for a full second after the second sentence at 4.2 s, and for a breath at 7.0 s
+        timed = core.subtitle_cues(text, 10.0, 9.0, pauses=[[2.0, 2.3], [4.2, 5.2], [7.0, 7.3]])
+        self.assertEqual([lines for _, _, lines in timed], [lines for _, _, lines in by_length])
+        self.assertAlmostEqual(timed[0][1], 15.12, places=2)                         # the cue changes as the long pause ends
+        self.assertEqual((timed[0][0], timed[-1][1], timed[1][0]), (10.0, 19.0, timed[0][1]))
+
+    def test_what_follows_a_colon_waits_for_its_own_cue(self):
+        cues = core.subtitle_cues("If I met that boy today, I would tell him just one thing: experience it.", 0.0, 6.0, pauses=[[1.9, 2.4], [4.3, 5.3]])
+        self.assertEqual(cues[-1][2], ["experience it."])                            # the last word is not shown before it is said
+        self.assertAlmostEqual(cues[-1][0], 5.22, places=2)
+
     def test_subtitles_fit_two_lines_of_forty_characters(self):
         sb = read_sb(REPO)
         for shot in sb["shots"]:
@@ -522,21 +538,61 @@ class TakeTests(Project):
         with self.assertRaisesRegex(core.PipelineError, "cannot be cut"):
             narration.speech_spans(take, 5)
 
-    def test_a_guessed_cut_is_refused_and_nothing_is_cached(self):
+    def test_a_cut_that_would_be_a_guess_is_not_made(self):
         from unittest import mock
         from pipeline import narration
 
         def no_long_pauses(ctx, stage, unit, texts, **kw):  # the pause after a line is no longer than the pauses inside it
             gap = b"\x00\x00" * int(0.4 * 24000)
             tone = providers._mock_speech("ሰላም ለሁላችሁ ይሁን።")
-            return [providers.pcm_to_wav(gap.join([tone, tone, tone, tone]))], {"audio_blocks": 1}
+            return [providers.pcm_to_wav(gap.join([tone] * (2 * len(texts))))], {"audio_blocks": 1}
 
         ctx = self.ctx()
         with mock.patch.object(providers, "tts_take", no_long_pauses):
-            with self.assertRaisesRegex(core.PipelineError, "would be a guess"):
-                narration.take(ctx, {"s01": "ሰላም ለሁላችሁ ይሁን። ሰላም ለሁላችሁ ይሁን።", "s03": "ሰላም ለሁላችሁ ይሁን። ሰላም ለሁላችሁ ይሁን።"}, ctx.sb["voice"], "speech-model")
+            pieces = narration.take(ctx, {"s01": "ሰላም ለሁላችሁ ይሁን። ሰላም ለሁላችሁ ይሁን።", "s03": "ደህና ሁኑ ወዳጆቼ። ደህና ሁኑ ወዳጆቼ።"}, ctx.sb["voice"], "mock-tts")
+        self.assertEqual(pieces, {})                                                          # neither the pauses nor the words say where a line is
         self.assertEqual(len(list((ctx.out / "narration" / "takes").glob("*.wav"))), 1)       # the take is kept for a second look
         self.assertEqual(list((ctx.out / "narration").glob("s0*.wav")), [])                   # and no line entered the cache
+        with mock.patch.object(providers, "tts_take", no_long_pauses):
+            index, speech = self.narrate(ctx)
+        self.assertEqual([r["unit"] for r in speech], list(index))                            # each line is then spoken alone, nothing is guessed
+        self.assertTrue(all(line["roundtrip"] == 1.0 for line in index.values()), index)
+
+    def test_a_line_is_kept_from_a_take_only_where_pauses_and_words_agree(self):
+        from unittest import mock
+        from pipeline import narration
+        calls = []
+
+        def uneven_pauses(ctx, stage, unit, texts, **kw):
+            # five phrases. The words say: line 1 is phrases 1 and 2, line 2 is phrase 3, line 3 is phrases 4 and 5.
+            # The pause inside line 3 (0.8 s) is longer than the pause before it (0.6 s), so the pauses alone would cut line 3 in two.
+            tone = providers._mock_speech("ሰላም ለሁላችሁ ይሁን።")
+            gaps = [b"\x00\x00" * int(seconds * 24000) for seconds in (0.4, 1.0, 0.6, 0.8)]
+            return [providers.pcm_to_wav(b"".join(part for pair in zip([tone] * 4, gaps) for part in pair) + tone)], {"audio_blocks": 1}
+
+        def listener(ctx, wav, found, stage, unit, lang=None):
+            calls.append(len(found))
+            return ["ሰላም ለሁላችሁ", "ይሁን ዛሬ", "እንኳን ደህና መጣችሁ", "ደህና ሁኑ", "ወዳጆቼ ሁሉ"]
+
+        ctx = self.ctx()
+        lines = {"s01": "ሰላም ለሁላችሁ ይሁን ዛሬ።", "s03": "እንኳን ደህና መጣችሁ።", "s04": "ደህና ሁኑ ወዳጆቼ ሁሉ።"}
+        with mock.patch.object(providers, "tts_take", uneven_pauses), mock.patch.object(narration, "hear_phrases", listener):
+            pieces = narration.take(ctx, lines, ctx.sb["voice"], "mock-tts")
+            narration.take(ctx, lines, ctx.sb["voice"], "mock-tts")
+        self.assertEqual(calls, [5])                                                  # what was heard is kept: the second cut asks nobody
+        self.assertEqual(list(pieces), ["s01"])                                       # the one line both methods place the same
+        record = json.loads(next((ctx.out / "narration" / "takes").glob("*.json")).read_text(encoding="utf-8"))
+        self.assertEqual((record["cut_from_take"], record["word_match"]), (["s01"], {"s01": 1.0, "s03": 1.0, "s04": 1.0}))
+        self.assertLess(record["cut_margin"], narration.MIN_CUT_MARGIN)
+
+    def test_phrases_go_to_the_line_they_sound_like(self):
+        from pipeline import narration
+        lines = ["ክፍሉ ባለ አንድ አልጋ ነበር። ንጹሕ ነበር።", "ጠዋት ትኬት ቆረጥን።", "ኑረው።"]
+        heard = ["ክፍሉ ባለ አንድ", "አልጋ ነበረ", "ንጹህ ነበር", "ጠዋት", "ትኬት ቆረጥን", "ኑረው"]              # heard with small mistakes, as a listener does
+        self.assertEqual(narration.assign(heard, lines), [3, 2, 1])
+        self.assertEqual(narration.assign(["ሀ", "ለ", "ሐ"], ["ሀ", "ለ", "ሐ"]), [1, 1, 1])
+        with self.assertRaisesRegex(core.PipelineError, "cannot be matched"):
+            narration.assign(["ሀ"], ["ሀ", "ለ"])
 
     def test_the_listening_check_follows_the_sound_not_the_line(self):
         index, _ = self.narrate()

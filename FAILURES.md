@@ -23,7 +23,7 @@ What it showed: a busy provider, and two weaknesses of the pipeline.
 
 What was tried, in order:
 
-1. The same stage again, after two changes to the pipeline: waits of 10, 30 and 90 seconds between attempts, and the judge made optional so a failed score no longer stops the stage. The run finished this time, without the scores: 12 more attempts in twenty minutes, none answered (run `20261125T105827Z-7dbbde`). The last two failed differently: `HTTP 429 You exceeded your current quota`.
+1. The same stage again, after two changes to the pipeline: waits of 10, 30 and 90 seconds between attempts, and the judge made optional so a failed score no longer stops the stage. The run finished this time, without the scores: 16 more attempts in twenty minutes, none answered (run `20261125T105827Z-7dbbde`). Twelve were HTTP 503 again and two ran into the five-minute timeout with no answer at all. The last two failed differently: `HTTP 429 You exceeded your current quota`.
 2. The limits page of the project in Google AI Studio. It showed what the documentation does not: 20 requests a day for this model on the free tier, and the day's count at 22.
 3. The lighter model, as experiment E15 in `EXPERIMENTS.md`.
 
@@ -71,7 +71,7 @@ HTTP 400 {'type': 'error', 'error': {'type': 'invalid_request_error', 'message':
 
 The key itself was accepted: the refusal is about billing, not about who is calling. The 12 attempts are in `runs.jsonl` under run `20261125T120616Z-8a8230`, each with `cost_usd` 0. A rejected request is not retried, so nothing was spent on waiting either.
 
-What was done: nothing was changed to get around it. The comparison of the two judge models stays unmeasured, and E17 says so. The first step of that experiment, the new question on the free model, did run and is what the pipeline uses. `models.judge` in the storyboard stays unset, so the judge is the free model.
+What was done that afternoon: nothing was changed to get around it. At that hour the comparison of the two judge models stayed unmeasured, and E17 said so. The first step of that experiment, the new question on the free model, did run. `models.judge` in the storyboard stayed unset, so the judge was the free model until the key worked (see the end of this entry).
 
 Two more attempts the same afternoon, one tiny call each:
 
@@ -83,6 +83,62 @@ What fixed it: nothing in the repository. Two hours later the organisation's mon
 What it cost: three refused attempts and about an hour of the author's time in the provider's console. No money: a refused call is not charged.
 
 What would be done differently: before writing code against a paid provider, make one tiny call with the key that will be used. The message of a billing error does not say which organisation the key belongs to, and that was the whole problem.
+
+### F04  The narration take could not be cut into its lines  (25 Nov 2026)
+
+Stage and model: narration. The speech is `gemini-3.8-flash-tts`, the listener is `gemini-3.5-flash-lite`, both on the free tier.
+
+What happened: all eight lines were spoken in one request, each line followed by the pause tag from the speech docs, `<long pause>`. The answer was one audio of 70.19 s (run `20261125T164336Z-2fb093`). The stage cuts such a take at its seven longest pauses, and refused:
+
+```
+take__9d84fd84f741392d_1.wav: the pauses between lines are only 1.24 times longer than the pauses inside them, so the cuts would be a guess. Nothing was cached.
+```
+
+The take has 36 pauses of a quarter of a second or more. The seven longest run from 1.42 to 1.90 s, the next is 1.15 s. The voice tells the story slowly and stops inside a line almost as long as between two lines.
+
+What was tried, in order:
+
+1. Cut by the words instead of the pauses: send the 35 phrases between the pauses to the listener in one request, have each transcribed, and match the phrases to the script. The request was refused four times with `HTTP 503 This model is currently experiencing high demand` (run `20261125T164633Z-142520`).
+2. The same with a label before each clip. Four more refusals (run `20261125T165246Z-a8e679`).
+3. Twelve clips in a request. Four more (run `20261125T165821Z-478b29`). That made twelve refusals in a quarter of an hour. A probe then showed the listener was not down: a request with text only answered in 1.4 s and a request with one clip in 5.1 s (run `20261125T165727Z-760672`).
+4. One phrase per request. 35 of 36 attempts answered, in 1.5 to 53 s each, four minutes in all (run `20261125T170143Z-902d5d`).
+
+What the transcripts showed: the pauses were not the only problem. Phrase 23 is 0.65 s long and stands alone between two pauses of 1.4 s, after the last word of line s06. The listener was told it is Amharic and still wrote two English words for it: `long pause`. Phrase 28, after the last word of s07, came back as `ሎንግ`, the sound of "long" in Ethiopic letters. The speech model had read the pause tag aloud after some lines, and stayed silent for it after others. This is the listener's word and not yet a person's ear: the take is kept in `outputs/narration/takes/`, and the place is at 45.9 s.
+
+No way of cutting can be trusted on a take like that. The short phrases at the edges of a line are exactly the ones the listener hears worst: it wrote `ምን` for what is probably `ጠዋት`, and `ቁጥር` for the last word of the film, `ኑረው`. A rule that drops what does not match the script would drop real words.
+
+What fixed it: a stricter rule, and four more speech requests. A line is now kept from a take only where two methods agree on both of its ends: the cut at the longest pauses, and the phrases matched to the script (`take` in `pipeline/narration.py`). They agree on s01, s02, s03 and s04, which sit between the four cleanest pauses. They disagree on s06 to s09, so those were not cut at all. Each was spoken again in a request of its own (run `20261125T171237Z-6f6e51`), which is the way the brief suggests in the first place.
+
+One more fault showed up at the end. The listening check gave two correct lines a score of 0.16, because the listener had written them in Latin letters ("Lambara cders ..."). The question now names the language, and the same two files score 0.91 and 0.81 (E21 in `EXPERIMENTS.md`).
+
+What it cost: half an hour from the take to the radio cut. 50 requests to the free listener, 13 of them refused. Five speech requests for eight lines, where one was planned and eight would have been safe. Six of the day's ten are used.
+
+What would be done differently: speak two lines in one request first and listen to the result before building a stage on it. And an old lesson again: F01 ended with "a check that cannot reach its model never stops a run", and here the cut itself hung on that same busy model. The rule that came out of it does not: when the listener cannot be reached or does not agree, the line costs one speech request and nothing waits.
+
+### F05  Two people from behind in a crowd: sixteen pictures, none usable  (25 Nov 2026)
+
+Stage and model: keyframes. FLUX.2 klein 4B on Cloudflare Workers AI, with a reference picture for each character. The judge is `claude-opus-5-5`.
+
+What happened: two shots asked for the young man and his friend, both seen from behind, inside a busy scene: Lamberet at night (s04) and the ticket queue (s08). They were drawn in four runs, two candidates each. Of the sixteen pictures none could go into the film. The judge's totals run from -2.0 to 1.15, and the pipeline asks a person to look at any picture under 3. In its own words:
+
+| Run | What had changed | Lamberet (s04) | The queue (s08) |
+|---|---|---|---|
+| `20261125T165037Z-d7d28c` | first try, with the three-pose sheet | "The two figures are fused into one body: a taller head and shoulders rise directly out of the shorter man's back" | "Reads as an East Asian train or subway concourse" |
+| `20261125T170301Z-fdd723` | one back view as the reference (E19) | "The two men are near-identical clones: same height, same dark jacket, same backpack and same stance." | "The crowd and station design read as East Asian rather than Addis Ababa" |
+| `20261125T171336Z-c89c90` | a reference for the friend too, Ethiopian detail in every prompt | "Low suburban houses with white fences, wooden utility poles and an American-style residential street" with one figure in it | "No setting at all: a single figure stands against a blank parchment background" |
+| `20261125T172210Z-b760af` | the two named first and put in the foreground | "The two characters are merged into a single figure" | "A single young woman in a white head shawl stands facing the viewer" |
+
+Two faults are tangled together here. The model does not know what Addis Ababa looks like and falls back on the cities it has seen most. And each reference picture pulls toward its own layout: one figure, centred, on an empty ground. With two references and a crowded scene, the references won and the scene was dropped.
+
+In the same hour a third fault showed in the shot of blurred city lights (s05), which has nobody in it. The style block asks for "the subject in the centre of the frame", so the model put one there: a faceless figure in a shirt in one candidate, a portrait of a girl in the other (run `20261125T172210Z-b760af`). Saying in the prompt that the lights themselves are the subject removed it.
+
+What fixed it: the design changed, the prompt did not get cleverer. Where the model is given one person from behind, it holds: the brokers' shot (s06), where the two stand still in the centre like their references, reached 3.3 in its fourth run, once the brokers were asked for as silhouettes. So Lamberet and the queue were rewritten with the young man alone in the frame, and the voice says his friend was there. Run `20261125T172744Z-c6d56e`: Lamberet scored 4.05 on that first try, the queue 2.55, and he wears the same jacket, backpack and sandals as in Ankober.
+
+The change also answers a question that was open at the same moment. His friend had agreed to be shown in one scene, and the storyboard had grown to three. Now it is one again (`ETHICS.md`).
+
+What it cost: 16 of the 81 pictures made that day, 0.34 USD of judge calls, and thirty-five minutes.
+
+What would be done differently: draw the hardest shot first, before writing eight more around it. And keep to the limit of three attempts: the fourth run on these two shots said nothing the third had not.
 
 ## From the offline build (coding agent, 25 Nov 2026)
 
