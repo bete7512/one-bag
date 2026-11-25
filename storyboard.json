@@ -152,7 +152,7 @@
         "reference": false,
         "focus_y": 0.75
       },
-      "motion": {"backend": "kenburns", "camera": "pull_out", "prompt": "The two walk on while cars and people move around them. Slow pull back."},
+      "motion": {"backend": "wan", "camera": "pull_out", "prompt": "Traffic moves slowly along the avenue: cars and minibuses roll forward and their headlights pass. The young man stands still with his back to us. The camera does not move.", "seed": 204},
       "narration": {
         "am": "ላምበረት የደረስኩት ከመሸ በኋላ ነው። ጓደኛዬ እዚያው ጠበቀኝ። ሰው፣ መብራት፣ መኪና፤ ሁሉም በአንድ ጊዜ።",
         "en": "I reached Lamberet after dark. My friend was there, waiting for me. People, lights, cars: everything at once."
@@ -245,7 +245,7 @@
         "seed": 109,
         "focus_y": 0.25
       },
-      "motion": {"backend": "kenburns", "camera": "push_in", "prompt": "A light wind moves his shirt and the first city lights come on far away. Slow push in.", "seed": 209},
+      "motion": {"backend": "wan", "camera": "push_in", "prompt": "A light wind moves his shirt and the first city lights come on far away. He stands still. Slow push in.", "seed": 209},
       "narration": {
         "am": "ያ ሌሊት ግራ አጋባኝ። ዛሬ ግን ከቤቱ ለሚወጣ ሁሉ አንድ ነገር እላለሁ፦ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። አትሽሽ። አጣጥመው።",
         "en": "That night confused me. Today I tell everyone who leaves home one thing: the first night is always confusing. Do not run from it. Savour it."

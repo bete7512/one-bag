@@ -1671,3 +1671,12 @@
 {"ts": "2026-11-25T20:19:58Z", "run_id": "20261125T201937Z-41c2d4", "stage": "assemble", "unit": "horizontal_s09", "key": "2f4482606a42ad78", "event": "hit"}
 {"ts": "2026-11-25T20:19:58Z", "run_id": "20261125T201937Z-41c2d4", "stage": "assemble", "unit": "horizontal_endcard", "key": "56ed9e98526096a5", "event": "hit"}
 {"ts": "2026-11-25T20:20:02Z", "run_id": "20261125T201937Z-41c2d4", "stage": "assemble", "unit": "film_horizontal", "key": "d9a9688ddfc5e9d7", "event": "built", "reason": "changed: scenes", "seconds": 3.9}
+{"ts": "2026-11-25T20:25:56Z", "run_id": "20261125T202554Z-00e158", "stage": "shots", "unit": "s02_wan", "key": "a5009af75983891d", "event": "hit"}
+{"ts": "2026-11-25T20:25:56Z", "run_id": "20261125T202554Z-00e158", "stage": "shots", "unit": "s01_kenburns", "key": "d104b4680264b44e", "event": "hit"}
+{"ts": "2026-11-25T20:25:56Z", "run_id": "20261125T202554Z-00e158", "stage": "shots", "unit": "s03_kenburns", "key": "f80f66055ed6961e", "event": "hit"}
+{"ts": "2026-11-25T20:25:56Z", "run_id": "20261125T202554Z-00e158", "stage": "shots", "unit": "s04_kenburns", "key": "4b658ed6800a6b5f", "event": "hit"}
+{"ts": "2026-11-25T20:25:56Z", "run_id": "20261125T202554Z-00e158", "stage": "shots", "unit": "s05_kenburns", "key": "de8288df31a7426c", "event": "hit"}
+{"ts": "2026-11-25T20:25:56Z", "run_id": "20261125T202554Z-00e158", "stage": "shots", "unit": "s06_kenburns", "key": "0e3726a62119af7b", "event": "hit"}
+{"ts": "2026-11-25T20:25:56Z", "run_id": "20261125T202554Z-00e158", "stage": "shots", "unit": "s07_kenburns", "key": "13513e3cc9831d72", "event": "hit"}
+{"ts": "2026-11-25T20:25:56Z", "run_id": "20261125T202554Z-00e158", "stage": "shots", "unit": "s08_kenburns", "key": "fb5d4559d40ab8fa", "event": "hit"}
+{"ts": "2026-11-25T20:25:56Z", "run_id": "20261125T202554Z-00e158", "stage": "shots", "unit": "s09_kenburns", "key": "e825aaac2482b063", "event": "hit"}

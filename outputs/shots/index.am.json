@@ -20,7 +20,7 @@
  "s04": {
   "file": "s04_kenburns__4b658ed6800a6b5f.mp4",
   "key": "4b658ed6800a6b5f",
-  "source": "kenburns",
+  "source": "kenburns_fallback",
   "seconds": 10.667
  },
  "s05": {
@@ -50,7 +50,7 @@
  "s09": {
   "file": "s09_kenburns__e825aaac2482b063.mp4",
   "key": "e825aaac2482b063",
-  "source": "kenburns",
+  "source": "kenburns_fallback",
   "seconds": 13.833
  }
 }
