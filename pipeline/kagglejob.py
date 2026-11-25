@@ -33,8 +33,8 @@ def export_job(ctx: Ctx, stage: str, model: str, settings: dict, jobs: list[dict
     manifest = {"stage": stage, "created": now(), "model": model, "settings": settings, "jobs": jobs}
     (job_dir / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=1), encoding="utf-8")
     archive = shutil.make_archive(str(job_dir), "zip", job_dir)
-    ctx.say(f"  [{stage}] {len(jobs)} GPU job(s) written to {Path(archive).relative_to(ctx.root)}. See kaggle/README.md, then run: "
-            f"python -m pipeline ingest {stage} <results.zip>")
+    ctx.say(f"  [{stage}] {len(jobs)} GPU job(s) written to {Path(archive).relative_to(ctx.root)}. Run them with: "
+            f"python -m pipeline kaggle run {stage}  (by hand: kaggle/README.md)")
     return Path(archive)
 
 

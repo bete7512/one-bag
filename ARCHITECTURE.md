@@ -5,8 +5,8 @@
 ```mermaid
 flowchart LR
     SB[storyboard.json<br/>validated by schema/] --> S1[1 script]
-    S1 --> S2[2 narration<br/>Gemini TTS + listening check]
-    SB --> S3[3 keyframes<br/>reference sheet, candidates, judge]
+    S1 --> S2[2 narration<br/>one take, cut into lines, listening check]
+    SB --> S3[3 keyframes<br/>reference sheet, candidates, border check, judge]
     S2 --> S4[4 shots<br/>Ken Burns here, Wan 2.2 on Kaggle]
     S3 --> S4
     SB --> S5[5 music<br/>placeholder here, ACE-Step on Kaggle]
@@ -24,10 +24,10 @@ One file is the contract. Every stage reads `storyboard.json`, does one job, and
 | Stage | Reads | Writes |
 |---|---|---|
 | script | storyboard | `outputs/script/index.<lang>.json`: the line and subtitle of every narrated shot |
-| narration | script index | `outputs/narration/<shot>__<key>.wav`, `index.<lang>.json` with seconds and the listening score |
-| keyframes | storyboard, `ETHICS.md` | `outputs/keyframes/*.png`, originals in `original/`, `index.json` with scores and the pick |
-| shots | keyframes index, narration index | `outputs/shots/<shot>_<backend>__<key>.mp4`, `index.<lang>.json`, a GPU job bundle |
-| music | storyboard | `outputs/music/*.wav`, `index.json`, a GPU job bundle |
+| narration | script index | `outputs/narration/<shot>__<key>.wav`, the takes they were cut from in `takes/`, `index.<lang>.json` with seconds and the listening score |
+| keyframes | storyboard, `ETHICS.md` | the model's pictures in `outputs/keyframes/original/`, keyframes cut from them, `index.json` with the border count, the scores and the pick |
+| shots | keyframes index, narration index | `outputs/shots/<shot>_<backend>__<key>.mp4`, `index.<lang>.json`, a GPU job folder |
+| music | storyboard | `outputs/music/*.wav`, `index.json`, a GPU job folder |
 | assemble | all indexes | scene files, the mix, both films, `subtitles.<lang>.srt`, `index.film.<lang>.json` |
 
 Before anything runs, `storyboard.json` is validated twice: against `schema/storyboard.schema.json`, then by checks a schema cannot express (unknown character ids, a pick that points past the candidates, a consent marked recorded with no dated row in `ETHICS.md`). An invalid storyboard stops the run before any model is called.
@@ -50,16 +50,46 @@ Keys flow downstream. A scene's fingerprint holds its clip's key, and the clip's
 
 `python -m pipeline plan` runs the same code with building switched off. It calls no model and prints what the next run would do.
 
+### What the model sent is kept as it came
+
+Two stages keep the model's answer untouched and cut what the film needs from it with FFmpeg:
+
+- **Pictures.** Each answer of the image model is stored in `outputs/keyframes/original/` under a hash of what was sent to the model. The keyframe is cut from that file: scaled to the master size, with `format.edge_trim` taken off each side. The model is called only when no original exists, so a change to the cut costs nothing.
+- **Narration.** The lines missing from the cache are spoken in one request, a take, kept in `outputs/narration/takes/`. Each line carries a `<long pause>` tag at its end, and the take is cut at its longest pauses into one file per line. The per-line files keep their own fingerprints, so everything downstream is unchanged, and a single changed line is spoken alone.
+
+The reason for the take is a limit, not taste: the free speech tier allows ten requests a day. A request per line would spend eight of them on one pass.
+
+## The run log
+
+`runs.jsonl` gets one line for every attempt of every real model call, failed attempts too. Fields on every line:
+
+| Field | Meaning |
+|---|---|
+| `ts`, `run_id` | when, and which run of the pipeline |
+| `stage`, `unit` | which stage, and which unit of work (`s04`, `s07_c2_judge`, `take`) |
+| `provider`, `model` | who was called |
+| `params`, `seed` | what was asked: sizes, voice, style, hashes of the prompt text. `seed` is null where the provider has none |
+| `attempt`, `status` | 1 to 4, `ok` or `error`. An error line has `http_status` and the provider's message |
+| `latency_s` | measured around the request |
+| `cost_usd` | the list price of the call, 0 for a failed attempt, null when the price or the usage is not known. Nothing was paid: every call ran on a free tier |
+
+A successful line also carries what its price depends on: token counts for text, seconds of audio for speech, and for GPU work the minutes and the peak memory that the job measured itself. Prices and their sources are in `pricing.json`, and the arithmetic is in `pipeline/pricing.py`.
+
 ## Failure handling
 
 | What can go wrong | What the pipeline does |
 |---|---|
-| Rate limit or quota (HTTP 429), server error, network error | Up to four attempts with a growing wait, using the provider's `Retry-After` when given. Every attempt is one line in `runs.jsonl`. |
+| A server error, a network error or a timeout | Up to four attempts, with waits of 10, 30 and 90 seconds, or the provider's `Retry-After` when given. Every attempt is one line in `runs.jsonl`. The first waits were 2, 4 and 8 seconds, which an overloaded model outlasted (F01). |
+| A free-tier limit | The limits that apply to this project are in `pricing.json`, and the run log is the counter. Before each request the day's use is read: over a daily limit the request is not sent and the message says when the allowance resets, and a per-minute limit is waited out. |
 | A rejected request (HTTP 400, 401, 403, 404) | No retry. The error names the likely cause (wrong model id, bad key, no access). |
+| A check cannot reach its model | The picture judge and the listening check only measure, so they are optional units: the stage goes on without the score, the final-cut check lists what is unscored, and the next run tries again. |
 | A provider changes its response shape | Responses are parsed tolerantly: the audio or image is searched for in the JSON, not read from one fixed path. |
 | A stopped run | Files are written under a temporary name and renamed when complete, so a half-written file is never used. The next run continues from the cache. |
+| A picture comes back with a paper border | Each candidate's four sides are measured for bare paper. The pick prefers the candidate with the fewest, and the final-cut check lists a pick that still has a border. |
+| A take cannot be cut into its lines | The stage stops and says so. The take is kept, so a fix to the cutting costs no speech request. |
 | The GPU job fails or has not run yet | The shot falls back to a pan and zoom over its keyframe. The index marks it `kenburns_fallback` and the final-cut check lists it. |
 | One clip fails on the GPU | The job script catches it, records the error and the peak memory, and goes on to the next clip. `results.json` is rewritten after every clip. |
+| A generated clip is shorter than its shot | It is slowed by at most 25%. The rest of the shot is a slow push in over the clip's last frame, so the picture never freezes under the voice. The final-cut check lists the shots and the seconds. |
 | A real person's consent is missing | The keyframe is not generated. The shot gets a plain card so the cut still assembles, and the final-cut check fails. |
 | The image model ignores or rejects a seed | The call is repeated without it and the log line says `seed_applied: false`. |
 
@@ -69,11 +99,11 @@ Request shapes were taken from each provider's documentation on 25 Nov 2026. The
 
 | Job | Call |
 |---|---|
-| Speech | `POST https://generativelanguage.googleapis.com/v1beta/interactions`, model `gemini-3.8-flash-tts`, style given as a `speech_metadata` annotation, a prebuilt voice. Returns WAV, 24 kHz mono. No seed parameter is documented, so speech is logged with `seed: null`. |
-| Text, vision, listening | `POST .../v1beta/models/gemini-3.8-flash:generateContent`, with images or audio as inline parts. |
+| Speech | `POST https://generativelanguage.googleapis.com/v1beta/interactions`, model `gemini-3.8-flash-tts`, style given as a `speech_metadata` annotation, a prebuilt voice. A take sends each line as its own content item. Returns WAV, 24 kHz mono. No seed parameter is documented, so speech is logged with `seed: null`. |
+| Text, vision, listening | `POST .../v1beta/models/gemini-3.5-flash-lite:generateContent`, with images or audio as inline parts. |
 | Images | `POST https://api.cloudflare.com/client/v4/accounts/<id>/ai/run/@cf/black-forest-labs/flux-2-klein-4b` as a multipart form (prompt, width, height, up to four reference images under 512 px). `flux-1-schnell` takes JSON instead, and the client handles both. |
-| Video | Wan 2.2 TI2V-5B through Diffusers in `kaggle/wan22_i2v.py`. |
-| Music | ACE-Step 1.5 through its Python API in `kaggle/acestep_music.py`. |
+| Video | Wan 2.2 TI2V-5B through Diffusers in `kaggle/wan22_i2v.py`, run on Kaggle by `pipeline/kagglerun.py`. |
+| Music | ACE-Step 1.5 through its Python API in `kaggle/acestep_music.py`, run the same way. |
 
 ## Sound
 
@@ -85,6 +115,8 @@ Request shapes were taken from each provider's documentation on 25 Nov 2026. The
 ## Picture
 
 One encoded scene file per shot per export, subtitles burned in, all with the same encoder settings. The scenes are joined with the concat demuxer and `-c copy`, and the sound is added with `-c:v copy`. Nothing is encoded twice, and changing one shot re-encodes one scene per export.
+
+A shot lasts as long as its narration, and a generated clip lasts a few seconds. A clip that is too short is slowed by at most 25%, and what is still missing is a slow push in over its last frame, made in the same filter as the clip so nothing changes where the two meet.
 
 Subtitles are English, at most two lines of 40 characters, timed in proportion to their length, and placed above the area that phone apps cover with buttons.
 
@@ -108,5 +140,6 @@ The price is sharpness: the vertical export enlarges a 576-pixel-wide crop to 10
 ## What is not here
 
 - No web service and no database. Files and hashes are enough at this size.
-- No automatic push to Kaggle. The job bundle is uploaded by hand, because an automation I cannot test is worse than three documented clicks.
+- No GPU on this machine and no paid GPU. The two GPU jobs go to Kaggle through its command line tool and come back as files.
+- No scheduler and no queue. The stages run in order in one process, and the only waiting is for Kaggle.
 - No voice cloning. The narrator is a prebuilt voice.
