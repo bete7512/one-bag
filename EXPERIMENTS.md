@@ -2,7 +2,7 @@
 
 One entry per experiment: a hypothesis, the one thing changed, how it is measured, the result, the decision. Change one thing at a time and keep the seed fixed, or the result cannot be read.
 
-**Status on 25 Nov 2026, 21:10: E15 to E21 and E23 have been run. E22 is running. E12 is measured and waits for its write-up. E01 to E11, E13 and E14 have not been run.** Each hypothesis is written down before its run on purpose, so the result cannot bend it. A result is filled in only from a real run, with the evidence it points to (`runs.jsonl` lines, a listening sheet, a blind-test result).
+**Status on 25 Nov 2026, 21:30: E15 to E23 have been run. E12 is measured and waits for its write-up. E01 to E11, E13 and E14 have not been run.** Each hypothesis is written down before its run on purpose, so the result cannot bend it. A result is filled in only from a real run, with the evidence it points to (`runs.jsonl` lines, a listening sheet, a blind-test result).
 
 ## Plan
 
@@ -29,7 +29,7 @@ One entry per experiment: a hypothesis, the one thing changed, how it is measure
 | E19 | The character sheet with three poses is being copied into the scenes: one figure seen from behind as the reference gives one young man per picture, seen from behind. Added on 25 Nov after the first ten pictures with a person in them. This is E05 asked the other way round. | `reference_prompt` of the young man: a sheet of three poses against one back view. Same prompts, same seeds | A model counts, for each of 20 pictures, how often he appears and whether a face is turned to the viewer | More than one copy: 8 of 10 with the sheet, 3 of 10 with the back view. A face to the viewer: 8 of 10 against 1 of 10. | The back view is the reference. The friend gets one of his own. |
 | E20 | All lines spoken in one request can be cut into one file per line at the long pauses, so the narration costs one of the day's ten speech requests and not eight. Written into `pipeline/narration.py` before the first take. | One request for eight lines, against the brief's tip of one request per line | The margin between the pauses used as cuts and the pauses left inside lines; how many lines two cutting methods agree on; requests spent | Margin 1.24, where 1.5 is needed. The methods agree on 4 of 8 lines. 5 speech requests in all. | A line is kept from a take only where both methods agree. The rest are spoken alone. See F04. |
 | E21 | The listening check scored two correct lines 0.16 because of how it was asked, not because of how they were spoken. Added on 25 Nov after the first eight scores. | The question to the listener: "the script of the language being spoken" against naming the language. Same eight audio files | The match between line and transcript, per line | The two lines rose from 0.16 to 0.91 and 0.81. Another fell from 0.84 to 0.64 with no change in its audio. | The language is named. A score is read as a screen, never as a verdict on the voice. |
-| E22 | A short description that names one instrument gets that instrument. The first description asked for a krar, a washint flute and a drone in 42 words, and the listening model heard a music box and a piano in two of the three candidates. Written on 25 Nov at 21:05, while the second job was running on Kaggle and before any of its music had been heard. | `music.caption`: 42 words and three instruments against 27 words and one instrument ("Solo krar ... One instrument only"). Same seeds, tempo, length and model | The instruments a listening model names in each candidate, with the same question as for the first set. Then my own ear | | |
+| E22 | A short description that names one instrument gets that instrument. The first description asked for a krar, a washint flute and a drone in 42 words, and the listening model heard a music box and a piano in two of the three candidates. Written on 25 Nov at 21:05, while the second job was running on Kaggle and before any of its music had been heard. | `music.caption`: 42 words and three instruments against 27 words and one instrument ("Solo krar ... One instrument only"). Same seeds, tempo, length and model | The instruments a listening model names in each candidate, with the same question as for the first set. Then my own ear | Not confirmed. No candidate is heard as a krar, and every candidate of the short description has two instruments. What changed is the family: two of three are now plucked zithers. | None yet: six candidates wait for my ear. |
 | E23 | A stranger who clones the repository can rebuild the cut with one command, no key, and no call to any model, because every answer a model gave is committed and everything else is cut from those answers by FFmpeg. | Nothing in the film: a fresh clone in an empty folder, no `.env`, no key in the environment, `make setup`, then `python -m pipeline film` | Lines added to `runs.jsonl`; units that were cache hits against units that were rebuilt; the final-cut check | 0 model calls. 42 hits on model outputs, 53 units rebuilt by FFmpeg, in 1 min 49 s. The check passes. | Kept as a step before every release. |
 
 ## Log
@@ -46,6 +46,37 @@ Result:
 Decision:           (what went into storyboard.json or the code)
 What it changed:
 ```
+
+### E22  A short description of the score, against a long one  (25 Nov 2026)
+
+Hypothesis: a short description that names one instrument gets that instrument. The first description asked for a krar, a washint flute and a drone, and the listening model heard a music box and a piano in two of the three candidates. Written into the plan table at 21:05, while the job was running on Kaggle and before any of its music had been heard.
+
+Changed: `music.caption`, and nothing else.
+
+- Long, 42 words: "Slow, sparse instrumental. A solo krar (Ethiopian lyre) plucks a gentle pentatonic melody in the tizita mood, a soft washint flute answers, warm low drone underneath. Intimate room sound, nostalgic and tender, a lot of space between notes. No drums, no vocals."
+- Short, 27 words: "Solo krar, the Ethiopian six-string lyre, plucked slowly. A sparse pentatonic melody in the tizita mood. One instrument only, in a quiet room. No drums, no vocals."
+
+Held fixed: the seeds (11, 22, 33), 66 beats a minute, 80 seconds, ACE-Step 1.5 turbo on two T4s, and the question to the listening model (`gemini-3.5-flash-lite`).
+
+Evidence: the six files `outputs/music/candidate_*.flac`, with what the listener wrote beside each in `candidate_*_heard__*.json`. `runs.jsonl`: provider `kaggle`, runs `20261125T131559Z-de935f` and `20261125T181703Z-11f05a`.
+
+Result:
+
+| Seed | Long description: the listener hears | Short description: the listener hears |
+|---|---|---|
+| 11 | music box, piano | koto, shakuhachi flute, with a "flute entrance" at 7 s |
+| 22 | zither | guzheng, bells |
+| 33 | music box, chimes, strings | kalimba, chimes, with a "percussion entry" at 29 s |
+
+None of the six has vocals and all six are slow. The second set took 10.1, 6.2 and 6.4 s on the GPU, 6.4 GB at the peak, 0.004 USD at the list price of a rented T4.
+
+The hypothesis is not confirmed. No candidate is heard as a krar. "One instrument only" gave two instruments three times out of three, and "no drums" was broken once. What the short description did change is the family of the lead instrument: one plucked string instrument in three before, two in three now, both zithers from East Asia.
+
+One caution about the measure itself. The listener named a koto and a guzheng. It may not know a krar when it hears one, the same way it wrote correct Amharic in Latin letters (E21). So the names are a screen, and whether any of the six sounds like a krar playing tizita is for an Ethiopian ear.
+
+Decision: none yet. All six candidates wait for my ear. If none sounds right, the next change is the model's own vocabulary: ask for "lyre" or "harp" with no country in the description.
+
+What it changed: I expected the music model to follow a named instrument the way an image model follows a named object. It does not know this one. A description steers the mood, the tempo and the family of the sound, and the rest has to be chosen by listening.
 
 ### E23  A clean clone rebuilds the cut without a key  (25 Nov 2026)
 

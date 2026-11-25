@@ -140,6 +140,30 @@ What it cost: 16 of the 81 pictures made that day, 0.34 USD of judge calls, and 
 
 What would be done differently: draw the hardest shot first, before writing eight more around it. And keep to the limit of three attempts: the fourth run on these two shots said nothing the third had not.
 
+### F06  Kaggle made the first three scores a second time  (25 Nov 2026)
+
+Stage and tool: music, sent to Kaggle with `python -m pipeline kaggle run music`.
+
+What happened: the description of the score was changed in the storyboard at 20:22 for experiment E22, and the job was sent with that one command. Three things then went wrong, in this order.
+
+1. The run sat in Kaggle's queue for 39 minutes. The afternoon's run had started within a minute.
+2. After a quarter of an hour I pushed it again, as F02 had taught. Kaggle refused, and the pipeline did not notice. The tool printed `Kernel push error: Maximum batch GPU session count of 2 reached.`, exited with 0, and the next line on the screen was `running on Kaggle`.
+3. When the run did start and finish, its results could not be taken in:
+
+```
+error: the output on Kaggle belongs to an older job (2026-11-25T11:41:28Z), not this one (2026-11-25T17:31:31Z). Is the run still going?
+```
+
+The cause was the first step, not the queue. `kaggle run` sent the job folder as it lay on disk. That folder had been written in the afternoon, with the first description: only a run of the music stage writes the job, and no stage had run since the storyboard changed. Kaggle spent its 39 minutes of queue and seven of GPU session on the three candidates that already existed.
+
+What saved the film: the stamp that travels with every job. The results came back with the afternoon's stamp, the job on disk had a new one, and the ingest refused them. Without that check the old music would have entered the cache under the new description, and E22 would have compared a description with itself.
+
+What fixed it: `kaggle run` now has the stage write the job from the storyboard as it is, before anything is uploaded, and stops with "nothing in the music stage is waiting for a GPU" when the cache is full (`refresh_job` in `pipeline/kagglerun.py`). A push that Kaggle refuses stops the command with Kaggle's own words. Both have a test. The right job was pushed at 21:13 and was complete at 21:17.
+
+What it cost: 55 minutes from the first push to the right result, where the work itself takes four.
+
+What would be done differently: a command that sends work should build what it sends. It should not trust what an earlier command left on disk.
+
 ## From the offline build (coding agent, 25 Nov 2026)
 
 These happened while the pipeline was first written, before any real model call. They are kept because each one changed the code.
