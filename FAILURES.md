@@ -21,7 +21,34 @@ What it showed: a busy provider, and two weaknesses of the pipeline.
 1. The waits between attempts were 2, 4 and 8 seconds. That is far too short for an overloaded model, and one attempt alone hung for 127 s before it failed.
 2. A failed judge call stopped the whole stage, although the judge only measures. The six pictures were already in the cache, and a person makes the final pick anyway.
 
-Status: open. The fixes and what they changed are added below as they are made.
+What was tried, in order:
+
+1. The same stage again, after two changes to the pipeline: waits of 10, 30 and 90 seconds between attempts, and the judge made optional so a failed score no longer stops the stage. The run finished this time, without the scores: 12 more attempts in twenty minutes, none answered (run `20261125T105827Z-7dbbde`). The last two failed differently: `HTTP 429 You exceeded your current quota`.
+2. The limits page of the project in Google AI Studio. It showed what the documentation does not: 20 requests a day for this model on the free tier, and the day's count at 22.
+3. The lighter model, as experiment E15 in `EXPERIMENTS.md`.
+
+What fixed it: `models.text` is now `gemini-3.5-flash-lite`, with 500 requests a day and 15 a minute. The same six judge calls took 2 to 6 seconds each. Three things stay in the pipeline whatever the model: the longer waits, checks that cannot stop a run, and a guard that reads the day's use from `runs.jsonl` and refuses a request over the limit before it is sent (`keep_within_free_tier` in `pipeline/core.py`, limits in `pricing.json`).
+
+What it cost: 825 seconds inside failed attempts, about 35 minutes of wall time for two scores, and that model's allowance for the day.
+
+What would be done differently: read the limits page in the provider's console before the first run. The free limits were not in the documentation, and a model with 20 requests a day should never have been given 20 judge calls per pass.
+
+### F02  The first Kaggle run had no internet  (25 Nov 2026)
+
+Stage and model: music, ACE-Step 1.5, as a script on Kaggle pushed from the command line (`python -m pipeline kaggle run music`).
+
+What happened: the upload and the push worked, and the launcher found the job. Thirty-four seconds in, the first network step failed:
+
+```
+Cloning into '/kaggle/temp/ACE-Step-1.5'...
+fatal: unable to access 'https://github.com/ACE-Step/ACE-Step-1.5.git/': Could not resolve host: github.com
+```
+
+What was checked: the settings Kaggle stored for that run, read back with `kaggle kernels pull -m`, say `"enable_internet": true`, `"enable_gpu": true` and `"machine_shape": "NvidiaTeslaT4"`. So the request for internet was sent and stored, and the session still had none.
+
+Status: open. The likely cause is an account whose phone number is not verified: Kaggle gives such accounts no internet in notebooks. To be confirmed by verifying the phone and running the same job again.
+
+What the run did prove: Kaggle's Python is 3.13 (the job script builds ACE-Step's own environment for that reason), and a dataset is mounted at `/kaggle/input/datasets/<owner>/<name>/`, not at `/kaggle/input/<name>/`. The job scripts search for their manifest instead of assuming a path, so this cost nothing.
 
 ## From the offline build (coding agent, 25 Nov 2026)
 

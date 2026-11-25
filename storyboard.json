@@ -7,6 +7,7 @@
   "format": {
     "fps": 24,
     "master": {"width": 1024, "height": 1024},
+    "edge_trim": 0.035,
     "exports": [
       {"name": "vertical", "width": 1080, "height": 1920, "subtitle_margin_v": 330},
       {"name": "horizontal", "width": 1920, "height": 1080, "subtitle_margin_v": 70}
@@ -17,14 +18,14 @@
     "tail_s": 0.5
   },
   "models": {
-    "text": "gemini-3.8-flash",
+    "text": "gemini-3.5-flash-lite",
     "tts": "gemini-3.8-flash-tts",
     "image": "@cf/black-forest-labs/flux-2-klein-4b",
     "video": "Wan-AI/Wan2.2-TI2V-5B-Diffusers",
     "music": "acestep-v15-turbo"
   },
   "style": {
-    "block": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture.",
+    "block": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. The painting fills the whole frame from edge to edge. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture.",
     "negative": "text, letters, signs with writing, watermark, logo, photorealistic, extra fingers"
   },
   "characters": [

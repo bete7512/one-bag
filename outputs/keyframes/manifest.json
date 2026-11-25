@@ -16,11 +16,11 @@
    "created": "2026-11-25T10:46:32Z"
   },
   "s02_c1": {
-   "key": "799b4d69fc00d0d3",
-   "file": "s02_c1__799b4d69fc00d0d3.png",
+   "key": "6bf9ef1c4e184475",
+   "file": "s02_c1__6bf9ef1c4e184475.png",
    "fingerprint": {
     "v": 1,
-    "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture. Extreme wide view of a narrow road crossing high green highland country in daylight, patchwork fields and stands of eucalyptus, one small bus far away on the road, low cloud on the far hills.",
+    "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. The painting fills the whole frame from edge to edge. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture. Extreme wide view of a narrow road crossing high green highland country in daylight, patchwork fields and stands of eucalyptus, one small bus far away on the road, low cloud on the far hills.",
     "seed": 102,
     "model": "@cf/black-forest-labs/flux-2-klein-4b",
     "w": 1024,
@@ -31,14 +31,14 @@
     "seed": 102,
     "seed_applied": true
    },
-   "created": "2026-11-25T10:46:38Z"
+   "created": "2026-11-25T11:28:22Z"
   },
   "s02_c2": {
-   "key": "a159c086c27e4a9a",
-   "file": "s02_c2__a159c086c27e4a9a.png",
+   "key": "450997677924dc1b",
+   "file": "s02_c2__450997677924dc1b.png",
    "fingerprint": {
     "v": 1,
-    "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture. Extreme wide view of a narrow road crossing high green highland country in daylight, patchwork fields and stands of eucalyptus, one small bus far away on the road, low cloud on the far hills.",
+    "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. The painting fills the whole frame from edge to edge. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture. Extreme wide view of a narrow road crossing high green highland country in daylight, patchwork fields and stands of eucalyptus, one small bus far away on the road, low cloud on the far hills.",
     "seed": 103,
     "model": "@cf/black-forest-labs/flux-2-klein-4b",
     "w": 1024,
@@ -49,7 +49,7 @@
     "seed": 103,
     "seed_applied": true
    },
-   "created": "2026-11-25T10:46:46Z"
+   "created": "2026-11-25T11:28:29Z"
   },
   "s03_card": {
    "key": "7fc8ee7cb5038260",
@@ -82,11 +82,11 @@
    "created": "2026-11-25T10:46:46Z"
   },
   "s05_c1": {
-   "key": "b95301d26bf04787",
-   "file": "s05_c1__b95301d26bf04787.png",
+   "key": "ab0f1e8a9f237762",
+   "file": "s05_c1__ab0f1e8a9f237762.png",
    "fingerprint": {
     "v": 1,
-    "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture. Point of view inside a crowd at nightfall: dark silhouettes crossing close to the camera in both directions, overexposed lamps and headlights flaring, streaks of amber and white light, nothing in sharp focus.",
+    "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. The painting fills the whole frame from edge to edge. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture. Point of view inside a crowd at nightfall: dark silhouettes crossing close to the camera in both directions, overexposed lamps and headlights flaring, streaks of amber and white light, nothing in sharp focus.",
     "seed": 105,
     "model": "@cf/black-forest-labs/flux-2-klein-4b",
     "w": 1024,
@@ -97,14 +97,14 @@
     "seed": 105,
     "seed_applied": true
    },
-   "created": "2026-11-25T10:46:56Z"
+   "created": "2026-11-25T11:28:37Z"
   },
   "s05_c2": {
-   "key": "b7e31ad4278e280e",
-   "file": "s05_c2__b7e31ad4278e280e.png",
+   "key": "c9f718379c9f1605",
+   "file": "s05_c2__c9f718379c9f1605.png",
    "fingerprint": {
     "v": 1,
-    "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture. Point of view inside a crowd at nightfall: dark silhouettes crossing close to the camera in both directions, overexposed lamps and headlights flaring, streaks of amber and white light, nothing in sharp focus.",
+    "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. The painting fills the whole frame from edge to edge. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture. Point of view inside a crowd at nightfall: dark silhouettes crossing close to the camera in both directions, overexposed lamps and headlights flaring, streaks of amber and white light, nothing in sharp focus.",
     "seed": 106,
     "model": "@cf/black-forest-labs/flux-2-klein-4b",
     "w": 1024,
@@ -115,7 +115,7 @@
     "seed": 106,
     "seed_applied": true
    },
-   "created": "2026-11-25T10:47:04Z"
+   "created": "2026-11-25T11:28:47Z"
   },
   "s06_card": {
    "key": "db352b6f5d5f76f0",
@@ -134,11 +134,11 @@
    "created": "2026-11-25T10:47:05Z"
   },
   "s07_c1": {
-   "key": "bce79789ee7ff8e7",
-   "file": "s07_c1__bce79789ee7ff8e7.png",
+   "key": "3d4e8b91359c48bc",
+   "file": "s07_c1__3d4e8b91359c48bc.png",
    "fingerprint": {
     "v": 1,
-    "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture. A small bare rented room at night: one narrow bed with a canvas bag on it, a single bare bulb, peeling painted walls, a small window with the lights of buses outside.",
+    "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. The painting fills the whole frame from edge to edge. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture. A small bare rented room at night: one narrow bed with a canvas bag on it, a single bare bulb, peeling painted walls, a small window with the lights of buses outside.",
     "seed": 107,
     "model": "@cf/black-forest-labs/flux-2-klein-4b",
     "w": 1024,
@@ -149,14 +149,14 @@
     "seed": 107,
     "seed_applied": true
    },
-   "created": "2026-11-25T10:47:11Z"
+   "created": "2026-11-25T11:28:56Z"
   },
   "s07_c2": {
-   "key": "fdb81586439f308f",
-   "file": "s07_c2__fdb81586439f308f.png",
+   "key": "877d97a7765691e6",
+   "file": "s07_c2__877d97a7765691e6.png",
    "fingerprint": {
     "v": 1,
-    "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture. A small bare rented room at night: one narrow bed with a canvas bag on it, a single bare bulb, peeling painted walls, a small window with the lights of buses outside.",
+    "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. The painting fills the whole frame from edge to edge. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture. A small bare rented room at night: one narrow bed with a canvas bag on it, a single bare bulb, peeling painted walls, a small window with the lights of buses outside.",
     "seed": 108,
     "model": "@cf/black-forest-labs/flux-2-klein-4b",
     "w": 1024,
@@ -167,7 +167,7 @@
     "seed": 108,
     "seed_applied": true
    },
-   "created": "2026-11-25T10:47:19Z"
+   "created": "2026-11-25T11:29:05Z"
   },
   "s08_card": {
    "key": "e23d8013defbef5c",
@@ -215,46 +215,130 @@
    "created": "2026-11-25T10:47:20Z"
   },
   "s02_c1_judge": {
-   "key": "3a181c25edffffa3",
-   "file": "s02_c1_judge__3a181c25edffffa3.json",
+   "key": "808a40dffa739664",
+   "file": "s02_c1_judge__808a40dffa739664.json",
    "fingerprint": {
     "v": 1,
-    "image": "799b4d69fc00d0d3",
+    "image": "6bf9ef1c4e184475",
     "refs": [],
     "shot": "Extreme wide view of a narrow road crossing high green highland country in daylight, patchwork fields and stands of eucalyptus, one small bus far away on the road, low cloud on the far hills.",
     "who": "none",
-    "model": "gemini-3.8-flash"
+    "model": "gemini-3.5-flash-lite"
    },
    "meta": {
     "character_match": 3,
-    "prompt_adherence": 4,
-    "artifacts": 4,
+    "prompt_adherence": 5,
+    "artifacts": 5,
     "text_in_image": false,
-    "notes": "Accurately illustrates the highland landscape, road, and bus in a clean style.",
-    "total": 4.0
+    "notes": "The watercolor keyframe perfectly matches the prompt's description of a road in highland country with eucalyptus and a small bus.",
+    "total": 5.0
    },
-   "created": "2026-11-25T10:49:04Z"
+   "created": "2026-11-25T11:29:28Z"
   },
   "s02_c2_judge": {
-   "key": "6dc2c7d4ae5fdcb1",
-   "file": "s02_c2_judge__6dc2c7d4ae5fdcb1.json",
+   "key": "72c4bb14442bee41",
+   "file": "s02_c2_judge__72c4bb14442bee41.json",
    "fingerprint": {
     "v": 1,
-    "image": "a159c086c27e4a9a",
+    "image": "450997677924dc1b",
     "refs": [],
     "shot": "Extreme wide view of a narrow road crossing high green highland country in daylight, patchwork fields and stands of eucalyptus, one small bus far away on the road, low cloud on the far hills.",
     "who": "none",
-    "model": "gemini-3.8-flash"
+    "model": "gemini-3.5-flash-lite"
+   },
+   "meta": {
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 5,
+    "text_in_image": false,
+    "notes": "The watercolor illustration accurately depicts the wide view of a narrow road in highland country with eucalyptus trees and a small bus.",
+    "total": 5.0
+   },
+   "created": "2026-11-25T11:29:33Z"
+  },
+  "s05_c1_judge": {
+   "key": "96012e0fbbc36778",
+   "file": "s05_c1_judge__96012e0fbbc36778.json",
+   "fingerprint": {
+    "v": 1,
+    "image": "ab0f1e8a9f237762",
+    "refs": [],
+    "shot": "Point of view inside a crowd at nightfall: dark silhouettes crossing close to the camera in both directions, overexposed lamps and headlights flaring, streaks of amber and white light, nothing in sharp focus.",
+    "who": "none",
+    "model": "gemini-3.5-flash-lite"
+   },
+   "meta": {
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 5,
+    "text_in_image": false,
+    "notes": "The painting effectively captures a crowd crossing at night with overexposed lamps and streaks of light.",
+    "total": 5.0
+   },
+   "created": "2026-11-25T11:29:37Z"
+  },
+  "s05_c2_judge": {
+   "key": "eb80ff62d5dc9482",
+   "file": "s05_c2_judge__eb80ff62d5dc9482.json",
+   "fingerprint": {
+    "v": 1,
+    "image": "c9f718379c9f1605",
+    "refs": [],
+    "shot": "Point of view inside a crowd at nightfall: dark silhouettes crossing close to the camera in both directions, overexposed lamps and headlights flaring, streaks of amber and white light, nothing in sharp focus.",
+    "who": "none",
+    "model": "gemini-3.5-flash-lite"
    },
    "meta": {
     "character_match": 3,
     "prompt_adherence": 4,
-    "artifacts": 4,
+    "artifacts": 5,
     "text_in_image": false,
-    "notes": "The watercolor scene accurately captures the highland road, eucalyptus trees, and distant bus.",
-    "total": 4.0
+    "notes": "Good crowd scene matching the shot description with clean rendering.",
+    "total": 4.4
    },
-   "created": "2026-11-25T10:51:29Z"
+   "created": "2026-11-25T11:29:41Z"
+  },
+  "s07_c1_judge": {
+   "key": "52379096daa22ace",
+   "file": "s07_c1_judge__52379096daa22ace.json",
+   "fingerprint": {
+    "v": 1,
+    "image": "3d4e8b91359c48bc",
+    "refs": [],
+    "shot": "A small bare rented room at night: one narrow bed with a canvas bag on it, a single bare bulb, peeling painted walls, a small window with the lights of buses outside.",
+    "who": "none",
+    "model": "gemini-3.5-flash-lite"
+   },
+   "meta": {
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 5,
+    "text_in_image": false,
+    "notes": "The keyframe accurately depicts the small rented room with peeling walls, a bed, a bag, a bare bulb, and a window with buses.",
+    "total": 5.0
+   },
+   "created": "2026-11-25T11:30:03Z"
+  },
+  "s07_c2_judge": {
+   "key": "e24358fe03c23d6b",
+   "file": "s07_c2_judge__e24358fe03c23d6b.json",
+   "fingerprint": {
+    "v": 1,
+    "image": "877d97a7765691e6",
+    "refs": [],
+    "shot": "A small bare rented room at night: one narrow bed with a canvas bag on it, a single bare bulb, peeling painted walls, a small window with the lights of buses outside.",
+    "who": "none",
+    "model": "gemini-3.5-flash-lite"
+   },
+   "meta": {
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 5,
+    "text_in_image": false,
+    "notes": "The keyframe accurately depicts the small bare rented room described in the prompt with high artistic quality.",
+    "total": 5.0
+   },
+   "created": "2026-11-25T11:30:07Z"
   }
  },
  "entries": {
@@ -363,6 +447,198 @@
     "text_in_image": false,
     "notes": "The watercolor scene accurately captures the highland road, eucalyptus trees, and distant bus.",
     "total": 4.0
+   }
+  },
+  "8d5342a45b0135ff": {
+   "unit": "s02_c1_judge",
+   "file": "s02_c1_judge__8d5342a45b0135ff.json",
+   "meta": {
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 5,
+    "text_in_image": false,
+    "notes": "The watercolor illustration accurately depicts the wide view of a highland road with eucalyptus and a small bus.",
+    "total": 5.0
+   }
+  },
+  "70aa1a89330815d4": {
+   "unit": "s02_c2_judge",
+   "file": "s02_c2_judge__70aa1a89330815d4.json",
+   "meta": {
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 5,
+    "text_in_image": false,
+    "notes": "The watercolor illustration accurately depicts the wide view of a narrow road in highland country with eucalyptus trees and a small bus.",
+    "total": 5.0
+   }
+  },
+  "d2107c31354025ed": {
+   "unit": "s05_c1_judge",
+   "file": "s05_c1_judge__d2107c31354025ed.json",
+   "meta": {
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 5,
+    "text_in_image": false,
+    "notes": "The painting effectively captures a crowd crossing a street at night with glowing streetlights and figures.",
+    "total": 5.0
+   }
+  },
+  "9d5a701bb1f54f0b": {
+   "unit": "s05_c2_judge",
+   "file": "s05_c2_judge__9d5a701bb1f54f0b.json",
+   "meta": {
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 5,
+    "text_in_image": false,
+    "notes": "The watercolor style effectively captures the crowded street scene with flaring lights and silhouetted figures.",
+    "total": 5.0
+   }
+  },
+  "31b6ea47c57278eb": {
+   "unit": "s07_c1_judge",
+   "file": "s07_c1_judge__31b6ea47c57278eb.json",
+   "meta": {
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 5,
+    "text_in_image": false,
+    "notes": "The scene accurately depicts a small bare rented room with a bed, canvas bag, bare bulb, peeling walls, and a window showing buses.",
+    "total": 5.0
+   }
+  },
+  "b6c1ceacf83b75db": {
+   "unit": "s07_c2_judge",
+   "file": "s07_c2_judge__b6c1ceacf83b75db.json",
+   "meta": {
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 5,
+    "text_in_image": false,
+    "notes": "The keyframe accurately depicts the requested small bare rented room with all described elements.",
+    "total": 5.0
+   }
+  },
+  "6bf9ef1c4e184475": {
+   "unit": "s02_c1",
+   "file": "s02_c1__6bf9ef1c4e184475.png",
+   "meta": {
+    "seed": 102,
+    "seed_applied": true
+   }
+  },
+  "450997677924dc1b": {
+   "unit": "s02_c2",
+   "file": "s02_c2__450997677924dc1b.png",
+   "meta": {
+    "seed": 103,
+    "seed_applied": true
+   }
+  },
+  "ab0f1e8a9f237762": {
+   "unit": "s05_c1",
+   "file": "s05_c1__ab0f1e8a9f237762.png",
+   "meta": {
+    "seed": 105,
+    "seed_applied": true
+   }
+  },
+  "c9f718379c9f1605": {
+   "unit": "s05_c2",
+   "file": "s05_c2__c9f718379c9f1605.png",
+   "meta": {
+    "seed": 106,
+    "seed_applied": true
+   }
+  },
+  "3d4e8b91359c48bc": {
+   "unit": "s07_c1",
+   "file": "s07_c1__3d4e8b91359c48bc.png",
+   "meta": {
+    "seed": 107,
+    "seed_applied": true
+   }
+  },
+  "877d97a7765691e6": {
+   "unit": "s07_c2",
+   "file": "s07_c2__877d97a7765691e6.png",
+   "meta": {
+    "seed": 108,
+    "seed_applied": true
+   }
+  },
+  "808a40dffa739664": {
+   "unit": "s02_c1_judge",
+   "file": "s02_c1_judge__808a40dffa739664.json",
+   "meta": {
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 5,
+    "text_in_image": false,
+    "notes": "The watercolor keyframe perfectly matches the prompt's description of a road in highland country with eucalyptus and a small bus.",
+    "total": 5.0
+   }
+  },
+  "72c4bb14442bee41": {
+   "unit": "s02_c2_judge",
+   "file": "s02_c2_judge__72c4bb14442bee41.json",
+   "meta": {
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 5,
+    "text_in_image": false,
+    "notes": "The watercolor illustration accurately depicts the wide view of a narrow road in highland country with eucalyptus trees and a small bus.",
+    "total": 5.0
+   }
+  },
+  "96012e0fbbc36778": {
+   "unit": "s05_c1_judge",
+   "file": "s05_c1_judge__96012e0fbbc36778.json",
+   "meta": {
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 5,
+    "text_in_image": false,
+    "notes": "The painting effectively captures a crowd crossing at night with overexposed lamps and streaks of light.",
+    "total": 5.0
+   }
+  },
+  "eb80ff62d5dc9482": {
+   "unit": "s05_c2_judge",
+   "file": "s05_c2_judge__eb80ff62d5dc9482.json",
+   "meta": {
+    "character_match": 3,
+    "prompt_adherence": 4,
+    "artifacts": 5,
+    "text_in_image": false,
+    "notes": "Good crowd scene matching the shot description with clean rendering.",
+    "total": 4.4
+   }
+  },
+  "52379096daa22ace": {
+   "unit": "s07_c1_judge",
+   "file": "s07_c1_judge__52379096daa22ace.json",
+   "meta": {
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 5,
+    "text_in_image": false,
+    "notes": "The keyframe accurately depicts the small rented room with peeling walls, a bed, a bag, a bare bulb, and a window with buses.",
+    "total": 5.0
+   }
+  },
+  "e24358fe03c23d6b": {
+   "unit": "s07_c2_judge",
+   "file": "s07_c2_judge__e24358fe03c23d6b.json",
+   "meta": {
+    "character_match": 3,
+    "prompt_adherence": 5,
+    "artifacts": 5,
+    "text_in_image": false,
+    "notes": "The keyframe accurately depicts the small bare rented room described in the prompt with high artistic quality.",
+    "total": 5.0
    }
   }
  }

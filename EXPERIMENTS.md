@@ -2,7 +2,7 @@
 
 One entry per experiment: a hypothesis, the one thing changed, how it is measured, the result, the decision. Change one thing at a time and keep the seed fixed, or the result cannot be read.
 
-**Status on 25 Nov 2026: none of the experiments below has been run.** They are written down first on purpose, so the result cannot bend the hypothesis. A result is filled in only from a real run, with the evidence it points to (`runs.jsonl` lines, a listening sheet, a blind-test result).
+**Status on 25 Nov 2026, 15:00: E15 and E16 have been run. The others have not.** Each hypothesis is written down before its run on purpose, so the result cannot bend it. A result is filled in only from a real run, with the evidence it points to (`runs.jsonl` lines, a listening sheet, a blind-test result).
 
 ## Plan
 
@@ -22,8 +22,8 @@ One entry per experiment: a hypothesis, the one thing changed, how it is measure
 | E12 | The brief's ducking settings are right for this voice and score. | Ratio 6 against 3 in the sidechain compressor | Listening on a phone speaker and on headphones | | |
 | E13 | Enlarging a square crop for the vertical film is not noticed in a painted style. | Vertical from a square master against a vertical keyframe, one shot | Blind A/B | | |
 | E14 | The speech model handles Tigrinya and Somali, and fails on Afaan Oromo, which is not on its supported list. | Language of the same four lines (`langtest`) | Listening-check score and a native speaker's rating per language | | |
-| E15 | The lighter text model does the checking calls in seconds, where `gemini-3.8-flash` needs minutes on the free tier, and gives the same verdicts. Added on 25 Nov after failure F01. | `models.text`: `gemini-3.5-flash-lite` against `gemini-3.8-flash`, same pictures, same judge prompt | Latency and failed attempts per call in `runs.jsonl`; the two sets of judge scores side by side | | |
-| E16 | One sentence in the style block ("the painting fills the whole frame") removes the white paper border that five of the first six pictures came back with. Added on 25 Nov after the first real pictures. | One sentence added to `style.block`, same prompts and seeds | Edges that are bare paper, counted by the border check, on the same six candidates | | |
+| E15 | The lighter text model does the checking calls in seconds, where `gemini-3.8-flash` needs minutes on the free tier, and gives the same verdicts. Added on 25 Nov after failure F01. | `models.text`: `gemini-3.5-flash-lite` against `gemini-3.8-flash`, same pictures, same judge prompt | Latency and failed attempts per call in `runs.jsonl`; the two sets of judge scores side by side | Half right. 1.8 to 9.8 s a call against 104 and 144 s, and 15 of 15 pictures scored against 2 of 6. But it gave 5.0 to pictures the other model gave 4.0, and 5.0 to pictures with a white frame. | Kept for the checks, because it answers. Its scores no longer decide alone: see the log. |
+| E16 | One sentence in the style block ("the painting fills the whole frame") removes the white paper border that five of the first six pictures came back with. Added on 25 Nov after the first real pictures. | One sentence added to `style.block`, same prompts and seeds | Edges that are bare paper, counted by the border check, on the same six candidates | Bordered candidates went from 5 of 6 to 2 of 6. A thin ragged edge stayed on the picks. | Sentence kept. The frame is now guaranteed by the border check and an edge trim, not by wording. |
 
 ## Log
 
@@ -36,9 +36,60 @@ Changed:            (one thing)
 Held fixed:         (seed, model, everything else)
 Evidence:           (runs.jsonl run_id, files, who listened or watched)
 Result:
-Decision:           (what went into storyboard.json or the code, and the commit)
-Did it change my mind?
+Decision:           (what went into storyboard.json or the code)
+What it changed:
 ```
+
+### E16  One sentence against the white border  (25 Nov 2026)
+
+Hypothesis: one sentence in the style block ("the painting fills the whole frame") removes the white paper border that five of the first six pictures came back with.
+
+Changed: `style.block` gained the sentence "The painting fills the whole frame from edge to edge."
+
+Held fixed: the prompts of shots s02, s05 and s07, their seeds (two candidates each), the image model, the size.
+
+Evidence: the border check counts, for each picture, how many of its four sides are bare paper (`paper_sides` in `outputs/keyframes/index.json`; the code is `paper_edges` in `pipeline/keyframes.py`). The image calls are in `runs.jsonl`: run `20261125T104632Z-cf26db` before, run `20261125T112815Z-29626b` after. Both sets of pictures are kept in `outputs/keyframes/original/`.
+
+Result:
+
+| Shot | Bare sides before (candidate 1, 2) | Bare sides after (candidate 1, 2) |
+|---|---|---|
+| s02 the road | 0, 3 | 1, 1 |
+| s05 the crowd | 4, 2 | 3, 0 |
+| s07 the room | 4, 4 | 2, 0 |
+
+A picture counts as bordered at two bare sides or more, because one bare side can be a white sky. Bordered candidates: 5 of 6 before, 2 of 6 after. Bare sides in total: 17 of 24 before, 7 of 24 after. Looked at by eye, the two picks that the check passes with 0 sides (s05 candidate 2, s07 candidate 2) still had a ragged cream edge about 1% of the side wide, too thin for the check.
+
+Decision: the sentence stays in `style.block`. The pick prefers the candidate with the fewest bare sides before it looks at the judge's score. `format.edge_trim` cuts 3.5% from each side of every picture, for the thin edge the check cannot see.
+
+What it changed: a prompt sentence was expected to be enough, and it was not. After it, each shot had exactly one clean candidate out of two, so a single candidate per shot would have left a border in the film. The frame is now guaranteed by a measurement and a trim.
+
+### E15  A lighter model for the checking calls  (25 Nov 2026)
+
+Hypothesis: `gemini-3.5-flash-lite` does the checking calls in seconds where `gemini-3.8-flash` needs minutes on the free tier, and gives the same verdicts. Written after failure F01.
+
+Changed: `models.text`.
+
+Held fixed: the pictures, the judge prompt, temperature 0.
+
+Evidence: `runs.jsonl`, every line whose unit ends in `_judge`. `gemini-3.8-flash`: runs `20261125T104632Z-cf26db` and `20261125T105827Z-7dbbde`. `gemini-3.5-flash-lite`: runs `20261125T110100Z-1899ca`, `20261125T112523Z-4df8a1` and `20261125T112815Z-29626b`. The scores are the `*_judge__*.json` files in `outputs/keyframes/`.
+
+Result:
+
+| | `gemini-3.8-flash` | `gemini-3.5-flash-lite` |
+|---|---|---|
+| Judge attempts | 22 | 19 |
+| Answered | 2 | 15 |
+| Failed | 16 with HTTP 503, 2 timed out at 300 s, 2 with HTTP 429 | 4 with HTTP 503, each answered on the next attempt |
+| Seconds per answer | 104 and 144 | 1.8 to 9.8 |
+| Seconds spent in failed attempts | 825 | 9 |
+| Pictures left without a score | 4 of 6 | 0 of 12 |
+
+Verdicts: the two pictures that both models scored got 4.0 and 4.0 from `gemini-3.8-flash` and 5.0 and 5.0 from `gemini-3.5-flash-lite`. Over all its answers the lighter model gave 5.0 fourteen times out of fifteen, including to a picture with a white frame on all four sides. Neither model mentioned a border.
+
+Decision: `models.text` is `gemini-3.5-flash-lite`. A check that answers is worth more than a better one that does not, and the free tier gives it 500 requests a day against 20.
+
+What it changed: the hypothesis was half right. The lighter model is faster and available, and its 1 to 5 scores do not tell two pictures apart. So the pick no longer rests on those scores alone: the border is measured in code, and a stricter judge is the next experiment.
 
 ## Offline checks (mock providers: not evidence about any model)
 
