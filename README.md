@@ -10,7 +10,7 @@ That one command validates the storyboard, runs every stage, regenerates only wh
 
 ## Status
 
-Be clear about what is proven and what is not. Last updated 25 November 2026, 22:00 East Africa Time.
+Be clear about what is proven and what is not. Last updated 25 November 2026, 23:50 East Africa Time.
 
 | Part | Tested offline with mock providers | Run against the real model |
 |---|---|---|
@@ -27,7 +27,7 @@ Be clear about what is proven and what is not. Last updated 25 November 2026, 22
 | Shots: Wan 2.2 on Kaggle | export, upload and ingest | yes: two clips of 3.4 s, 14 and 15 minutes each at 13.45 GB of GPU memory (E08). One is in the cut. The other invented content and is not used. The first job was killed after one clip (F07) |
 | Music: ACE-Step on Kaggle | export, upload and ingest | yes: two sets of three candidates from two descriptions, each described by a listening model (F02, F06, E22). None is chosen yet |
 | Assembly, ducking, loudness, both ratios | yes, real FFmpeg | yes: a rough cut of 80 s in both ratios, from the real narration and pictures. The mix was measured and rewritten twice (E12) |
-| Final-cut check | yes | yes, on that rough cut: every measured check passes, with two notes (placeholder score, no generated motion yet) |
+| Final-cut check | yes | yes, on the rough cut: every measured check passes. Its notes say what a person still has to look at: four picked pictures that the judge scored under 3, writing in one of them, and the shots that pan while their generated clip is not there |
 
 `runs.jsonl` holds one line per attempt of a real model call, 360 so far. Mock runs write to `outputs_mock/`, which is git-ignored and is never evidence.
 

@@ -1689,3 +1689,112 @@
 {"ts": "2026-11-25T20:34:31Z", "run_id": "20261125T203429Z-342a29", "stage": "shots", "unit": "s07_kenburns", "key": "13513e3cc9831d72", "event": "hit"}
 {"ts": "2026-11-25T20:34:31Z", "run_id": "20261125T203429Z-342a29", "stage": "shots", "unit": "s08_kenburns", "key": "fb5d4559d40ab8fa", "event": "hit"}
 {"ts": "2026-11-25T20:34:31Z", "run_id": "20261125T203429Z-342a29", "stage": "shots", "unit": "s09_kenburns", "key": "e825aaac2482b063", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "script", "unit": "s01_subtitle_check", "key": "5806dd2c7ab4fdf2", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "script", "unit": "s02_subtitle_check", "key": "0f0369eda7a9bfa6", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "script", "unit": "s03_subtitle_check", "key": "1b225da88f9310ae", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "script", "unit": "s04_subtitle_check", "key": "8a70ee43097c8f01", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "script", "unit": "s06_subtitle_check", "key": "cbbe39202873847c", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "script", "unit": "s07_subtitle_check", "key": "e5238109700975f6", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "script", "unit": "s08_subtitle_check", "key": "82b372a958a68af8", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "script", "unit": "s09_subtitle_check", "key": "e61b977c310e536b", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "narration", "unit": "s01", "key": "8549541531555b39", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "narration", "unit": "s02", "key": "899429c2c94529c1", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "narration", "unit": "s03", "key": "0a4eb04db117b841", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "narration", "unit": "s04", "key": "c3fd35829b8ffb58", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "narration", "unit": "s06", "key": "27e28f0d6e356e5e", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "narration", "unit": "s07", "key": "e895cafb0fd84c6f", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "narration", "unit": "s08", "key": "7bafc738823d3f67", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "narration", "unit": "s09", "key": "b344dc8acc7b40e2", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "narration", "unit": "s01_tight", "key": "36c3dea7f6164bfd", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "narration", "unit": "s02_tight", "key": "e49fbae6fdf6853f", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "narration", "unit": "s03_tight", "key": "e39f30d4388a9016", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "narration", "unit": "s04_tight", "key": "0674ca4fa02f3b44", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "narration", "unit": "s06_tight", "key": "af7e0c8d54f028e3", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "narration", "unit": "s07_tight", "key": "67ed25709eb1043f", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "narration", "unit": "s08_tight", "key": "ae8cd7abc35ed762", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "narration", "unit": "s09_tight", "key": "8e25294d2c7c48c5", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "narration", "unit": "s01_listen", "key": "a2e5a5f62358cd74", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "narration", "unit": "s02_listen", "key": "98985d9f0fc936b9", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "narration", "unit": "s03_listen", "key": "b601b6ef1ec41a29", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "narration", "unit": "s04_listen", "key": "77cd9ec14e90f920", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "narration", "unit": "s06_listen", "key": "529463226eb3c996", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "narration", "unit": "s07_listen", "key": "340349ccbb5d0b3c", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "narration", "unit": "s08_listen", "key": "ba8e75f86eda4081", "event": "hit"}
+{"ts": "2026-11-25T20:42:14Z", "run_id": "20261125T204214Z-287683", "stage": "narration", "unit": "s09_listen", "key": "b09bb41268289515", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "ref_boy", "key": "b822d0dc27dccd65", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "ref_friend", "key": "f0e3d282f3471fe5", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s01_c1", "key": "a149bb34219cecf8", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s01_c2", "key": "c1f50861356037a5", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s02_c1", "key": "5fe15e19ea37b901", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s02_c2", "key": "0b3a6020b6a33a0f", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s03_c1", "key": "e1e0cf6c1eb7658c", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s03_c2", "key": "474afd3738f2a44f", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s04_c1", "key": "37f7989cfbcf13c9", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s04_c2", "key": "d142fd534d9e387f", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s05_c1", "key": "bc3a749532d55645", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s05_c2", "key": "eadb90f1330c1c51", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s06_c1", "key": "c29e7a087507b09c", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s06_c2", "key": "116607c84ac96cf6", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s07_c1", "key": "d62578691f0e970b", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s07_c2", "key": "9c1b6d5ba979b465", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s08_c1", "key": "df83c8f829393672", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s08_c2", "key": "517ce38ff52c127c", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s09_c1", "key": "4a0d75131c481b4e", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s09_c2", "key": "e9b76be6bc42b274", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s01_c1_judge", "key": "a26ccd87fc08246f", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s01_c2_judge", "key": "6a775e0e08127d25", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s02_c1_judge", "key": "47872271b58e58e6", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s02_c2_judge", "key": "7f625ec3e8b27ebf", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s03_c1_judge", "key": "1fbbb2b0581d2a5b", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s03_c2_judge", "key": "b3a05da86e9a8de6", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s04_c1_judge", "key": "e39c3243b87e6ed2", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s04_c2_judge", "key": "625324318b142d08", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s05_c1_judge", "key": "ad1662a5fceadd69", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s05_c2_judge", "key": "00adf1604f713722", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s06_c1_judge", "key": "ad045ccf82cdd60e", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s06_c2_judge", "key": "0788bf8ea8d8056b", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s07_c1_judge", "key": "0bf1ab59284c6a87", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s07_c2_judge", "key": "f9eb73b48c790651", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s08_c1_judge", "key": "3a710ff8cd70ec70", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s08_c2_judge", "key": "abdf5425a1c00583", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s09_c1_judge", "key": "142b63c43f27a0e9", "event": "hit"}
+{"ts": "2026-11-25T20:42:15Z", "run_id": "20261125T204214Z-287683", "stage": "keyframes", "unit": "s09_c2_judge", "key": "d7491f458edc1cf1", "event": "hit"}
+{"ts": "2026-11-25T20:42:18Z", "run_id": "20261125T204214Z-287683", "stage": "shots", "unit": "s02_wan", "key": "a5009af75983891d", "event": "hit"}
+{"ts": "2026-11-25T20:42:18Z", "run_id": "20261125T204214Z-287683", "stage": "shots", "unit": "s01_kenburns", "key": "d104b4680264b44e", "event": "hit"}
+{"ts": "2026-11-25T20:42:18Z", "run_id": "20261125T204214Z-287683", "stage": "shots", "unit": "s03_kenburns", "key": "f80f66055ed6961e", "event": "hit"}
+{"ts": "2026-11-25T20:42:18Z", "run_id": "20261125T204214Z-287683", "stage": "shots", "unit": "s04_kenburns", "key": "4b658ed6800a6b5f", "event": "hit"}
+{"ts": "2026-11-25T20:42:18Z", "run_id": "20261125T204214Z-287683", "stage": "shots", "unit": "s05_kenburns", "key": "de8288df31a7426c", "event": "hit"}
+{"ts": "2026-11-25T20:42:18Z", "run_id": "20261125T204214Z-287683", "stage": "shots", "unit": "s06_kenburns", "key": "0e3726a62119af7b", "event": "hit"}
+{"ts": "2026-11-25T20:42:18Z", "run_id": "20261125T204214Z-287683", "stage": "shots", "unit": "s07_kenburns", "key": "13513e3cc9831d72", "event": "hit"}
+{"ts": "2026-11-25T20:42:18Z", "run_id": "20261125T204214Z-287683", "stage": "shots", "unit": "s08_kenburns", "key": "fb5d4559d40ab8fa", "event": "hit"}
+{"ts": "2026-11-25T20:42:18Z", "run_id": "20261125T204214Z-287683", "stage": "shots", "unit": "s09_kenburns", "key": "e825aaac2482b063", "event": "hit"}
+{"ts": "2026-11-25T20:42:18Z", "run_id": "20261125T204214Z-287683", "stage": "music", "unit": "candidate_1", "key": "6a8caa01ab689a83", "event": "hit"}
+{"ts": "2026-11-25T20:42:18Z", "run_id": "20261125T204214Z-287683", "stage": "music", "unit": "candidate_2", "key": "9c9ed61784100577", "event": "hit"}
+{"ts": "2026-11-25T20:42:18Z", "run_id": "20261125T204214Z-287683", "stage": "music", "unit": "candidate_3", "key": "eabfd29dfe4bd373", "event": "hit"}
+{"ts": "2026-11-25T20:42:18Z", "run_id": "20261125T204214Z-287683", "stage": "music", "unit": "candidate_1_heard", "key": "91394f22e287e9f2", "event": "hit"}
+{"ts": "2026-11-25T20:42:18Z", "run_id": "20261125T204214Z-287683", "stage": "music", "unit": "candidate_2_heard", "key": "3a9e1e9d485283a6", "event": "hit"}
+{"ts": "2026-11-25T20:42:18Z", "run_id": "20261125T204214Z-287683", "stage": "music", "unit": "candidate_3_heard", "key": "cb21480b0c352a2e", "event": "hit"}
+{"ts": "2026-11-25T20:42:18Z", "run_id": "20261125T204214Z-287683", "stage": "music", "unit": "placeholder", "key": "1a4d0a5a87ef8a02", "event": "hit"}
+{"ts": "2026-11-25T20:42:18Z", "run_id": "20261125T204214Z-287683", "stage": "assemble", "unit": "mix", "key": "84842b25f17c071c", "event": "hit"}
+{"ts": "2026-11-25T20:42:20Z", "run_id": "20261125T204214Z-287683", "stage": "assemble", "unit": "vertical_s01", "key": "0d9ec4702967caa5", "event": "built", "reason": "changed: cues, focus_x", "seconds": 2.44}
+{"ts": "2026-11-25T20:42:24Z", "run_id": "20261125T204214Z-287683", "stage": "assemble", "unit": "vertical_s02", "key": "8076e765c315716b", "event": "built", "reason": "changed: cues, focus_x", "seconds": 3.4}
+{"ts": "2026-11-25T20:42:26Z", "run_id": "20261125T204214Z-287683", "stage": "assemble", "unit": "vertical_s03", "key": "9899ee9f45a926a1", "event": "built", "reason": "changed: cues, focus_x", "seconds": 2.0}
+{"ts": "2026-11-25T20:42:28Z", "run_id": "20261125T204214Z-287683", "stage": "assemble", "unit": "vertical_s04", "key": "bab24384ff0439d5", "event": "built", "reason": "changed: cues, focus_x", "seconds": 2.43}
+{"ts": "2026-11-25T20:42:29Z", "run_id": "20261125T204214Z-287683", "stage": "assemble", "unit": "vertical_s05", "key": "de9290af0402664a", "event": "built", "reason": "changed: focus_x", "seconds": 1.0}
+{"ts": "2026-11-25T20:42:32Z", "run_id": "20261125T204214Z-287683", "stage": "assemble", "unit": "vertical_s06", "key": "465113291c2e5062", "event": "built", "reason": "changed: cues, focus_x", "seconds": 2.72}
+{"ts": "2026-11-25T20:42:34Z", "run_id": "20261125T204214Z-287683", "stage": "assemble", "unit": "vertical_s07", "key": "35623b98708b62bf", "event": "built", "reason": "changed: cues, focus_x", "seconds": 1.95}
+{"ts": "2026-11-25T20:42:36Z", "run_id": "20261125T204214Z-287683", "stage": "assemble", "unit": "vertical_s08", "key": "37df7602da35399d", "event": "built", "reason": "changed: cues, focus_x", "seconds": 1.68}
+{"ts": "2026-11-25T20:42:40Z", "run_id": "20261125T204214Z-287683", "stage": "assemble", "unit": "vertical_s09", "key": "97c4a26671293e29", "event": "built", "reason": "changed: cues, focus_x", "seconds": 4.03}
+{"ts": "2026-11-25T20:42:40Z", "run_id": "20261125T204214Z-287683", "stage": "assemble", "unit": "vertical_endcard", "key": "2cb3a715fc58be43", "event": "hit"}
+{"ts": "2026-11-25T20:42:43Z", "run_id": "20261125T204214Z-287683", "stage": "assemble", "unit": "film_vertical", "key": "e5aadfaaf00ab6e3", "event": "built", "reason": "changed: scenes", "seconds": 3.78}
+{"ts": "2026-11-25T20:42:46Z", "run_id": "20261125T204214Z-287683", "stage": "assemble", "unit": "horizontal_s01", "key": "802c854c7d15df44", "event": "built", "reason": "changed: cues, focus_x", "seconds": 2.61}
+{"ts": "2026-11-25T20:42:50Z", "run_id": "20261125T204214Z-287683", "stage": "assemble", "unit": "horizontal_s02", "key": "14b908005f391c79", "event": "built", "reason": "changed: cues, focus_x", "seconds": 3.54}
+{"ts": "2026-11-25T20:42:51Z", "run_id": "20261125T204214Z-287683", "stage": "assemble", "unit": "horizontal_s03", "key": "66fe677a6dd4290e", "event": "built", "reason": "changed: cues, focus_x", "seconds": 1.83}
+{"ts": "2026-11-25T20:42:54Z", "run_id": "20261125T204214Z-287683", "stage": "assemble", "unit": "horizontal_s04", "key": "2cdce0439aff8319", "event": "built", "reason": "changed: cues, focus_x", "seconds": 2.93}
+{"ts": "2026-11-25T20:42:56Z", "run_id": "20261125T204214Z-287683", "stage": "assemble", "unit": "horizontal_s05", "key": "4c7407339703ddd2", "event": "built", "reason": "changed: focus_x", "seconds": 1.24}
+{"ts": "2026-11-25T20:42:59Z", "run_id": "20261125T204214Z-287683", "stage": "assemble", "unit": "horizontal_s06", "key": "665e9a1f44e8950b", "event": "built", "reason": "changed: cues, focus_x", "seconds": 3.39}
+{"ts": "2026-11-25T20:43:01Z", "run_id": "20261125T204214Z-287683", "stage": "assemble", "unit": "horizontal_s07", "key": "86c25830d871f82a", "event": "built", "reason": "changed: cues, focus_x", "seconds": 2.17}
+{"ts": "2026-11-25T20:43:03Z", "run_id": "20261125T204214Z-287683", "stage": "assemble", "unit": "horizontal_s08", "key": "ca882e836ad460ad", "event": "built", "reason": "changed: cues, focus_x", "seconds": 1.76}
+{"ts": "2026-11-25T20:43:06Z", "run_id": "20261125T204214Z-287683", "stage": "assemble", "unit": "horizontal_s09", "key": "dde2ef48a3174fcd", "event": "built", "reason": "changed: cues, focus_x", "seconds": 3.37}
+{"ts": "2026-11-25T20:43:06Z", "run_id": "20261125T204214Z-287683", "stage": "assemble", "unit": "horizontal_endcard", "key": "56ed9e98526096a5", "event": "hit"}
+{"ts": "2026-11-25T20:43:12Z", "run_id": "20261125T204214Z-287683", "stage": "assemble", "unit": "film_horizontal", "key": "3cbbaa61ded5bb9b", "event": "built", "reason": "changed: scenes", "seconds": 5.17}

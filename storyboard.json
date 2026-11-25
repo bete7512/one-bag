@@ -184,6 +184,7 @@
       "keyframe": {
         "prompt": "Night in the yard of a big crowded bus station in Addis Ababa. In the centre, seen from behind, two young men stand close together: the shorter one with a backpack, the other in a blue denim jacket with nothing on his back. Around them five men in a half circle lean in and gesture with open hands. The five are painted as dark silhouettes against the bright yard lamps, with no faces to be seen. Behind them rows of parked long-distance buses and dust hanging in the light.",
         "seed": 106,
+        "focus_x": {"vertical": 0.3},
         "focus_y": 0.35
       },
       "motion": {"backend": "kenburns", "camera": "push_in", "prompt": "The men around them gesture and step closer. Slow push in."},
@@ -203,6 +204,7 @@
       "keyframe": {
         "prompt": "A small plain rented room at night in Addis Ababa: one narrow single bed with one pillow and a clean sheet, neatly made, bare painted walls, a single bulb, a simple backpack on the floor beside the bed, one small window. Modest and clean.",
         "seed": 107,
+        "focus_x": {"vertical": 0.75},
         "focus_y": 0.7
       },
       "motion": {"backend": "kenburns", "camera": "push_in", "prompt": "Very slow push in toward the bed and the backpack."},
