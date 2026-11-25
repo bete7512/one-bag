@@ -1,14 +1,16 @@
 # Design
 
-The design was decided twice. A first version was drafted before anything was generated, from a few sentences. Twelve test pictures were made under it. Then I told the story in full and nearly every shot changed: that is in "The story" below. The storyboard carries the short version of the first two sections in its `audience` and `intent` fields, and the pipeline warns while they are still marked DRAFT.
+The design was decided three times. A first version was drafted before anything was generated, from a few sentences. Twelve test pictures were made under it. Then I told the story in full and nearly every shot changed: that is in "The story" below. Then three people heard it, and it got an audience, a message and a new ending: that is in "User test 1". The storyboard carries the short version of the first two sections in its `audience` and `intent` fields.
 
 ## Who it is for
 
-**DRAFT, to confirm or rewrite in my own words.** Myself, and the friend who was waiting for me that night. We watch it on a phone.
+People who left a small town for a big city, and those who are about to. My friends who made the same journey watch it first, on their phones.
+
+Until the first test this said "myself, and the friend who was waiting for me that night". That is two people, and a film for two people has nobody to test it on. The first listeners' answers are what widened it: see user test 1.
 
 ## What they should feel at the end
 
-**DRAFT, to confirm or rewrite.** We should remember that night the way it was, confusing and new, and be glad we lived it. Experience it.
+They should recognise their own first night, and feel that being lost at the start is normal and worth living through.
 
 ## The story
 
@@ -22,7 +24,9 @@ Five beats:
 2. **The road.** Gravel, forest and mountains from a bus window, alone.
 3. **The city at night.** Lamberet: my friend waiting, crowds, lights, cars.
 4. **The confusion.** The brokers at Autobus Tera, and a clean plain room at the end of it.
-5. **Now.** The queue the next morning, and the two words I would say to that boy.
+5. **Now.** The queue the next morning, and what I say today to everyone who leaves home.
+
+What the film says to them, since the first test: the first night is always confusing. Do not run from it. Savour it. The first cut ended on one word to my younger self, and a listener's comment asked whom the story was for.
 
 ## Choices and why
 
@@ -33,10 +37,10 @@ Rewritten with the storyboard on 25 November, after the story was told in full. 
 | Confusion, not fear | That is how I tell it. The first draft made the night frightening because a frightened boy is an easy story. What happened was brokers on every side and two friends who had to pick a bed. |
 | One object runs through the film: the backpack | It is on my shoulders at the start, on the floor of the room, and at my feet at the end. An object stays the same across shots more easily than a face. |
 | The plastic sandals | I arrived in the moulded plastic sandals that are everywhere at home. They are drawn in every picture of me in 2019, next to the backpack. The first pictures had me in leather boots. |
-| Every person is seen from behind | I am drawn from behind in every shot I am in, and so is my friend, as he agreed. Faces are where image models drift, and nobody's likeness is generated. |
+| Nobody's likeness is in the film | My friend is drawn from behind only, as he agreed. I am drawn from behind in every shot but one: on the bus seat I am seen from the side, looking out of the window. Drawn from the words alone, the model seated me as the voice says and turned me only half away (E24). That face is the model's invention. No photo of me, of him or of anyone was ever given to a model. |
 | My friend is drawn in one shot only, with the brokers | He agreed to one scene. After I told the story in full, the storyboard had him in three: at Lamberet, with the brokers, and in the queue. Two things brought it back to one. It was more than he had said yes to. And the image model could not draw two people from behind in a crowd: of eight pictures for Lamberet and eight for the queue, over four runs, none was usable (F05 in `FAILURES.md`). So at Lamberet and in the queue I am alone in the frame, and the voice says he was there. |
 | The friend who said goodbye in Ankober is heard about, not shown | Showing him would put a third real person in the film. The voice says he came. |
-| The brokers have no faces | They are strangers, and the shot is about how many they were. Their faces are in shadow or turned away. |
+| The brokers are nobody | They are strangers, and the shot is about how many they were. I asked for their faces in shadow or turned away. In the picture that was kept the model lit them all the same. They are its invention and no real person's. |
 | One shot moves, the road | Two shots were made as real video on a free GPU: the bus on the gravel road, and the city lights. The bus works: something in the picture can move, and it does. The lights did not: the model painted things into the blur that were not there (E08 in `EXPERIMENTS.md`). The shots with a person in them stay as slow pans. They were not tried as video: there was GPU time for two clips that evening, and I did not want to spend it on a figure that might change shape from frame to frame. |
 | Day, then night, then morning | Midday and mountains for the road, night and electric light for the city, gold morning light for the queue. The light tells the time, so the voice does not have to. |
 | Painted, grainy look instead of photographic | It suits a memory, it hides the softness of enlarged crops, and it does not pretend to be footage of real events. |
@@ -62,24 +66,32 @@ The source of truth is the `reason` field of each shot in `storyboard.json`. The
 
 ## User test 1: the radio cut
 
-Not done yet. The radio cut is `outputs/radio_cut.mp4`: narration over placeholder music on a black screen, with subtitles.
-
-**Who:** at least three people from the audience above. **How:** play it once without explaining anything, then ask.
+Done on the evening of 25 November 2026. I sent three people the radio cut as it was at 20:14 that evening: the eight lines spoken, placeholder music, subtitles on a black screen, 80 seconds (the storyboard of commit `962e907`). With it went four questions:
 
 1. In one sentence, what happened?
 2. Where did you feel something? Where did you get lost or bored?
 3. Was any word hard to understand, or said strangely?
 4. What would you say if you forwarded this?
 
-| # | Who (relation, not name) | Date | Language they follow | What they said, in their words | Where they reacted |
-|---|---|---|---|---|---|
-| 1 | | | | | |
-| 2 | | | | | |
-| 3 | | | | | |
+They did not answer question by question. They wrote what they thought, and this is all of it, as they wrote it:
+
+| # | Who | Date | What they said, in their words |
+|---|---|---|---|
+| 1 | not noted | 25 Nov | "the video and the subtitle is nice. i liked it. one suggestion the voice repeats word ነበር a lot of time would be nicer adjusting that and also the pause between the sentence is little bit longer" |
+| 2 | not noted | 25 Nov | "Very nice i liked it" |
+| 3 | not noted | 25 Nov | "very nice i liked it looking to forward to see the video" |
+
+Two more comments reached the working session a few minutes later, in these words: "also one last comment about last word ኑረው would be nice to change with other", and "in general the story it tells would be nicer if improved to send message for audience".
+
+What is missing from this record: who the three are to me, and whether the two later comments are a listener's or mine. I passed the answers to the coding agent as they stand above and told it to decide the changes itself. The changes below are its work. I confirm them when I confirm the lines.
 
 **What I learned:**
 
-**What I will change in the storyboard:**
+- Two of three said they liked it and nothing more. That is kind, and it is not information. Nobody answered "what happened?", so I still do not know what a listener takes the story to be.
+- The one listener who gave a suggestion named two things that can be counted. The word for "was", ነበር, was in the eight lines nine times: the lines had been drafted from my English telling, and every English "was" had become one. And the voice, which had been asked to sound unhurried, stopped for up to 1.3 seconds between two sentences of one line.
+- The comment about a message is the one that went deepest. The film told what happened in order and ended on one word of advice. It did not say whom it was speaking to.
+
+**What changed in the storyboard:** the four rows dated 25 Nov in the table at the end of this file.
 
 ## User test 2: the near-final cut
 
@@ -106,4 +118,7 @@ One row per change, so the storyboard's history can be read against what people 
 
 | Date | What a viewer said | What changed in `storyboard.json` | Commit |
 |---|---|---|---|
-| | | | |
+| 25 Nov | "the voice repeats word ነበር a lot of time" | The lines of s01 and s04 are rewritten without it, and s06 loses its ነበሩ: nine uses become five. s03 and s07 follow when the speech quota is fresh, which leaves one. | `9935183` |
+| 25 Nov | "the pause between the sentence is little bit longer" | `voice.max_pause_s` is 0.6: sixteen silences inside the lines were shortened, and the speech of the eight old lines went from 58.2 to 53.6 s. The shortest length of four shots came down: s02 from 7 to 6 s, s03 from 8 to 7, s05 from 5 to 4, s08 from 7 to 5.5. | `9935183` |
+| 25 Nov | "last word ኑረው would be nice to change with other" | The film ends on አጣጥመው, "savour it". | `9935183` |
+| 25 Nov | "the story it tells would be nicer if improved to send message for audience" | `audience` and `intent` are rewritten. The last line (s09) now speaks to everyone who leaves home: "the first night is always confusing. Do not run from it. Savour it." The first line gives the year. The brokers' line says the offers came from every side. | `9935183` |
