@@ -64,7 +64,12 @@ The key itself was accepted: the refusal is about billing, not about who is call
 
 What was done: nothing was changed to get around it. The comparison of the two judge models stays unmeasured, and E17 says so. The first step of that experiment, the new question on the free model, did run and is what the pipeline uses. `models.judge` in the storyboard stays unset, so the judge is the free model.
 
-Status: open. With credit on the account, `python experiments/e17_judges.py` runs the missing step: it skips every answer it already has.
+Two more attempts the same afternoon, one tiny call each:
+
+1. A new key from the organisation that shows a monthly credit. It was refused for another reason: `This API key is not scoped to a workspace, so this request must include the anthropic-workspace-id header`. The pipeline now sends that header when `ANTHROPIC_WORKSPACE_ID` is set.
+2. A third key, scoped to a workspace. The first error came back: `Your credit balance is too low`. So the key and its workspace are accepted, and the credit that the Console shows for the organisation cannot be spent by this key today.
+
+Status: left open after three attempts. The film does not need this model, and the cause is on the billing side, where nothing in the repository can fix it. With usable credit, `python experiments/e17_judges.py` runs the missing step of E17: it skips every answer it already has.
 
 ## From the offline build (coding agent, 25 Nov 2026)
 
