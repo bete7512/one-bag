@@ -61,13 +61,13 @@ To type a `python -m pipeline ...` command, first run `source .venv/bin/activate
 ## The steps
 
 ### Step 1. Check the machine
-- [ ] **Agent:** `make setup` if `.venv` is missing, then `make doctor` and `make test`.
+- [x] **Agent:** `make setup` if `.venv` is missing, then `make doctor` and `make test`.
 - Done when: doctor says `ready` and every test passes.
 
 ### Step 2. First real calls
-- [ ] **Bete:** the Gemini key and the two Cloudflare values are in `.env`.
-- [ ] **Agent:** `make smoke`. If a call fails, follow "When a real call fails".
-- [ ] **Agent:** write the limits and latencies you saw into `COSTS.md`.
+- [x] **Bete:** the Gemini key and the two Cloudflare values are in `.env`.
+- [x] **Agent:** `make smoke`. If a call fails, follow "When a real call fails".
+- [x] **Agent:** write the limits and latencies you saw into `COSTS.md`.
 - Done when: `text`, `speech` and `image` all print `ok`.
 
 ### Step 3. The words and the consent
