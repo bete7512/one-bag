@@ -20,6 +20,7 @@ from collections import defaultdict
 from pathlib import Path
 
 from . import pricing
+from .narration import LANGUAGE_NAMES
 from .core import STAGES, Ctx, ff, get_index, now, read_jsonl, sha
 
 CSS = """
@@ -161,7 +162,7 @@ def run(ctx: Ctx) -> Path:
                            f"<figcaption>{e(exp['name'])}, {exp['width']} x {exp['height']}</figcaption></figure>")
     finished = bool(players) and qc.get("passed") and not drafts and not unconfirmed
     tags = [f"<span class='tag {'ok' if finished else 'wait'}'>{'finished' if finished else 'work in progress'}</span>",
-            "<span class='tag'>made with AI</span>", f"<span class='tag'>narrated in {e(lang)}, subtitles in {e(sub)}</span>"]
+            "<span class='tag'>made with AI</span>", f"<span class='tag'>narrated in {e(LANGUAGE_NAMES.get(lang, lang))}, subtitles in {e(LANGUAGE_NAMES.get(sub, sub))}</span>"]
     if film.get("total_s"):
         tags.append(f"<span class='tag'>{film['total_s']:.0f} seconds</span>")
     if players and not finished:
@@ -232,7 +233,7 @@ def run(ctx: Ctx) -> Path:
 <p><b>What they should feel.</b> {said(sb['intent'])}</p>
 
 <h2>Shot by shot</h2>
-<p class="soft">Every shot has a reason, written before anything was generated. The words under each picture are what the voice says, and what the subtitle shows.</p>
+<p class="soft">Every shot has a reason, written before its picture was made. The words under each picture are what the voice says, and what the subtitle shows.</p>
 <div class="shots">{''.join(cards)}</div>
 
 <h2>How it is made</h2>
