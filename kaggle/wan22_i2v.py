@@ -25,6 +25,8 @@ Memory is the problem this file is built around. The model card asks for a 24 GB
   encoder goes back to the GPU and the transformer comes back to main memory, and for a moment both
   are there. So when a job has more than one clip, every prompt is encoded before the first clip and
   the text encoder is then dropped for good. A job of one clip keeps the order that is known to work.
+  The first version of this moved the encoded prompts to main memory, and both clips of the next job
+  failed in twenty seconds: "Expected all tensors to be on the same device". They stay on the GPU now.
 
 results.json is rewritten after every clip. If the session dies half way, what finished is kept.
 """
@@ -108,7 +110,7 @@ def main() -> None:
     if len(manifest["jobs"]) > 1:  # all prompts first, then the text encoder leaves memory for good
         try:
             for j in manifest["jobs"]:
-                encoded[j["unit"]] = tuple(None if e is None else e.to("cpu") for e in encode(j))
+                encoded[j["unit"]] = encode(j)  # kept on the GPU: they are a few MB, and the pipeline does not move them back itself
             pipe.maybe_free_model_hooks()
             pipe.text_encoder = None
             gc.collect()

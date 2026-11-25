@@ -1680,3 +1680,12 @@
 {"ts": "2026-11-25T20:25:56Z", "run_id": "20261125T202554Z-00e158", "stage": "shots", "unit": "s07_kenburns", "key": "13513e3cc9831d72", "event": "hit"}
 {"ts": "2026-11-25T20:25:56Z", "run_id": "20261125T202554Z-00e158", "stage": "shots", "unit": "s08_kenburns", "key": "fb5d4559d40ab8fa", "event": "hit"}
 {"ts": "2026-11-25T20:25:56Z", "run_id": "20261125T202554Z-00e158", "stage": "shots", "unit": "s09_kenburns", "key": "e825aaac2482b063", "event": "hit"}
+{"ts": "2026-11-25T20:34:31Z", "run_id": "20261125T203429Z-342a29", "stage": "shots", "unit": "s02_wan", "key": "a5009af75983891d", "event": "hit"}
+{"ts": "2026-11-25T20:34:31Z", "run_id": "20261125T203429Z-342a29", "stage": "shots", "unit": "s01_kenburns", "key": "d104b4680264b44e", "event": "hit"}
+{"ts": "2026-11-25T20:34:31Z", "run_id": "20261125T203429Z-342a29", "stage": "shots", "unit": "s03_kenburns", "key": "f80f66055ed6961e", "event": "hit"}
+{"ts": "2026-11-25T20:34:31Z", "run_id": "20261125T203429Z-342a29", "stage": "shots", "unit": "s04_kenburns", "key": "4b658ed6800a6b5f", "event": "hit"}
+{"ts": "2026-11-25T20:34:31Z", "run_id": "20261125T203429Z-342a29", "stage": "shots", "unit": "s05_kenburns", "key": "de8288df31a7426c", "event": "hit"}
+{"ts": "2026-11-25T20:34:31Z", "run_id": "20261125T203429Z-342a29", "stage": "shots", "unit": "s06_kenburns", "key": "0e3726a62119af7b", "event": "hit"}
+{"ts": "2026-11-25T20:34:31Z", "run_id": "20261125T203429Z-342a29", "stage": "shots", "unit": "s07_kenburns", "key": "13513e3cc9831d72", "event": "hit"}
+{"ts": "2026-11-25T20:34:31Z", "run_id": "20261125T203429Z-342a29", "stage": "shots", "unit": "s08_kenburns", "key": "fb5d4559d40ab8fa", "event": "hit"}
+{"ts": "2026-11-25T20:34:31Z", "run_id": "20261125T203429Z-342a29", "stage": "shots", "unit": "s09_kenburns", "key": "e825aaac2482b063", "event": "hit"}
