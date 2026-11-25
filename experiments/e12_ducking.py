@@ -8,19 +8,20 @@ twice. Each mix is made by the pipeline's own `assemble.build_mix`. The one thin
 `ratio` in `assemble.DUCK`: first the pipeline's value, then the other one. Everything else stays as the
 pipeline has it.
 
-The results have two parts. The first run of this script, on 25 Nov 2026, measured the mix code of commit
-7d3222a and found three faults in it: a premix that clipped, a loudness pass that rode the gain, and a FLAC
-score that ended 1.3 s early. The mix code was changed for that in commit 4a80a3e. `before` holds the numbers
-of that first run as they were written. They are never measured again, because that code is no longer in the
-working tree. One thing was added to `before` afterwards, under `finished_mix_per_line`: the level of each line
-in the one mix file of the first run that was still on disk (ratio 3), measured with `level` and `loudness`
-as below, before the new mix replaced that file. `after` is what this script measures on the mix code as it is now.
+The results have three parts, because measuring the mix changed the mix code twice on 25 Nov 2026.
+`before` is the first run of this script, on the mix code of commit 7d3222a. It found a premix that clipped, a
+loudness pass that rode the gain, and a FLAC score that ended 1.3 s early. `after_first_fix` is the second
+run, on the code of commit 4a80a3e: no clipping and a whole score, but the loudness pass still rode the gain
+while the code said it did not. `after` is what this script measures now, on the mix code named in `mix_code`.
+The first two parts are kept as they were written and never measured again: their code is no longer in the
+working tree. Each has one list that was added by hand before its mix files were replaced, measured with the
+functions below and marked with a note: `finished_mix_per_line` in `before`, `aac_of_the_mix` in `after_first_fix`.
 
 A finished mix cannot say how loud the music is under the voice, so the same chain is run again per ratio
 with the voice as the compressor's key only, not in the output. For that, three pieces of pipeline/assemble.py
 are copied below: step 1 of `build_mix` into `voice_track`, its `mixgraph` into `chain`, and the body of
-`loudnorm_two_pass` into `normalise`, which keeps the limited file and asks the last pass what it did. The copy
-is checked on every run: it must give the same finished file as `build_mix`, byte for byte, or the run stops.
+`to_target` into `last_step`, which keeps the limited file. The copy is checked on every run: it must give the
+same finished file as `build_mix`, byte for byte, or the run stops.
 
 How each number is computed is in HOW below, and is written into the results with the numbers:
 outputs/experiments/E12/results.json, next to the two mixes. Intermediate audio goes to a temporary folder.
@@ -29,6 +30,7 @@ import array
 import json
 import math
 import re
+import subprocess
 import sys
 import tempfile
 import wave
@@ -45,13 +47,14 @@ DUCK = dict(assemble.DUCK)  # the pipeline's settings, as imported
 RATIOS = [DUCK["ratio"], 3 if DUCK["ratio"] == 6 else 6]  # the pipeline's ratio first, then the other one
 WINDOW_S, RATE = 0.05, 48000
 MAX_BYTES = 20_000_000  # a mix larger than this is kept as FLAC
+AAC = ["-c:a", "aac", "-b:a", "192k"]  # how the film's sound is encoded: `join_and_mux` in pipeline/assemble.py
 OUT = ROOT / "outputs" / "experiments" / "E12"
-KEPT = ("Measured on 25 Nov 2026 by the first version of this script (the one in commit 4a80a3e) on the mix code of commit 7d3222a. "
-        "Kept as written, not measured again: that mix code is no longer in the working tree. Its own `how` says how its numbers were computed.")
 
 HOW = {
-    "mix": "The finished mix as `pipeline.core.loudness` measures it (FFmpeg ebur128, peak=true): EBU R128 integrated loudness in LUFS and "
-           "true peak in dBTP. lra_lu is the loudness range from the summary of the same filter.",
+    "mix": "lufs and true_peak_db: the finished mix as `pipeline.core.loudness` measures it (FFmpeg ebur128, peak=true), EBU R128 integrated "
+           "loudness in LUFS and true peak in dBTP, one decimal. lra_lu is the loudness range from the summary of the same filter. "
+           "lufs_2dp and true_peak_db_2dp: the same two from the meter inside FFmpeg's loudnorm, which prints two decimals. Nothing is "
+           "normalised with it: it only measures. aac: the finished mix encoded as the film's sound is (AAC, 192k) and measured in both ways.",
     "level": "FFmpeg astats gives the RMS level of every 50 ms of a file, both channels together. The level of a file over a set of time spans "
              "is 10*log10 of the mean of the squared level of the windows whose centre lies in a span, in dB below full scale (dBFS). It is "
              "not K-weighted and not gated, so a level in dBFS is not a level in LUFS: compare dBFS with dBFS only.",
@@ -62,7 +65,7 @@ HOW = {
              "goes into the last step. limited: the premix after the limiter.",
     "reduction_db": "Level of music_unducked minus level of music over the same windows: what the compressor took off the music. "
                     "deepest_db is the largest value in any one 50 ms window.",
-    "before_normaliser": "Levels of the stems as they go into the last step (the limiter, then loudnorm).",
+    "before_normaliser": "Levels of the stems as they go into the last step (the limiter, then one gain).",
     "in_final_mix": "The same in the finished mix. The last step applies one gain to voice and music together, so each 50 ms of a stem is "
                     "scaled by the gain of that 50 ms: mean square of the finished mix over mean square of the premix. The finished mix is "
                     "read later by the limiter's delay, so that the same sound is compared.",
@@ -71,23 +74,27 @@ HOW = {
                            "with `pipeline.core.loudness` (K-weighted and gated, one decimal).",
     "music_rise_in_gaps_db": "Level of music over the gaps minus level of music over the speech spans. It holds the score's own changes too: "
                              "see the two music_unducked levels.",
-    "limiter": "ceiling_dbfs: the limit `loudnorm_two_pass` sets, null when it does not limit. delay_samples: how late the limiter gives its "
-               "output, found by sending one click through it. The limited file is read later by that much. windows: 50 ms windows in the "
-               "mix. windows_over_ceiling: windows of the premix with a sample over the ceiling. windows_touched: windows whose level the "
+    "limiter": "ceiling_dbfs: the limit `to_target` sets, null when it does not limit. delay_samples: how late the limiter gives its output, "
+               "found by sending one click through it. The limited file is read later by that much. windows: 50 ms windows in the mix. "
+               "windows_over_ceiling: windows of the premix with a sample over the ceiling. windows_touched: windows whose level the "
                "limiter lowered by 0.1 dB or more, and windows_touched_in_speech those of them inside a line. largest_peak_cut_db: the most "
                "it took off the highest sample of a window. largest_window_drop_db: the most it took off the level of a window. "
                "takes_off_speech_db: level of the premix minus level of the limited file over the speech spans. takes_off_lu: integrated "
-               "loudness of the premix minus that of the limited file, both as loudnorm measures them.",
-    "normaliser": "pipeline_says: what `build_mix` returns as `normalised`. second_pass_ran: the mode loudnorm itself reports for its last "
-                  "pass. gain_before_limiter_db and gain_after_limiter_db: target loudness minus the loudness loudnorm measured, on the premix "
-                  "and on the limited file. peak_after_gain_dbtp: true peak of the limited file plus the second of those gains, to hold "
-                  "against the true-peak target. gain_speech_db and gain_gaps_db: level of the finished mix minus level of the premix over "
-                  "the same windows, so the limiter is in them. gain_low_db and gain_high_db: the 5th and the 95th percentile of that gain "
-                  "per 50 ms window, over the windows where the premix is above -60 dBFS. loudnorm_low_db and loudnorm_high_db: the same "
-                  "two percentiles for loudnorm alone, finished mix over limited file.",
+               "loudness of the premix minus that of the limited file, both by the two-decimal meter.",
+    "normaliser": "pipeline_says: what `build_mix` returns as `normalised`. The next numbers are those `to_target` works with, measured with "
+                  "`pipeline.core.loudness` as it does: the premix, the gain planned from it (target loudness minus its loudness), the limited "
+                  "file, gain_for_loudness_db (what would reach the target loudness after limiting), gain_peaks_allow_db (true-peak target "
+                  "minus the true peak after limiting) and gain_db, the smaller of the two, which is applied. short_of_target_lu: the "
+                  "loudness of the finished mix by the two-decimal meter, under the target. gain_speech_db and gain_gaps_db: level of the "
+                  "finished mix minus level of the premix over the same windows, so the limiter is in them. gain_low_db and gain_high_db: "
+                  "the 5th and the 95th percentile of that gain per 50 ms window, over the windows where the premix is above -60 dBFS. "
+                  "after_limiter: the gain per 50 ms window from the limited file to the finished mix, over the same windows: its lowest, "
+                  "5th percentile, 95th percentile and highest value, and highest minus lowest in thousandths of a dB. One fixed gain gives "
+                  "the same value in every window, up to the rounding of the 16 bit file.",
     "per_line": "voice_db, music_db, reduction_db and voice_over_music_db as above, over that line alone and before the last step. gain_db: "
                 "the gain `build_mix` gave the line. voice_lufs: the voice stem cut down to the line, by `pipeline.core.loudness`. "
-                "limiter_takes_off_db: level of the premix minus level of the limited file over the line. mix_db and mix_lufs: the finished "
+                "limiter_takes_off_db: level of the premix minus level of the limited file over the line. limiter_takes_off_lu: the same two "
+                "files cut down to the line, each by `pipeline.core.loudness`, premix minus limited. mix_db and mix_lufs: the finished "
                 "mix over the line, voice and the music under it together, as a level and by `pipeline.core.loudness`. "
                 "reduction_before_line_db: the reduction in the 50 ms before the first window of the line in which the voice is above the "
                 "compressor's threshold. reduction_0_1s_in_db: the reduction in the 50 ms that start 0.1 s after that first window starts. "
@@ -102,6 +109,23 @@ HOW = {
               "mix_samples_at_full_scale: samples of the 16 bit finished mix at the highest or the lowest value the format has. "
               "music_ends_s: the length of the music stem as the compressor gives it out, to hold against total_s.",
 }
+
+
+def mix_code() -> dict:
+    """Which mix code is measured: a hash of the file, and the commit that last changed it when git can say."""
+    name = "pipeline/assemble.py"
+    told = {"file": name, "sha256_first_16": file_sha(ROOT / name)}
+
+    def git(*args: str) -> str:
+        return subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True, timeout=30).stdout.strip()
+
+    try:  # three questions that change nothing in the repository
+        commit = git("log", "-1", "--format=%h", "--", name)
+        if commit:
+            told.update(last_commit=commit, changed_since_that_commit=git("rev-parse", f"HEAD:{name}") != git("hash-object", name))
+    except (OSError, subprocess.SubprocessError):
+        pass
+    return told
 
 
 def voice_track(dst: Path, placed: list[tuple[Path, float]], gains: list[float], total: float) -> None:
@@ -128,27 +152,31 @@ def chain(music_gain: float, total: float) -> list[str]:
     ]
 
 
-def normalise(premix: Path, dst: Path) -> dict:
-    """The body of `assemble.loudnorm_two_pass`, copied. It keeps the limited file, and the last pass is asked to report what it did."""
-    target = assemble.TARGET
-    m = assemble.loudnorm_measure(premix)
-    gain = target["lufs"] - float(m["input_i"])
-    told = {"premix_lufs": float(m["input_i"]), "premix_true_peak_db": float(m["input_tp"]), "gain_before_limiter_db": gain,
-            "ceiling_dbfs": None, "limiter": None, "limited": premix}
-    if float(m["input_tp"]) + gain > target["true_peak"]:
-        ceiling = target["true_peak"] - gain - 0.5
-        limiter, limited = f"alimiter=limit={10 ** (ceiling / 20):.4f}:attack=5:release=50:level=false", premix.with_name(premix.stem + "-limited.wav")
+def last_step(premix: Path, dst: Path) -> dict:
+    """The body of `assemble.to_target`, copied: measure, limit once if the peaks are in the way, measure again, one gain. It keeps the limited file."""
+    target, limit = assemble.TARGET, assemble.LIMIT
+    level = loudness(premix)
+    gain = target["lufs"] - level["lufs"]
+    told = {"premix_lufs": level["lufs"], "premix_true_peak_db": level["true_peak_db"], "planned_gain_db": gain, "ceiling_dbfs": None, "limiter": None, "limited": premix}
+    if level["true_peak_db"] + gain > target["true_peak"]:
+        ceiling = target["true_peak"] - gain - limit["margin_db"]
+        limiter = f"alimiter=limit={min(1.0, 10 ** (ceiling / 20)):.4f}:attack={limit['attack']}:release={limit['release']}:level=false"
+        limited = premix.with_name(premix.stem + "-limited.wav")
         ff(["-i", str(premix), "-af", limiter, "-ar", "48000", "-c:a", "pcm_f32le", str(limited)])
-        m = assemble.loudnorm_measure(limited)
-        told.update(ceiling_dbfs=ceiling, limiter=limiter, limited=limited)
-    spec = (f"loudnorm=I={target['lufs']}:TP={target['true_peak']}:LRA={target['lra']}"
-            f":measured_I={m['input_i']}:measured_TP={m['input_tp']}:measured_LRA={m['input_lra']}"
-            f":measured_thresh={m['input_thresh']}:offset={m['target_offset']}:linear=true")
-    err = ff_capture(["-y", "-i", str(told["limited"]), "-af", spec + ":print_format=json", "-ar", "48000", "-c:a", "pcm_s16le", str(dst)])
-    last = json.loads(re.search(r"\{[^{}]*\"input_i\"[^{}]*\}", err, re.S).group(0))
-    gain = target["lufs"] - float(m["input_i"])
-    return {**told, "limited_lufs": float(m["input_i"]), "limited_true_peak_db": float(m["input_tp"]), "gain_after_limiter_db": gain,
-            "peak_after_gain_dbtp": float(m["input_tp"]) + gain, "second_pass_ran": last["normalization_type"]}
+        level = loudness(limited)
+        for_loudness, peaks_allow = target["lufs"] - level["lufs"], target["true_peak"] - level["true_peak_db"]
+        gain = min(for_loudness, peaks_allow)
+        told.update(ceiling_dbfs=ceiling, limiter=limiter, limited=limited, limited_lufs=level["lufs"], limited_true_peak_db=level["true_peak_db"],
+                    gain_for_loudness_db=for_loudness, gain_peaks_allow_db=peaks_allow)
+    ff(["-i", str(told["limited"]), "-af", f"volume={gain:.2f}dB", "-ar", "48000", "-c:a", "pcm_s16le", str(dst)])
+    return {**told, "gain_db": gain}
+
+
+def meter(path: Path) -> dict:
+    """Integrated loudness and true peak with two decimals, from the meter inside FFmpeg's loudnorm. It only measures here."""
+    err = ff_capture(["-i", str(path), "-map", "0:a:0", "-af", "loudnorm=print_format=json", "-f", "null", "-"])
+    found = json.loads(re.search(r"\{[^{}]*\"input_i\"[^{}]*\}", err, re.S).group(0))
+    return {"lufs": float(found["input_i"]), "true_peak_db": float(found["input_tp"])}
 
 
 def floats(path: Path) -> array.array:
@@ -208,14 +236,17 @@ def measure(tmp: Path, ratio: int, lines: list[tuple[str, float, float]], placed
     steps = chain(meta["music_gain_db"], total)
     src, cut = ["-i", str(voice), "-stream_loop", "-1", "-i", str(music)], ["-t", f"{total:.3f}", "-ar", "48000", "-c:a", "pcm_f32le"]
     ff([*src, "-filter_complex", ";".join(steps), "-map", "[mix]", *cut, str(premix)])
-    told = normalise(premix, again)
+    told = last_step(premix, again)
     if file_sha(again) != file_sha(out):
-        raise SystemExit("The copied chain no longer gives the pipeline's mix: build_mix or loudnorm_two_pass in pipeline/assemble.py has changed. "
-                         "Copy them into voice_track(), chain() and normalise() again.")
+        raise SystemExit("The copied chain no longer gives the pipeline's mix: build_mix or to_target in pipeline/assemble.py has changed. "
+                         "Copy them into voice_track(), chain() and last_step() again.")
     stem = {name: tmp / f"{name}_{ratio}.wav" for name in ("voice", "music", "music_unducked")}
     ff([*src, "-filter_complex", ";".join(steps[:3]), "-map", "[voice]", *cut, str(stem["voice"]), "-map", "[ducked]", *cut, str(stem["music"])])
     ff([*src, "-filter_complex", steps[1], "-map", "[music]", *cut, str(stem["music_unducked"])])
     limited, delay = told["limited"], limiter_delay(told["limiter"], tmp)
+    encoded = tmp / f"mix_{ratio}.m4a"
+    ff(["-i", str(out), *AAC, str(encoded)])
+    fine = {name: meter(path) for name, path in (("premix", premix), ("limited", limited), ("mix", out), ("aac", encoded))}
     with wave.open(str(out), "rb") as w:
         mixed = array.array("h", w.readframes(w.getnframes()))
     loud = floats(premix)
@@ -249,9 +280,9 @@ def measure(tmp: Path, ratio: int, lines: list[tuple[str, float, float]], placed
                 return (k - last - 1) * WINDOW_S
         return None
 
-    def percentiles(top: str, bottom: str) -> tuple[float, float]:
-        moved = sorted(10 * math.log10(env[top][k] / env[bottom][k]) for k in range(whole) if env["premix"][k] > 1e-6 and env[top][k] > 0 and env[bottom][k] > 0)
-        return moved[len(moved) // 20], moved[len(moved) * 19 // 20]
+    def moved(top: str, bottom: str) -> list[float]:
+        """The gain from one file to another in every 50 ms window where there is enough sound to measure it, lowest first."""
+        return sorted(10 * math.log10(env[top][k] / env[bottom][k]) for k in range(whole) if env["premix"][k] > 1e-6 and env[top][k] > 0 and env[bottom][k] > 0)
 
     # what the limiter did, window by window
     drop = [10 * math.log10(env["premix"][k] / env["limited"][k]) if env["limited"][k] > 0 else 0.0 for k in range(whole)]
@@ -263,7 +294,7 @@ def measure(tmp: Path, ratio: int, lines: list[tuple[str, float, float]], placed
                "windows_over_ceiling": sum(1 for k in range(whole) if ceiling is not None and peak[k] > 10 ** (ceiling / 10)),
                "windows_touched": sum(1 for d in drop if d >= 0.1), "windows_touched_in_speech": sum(1 for d, s in zip(drop, in_speech) if d >= 0.1 and s),
                "largest_peak_cut_db": max(cut_off), "largest_window_drop_db": max(drop),
-               "takes_off_speech_db": taken_off(speech, "premix", "limited"), "takes_off_lu": told["premix_lufs"] - told["limited_lufs"]}
+               "takes_off_speech_db": taken_off(speech, "premix", "limited"), "takes_off_lu": fine["premix"]["lufs"] - fine["limited"]["lufs"]}
 
     per_line = []
     for i, (sid, a, b) in enumerate(lines):
@@ -274,7 +305,9 @@ def measure(tmp: Path, ratio: int, lines: list[tuple[str, float, float]], placed
                          "voice_lufs": loudness(speech_only(stem["voice"], tmp / "line.wav", [(a, b)]))["lufs"],
                          "music_db": level(env["music"], [(a, b)]), "reduction_db": taken_off([(a, b)]),
                          "voice_over_music_db": level(env["voice"], [(a, b)]) - level(env["music"], [(a, b)]),
-                         "limiter_takes_off_db": taken_off([(a, b)], "premix", "limited"), "mix_db": level(env["final"], [(a, b)]),
+                         "limiter_takes_off_db": taken_off([(a, b)], "premix", "limited"),
+                         "limiter_takes_off_lu": loudness(speech_only(premix, tmp / "line.wav", [(a, b)]))["lufs"]
+                         - loudness(speech_only(limited, tmp / "line.wav", [(a + later, b + later)]))["lufs"], "mix_db": level(env["final"], [(a, b)]),
                          "mix_lufs": loudness(speech_only(out, tmp / "line.wav", [(a + later, b + later)]))["lufs"],
                          "reduction_before_line_db": reduction[first - 1], "reduction_0_1s_in_db": reduction[first + 2],
                          "silence_after_s": until - (last + 1) * WINDOW_S, "back_within_3db_s": back(last, until, 3.0), "back_within_1db_s": back(last, until, 1.0)})
@@ -284,16 +317,20 @@ def measure(tmp: Path, ratio: int, lines: list[tuple[str, float, float]], placed
               "voice_lufs": loudness(speech_only(stem["voice"], tmp / "voice_speech.wav", speech))["lufs"],
               "music_lufs": loudness(speech_only(stem["music"], tmp / "music_speech.wav", speech))["lufs"]}
     before["voice_over_music_lu"] = before["voice_lufs"] - before["music_lufs"]
-    (gain_low, gain_high), (loudnorm_low, loudnorm_high) = percentiles("final", "premix"), percentiles("final", "limited")
+    all_of_it, alone = moved("final", "premix"), moved("final", "limited")
     result = {
         "file": out.name,
-        "mix": {"lufs": meta["lufs"], "true_peak_db": meta["true_peak_db"], "lra_lu": lra},
+        "mix": {"lufs": meta["lufs"], "true_peak_db": meta["true_peak_db"], "lra_lu": lra, "lufs_2dp": fine["mix"]["lufs"], "true_peak_db_2dp": fine["mix"]["true_peak_db"],
+                "aac": {**loudness(encoded), "lufs_2dp": fine["aac"]["lufs"], "true_peak_db_2dp": fine["aac"]["true_peak_db"]}},
         "gains_before_ducking": {"line_gains_db": meta["line_gains_db"], "music_gain_db": meta["music_gain_db"]},
         "reduction_db": {"speech": taken_off(speech), "gaps": taken_off(gaps), "deepest_db": max(r for r in reduction if r is not None)},
         "before_normaliser": before, "in_final_mix": levels(heard), "limiter": limiter,
         "normaliser": {"pipeline_says": meta["normalised"], **{k: v for k, v in told.items() if k not in ("limiter", "limited", "ceiling_dbfs")},
+                       "short_of_target_lu": assemble.TARGET["lufs"] - fine["mix"]["lufs"],
                        "gain_speech_db": taken_off(speech, "final", "premix"), "gain_gaps_db": taken_off(gaps, "final", "premix"),
-                       "gain_low_db": gain_low, "gain_high_db": gain_high, "loudnorm_low_db": loudnorm_low, "loudnorm_high_db": loudnorm_high},
+                       "gain_low_db": all_of_it[len(all_of_it) // 20], "gain_high_db": all_of_it[len(all_of_it) * 19 // 20],
+                       "after_limiter": {"lowest_db": alone[0], "low_db": alone[len(alone) // 20], "high_db": alone[len(alone) * 19 // 20],
+                                         "highest_db": alone[-1], "spread_thousandths_db": round(1000 * (alone[-1] - alone[0])), "windows": len(alone)}},
         "line_spread": {key: {"lowest": min(x[key] for x in per_line), "highest": max(x[key] for x in per_line),
                               "spread": max(x[key] for x in per_line) - min(x[key] for x in per_line)} for key in ("voice_db", "mix_lufs")},
         "per_line": per_line, "per_gap": per_gap, "checks": checks,
@@ -323,12 +360,13 @@ def main() -> None:
         lines.append((t["id"], t["narration_start"], t["narration_start"] + seconds))
 
     OUT.mkdir(parents=True, exist_ok=True)
-    kept = json.loads((OUT / "results.json").read_text(encoding="utf-8")) if (OUT / "results.json").exists() else {}
-    kept = kept["before"] if "before" in kept else {"note": KEPT, **kept} if "ratios" in kept else {}  # the first run's file had no two parts yet
+    old = json.loads((OUT / "results.json").read_text(encoding="utf-8")) if (OUT / "results.json").exists() else {}
+    kept = {name: old[name] for name in ("before", "after_first_fix") if name in old}  # carried over as they were written, never measured again
     after = {"note": "Measured by this script on the mix code named in mix_code.", "changed": f"ratio of the sidechain compressor: {RATIOS[0]} (the pipeline) against {RATIOS[1]}",
-             "mix_code": {"file": "pipeline/assemble.py", "sha256_first_16": file_sha(ROOT / "pipeline" / "assemble.py")},
+             "mix_code": mix_code(),
              "held_fixed": {"duck": {k: v for k, v in DUCK.items() if k != "ratio"}, "levels_before_ducking_lufs": [assemble.VOICE_LUFS, assemble.MUSIC_LUFS],
-                            "line_gain_max_db": assemble.LINE_GAIN_MAX, "block_samples": assemble.BLOCK, "music_gain_db_in_storyboard": gain_db, "target": assemble.TARGET},
+                            "line_gain_max_db": assemble.LINE_GAIN_MAX, "block_samples": assemble.BLOCK, "limit": assemble.LIMIT,
+                            "music_gain_db_in_storyboard": gain_db, "target": assemble.TARGET},
              "score": SCORE, "timeline": "outputs/assemble/index.radio.am.json", "total_s": total, "window_s": WINDOW_S,
              "lines": [{"shot": sid, "file": path.name, "start": a, "end": round(b, 3)} for (sid, a, b), (path, _) in zip(lines, placed)],
              "speech_s": round(sum(b - a for _, a, b in lines), 3), "gaps_s": round(sum(lines[i + 1][1] - lines[i][2] for i in range(len(lines) - 1)), 3),
@@ -337,76 +375,95 @@ def main() -> None:
         for ratio in RATIOS:
             after["ratios"][str(ratio)] = measure(Path(folder), ratio, lines, placed, music, total, gain_db)
     assemble.DUCK = DUCK
-    (OUT / "results.json").write_text(json.dumps({"experiment": "E12", "before": kept, "after": after}, ensure_ascii=False, indent=1), encoding="utf-8")
+    (OUT / "results.json").write_text(json.dumps({"experiment": "E12", **kept, "after": after}, ensure_ascii=False, indent=1), encoding="utf-8")
 
-    print(f"E12  score {SCORE}, {len(lines)} lines on the radio cut's timeline, {total:.2f} s: {after['speech_s']:.1f} s of speech, "
-          f"{after['gaps_s']:.1f} s of gaps between lines\n")
     def block(part: dict, ratio: int) -> dict:
-        found = part.get("ratios", {}).get(str(ratio), {})
-        later = part.get("finished_mix_per_line", {}).get(str(ratio))  # only in `before`, and only for the mix file that was still there
-        return {**found, "per_line": [{**x, **y} for x, y in zip(found["per_line"], later)]} if later else found
+        """One part's numbers at one ratio, with the lists that were added to a kept part by hand folded in."""
+        found = dict(part.get("ratios", {}).get(str(ratio), {}))
+        later = part.get("finished_mix_per_line", {}).get(str(ratio))
+        if later:
+            found["per_line"] = [{**x, **y} for x, y in zip(found["per_line"], later)]
+        extra = part.get("aac_of_the_mix", {}).get(str(ratio))
+        if extra:
+            found["mix"] = {**found["mix"], "aac": extra["aac"], "lufs_2dp": extra["mix_2dp"]["lufs"], "true_peak_db_2dp": extra["mix_2dp"]["true_peak_db"]}
+        return found
 
-    columns = [(f"{name}, ratio {r}", block(part, r)) for r in RATIOS for name, part in (("before", kept), ("after", after))]
-    print(f"{'':<58}" + "".join(f"{title:>24}" for title, _ in columns))
-
-    def row(label: str, pick) -> None:
-        cells = []
-        for _, found in columns:
-            try:
-                cells.append(str(pick(found)))
-            except (KeyError, TypeError):  # the first run did not measure this
-                cells.append("-")
-        print(f"{label:<58}" + "".join(f"{c:>24}" for c in cells))
+    def says(r: dict) -> str:
+        told = r["normaliser"].get("pipeline_says")
+        return told["how"] if isinstance(told, dict) else told or "asked for " + r["normaliser"]["asked"]
 
     def spread(key: str):
-        return lambda r: "{lowest} to {highest}: {spread}".format(**r["line_spread"][key]) if "line_spread" in r else \
-            f"{min(x[key] for x in r['per_line'])} to {max(x[key] for x in r['per_line'])}: {round(max(x[key] for x in r['per_line']) - min(x[key] for x in r['per_line']), 2)}"
+        def pick(r: dict) -> str:
+            values = [x[key] for x in r["per_line"]]
+            return f"{min(values)} to {max(values)}: {round(max(values) - min(values), 2)}"
+        return pick
 
-    row("mix: integrated loudness, LUFS", lambda r: r["mix"]["lufs"])
-    row("mix: true peak, dBTP", lambda r: r["mix"]["true_peak_db"])
-    row("mix: loudness range, LU", lambda r: r["mix"]["lra_lu"])
-    row("mix: 16 bit samples at full scale", lambda r: r["checks"]["mix_samples_at_full_scale"])
-    row("premix: highest sample, dBFS", lambda r: r["checks"]["premix_peak_dbfs"])
-    row("premix: samples at or over full scale", lambda r: r["checks"].get("premix_samples_over_full_scale", r["checks"].get("premix_samples_at_full_scale")))
-    row("music ends at, s (the mix at {:.2f})".format(total), lambda r: r["checks"]["music_ends_s"])
-    row("loudnorm: the pipeline says", lambda r: r["normaliser"].get("pipeline_says", "asked " + r["normaliser"].get("asked", "?")))
-    row("loudnorm: its last pass ran", lambda r: r["normaliser"].get("second_pass_ran", r["normaliser"].get("ran")))
-    row("loudnorm: peak after its gain, dBTP (target {})".format(assemble.TARGET["true_peak"]), lambda r: r["normaliser"]["peak_after_gain_dbtp"])
-    row("last step: gain during speech, dB", lambda r: r["normaliser"]["gain_speech_db"])
-    row("last step: gain in the gaps, dB", lambda r: r["normaliser"]["gain_gaps_db"])
-    row("last step: gain per 50 ms, 5th and 95th percentile, dB", lambda r: f"{r['normaliser']['gain_low_db']} / {r['normaliser']['gain_high_db']}")
-    row("loudnorm alone: the same two percentiles, dB", lambda r: f"{r['normaliser']['loudnorm_low_db']} / {r['normaliser']['loudnorm_high_db']}")
-    row("limiter: ceiling, dBFS", lambda r: r["limiter"]["ceiling_dbfs"])
-    row("limiter: 50 ms windows with a sample over the ceiling", lambda r: f"{r['limiter']['windows_over_ceiling']} of {r['limiter']['windows']}")
-    row("limiter: windows it lowers by 0.1 dB or more", lambda r: r["limiter"]["windows_touched"])
-    row("limiter: most it takes off a peak / a window, dB", lambda r: f"{r['limiter']['largest_peak_cut_db']} / {r['limiter']['largest_window_drop_db']}")
-    row("limiter: takes off the mix during speech, dB / LU", lambda r: f"{r['limiter']['takes_off_speech_db']} / {r['limiter']['takes_off_lu']}")
-    row("limiter: its output is late by, samples", lambda r: r["limiter"]["delay_samples"])
-    row("the compressor takes off the music: speech, dB", lambda r: r["reduction_db"]["speech"])
-    row("the compressor takes off the music: gaps, dB", lambda r: r["reduction_db"]["gaps"])
-    row("the compressor takes off the music: deepest 50 ms, dB", lambda r: r["reduction_db"]["deepest_db"])
-    for where in ("before_normaliser", "in_final_mix"):
-        name = where.replace("_", " ")
-        row(f"{name}: voice during speech, dBFS", lambda r: r[where]["voice_speech_db"])
-        row(f"{name}: music during speech, dBFS", lambda r: r[where]["music_speech_db"])
-        row(f"{name}: music in the gaps, dBFS", lambda r: r[where]["music_gaps_db"])
-        row(f"{name}: voice over music, dB", lambda r: r[where]["voice_over_music_db"])
-        row(f"{name}: music rises in the gaps by, dB", lambda r: r[where]["music_rise_in_gaps_db"])
-    row("before normaliser: voice over music, LU", lambda r: r["before_normaliser"]["voice_over_music_lu"])
-    row("voice over music, the line where it is least, dB", lambda r: min(x["voice_over_music_db"] for x in r["per_line"]))
-    row("voice over music, the line where it is most, dB", lambda r: max(x["voice_over_music_db"] for x in r["per_line"]))
-    row("lines before normaliser, voice dBFS: low to high: spread", spread("voice_db"))
-    row("lines in the finished mix, LUFS: low to high: spread", spread("mix_lufs"))
+    def after_limiter(r: dict) -> str:
+        n = r["normaliser"]
+        if "after_limiter" in n:
+            return "{lowest_db} to {highest_db}: {:.3f}".format(n["after_limiter"]["spread_thousandths_db"] / 1000, **n["after_limiter"])
+        return f"5th to 95th percentile {n['loudnorm_low_db']} to {n['loudnorm_high_db']}"
+
+    rows = [
+        ("mix: integrated loudness, LUFS", lambda r: r["mix"]["lufs"]),
+        ("mix: true peak, dBTP", lambda r: r["mix"]["true_peak_db"]),
+        ("mix: loudness range, LU", lambda r: r["mix"]["lra_lu"]),
+        ("mix: the same two with two decimals", lambda r: f"{r['mix']['lufs_2dp']} / {r['mix']['true_peak_db_2dp']}"),
+        ("mix as AAC 192k: loudness / true peak", lambda r: f"{r['mix']['aac']['lufs_2dp']} / {r['mix']['aac']['true_peak_db_2dp']}"),
+        ("mix: 16 bit samples at full scale", lambda r: r["checks"]["mix_samples_at_full_scale"]),
+        ("premix: highest sample, dBFS", lambda r: r["checks"]["premix_peak_dbfs"]),
+        ("premix: samples at or over full scale", lambda r: r["checks"].get("premix_samples_over_full_scale", r["checks"].get("premix_samples_at_full_scale"))),
+        (f"music ends at, s (the mix at {total:.2f})", lambda r: r["checks"]["music_ends_s"]),
+        ("last step: the pipeline says", says),
+        ("last step: what loudnorm itself reports", lambda r: r["normaliser"].get("second_pass_ran") or r["normaliser"].get("ran") or "no loudnorm in it"),
+        ("last step: gain it applies, dB", lambda r: r["normaliser"]["gain_db"]),
+        ("last step: short of the target loudness by, LU", lambda r: r["normaliser"]["short_of_target_lu"]),
+        ("gain after the limiter per 50 ms, dB: low to high: spread", after_limiter),
+        ("premix to mix: gain during speech / in the gaps, dB", lambda r: f"{r['normaliser']['gain_speech_db']} / {r['normaliser']['gain_gaps_db']}"),
+        ("premix to mix: gain per 50 ms, 5th / 95th percentile, dB", lambda r: f"{r['normaliser']['gain_low_db']} / {r['normaliser']['gain_high_db']}"),
+        ("limiter: ceiling, dBFS", lambda r: r["limiter"]["ceiling_dbfs"]),
+        ("limiter: 50 ms windows with a sample over the ceiling", lambda r: f"{r['limiter']['windows_over_ceiling']} of {r['limiter']['windows']}"),
+        ("limiter: windows it lowers by 0.1 dB or more", lambda r: r["limiter"]["windows_touched"]),
+        ("limiter: most it takes off a peak / a window, dB", lambda r: f"{r['limiter']['largest_peak_cut_db']} / {r['limiter']['largest_window_drop_db']}"),
+        ("limiter: takes off the mix during speech, dB / LU", lambda r: f"{r['limiter']['takes_off_speech_db']} / {r['limiter']['takes_off_lu']}"),
+        ("limiter: takes off a line, least to most, dB", lambda r: f"{min(x['limiter_takes_off_db'] for x in r['per_line'])} to {max(x['limiter_takes_off_db'] for x in r['per_line'])}"),
+        ("limiter: takes off a line, least to most, LU", lambda r: f"{min(x['limiter_takes_off_lu'] for x in r['per_line'])} to {max(x['limiter_takes_off_lu'] for x in r['per_line'])}"),
+        ("limiter: its output is late by, samples", lambda r: r["limiter"]["delay_samples"]),
+        ("compressor takes off the music: speech / gaps / deepest", lambda r: "{speech} / {gaps} / {deepest_db}".format(**r["reduction_db"])),
+        ("before the last step: voice / music during speech, dBFS", lambda r: f"{r['before_normaliser']['voice_speech_db']} / {r['before_normaliser']['music_speech_db']}"),
+        ("before the last step: music in the gaps, dBFS", lambda r: r["before_normaliser"]["music_gaps_db"]),
+        ("before the last step: voice over music, dB / LU", lambda r: f"{r['before_normaliser']['voice_over_music_db']} / {r['before_normaliser']['voice_over_music_lu']}"),
+        ("finished mix: voice / music during speech, dBFS", lambda r: f"{r['in_final_mix']['voice_speech_db']} / {r['in_final_mix']['music_speech_db']}"),
+        ("finished mix: music in the gaps, dBFS", lambda r: r["in_final_mix"]["music_gaps_db"]),
+        ("finished mix: voice over music, dB", lambda r: r["in_final_mix"]["voice_over_music_db"]),
+        ("voice over music, the line with least / with most, dB", lambda r: f"{min(x['voice_over_music_db'] for x in r['per_line'])} / {max(x['voice_over_music_db'] for x in r['per_line'])}"),
+        ("lines before the last step, voice dBFS: low to high: spread", spread("voice_db")),
+        ("lines in the finished mix, LUFS: low to high: spread", spread("mix_lufs")),
+    ]
+    parts = [("before", kept.get("before", {})), ("after the first fix", kept.get("after_first_fix", {})), ("after", after)]
+    print(f"E12  score {SCORE}, {len(lines)} lines on the radio cut's timeline, {total:.2f} s: {after['speech_s']:.1f} s of speech, "
+          f"{after['gaps_s']:.1f} s of gaps between lines. Mix code: {after['mix_code']}")
+    for ratio in RATIOS:
+        print(f"\nratio {ratio}" + " " * (52 - len(str(ratio))) + "".join(f"{name:>36}" for name, _ in parts))
+        for label, pick in rows:
+            cells = []
+            for _, part in parts:
+                try:
+                    cells.append(str(pick(block(part, ratio))))
+                except (KeyError, TypeError):  # that run did not measure this
+                    cells.append("-")
+            print(f"{label:<58}" + "".join(f"{c:>36}" for c in cells))
 
     a, b = (after["ratios"][str(r)] for r in RATIOS)
     shown = [("gain dB", "gain_db"), ("voice LUFS", "voice_lufs"), ("voice dBFS", "voice_db"), ("music dBFS", "music_db"), ("taken off dB", "reduction_db"),
-             ("voice over music dB", "voice_over_music_db"), ("limiter takes dB", "limiter_takes_off_db"), ("in the mix LUFS", "mix_lufs"),
+             ("voice over music dB", "voice_over_music_db"), ("limiter takes dB", "limiter_takes_off_db"), ("limiter takes LU", "limiter_takes_off_lu"),
+             ("in the mix LUFS", "mix_lufs"),
              ("back in 3 dB s", "back_within_3db_s"), ("back in 1 dB s", "back_within_1db_s")]
     print(f"\nafter, per line: ratio {RATIOS[0]} / ratio {RATIOS[1]}")
     print("shot " + "".join(f"{title:>21}" for title, _ in shown))
     for x, y in zip(a["per_line"], b["per_line"]):
         print(f"{x['shot']:<5}" + "".join(f"{'/'.join('-' if v is None else str(v) for v in (x[key], y[key])):>21}" for _, key in shown))
-    print(f"\nper gap, the first run's numbers, and how each number is computed: {(OUT / 'results.json').relative_to(ROOT)}")
+    print(f"\nper gap, the two earlier runs, and how each number is computed: {(OUT / 'results.json').relative_to(ROOT)}")
     print("mixes: " + ", ".join(f"{r['file']} (ratio {ratio})" for ratio, r in zip(RATIOS, (a, b))))
 
 

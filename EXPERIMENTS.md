@@ -2,7 +2,7 @@
 
 One entry per experiment: a hypothesis, the one thing changed, how it is measured, the result, the decision. Change one thing at a time and keep the seed fixed, or the result cannot be read.
 
-**Status on 25 Nov 2026, 21:30: E15 to E23 have been run. E12 is measured and waits for its write-up. E01 to E11, E13 and E14 have not been run.** Each hypothesis is written down before its run on purpose, so the result cannot bend it. A result is filled in only from a real run, with the evidence it points to (`runs.jsonl` lines, a listening sheet, a blind-test result).
+**Status on 25 Nov 2026, 21:45: E12 and E15 to E23 have been run. E01 to E11, E13 and E14 have not.** Each hypothesis is written down before its run on purpose, so the result cannot bend it. A result is filled in only from a real run, with the evidence it points to (`runs.jsonl` lines, a listening sheet, a blind-test result).
 
 ## Plan
 
@@ -19,7 +19,7 @@ One entry per experiment: a hypothesis, the one thing changed, how it is measure
 | E09 | A motion-only prompt gives a steadier clip than one that describes the subject again. | `motion.prompt` for s03, same keyframe and seed | Side-by-side; flicker and drift noted | | |
 | E10 | Viewers prefer a Wan clip to a pan over the still for the same shot. | `motion.backend` for the shots that have a Wan clip | Blind A/B with at least five people (`blindtest`) | | |
 | E11 | A longer, more specific music caption gives a score that leaves more room for the voice. | `music.caption` short against long, same seeds | Listening under the narration at low volume; my choice and why | | |
-| E12 | The brief's ducking settings are right for this voice and score. | Ratio 6 against 3 in the sidechain compressor | Listening on a phone speaker and on headphones | | |
+| E12 | The brief's ducking settings are right for this voice and score. | Ratio 6 against 3 in the sidechain compressor | Planned: listening on a phone speaker and on headphones. Done: measured, because nobody was there to listen that evening | At ratio 6 the voice stands 18.4 dB over the score, at ratio 3 16.7 dB. Measuring it found three faults in the mix that listening had not. | Ratio 6 stays. The mix was rewritten twice. |
 | E13 | Enlarging a square crop for the vertical film is not noticed in a painted style. | Vertical from a square master against a vertical keyframe, one shot | Blind A/B | | |
 | E14 | The speech model handles Tigrinya and Somali, and fails on Afaan Oromo, which is not on its supported list. | Language of the same four lines (`langtest`) | Listening-check score and a native speaker's rating per language | | |
 | E15 | The lighter text model does the checking calls in seconds, where `gemini-3.8-flash` needs minutes on the free tier, and gives the same verdicts. Added on 25 Nov after failure F01. | `models.text`: `gemini-3.5-flash-lite` against `gemini-3.8-flash`, same pictures, same judge prompt | Latency and failed attempts per call in `runs.jsonl`; the two sets of judge scores side by side | Half right. 1.8 to 9.8 s a call against 104 and 144 s, and 15 of 15 judge calls answered against 2 of 6. But it gave 5.0 to pictures the other model gave 4.0, and 5.0 to pictures with a white frame. | Kept for the checks, because it answers. Its scores no longer decide alone: see the log. |
@@ -77,6 +77,52 @@ One caution about the measure itself. The listener named a koto and a guzheng. I
 Decision: none yet. All six candidates wait for my ear. If none sounds right, the next change is the model's own vocabulary: ask for "lyre" or "harp" with no country in the description.
 
 What it changed: I expected the music model to follow a named instrument the way an image model follows a named object. It does not know this one. A description steers the mood, the tempo and the family of the sound, and the rest has to be chosen by listening.
+
+### E12  The ducking, measured instead of heard  (25 Nov 2026)
+
+Hypothesis: the brief's ducking settings (threshold 0.02, ratio 6, attack 300 ms, release 1500 ms) are right for this voice and score. The plan was to judge it by ear, ratio 6 against ratio 3. Nobody was there to listen that evening, so it was measured.
+
+Changed: the ratio of the sidechain compressor, 6 against 3.
+
+Held fixed: the eight narration lines on the timeline of the radio cut, the score (candidate 2 of the first set), every other setting.
+
+Evidence: `python experiments/e12_ducking.py` builds both mixes with the pipeline's own mix function and measures them. `outputs/experiments/E12/results.json` holds every number, with a line on how each is computed. It has three parts: `before` (the mix code of commit `7d3222a`), `after_first_fix` (`4a80a3e`) and `after` (`31faa93`). The script checks on every run that its copy of the mix chain gives the same file, byte for byte, as the pipeline.
+
+Result, the question that was asked (the mix code as it is now):
+
+| | Ratio 6 | Ratio 3 |
+|---|---:|---:|
+| The compressor takes off the score while the voice speaks | 11.1 dB | 9.4 dB |
+| The same in the gaps between lines | 1.3 dB | 1.1 dB |
+| Voice over score in the finished mix | 18.4 dB | 16.7 dB |
+| The same for the weakest line | 17.1 dB | 15.2 dB |
+| Loudness of the mix | -14.7 LUFS | -14.7 LUFS |
+
+At both ratios every line stands at least 15 dB over the score. Ratio 6 buys 1.7 dB more. One number does not match the setting: 0.1 s into a line the score is already down by 9 to 22 dB, so an attack of 300 ms is no 300 ms ramp in this filter.
+
+Result, what the measuring found. Three faults were in the mix, and nobody had heard them:
+
+| | Before | After the first fix | Now |
+|---|---|---|---|
+| Samples of the mix over full scale before the last step | 167, clipped at 16 bit | 554, kept in float | 554, kept in float |
+| How long the score lasts in a mix of 79.96 s | 78.66 s | 79.96 s | 79.96 s |
+| Level of the eight lines before the last step, lowest to highest | 4.2 dB apart | 1.8 dB apart | 1.8 dB apart |
+| The last step, as the code said | a fixed gain was asked for | "limited+linear" | "limited once, then one fixed gain" |
+| The last step, as measured | the gain moved: 2.2 dB in speech, 5.0 dB in the gaps | the gain still moved: 2.6 and 4.3 dB | one gain of 2.90 dB, the same to 0.002 dB over 1,460 windows |
+| Loudness of the mix | -14.5 LUFS | -14.1 LUFS | -14.7 LUFS |
+| True peak of the mix after the AAC encoder | not measured | -1.16 dB | -1.43 dB |
+
+1. The voice track peaked over full scale and was cut off at 16 bit before the loudness step.
+2. A FLAC score arrives at the compressor in larger blocks than the voice, and the compressor then drops the end: the score stopped 1.3 s early and lost half of its fade.
+3. `loudnorm` did not apply the fixed gain it was asked for. FFmpeg reported `dynamic`: the gain was 2.8 dB higher in the gaps than under the voice, which undoes part of the ducking.
+
+The first fix was wrong about the third point, and said it was right. It limited the peaks and then called `loudnorm` again, and the code wrote "limited+linear" into the index without asking FFmpeg what it had done. The limiter had made the mix quieter, so more gain was needed, so the peaks were in the way again. The second measurement caught it: still `dynamic`. The step now uses no `loudnorm`. It limits once and applies the gain the peaks allow.
+
+What the present mix costs, measured: it lands 0.7 LU under -14 with this score. The limiter is not light on this voice: it lowers 168 of 1,600 windows of 50 ms, all inside lines, by up to 7.65 dB on a peak, and that leaves the lines 1.3 LU apart in the finished mix. It delays the sound by about 5 ms.
+
+Decision: ratio 6 stays. Whether 18 dB between voice and score is too much, so that the score disappears, is a question for the ear, and it goes to the viewers of the second test. The mix code is as described in `ARCHITECTURE.md`, "Sound".
+
+What it changed: the ratio was the smallest thing this experiment answered. I had taken the mix as finished because the final-cut check passed: the loudness was near -14 and the peak under -1. Both were true and the mix was still wrong in three ways the check does not look at. And a fix is a claim like any other: the first one was only shown to be wrong because the same measurement was run again on it.
 
 ### E23  A clean clone rebuilds the cut without a key  (25 Nov 2026)
 

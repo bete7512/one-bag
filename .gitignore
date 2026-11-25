@@ -40,3 +40,5 @@ outputs/*/kaggle_output/
 # local settings of the coding agent
 .claude/
 plan.md
+# the two test mixes of E12: rebuilt by `python experiments/e12_ducking.py`, 15 MB each
+outputs/experiments/E12/*.wav

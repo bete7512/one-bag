@@ -5,8 +5,9 @@ encoder settings. They are joined with the concat demuxer and no re-encode, so c
 re-renders one scene file per export and nothing else.
 
 Sound. Narration lines are placed on the timeline (picture follows the voice). Voice and score are
-first brought to known levels, the score is ducked under the voice with a sidechain compressor,
-and the mix gets a two-pass loudness normalisation to about -14 LUFS with true peaks under -1 dB.
+first brought to known levels, line by line, the score is ducked under the voice with a sidechain
+compressor, and the mix is brought toward -14 LUFS with one fixed gain, after its highest peaks are
+limited once. The encoded film stays under -1 dB true peak.
 
 Two aspect ratios from one master. Each shot is fitted per export: if cropping to the export
 loses 45% of the frame or less it is cropped around the centre, otherwise it sits over a blurred
@@ -204,9 +205,9 @@ def to_target(src: Path, dst: Path) -> dict:
     then rides the gain up and down without saying so (E12). So the steps are done here, in the open: measure
     with the same EBU R128 meter, limit the peaks that are in the way once, measure again, and apply one gain.
 
-    The limiter makes the mix a little quieter, so that gain may fall short of the target by a few tenths of a
-    LU. That is accepted. Limiting harder to win them back squeezes the voice, and its flattened peaks then
-    overshoot in the AAC encoder: four rounds of it put the film's true peak at -0.8 dB.
+    The limiter makes the mix quieter, so that gain falls short of the target: by 0.7 to 1.0 LU on the first
+    real cut. That is accepted. Limiting harder to win it back squeezes the voice, and its flattened peaks
+    then overshoot in the AAC encoder: four rounds of it put the film's true peak at -0.8 dB.
     """
     level = loudness(src)
     if level["lufs"] < -70:  # silence: nothing to normalise
