@@ -193,6 +193,7 @@ def main(argv: list[str] | None = None) -> int:
             from . import site
             site.run(ctx)
         elif args.cmd == "voices":
+            from . import providers
             for v in providers.addis_voices(ctx.narration_lang):
                 usable = v.get("is_available", v.get("isAvailable", True))
                 ctx.say(f"  {str(v.get('id')):<16} {str(v.get('name')):<12} {str(v.get('gender')):<7} {str(v.get('style') or v.get('descriptor') or ''):<24} {'' if usable else 'not available'}")

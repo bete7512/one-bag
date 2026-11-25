@@ -1,9 +1,9 @@
 {
  "s01": {
-  "file": "s01_kenburns__c0aebd6d802ca761.mp4",
-  "key": "c0aebd6d802ca761",
+  "file": "s01_kenburns__fbbb71c54f987614.mp4",
+  "key": "fbbb71c54f987614",
   "source": "kenburns",
-  "seconds": 11.0
+  "seconds": 8.083
  },
  "s02": {
   "file": "s02_wan__a5009af75983891d.mp4",
@@ -18,10 +18,10 @@
   "seconds": 7.0
  },
  "s04": {
-  "file": "s04_kenburns__46011903e0863041.mp4",
-  "key": "46011903e0863041",
+  "file": "s04_kenburns__6e85bef240bb47f8.mp4",
+  "key": "6e85bef240bb47f8",
   "source": "kenburns",
-  "seconds": 10.875
+  "seconds": 9.0
  },
  "s05": {
   "file": "s05_kenburns__908e789870008624.mp4",
@@ -30,10 +30,10 @@
   "seconds": 4.0
  },
  "s06": {
-  "file": "s06_kenburns__d416efe63187ccd6.mp4",
-  "key": "d416efe63187ccd6",
+  "file": "s06_kenburns__432c310a44df069d.mp4",
+  "key": "432c310a44df069d",
   "source": "kenburns",
-  "seconds": 10.75
+  "seconds": 10.0
  },
  "s07": {
   "file": "s07_kenburns__13513e3cc9831d72.mp4",
@@ -48,9 +48,9 @@
   "seconds": 5.5
  },
  "s09": {
-  "file": "s09_kenburns__cd6a25b4887bae36.mp4",
-  "key": "cd6a25b4887bae36",
+  "file": "s09_kenburns__e59ed097d9613c71.mp4",
+  "key": "e59ed097d9613c71",
   "source": "kenburns",
-  "seconds": 11.75
+  "seconds": 10.0
  }
 }

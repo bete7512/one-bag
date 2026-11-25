@@ -44,7 +44,8 @@ def make_project(folder: Path, small: bool = True) -> Path:
     sb["audience"] = "DRAFT, a test audience."
     sb["music"]["chosen"] = None
     sb["music"].pop("chosen_reason", None)
-    sb["voice"] = {"name": sb["voice"]["name"], "style": sb["voice"]["style"]}
+    sb["voice"] = {"name": "Charon", "style": "calm, warm storyteller"}
+    sb["models"]["tts"] = "gemini-3.8-flash-tts"  # the tests describe the default speech provider, whichever voice the real film uses
     for shot in sb["shots"]:
         for choice in ("pick", "reference"):
             shot["keyframe"].pop(choice, None)

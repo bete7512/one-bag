@@ -49,3 +49,6 @@ outputs/film_*.mp4
 outputs/radio_cut.mp4
 outputs/qc_report.json
 outputs/assemble/
+
+# radio cuts made to compare voices by ear: not evidence, rebuilt from the kept lines
+outputs/voices/

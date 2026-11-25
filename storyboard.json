@@ -20,7 +20,7 @@
   "models": {
     "text": "gemini-3.5-flash-lite",
     "judge": "claude-opus-5-5",
-    "tts": "gemini-3.8-flash-tts",
+    "tts": "addis-voices-2",
     "image": "@cf/black-forest-labs/flux-2-klein-4b",
     "video": "Wan-AI/Wan2.2-TI2V-5B-Diffusers",
     "music": "acestep-v15-turbo"
@@ -57,7 +57,7 @@
     }
   ],
   "video": {"max_area": 399360, "num_frames": 81, "steps": 30, "guidance": 5.0},
-  "voice": {"name": "Charon", "style": "calm, warm storyteller", "max_pause_s": 0.6, "one_take": false, "seed": 7},
+  "voice": {"name": "am-nahom", "style": "not used by this voice", "max_pause_s": 0.6, "one_take": false},
   "qa": {"keyframe_candidates": 2, "judge": true, "roundtrip": true, "roundtrip_min": 0.6, "subtitle_check": true},
   "music": {
     "caption": "Solo krar, the Ethiopian six-string lyre, plucked slowly. A sparse pentatonic melody in the tizita mood. One instrument only, in a quiet room. No drums, no vocals.",

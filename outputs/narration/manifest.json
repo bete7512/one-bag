@@ -1,283 +1,275 @@
 {
  "units": {
   "s01": {
-   "key": "0037cc18223f4f09",
-   "file": "s01__0037cc18223f4f09.wav",
+   "key": "7092815bc3352823",
+   "file": "s01__7092815bc3352823.wav",
    "fingerprint": {
     "v": 2,
     "text": "መስከረም ሁለት ሺህ አሥራ ሁለት። እኩለ ቀን ላይ ከአንኮበር ተነሳሁ። አንድ የጀርባ ቦርሳ ብቻ ይዤ። አንድ ጓደኛዬ ሸኘኝ።",
     "lang": "am",
-    "voice": "Charon",
-    "style": "calm, warm storyteller",
-    "model": "gemini-3.8-flash-tts",
-    "seed": 7
+    "voice": "am-nahom",
+    "style": "not used by this voice",
+    "model": "addis-voices-2"
    },
    "meta": {
-    "seconds": 11.5,
+    "seconds": 7.2,
     "from_take": false
    },
-   "created": "2026-11-25T21:15:40Z"
+   "created": "2026-11-25T22:10:33Z"
   },
   "s02": {
-   "key": "3cba14439412e28b",
-   "file": "s02__3cba14439412e28b.wav",
+   "key": "60be4ddbe6f10132",
+   "file": "s02__60be4ddbe6f10132.wav",
    "fingerprint": {
     "v": 2,
     "text": "እስከ ደብረ ብርሃን ድረስ ፒስታ መንገድ። ከዚያ በኋላ አስፋልት።",
     "lang": "am",
-    "voice": "Charon",
-    "style": "calm, warm storyteller",
-    "model": "gemini-3.8-flash-tts",
-    "seed": 7
+    "voice": "am-nahom",
+    "style": "not used by this voice",
+    "model": "addis-voices-2"
    },
    "meta": {
-    "seconds": 6.63,
+    "seconds": 3.92,
     "from_take": false
    },
-   "created": "2026-11-25T21:10:20Z"
+   "created": "2026-11-25T22:10:40Z"
   },
   "s03": {
-   "key": "1b9cdeb875d8e2e0",
-   "file": "s03__1b9cdeb875d8e2e0.wav",
+   "key": "daedb3f72bd58c2a",
+   "file": "s03__daedb3f72bd58c2a.wav",
    "fingerprint": {
     "v": 2,
     "text": "በመስኮት በኩል ተቀመጥኩ። ውጪው ደንና ተራራ ብቻ። እይታው አስደነቀኝ።",
     "lang": "am",
-    "voice": "Charon",
-    "style": "calm, warm storyteller",
-    "model": "gemini-3.8-flash-tts",
-    "seed": 7
+    "voice": "am-nahom",
+    "style": "not used by this voice",
+    "model": "addis-voices-2"
    },
    "meta": {
-    "seconds": 6.66,
+    "seconds": 5.54,
     "from_take": false
    },
-   "created": "2026-11-25T21:10:40Z"
+   "created": "2026-11-25T22:10:47Z"
   },
   "s04": {
-   "key": "9ccf919711d9ccf4",
-   "file": "s04__9ccf919711d9ccf4.wav",
+   "key": "a0a0aed5e61b32c7",
+   "file": "s04__a0a0aed5e61b32c7.wav",
    "fingerprint": {
     "v": 2,
     "text": "ላምበረት የደረስኩት ከመሸ በኋላ ነው። ጓደኛዬ እዚያው ጠበቀኝ። ሰው፣ መብራት፣ መኪና፤ ሁሉም በአንድ ጊዜ።",
     "lang": "am",
-    "voice": "Charon",
-    "style": "calm, warm storyteller",
-    "model": "gemini-3.8-flash-tts",
-    "seed": 7
+    "voice": "am-nahom",
+    "style": "not used by this voice",
+    "model": "addis-voices-2"
    },
    "meta": {
-    "seconds": 10.25,
+    "seconds": 7.37,
     "from_take": false
    },
-   "created": "2026-11-25T21:11:01Z"
+   "created": "2026-11-25T22:10:55Z"
   },
   "s06": {
-   "key": "e079376c6e6799fb",
-   "file": "s06__e079376c6e6799fb.wav",
+   "key": "0389927d534ad49a",
+   "file": "s06__0389927d534ad49a.wav",
    "fingerprint": {
     "v": 2,
     "text": "አውቶቡስ ተራ ስንደርስ ደላሎች ከበቡን። «አልጋ ትፈልጋላችሁ?» «አልጋ?» ከየአቅጣጫው። ግራ ገባን። በመጨረሻ አንዱን መረጥን።",
     "lang": "am",
-    "voice": "Charon",
-    "style": "calm, warm storyteller",
-    "model": "gemini-3.8-flash-tts",
-    "seed": 7
+    "voice": "am-nahom",
+    "style": "not used by this voice",
+    "model": "addis-voices-2"
    },
    "meta": {
-    "seconds": 9.85,
+    "seconds": 8.42,
     "from_take": false
    },
-   "created": "2026-11-25T21:11:20Z"
+   "created": "2026-11-25T22:11:02Z"
   },
   "s07": {
-   "key": "a9bb846210e2dbc6",
-   "file": "s07__a9bb846210e2dbc6.wav",
+   "key": "85b890c318907e36",
+   "file": "s07__85b890c318907e36.wav",
    "fingerprint": {
     "v": 2,
     "text": "ክፍሉ ባለ አንድ አልጋ። በጣም ጥሩ አይደለም፤ መጥፎም አይደለም። ግን ንጹሕ።",
     "lang": "am",
-    "voice": "Charon",
-    "style": "calm, warm storyteller",
-    "model": "gemini-3.8-flash-tts",
-    "seed": 7
+    "voice": "am-nahom",
+    "style": "not used by this voice",
+    "model": "addis-voices-2"
    },
    "meta": {
-    "seconds": 6.69,
+    "seconds": 5.06,
     "from_take": false
    },
-   "created": "2026-11-25T21:11:40Z"
+   "created": "2026-11-25T22:11:09Z"
   },
   "s08": {
-   "key": "c013c00caab2debd",
-   "file": "s08__c013c00caab2debd.wav",
+   "key": "fa291bc9c90c7e9f",
+   "file": "s08__fa291bc9c90c7e9f.wav",
    "fingerprint": {
     "v": 2,
     "text": "ጠዋት ረጅም ሰልፍ ተሰልፈን ትኬት ቆረጥን።",
     "lang": "am",
-    "voice": "Charon",
-    "style": "calm, warm storyteller",
-    "model": "gemini-3.8-flash-tts",
-    "seed": 7
+    "voice": "am-nahom",
+    "style": "not used by this voice",
+    "model": "addis-voices-2"
    },
    "meta": {
-    "seconds": 4.11,
+    "seconds": 3.58,
     "from_take": false
    },
-   "created": "2026-11-25T21:11:59Z"
+   "created": "2026-11-25T22:11:16Z"
   },
   "s09": {
-   "key": "7155b2aecf2d2eee",
-   "file": "s09__7155b2aecf2d2eee.wav",
+   "key": "12a99098714bd826",
+   "file": "s09__12a99098714bd826.wav",
    "fingerprint": {
     "v": 2,
     "text": "ዛሬ ያንን የመጀመሪያ ሌሊት ሳስታውስ፣ ከቤቱ ለሚወጣ ሁሉ አንድ ነገር እላለሁ፦ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። አትሽሽ። አጣጥመው።",
     "lang": "am",
-    "voice": "Charon",
-    "style": "calm, warm storyteller",
-    "model": "gemini-3.8-flash-tts",
-    "seed": 7
+    "voice": "am-nahom",
+    "style": "not used by this voice",
+    "model": "addis-voices-2"
    },
    "meta": {
-    "seconds": 10.98,
+    "seconds": 9.09,
     "from_take": false
    },
-   "created": "2026-11-25T21:12:21Z"
+   "created": "2026-11-25T22:11:25Z"
   },
   "s01_listen": {
-   "key": "4d0124ce06f0980a",
-   "file": "s01_listen__4d0124ce06f0980a.json",
+   "key": "69b8c2772c07163f",
+   "file": "s01_listen__69b8c2772c07163f.json",
    "fingerprint": {
     "v": 2,
-    "audio": "af370d90c12c1ad8",
+    "audio": "6f97944e478b7091",
     "text": "መስከረም ሁለት ሺህ አሥራ ሁለት። እኩለ ቀን ላይ ከአንኮበር ተነሳሁ። አንድ የጀርባ ቦርሳ ብቻ ይዤ። አንድ ጓደኛዬ ሸኘኝ።",
     "model": "gemini-3.5-flash-lite",
     "question": "ec4a06ca5dbb"
    },
    "meta": {
-    "heard": "መስከረም 2012 እኩል ዕለት ላይ ከአንኮበር ተነሳው። አንድ የጀርባ ቦርሳ ብቻ ይዤ አንድጓደኛዬ ሸኘኝ።",
-    "score": 0.797
+    "heard": "እስከ መጋቢት 12 በኩልቀን ላይ ካንኮበር ተነሳው አንዴ የጀርባ ቦርሳ ብቻ ይዤ አንድ ጓደኛዬ የሸኘኝ",
+    "score": 0.754
    },
-   "created": "2026-11-25T21:15:47Z"
+   "created": "2026-11-25T22:11:33Z"
   },
   "s02_listen": {
-   "key": "ce5e5dd6131bc2f8",
-   "file": "s02_listen__ce5e5dd6131bc2f8.json",
+   "key": "91197c933af191ee",
+   "file": "s02_listen__91197c933af191ee.json",
    "fingerprint": {
     "v": 2,
-    "audio": "ad0a7be3c021a51e",
+    "audio": "52db967443b18789",
     "text": "እስከ ደብረ ብርሃን ድረስ ፒስታ መንገድ። ከዚያ በኋላ አስፋልት።",
     "model": "gemini-3.5-flash-lite",
     "question": "ec4a06ca5dbb"
    },
    "meta": {
-    "heard": "እስከ ድብራ ብርሃን ድረስ ፒስታ መንገድ ከዚያ በኋላ አስፋልት",
-    "score": 0.949
+    "heard": "እስካደብረ ብርሃንድስ ፒስታ መንገድ ከዚያ በኋላ አስፋልት",
+    "score": 0.933
    },
-   "created": "2026-11-25T21:12:36Z"
+   "created": "2026-11-25T22:11:52Z"
   },
   "s03_listen": {
-   "key": "480b5dda8524a1ec",
-   "file": "s03_listen__480b5dda8524a1ec.json",
+   "key": "8b45f96c7dc9e2d4",
+   "file": "s03_listen__8b45f96c7dc9e2d4.json",
    "fingerprint": {
     "v": 2,
-    "audio": "92f3b5d2233d3bfd",
+    "audio": "74df517893db35c4",
     "text": "በመስኮት በኩል ተቀመጥኩ። ውጪው ደንና ተራራ ብቻ። እይታው አስደነቀኝ።",
     "model": "gemini-3.5-flash-lite",
     "question": "ec4a06ca5dbb"
    },
    "meta": {
-    "heard": "በመሱት በኩል ተቀምጦ ውጪው ድንዘና ተራራ ብቻ እይታ ዋስደንነቀኝ።",
-    "score": 0.819
+    "heard": "በመሰረቱ ፈውል ተካመትኩ ውጩ ደነና ተራራ ብቻ እይታው አስገረቀኝ።",
+    "score": 0.723
    },
-   "created": "2026-11-25T21:12:39Z"
+   "created": "2026-11-25T22:12:00Z"
   },
   "s04_listen": {
-   "key": "cee346e082837e24",
-   "file": "s04_listen__cee346e082837e24.json",
+   "key": "5ca0190843d98995",
+   "file": "s04_listen__5ca0190843d98995.json",
    "fingerprint": {
     "v": 2,
-    "audio": "8209d3f096d7f29c",
+    "audio": "3de35cc185ef31fb",
     "text": "ላምበረት የደረስኩት ከመሸ በኋላ ነው። ጓደኛዬ እዚያው ጠበቀኝ። ሰው፣ መብራት፣ መኪና፤ ሁሉም በአንድ ጊዜ።",
     "model": "gemini-3.5-flash-lite",
     "question": "ec4a06ca5dbb"
    },
    "meta": {
-    "heard": "Lambaret, hederesko, kemeche bohalenaw?\nGwadegne, eziyaw tebelegne.\nSebe, mebrat, mequina,\nhulum ba-and gize.",
-    "score": 0.16
+    "heard": "ላምባሪ ቲያትር አለስቁት ከመሸ በኋላ ነው ጓደኛዬ እዚያው ጠበቀኝ ሰው መውራት መኪና ሁሉም በአንድ ጊዜ",
+    "score": 0.866
    },
-   "created": "2026-11-25T21:12:47Z"
+   "created": "2026-11-25T22:12:09Z"
   },
   "s06_listen": {
-   "key": "65669455badffd39",
-   "file": "s06_listen__65669455badffd39.json",
+   "key": "29a2ae59d816ce24",
+   "file": "s06_listen__29a2ae59d816ce24.json",
    "fingerprint": {
     "v": 2,
-    "audio": "f2d268d767546b08",
+    "audio": "1486791f795fd9c5",
     "text": "አውቶቡስ ተራ ስንደርስ ደላሎች ከበቡን። «አልጋ ትፈልጋላችሁ?» «አልጋ?» ከየአቅጣጫው። ግራ ገባን። በመጨረሻ አንዱን መረጥን።",
     "model": "gemini-3.5-flash-lite",
     "question": "ec4a06ca5dbb"
    },
    "meta": {
-    "heard": "አውቶቡስ ተራ ስንደርስ ደላሎች ከበቡን። አልጋ ትፈልጋላችሁ? አልጋ? ከየት አጣጫው? ግራ ገባን። በመጨረሻ አንዱን መረጠን።",
-    "score": 0.965
+    "heard": "አውቶቡስ ተራ ስንደርስ ደላሎች ከበቡን አልጋ ትፈልጋላችሁ? አልጋ ኪያቅ ፓቻው ገባን በመጨረሻ አንዱን መረጥን።",
+    "score": 0.906
    },
-   "created": "2026-11-25T21:12:53Z"
+   "created": "2026-11-25T22:12:17Z"
   },
   "s07_listen": {
-   "key": "5a57d7e87e9d701e",
-   "file": "s07_listen__5a57d7e87e9d701e.json",
+   "key": "1bb559bb82d49636",
+   "file": "s07_listen__1bb559bb82d49636.json",
    "fingerprint": {
     "v": 2,
-    "audio": "049d48e37a16f435",
+    "audio": "0a307d6b53f3cf25",
     "text": "ክፍሉ ባለ አንድ አልጋ። በጣም ጥሩ አይደለም፤ መጥፎም አይደለም። ግን ንጹሕ።",
     "model": "gemini-3.5-flash-lite",
     "question": "ec4a06ca5dbb"
    },
    "meta": {
-    "heard": "ቁጥቁጥ ባለ አንዳልጋ በጣም ጥሩ አይደለም፣ መጥፎም አይደለም፣ ግን ንጹህ",
-    "score": 0.854
+    "heard": "ከፉ ልባለ አንዳልጋ፣ በጣም ጥሩ አይደለምት። መጥፎም አይደለም። ግን እሱህ",
+    "score": 0.809
    },
-   "created": "2026-11-25T21:12:58Z"
+   "created": "2026-11-25T22:12:25Z"
   },
   "s08_listen": {
-   "key": "2fa2f63ba0bda53b",
-   "file": "s08_listen__2fa2f63ba0bda53b.json",
+   "key": "78b20700511771d4",
+   "file": "s08_listen__78b20700511771d4.json",
    "fingerprint": {
     "v": 2,
-    "audio": "b2e20b3a4cd9521c",
+    "audio": "beff50a521bf813b",
     "text": "ጠዋት ረጅም ሰልፍ ተሰልፈን ትኬት ቆረጥን።",
     "model": "gemini-3.5-flash-lite",
     "question": "ec4a06ca5dbb"
    },
    "meta": {
-    "heard": "እዕት ረጅም ሰልፍ ተሰልፈን ቲኬት ቆረጥን።",
-    "score": 0.885
+    "heard": "ጣት ራጅም ሰልፍ ተሰልፈን ትኬት ኮራድን።",
+    "score": 0.784
    },
-   "created": "2026-11-25T21:13:01Z"
+   "created": "2026-11-25T22:12:31Z"
   },
   "s09_listen": {
-   "key": "94204a5c1d594ebd",
-   "file": "s09_listen__94204a5c1d594ebd.json",
+   "key": "4b249bb99042d11b",
+   "file": "s09_listen__4b249bb99042d11b.json",
    "fingerprint": {
     "v": 2,
-    "audio": "2bbb099ca0f4fd2c",
+    "audio": "e8c4b9b4214a7d41",
     "text": "ዛሬ ያንን የመጀመሪያ ሌሊት ሳስታውስ፣ ከቤቱ ለሚወጣ ሁሉ አንድ ነገር እላለሁ፦ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። አትሽሽ። አጣጥመው።",
     "model": "gemini-3.5-flash-lite",
     "question": "ec4a06ca5dbb"
    },
    "meta": {
-    "heard": "ዋሪ! ያንን የመጀመሪያ ሌሊት ሳስታውስ ከቤቱ ለሚወጣው ሁሉ አንድ ነገር እላለሁ። የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። አትሸሽ፣ አታጥመው።",
-    "score": 0.946
+    "heard": "ዛሬ አብራንን የመጀመሪያ ሌሊት ሳስታውስ ከቤቱ ለሚወጣው ሁሉ አንድ ነገር ላለው የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል አትሺሽ አጣጠሞው",
+    "score": 0.917
    },
-   "created": "2026-11-25T21:13:13Z"
+   "created": "2026-11-25T22:12:39Z"
   },
   "s01_tight": {
-   "key": "394b4a36f9b1e013",
-   "file": "s01_tight__394b4a36f9b1e013.wav",
+   "key": "eef7981fa53d64c0",
+   "file": "s01_tight__eef7981fa53d64c0.wav",
    "fingerprint": {
     "v": 2,
-    "audio": "843877a66e40c99a",
+    "audio": "6f97944e478b7091",
     "max_pause_s": 0.6,
     "silence": {
      "noise_db": -38,
@@ -285,18 +277,18 @@
     }
    },
    "meta": {
-    "seconds": 10.11,
-    "shortened": 3,
-    "removed_s": 1.39
+    "seconds": 7.2,
+    "shortened": 0,
+    "removed_s": 0.0
    },
-   "created": "2026-11-25T21:15:40Z"
+   "created": "2026-11-25T22:11:25Z"
   },
   "s02_tight": {
-   "key": "debb4f302571d8ce",
-   "file": "s02_tight__debb4f302571d8ce.wav",
+   "key": "e95da7bc108033ab",
+   "file": "s02_tight__e95da7bc108033ab.wav",
    "fingerprint": {
     "v": 2,
-    "audio": "7b45929f50e77dbe",
+    "audio": "52db967443b18789",
     "max_pause_s": 0.6,
     "silence": {
      "noise_db": -38,
@@ -304,18 +296,18 @@
     }
    },
    "meta": {
-    "seconds": 5.951,
-    "shortened": 3,
-    "removed_s": 0.679
+    "seconds": 3.92,
+    "shortened": 0,
+    "removed_s": 0.0
    },
-   "created": "2026-11-25T21:12:22Z"
+   "created": "2026-11-25T22:11:25Z"
   },
   "s03_tight": {
-   "key": "ca62bd6af2e229e6",
-   "file": "s03_tight__ca62bd6af2e229e6.wav",
+   "key": "ac0da12374c1b2a8",
+   "file": "s03_tight__ac0da12374c1b2a8.wav",
    "fingerprint": {
     "v": 2,
-    "audio": "19976a2292a9e68c",
+    "audio": "74df517893db35c4",
     "max_pause_s": 0.6,
     "silence": {
      "noise_db": -38,
@@ -323,18 +315,18 @@
     }
    },
    "meta": {
-    "seconds": 6.041,
-    "shortened": 2,
-    "removed_s": 0.619
+    "seconds": 5.54,
+    "shortened": 0,
+    "removed_s": 0.0
    },
-   "created": "2026-11-25T21:12:22Z"
+   "created": "2026-11-25T22:11:25Z"
   },
   "s04_tight": {
-   "key": "0f73efc6e1f4b04c",
-   "file": "s04_tight__0f73efc6e1f4b04c.wav",
+   "key": "7ef5b72811b4f551",
+   "file": "s04_tight__7ef5b72811b4f551.wav",
    "fingerprint": {
     "v": 2,
-    "audio": "0d1bcc2aacf32f77",
+    "audio": "3de35cc185ef31fb",
     "max_pause_s": 0.6,
     "silence": {
      "noise_db": -38,
@@ -342,18 +334,18 @@
     }
    },
    "meta": {
-    "seconds": 9.955,
-    "shortened": 2,
-    "removed_s": 0.295
+    "seconds": 7.37,
+    "shortened": 0,
+    "removed_s": 0.0
    },
-   "created": "2026-11-25T21:12:22Z"
+   "created": "2026-11-25T22:11:25Z"
   },
   "s06_tight": {
-   "key": "b66fc7df2dec71ee",
-   "file": "s06_tight__b66fc7df2dec71ee.wav",
+   "key": "65424e2e42a26fac",
+   "file": "s06_tight__65424e2e42a26fac.wav",
    "fingerprint": {
     "v": 2,
-    "audio": "f2d268d767546b08",
+    "audio": "1486791f795fd9c5",
     "max_pause_s": 0.6,
     "silence": {
      "noise_db": -38,
@@ -361,18 +353,18 @@
     }
    },
    "meta": {
-    "seconds": 9.85,
+    "seconds": 8.42,
     "shortened": 0,
     "removed_s": 0.0
    },
-   "created": "2026-11-25T21:12:22Z"
+   "created": "2026-11-25T22:11:25Z"
   },
   "s07_tight": {
-   "key": "8e64c4c00abad08a",
-   "file": "s07_tight__8e64c4c00abad08a.wav",
+   "key": "386869456f8a8af5",
+   "file": "s07_tight__386869456f8a8af5.wav",
    "fingerprint": {
     "v": 2,
-    "audio": "38949c2de34ad0af",
+    "audio": "0a307d6b53f3cf25",
     "max_pause_s": 0.6,
     "silence": {
      "noise_db": -38,
@@ -380,37 +372,18 @@
     }
    },
    "meta": {
-    "seconds": 6.418,
-    "shortened": 1,
-    "removed_s": 0.272
-   },
-   "created": "2026-11-25T21:12:22Z"
-  },
-  "s08_tight": {
-   "key": "770c4bbfc27b1542",
-   "file": "s08_tight__770c4bbfc27b1542.wav",
-   "fingerprint": {
-    "v": 2,
-    "audio": "b2e20b3a4cd9521c",
-    "max_pause_s": 0.6,
-    "silence": {
-     "noise_db": -38,
-     "min_s": 0.25
-    }
-   },
-   "meta": {
-    "seconds": 4.11,
+    "seconds": 5.06,
     "shortened": 0,
     "removed_s": 0.0
    },
-   "created": "2026-11-25T21:12:22Z"
+   "created": "2026-11-25T22:11:25Z"
   },
-  "s09_tight": {
-   "key": "3eac3ddd1051690d",
-   "file": "s09_tight__3eac3ddd1051690d.wav",
+  "s08_tight": {
+   "key": "f2671d0ec263dd15",
+   "file": "s08_tight__f2671d0ec263dd15.wav",
    "fingerprint": {
     "v": 2,
-    "audio": "2c588baed78ae245",
+    "audio": "beff50a521bf813b",
     "max_pause_s": 0.6,
     "silence": {
      "noise_db": -38,
@@ -418,11 +391,30 @@
     }
    },
    "meta": {
-    "seconds": 10.866,
-    "shortened": 1,
-    "removed_s": 0.114
+    "seconds": 3.58,
+    "shortened": 0,
+    "removed_s": 0.0
    },
-   "created": "2026-11-25T21:12:22Z"
+   "created": "2026-11-25T22:11:25Z"
+  },
+  "s09_tight": {
+   "key": "deaf4e222b4b7fcc",
+   "file": "s09_tight__deaf4e222b4b7fcc.wav",
+   "fingerprint": {
+    "v": 2,
+    "audio": "e8c4b9b4214a7d41",
+    "max_pause_s": 0.6,
+    "silence": {
+     "noise_db": -38,
+     "min_s": 0.25
+    }
+   },
+   "meta": {
+    "seconds": 9.09,
+    "shortened": 0,
+    "removed_s": 0.0
+   },
+   "created": "2026-11-25T22:11:25Z"
   }
  },
  "entries": {
@@ -1061,6 +1053,806 @@
    "meta": {
     "heard": "መስከረም 2012 እኩል ዕለት ላይ ከአንኮበር ተነሳው። አንድ የጀርባ ቦርሳ ብቻ ይዤ አንድጓደኛዬ ሸኘኝ።",
     "score": 0.797
+   }
+  },
+  "c877a6560bbb58ac": {
+   "unit": "s01",
+   "file": "s01__c877a6560bbb58ac.wav",
+   "meta": {
+    "seconds": 8.11,
+    "from_take": false
+   }
+  },
+  "9d5b9be609cb4e32": {
+   "unit": "s02",
+   "file": "s02__9d5b9be609cb4e32.wav",
+   "meta": {
+    "seconds": 4.35,
+    "from_take": false
+   }
+  },
+  "0801a80a8a4eb5fa": {
+   "unit": "s03",
+   "file": "s03__0801a80a8a4eb5fa.wav",
+   "meta": {
+    "seconds": 5.25,
+    "from_take": false
+   }
+  },
+  "7a54d8afeddb22dc": {
+   "unit": "s04",
+   "file": "s04__7a54d8afeddb22dc.wav",
+   "meta": {
+    "seconds": 8.11,
+    "from_take": false
+   }
+  },
+  "1c7cb1bdf31ab679": {
+   "unit": "s06",
+   "file": "s06__1c7cb1bdf31ab679.wav",
+   "meta": {
+    "seconds": 10.09,
+    "from_take": false
+   }
+  },
+  "818e11478e6b81f3": {
+   "unit": "s07",
+   "file": "s07__818e11478e6b81f3.wav",
+   "meta": {
+    "seconds": 5.62,
+    "from_take": false
+   }
+  },
+  "9d44eb193b774cbe": {
+   "unit": "s08",
+   "file": "s08__9d44eb193b774cbe.wav",
+   "meta": {
+    "seconds": 4.23,
+    "from_take": false
+   }
+  },
+  "c791767bee2eb0b7": {
+   "unit": "s09",
+   "file": "s09__c791767bee2eb0b7.wav",
+   "meta": {
+    "seconds": 10.01,
+    "from_take": false
+   }
+  },
+  "ff9e6e84012ba1e1": {
+   "unit": "s01_tight",
+   "file": "s01_tight__ff9e6e84012ba1e1.wav",
+   "meta": {
+    "seconds": 8.11,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "9400fb1287a6ccf7": {
+   "unit": "s02_tight",
+   "file": "s02_tight__9400fb1287a6ccf7.wav",
+   "meta": {
+    "seconds": 4.35,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "86760f8e8d82a9e4": {
+   "unit": "s03_tight",
+   "file": "s03_tight__86760f8e8d82a9e4.wav",
+   "meta": {
+    "seconds": 5.25,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "82f5be70cbea07c3": {
+   "unit": "s04_tight",
+   "file": "s04_tight__82f5be70cbea07c3.wav",
+   "meta": {
+    "seconds": 8.11,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "c4738fe4e1679408": {
+   "unit": "s06_tight",
+   "file": "s06_tight__c4738fe4e1679408.wav",
+   "meta": {
+    "seconds": 10.09,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "4b5f00d4a52dc0b0": {
+   "unit": "s07_tight",
+   "file": "s07_tight__4b5f00d4a52dc0b0.wav",
+   "meta": {
+    "seconds": 5.62,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "5247e2f662c8a686": {
+   "unit": "s08_tight",
+   "file": "s08_tight__5247e2f662c8a686.wav",
+   "meta": {
+    "seconds": 4.23,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "91fedb34c51edc46": {
+   "unit": "s09_tight",
+   "file": "s09_tight__91fedb34c51edc46.wav",
+   "meta": {
+    "seconds": 10.01,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "13523ff09bcac099": {
+   "unit": "s01_listen",
+   "file": "s01_listen__13523ff09bcac099.json",
+   "meta": {
+    "heard": "መስከረም 2012 እኩለ ቀን ላይ ካንኮበር ተነስተው አንድ የጀርባ ቦርሳ ብቻ ይዘው አንድጓደኛ ይጰጟኝ",
+    "score": 0.739
+   }
+  },
+  "7f2dc5fde274a3c6": {
+   "unit": "s02_listen",
+   "file": "s02_listen__7f2dc5fde274a3c6.json",
+   "meta": {
+    "heard": "ከስካዴቨለፕመንት እስከ ፒስታ መንገድ ከዛ በኋላ አስፓልት",
+    "score": 0.613
+   }
+  },
+  "8a5eaadab04d4b07": {
+   "unit": "s03_listen",
+   "file": "s03_listen__8a5eaadab04d4b07.json",
+   "meta": {
+    "heard": "በመስኮት በኩል ተቀምጡ ውጩ ደንና ተራራ ብቻ እየተዋስ ደነገኝ።",
+    "score": 0.765
+   }
+  },
+  "55f12d16f96082c0": {
+   "unit": "s04_listen",
+   "file": "s04_listen__55f12d16f96082c0.json",
+   "meta": {
+    "heard": "ლამბერት የደረስኩት ከመሸዋና ነው ጓደኛዬ እዚያው ጠበቀኝ ሰው መውራት መኪና ሆርዱን በአንድ ጊዜ",
+    "score": 0.8
+   }
+  },
+  "25f75bf1cf433313": {
+   "unit": "s06_listen",
+   "file": "s06_listen__25f75bf1cf433313.json",
+   "meta": {
+    "heard": "ሀይወስትራ ሲነደርስ ደላሉች ከበውን አልጋ ትፈልጋላችሁ? አልጋ ከያገባታው ግራ ገባን በመጨረሻ አንዱን መረጠን",
+    "score": 0.791
+   }
+  },
+  "d65541023d157489": {
+   "unit": "s07_listen",
+   "file": "s07_listen__d65541023d157489.json",
+   "meta": {
+    "heard": "ቅፍሉባላ አንዳልጋ በጣም ጥሩ አይደለም እንዴ መጥፎም አይደለም ግን ንጹህ",
+    "score": 0.835
+   }
+  },
+  "53b22cdf16e5d9ff": {
+   "unit": "s08_listen",
+   "file": "s08_listen__53b22cdf16e5d9ff.json",
+   "meta": {
+    "heard": "3 ረጅም ሳልፍ ተሰንፈን ትኬት ቆረጥን።",
+    "score": 0.84
+   }
+  },
+  "eb4c7e96f850b05b": {
+   "unit": "s09_listen",
+   "file": "s09_listen__eb4c7e96f850b05b.json",
+   "meta": {
+    "heard": "ዛሬ፣ ለእኔ የመጀመሪያ ሌሊት ሰአት አውስ ከቤቱ ለሚወጣ ሁሉ አንድ ነገር ላለው፣ የመጀመሪያው ሌሊት ሁሌም ግራ አጋባል፣ አትሽሽ፣ አታጥመው።",
+    "score": 0.874
+   }
+  },
+  "214c025c6697464c": {
+   "unit": "s01",
+   "file": "s01__214c025c6697464c.wav",
+   "meta": {
+    "seconds": 7.72,
+    "from_take": false
+   }
+  },
+  "b9d39cf8a7dd6f6d": {
+   "unit": "s02",
+   "file": "s02__b9d39cf8a7dd6f6d.wav",
+   "meta": {
+    "seconds": 3.98,
+    "from_take": false
+   }
+  },
+  "bae16a8569585905": {
+   "unit": "s03",
+   "file": "s03__bae16a8569585905.wav",
+   "meta": {
+    "seconds": 5.11,
+    "from_take": false
+   }
+  },
+  "57a20c9544644e82": {
+   "unit": "s04",
+   "file": "s04__57a20c9544644e82.wav",
+   "meta": {
+    "seconds": 8.01,
+    "from_take": false
+   }
+  },
+  "33ba5cd51a053c5d": {
+   "unit": "s06",
+   "file": "s06__33ba5cd51a053c5d.wav",
+   "meta": {
+    "seconds": 8.99,
+    "from_take": false
+   }
+  },
+  "9a87f7446844a6c2": {
+   "unit": "s07",
+   "file": "s07__9a87f7446844a6c2.wav",
+   "meta": {
+    "seconds": 4.36,
+    "from_take": false
+   }
+  },
+  "7df656037d1198dd": {
+   "unit": "s08",
+   "file": "s08__7df656037d1198dd.wav",
+   "meta": {
+    "seconds": 3.41,
+    "from_take": false
+   }
+  },
+  "e1d8279097ab4c53": {
+   "unit": "s09",
+   "file": "s09__e1d8279097ab4c53.wav",
+   "meta": {
+    "seconds": 9.11,
+    "from_take": false
+   }
+  },
+  "78839115b5ab69cf": {
+   "unit": "s01_tight",
+   "file": "s01_tight__78839115b5ab69cf.wav",
+   "meta": {
+    "seconds": 7.72,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "5f1cb32b8e69835a": {
+   "unit": "s02_tight",
+   "file": "s02_tight__5f1cb32b8e69835a.wav",
+   "meta": {
+    "seconds": 3.98,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "a9a7bdda5008fadd": {
+   "unit": "s03_tight",
+   "file": "s03_tight__a9a7bdda5008fadd.wav",
+   "meta": {
+    "seconds": 5.11,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "5feaf0d5a2dd3513": {
+   "unit": "s04_tight",
+   "file": "s04_tight__5feaf0d5a2dd3513.wav",
+   "meta": {
+    "seconds": 8.01,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "a53b773d846e1be1": {
+   "unit": "s06_tight",
+   "file": "s06_tight__a53b773d846e1be1.wav",
+   "meta": {
+    "seconds": 8.99,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "6d7a33b4727037e1": {
+   "unit": "s07_tight",
+   "file": "s07_tight__6d7a33b4727037e1.wav",
+   "meta": {
+    "seconds": 4.36,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "9b965f12ba0ffdbc": {
+   "unit": "s08_tight",
+   "file": "s08_tight__9b965f12ba0ffdbc.wav",
+   "meta": {
+    "seconds": 3.41,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "9ce9da5028df8a0a": {
+   "unit": "s09_tight",
+   "file": "s09_tight__9ce9da5028df8a0a.wav",
+   "meta": {
+    "seconds": 9.11,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "e4745637fb49b8bb": {
+   "unit": "s01_listen",
+   "file": "s01_listen__e4745637fb49b8bb.json",
+   "meta": {
+    "heard": "መሰከረም ሁለት ሺህ አስራ ሁለት እኩለ ቀን ላይ ካንኮበር ተነሳሁ። አንዲጀርባ ቦርሳ ብቻ ይዤ አንዲጓደኛዬ ሸኘኝ።",
+    "score": 0.903
+   }
+  },
+  "96c9fd1a35315e04": {
+   "unit": "s02_listen",
+   "file": "s02_listen__96c9fd1a35315e04.json",
+   "meta": {
+    "heard": "እስከ ደብረ ብርሃን ድረስ ፒስታ መንገድ ከዚያ በኋላ አስፋልት",
+    "score": 1.0
+   }
+  },
+  "5aced9f907541586": {
+   "unit": "s03_listen",
+   "file": "s03_listen__5aced9f907541586.json",
+   "meta": {
+    "heard": "በማስኮብ ውስጥ የተቃመጠው ውጪው ደን እና ተራራ ብቻ እይታው አስደናቂ ነው።",
+    "score": 0.719
+   }
+  },
+  "46fe7d4766e3fab2": {
+   "unit": "s04_listen",
+   "file": "s04_listen__46fe7d4766e3fab2.json",
+   "meta": {
+    "heard": "ላምበርት የደረስኩት ከመሸ በኋላ ነው ጓደኛዬ እዚያው ጠበቀኝ ሰው, መብራት, መኪና, ሁሉም በአንድ ጊዜ",
+    "score": 0.984
+   }
+  },
+  "336e6678b6699cd7": {
+   "unit": "s06_listen",
+   "file": "s06_listen__336e6678b6699cd7.json",
+   "meta": {
+    "heard": "አውቶቡስ ተራ ስንደርስ ደላሎች ከበቡን አልጋ ትፈልጋላችሁ አልጋ ከእያቅጣጫው ግራገባን በመጨረሻ አንዱን መረጠን",
+    "score": 0.95
+   }
+  },
+  "9be0c920e95a74da": {
+   "unit": "s07_listen",
+   "file": "s07_listen__9be0c920e95a74da.json",
+   "meta": {
+    "heard": "ቀፉሉ ራዳ አንደለጋ በት አምጥሮ አይደለም መጥፎም አይደለም ግን እሱ",
+    "score": 0.705
+   }
+  },
+  "1d410eacf63ab72d": {
+   "unit": "s08_listen",
+   "file": "s08_listen__1d410eacf63ab72d.json",
+   "meta": {
+    "heard": "ጣት ረጅም ሰልፍ ተሰልፈን ትኬት ቁጥር 10",
+    "score": 0.792
+   }
+  },
+  "2fbd88e13fd0b4ee": {
+   "unit": "s09_listen",
+   "file": "s09_listen__2fbd88e13fd0b4ee.json",
+   "meta": {
+    "heard": "እዳሪ ያንን የመጀመሪያ ሌሊት ሳስታውስ ከቤቱ ለሚወጣው ሁሉ አንድ ነገር እላለሁ። የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባን። አትሺሽ አታትሞ።",
+    "score": 0.898
+   }
+  },
+  "02f8dcde8fdafb59": {
+   "unit": "s01",
+   "file": "s01__02f8dcde8fdafb59.wav",
+   "meta": {
+    "seconds": 7.5,
+    "from_take": false
+   }
+  },
+  "b157fb365cb1b224": {
+   "unit": "s02",
+   "file": "s02__b157fb365cb1b224.wav",
+   "meta": {
+    "seconds": 3.68,
+    "from_take": false
+   }
+  },
+  "8ea2640f767fd2f1": {
+   "unit": "s03",
+   "file": "s03__8ea2640f767fd2f1.wav",
+   "meta": {
+    "seconds": 5.55,
+    "from_take": false
+   }
+  },
+  "b1173e051ffd0cd2": {
+   "unit": "s04",
+   "file": "s04__b1173e051ffd0cd2.wav",
+   "meta": {
+    "seconds": 6.79,
+    "from_take": false
+   }
+  },
+  "162488391d0eccb7": {
+   "unit": "s06",
+   "file": "s06__162488391d0eccb7.wav",
+   "meta": {
+    "seconds": 8.09,
+    "from_take": false
+   }
+  },
+  "23e06ee7e7978ed6": {
+   "unit": "s07",
+   "file": "s07__23e06ee7e7978ed6.wav",
+   "meta": {
+    "seconds": 5.43,
+    "from_take": false
+   }
+  },
+  "af56f7ab6d07b1ee": {
+   "unit": "s08",
+   "file": "s08__af56f7ab6d07b1ee.wav",
+   "meta": {
+    "seconds": 3.2,
+    "from_take": false
+   }
+  },
+  "a2553149dd21c295": {
+   "unit": "s09",
+   "file": "s09__a2553149dd21c295.wav",
+   "meta": {
+    "seconds": 9.86,
+    "from_take": false
+   }
+  },
+  "ea07559cc6706a29": {
+   "unit": "s01_tight",
+   "file": "s01_tight__ea07559cc6706a29.wav",
+   "meta": {
+    "seconds": 7.5,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "3c503afe7c8768fd": {
+   "unit": "s02_tight",
+   "file": "s02_tight__3c503afe7c8768fd.wav",
+   "meta": {
+    "seconds": 3.68,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "adda9dfbb35d0244": {
+   "unit": "s03_tight",
+   "file": "s03_tight__adda9dfbb35d0244.wav",
+   "meta": {
+    "seconds": 5.55,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "a5b46eb41f3f2405": {
+   "unit": "s04_tight",
+   "file": "s04_tight__a5b46eb41f3f2405.wav",
+   "meta": {
+    "seconds": 6.79,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "a6b01e5ce10089aa": {
+   "unit": "s06_tight",
+   "file": "s06_tight__a6b01e5ce10089aa.wav",
+   "meta": {
+    "seconds": 8.09,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "85ce1e7eb6640242": {
+   "unit": "s07_tight",
+   "file": "s07_tight__85ce1e7eb6640242.wav",
+   "meta": {
+    "seconds": 5.43,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "df57169c35299f69": {
+   "unit": "s08_tight",
+   "file": "s08_tight__df57169c35299f69.wav",
+   "meta": {
+    "seconds": 3.2,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "3e4b2b12618070d3": {
+   "unit": "s09_tight",
+   "file": "s09_tight__3e4b2b12618070d3.wav",
+   "meta": {
+    "seconds": 9.86,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "e3f8f70f20dd3cff": {
+   "unit": "s01_listen",
+   "file": "s01_listen__e3f8f70f20dd3cff.json",
+   "meta": {
+    "heard": "መስከረም ሁለት 2012 በኩለከን ላይካን ኮቨርት ተነሳሁ። አንዴ ጀርባ ቦርሳ ብቻ ይዤ አንድ ጓደኛዬ የሸኘኝ።",
+    "score": 0.78
+   }
+  },
+  "6799c8065d16b005": {
+   "unit": "s02_listen",
+   "file": "s02_listen__6799c8065d16b005.json",
+   "meta": {
+    "heard": "እስካብደብራን ድረስ ፒስታ መንገድ ከዚያ በኋላ አስፓልት",
+    "score": 0.838
+   }
+  },
+  "e3ea339b272d8ba9": {
+   "unit": "s03_listen",
+   "file": "s03_listen__e3ea339b272d8ba9.json",
+   "meta": {
+    "heard": "በመስኮት በኩል ተቀምጥኩ ውጪው ደንንና ተራራ ብቻ እያታዋስ ደነገጠኝ።",
+    "score": 0.847
+   }
+  },
+  "9f5f1386a021af95": {
+   "unit": "s04_listen",
+   "file": "s04_listen__9f5f1386a021af95.json",
+   "meta": {
+    "heard": "ላምባራጢ ተወለድኩ ከምሽት በኋላ ነው። ጓደኛዬ እዚያው ጠበቀኝ። ሰው መግዛት መኪና ሁሉም በአንድ ጊዜ",
+    "score": 0.806
+   }
+  },
+  "f6b3c6b67a59f56c": {
+   "unit": "s06_listen",
+   "file": "s06_listen__f6b3c6b67a59f56c.json",
+   "meta": {
+    "heard": "ሃውቱብስ ተመልካቾቻችን ደላሎች ከቦዙን አልጋ አትፈልጋላችሁ? አልጋ ከእያግባቻው ግራገባን በመጨረሻ አንዱን መረጠን",
+    "score": 0.746
+   }
+  },
+  "24e5ba34c1b07ede": {
+   "unit": "s07_listen",
+   "file": "s07_listen__24e5ba34c1b07ede.json",
+   "meta": {
+    "heard": "ፈፍሉባ ላይ አንድ አልጋ በጣም ትሏይ አይደለም መጥፎም አይደለም ግን ንፁህ",
+    "score": 0.826
+   }
+  },
+  "c75383c07fc012f8": {
+   "unit": "s08_listen",
+   "file": "s08_listen__c75383c07fc012f8.json",
+   "meta": {
+    "heard": "ኦት ሬድም ሰልፍ ተሰልፈን ቲክኬት ኩርደን።",
+    "score": 0.692
+   }
+  },
+  "f9d0efbfb072a689": {
+   "unit": "s09_listen",
+   "file": "s09_listen__f9d0efbfb072a689.json",
+   "meta": {
+    "heard": "ዛሬ ያንን የመጀመሪያ ሌሊት ሳታስብ ከቤቱ ለሚወጣ ሁሉ አንድ ነገር ላለው። የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። አትሽሽ አታትማውም።",
+    "score": 0.909
+   }
+  },
+  "7092815bc3352823": {
+   "unit": "s01",
+   "file": "s01__7092815bc3352823.wav",
+   "meta": {
+    "seconds": 7.2,
+    "from_take": false
+   }
+  },
+  "60be4ddbe6f10132": {
+   "unit": "s02",
+   "file": "s02__60be4ddbe6f10132.wav",
+   "meta": {
+    "seconds": 3.92,
+    "from_take": false
+   }
+  },
+  "daedb3f72bd58c2a": {
+   "unit": "s03",
+   "file": "s03__daedb3f72bd58c2a.wav",
+   "meta": {
+    "seconds": 5.54,
+    "from_take": false
+   }
+  },
+  "a0a0aed5e61b32c7": {
+   "unit": "s04",
+   "file": "s04__a0a0aed5e61b32c7.wav",
+   "meta": {
+    "seconds": 7.37,
+    "from_take": false
+   }
+  },
+  "0389927d534ad49a": {
+   "unit": "s06",
+   "file": "s06__0389927d534ad49a.wav",
+   "meta": {
+    "seconds": 8.42,
+    "from_take": false
+   }
+  },
+  "85b890c318907e36": {
+   "unit": "s07",
+   "file": "s07__85b890c318907e36.wav",
+   "meta": {
+    "seconds": 5.06,
+    "from_take": false
+   }
+  },
+  "fa291bc9c90c7e9f": {
+   "unit": "s08",
+   "file": "s08__fa291bc9c90c7e9f.wav",
+   "meta": {
+    "seconds": 3.58,
+    "from_take": false
+   }
+  },
+  "12a99098714bd826": {
+   "unit": "s09",
+   "file": "s09__12a99098714bd826.wav",
+   "meta": {
+    "seconds": 9.09,
+    "from_take": false
+   }
+  },
+  "eef7981fa53d64c0": {
+   "unit": "s01_tight",
+   "file": "s01_tight__eef7981fa53d64c0.wav",
+   "meta": {
+    "seconds": 7.2,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "e95da7bc108033ab": {
+   "unit": "s02_tight",
+   "file": "s02_tight__e95da7bc108033ab.wav",
+   "meta": {
+    "seconds": 3.92,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "ac0da12374c1b2a8": {
+   "unit": "s03_tight",
+   "file": "s03_tight__ac0da12374c1b2a8.wav",
+   "meta": {
+    "seconds": 5.54,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "7ef5b72811b4f551": {
+   "unit": "s04_tight",
+   "file": "s04_tight__7ef5b72811b4f551.wav",
+   "meta": {
+    "seconds": 7.37,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "65424e2e42a26fac": {
+   "unit": "s06_tight",
+   "file": "s06_tight__65424e2e42a26fac.wav",
+   "meta": {
+    "seconds": 8.42,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "386869456f8a8af5": {
+   "unit": "s07_tight",
+   "file": "s07_tight__386869456f8a8af5.wav",
+   "meta": {
+    "seconds": 5.06,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "f2671d0ec263dd15": {
+   "unit": "s08_tight",
+   "file": "s08_tight__f2671d0ec263dd15.wav",
+   "meta": {
+    "seconds": 3.58,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "deaf4e222b4b7fcc": {
+   "unit": "s09_tight",
+   "file": "s09_tight__deaf4e222b4b7fcc.wav",
+   "meta": {
+    "seconds": 9.09,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "69b8c2772c07163f": {
+   "unit": "s01_listen",
+   "file": "s01_listen__69b8c2772c07163f.json",
+   "meta": {
+    "heard": "እስከ መጋቢት 12 በኩልቀን ላይ ካንኮበር ተነሳው አንዴ የጀርባ ቦርሳ ብቻ ይዤ አንድ ጓደኛዬ የሸኘኝ",
+    "score": 0.754
+   }
+  },
+  "91197c933af191ee": {
+   "unit": "s02_listen",
+   "file": "s02_listen__91197c933af191ee.json",
+   "meta": {
+    "heard": "እስካደብረ ብርሃንድስ ፒስታ መንገድ ከዚያ በኋላ አስፋልት",
+    "score": 0.933
+   }
+  },
+  "8b45f96c7dc9e2d4": {
+   "unit": "s03_listen",
+   "file": "s03_listen__8b45f96c7dc9e2d4.json",
+   "meta": {
+    "heard": "በመሰረቱ ፈውል ተካመትኩ ውጩ ደነና ተራራ ብቻ እይታው አስገረቀኝ።",
+    "score": 0.723
+   }
+  },
+  "5ca0190843d98995": {
+   "unit": "s04_listen",
+   "file": "s04_listen__5ca0190843d98995.json",
+   "meta": {
+    "heard": "ላምባሪ ቲያትር አለስቁት ከመሸ በኋላ ነው ጓደኛዬ እዚያው ጠበቀኝ ሰው መውራት መኪና ሁሉም በአንድ ጊዜ",
+    "score": 0.866
+   }
+  },
+  "29a2ae59d816ce24": {
+   "unit": "s06_listen",
+   "file": "s06_listen__29a2ae59d816ce24.json",
+   "meta": {
+    "heard": "አውቶቡስ ተራ ስንደርስ ደላሎች ከበቡን አልጋ ትፈልጋላችሁ? አልጋ ኪያቅ ፓቻው ገባን በመጨረሻ አንዱን መረጥን።",
+    "score": 0.906
+   }
+  },
+  "1bb559bb82d49636": {
+   "unit": "s07_listen",
+   "file": "s07_listen__1bb559bb82d49636.json",
+   "meta": {
+    "heard": "ከፉ ልባለ አንዳልጋ፣ በጣም ጥሩ አይደለምት። መጥፎም አይደለም። ግን እሱህ",
+    "score": 0.809
+   }
+  },
+  "78b20700511771d4": {
+   "unit": "s08_listen",
+   "file": "s08_listen__78b20700511771d4.json",
+   "meta": {
+    "heard": "ጣት ራጅም ሰልፍ ተሰልፈን ትኬት ኮራድን።",
+    "score": 0.784
+   }
+  },
+  "4b249bb99042d11b": {
+   "unit": "s09_listen",
+   "file": "s09_listen__4b249bb99042d11b.json",
+   "meta": {
+    "heard": "ዛሬ አብራንን የመጀመሪያ ሌሊት ሳስታውስ ከቤቱ ለሚወጣው ሁሉ አንድ ነገር ላለው የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል አትሺሽ አጣጠሞው",
+    "score": 0.917
    }
   }
  }
