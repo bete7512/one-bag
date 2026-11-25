@@ -109,9 +109,11 @@ Request shapes were taken from each provider's documentation on 25 Nov 2026. The
 ## Sound
 
 1. Each narration line is placed on the timeline at its shot's start plus a short lead-in. Picture follows the voice: a shot lasts as long as its line needs and never less than its `min_duration_s`.
-2. Voice and score are first brought to known levels (voice -16 LUFS, score -24 LUFS), so the balance is a decision and not a repair.
-3. The score is ducked under the voice with FFmpeg's `sidechaincompress` (threshold 0.02, ratio 6, attack 300 ms, release 1500 ms).
-4. The mix is normalised in two passes with `loudnorm` to -14 LUFS. The true-peak target is -1.5 dB, which leaves room for the AAC encoder to stay under -1 dB.
+2. Voice and score are first brought to known levels (voice -16 LUFS, score -24 LUFS), so the balance is a decision and not a repair. Each narration line is levelled on its own: lines that come from different speech requests differed by 4 dB in the first mix.
+3. The score is ducked under the voice with FFmpeg's `sidechaincompress` (threshold 0.02, ratio 6, attack 300 ms, release 1500 ms). Both of its inputs are cut into blocks of 1024 samples first: with blocks of different sizes a FLAC score came out 1.3 s short.
+4. The mix is normalised in two passes with `loudnorm` to -14 LUFS. The true-peak target is -1.5 dB, which leaves room for the AAC encoder to stay under -1 dB. `loudnorm` only applies one fixed gain when the peaks allow it, and otherwise rides the gain up and down without saying so. So samples stay in float up to this point, the few peaks that are in the way are limited first, and the gain that follows is fixed. The index of the mix says which way it went (`normalised`).
+
+Steps 2 to 4 were rewritten after the mix was measured (E12 in `EXPERIMENTS.md`).
 
 ## Picture
 
@@ -134,7 +136,7 @@ Options I considered:
 | Horizontal master, crop for vertical | 1x | Vertical loses two thirds of the frame |
 | **Square master, crop both ways** | 1x | Each export keeps 56% of the frame, full-bleed in both |
 
-I chose the square master (1024 x 1024). Every keyframe prompt puts the subject in the centre, and the style block says so, which is what makes a centre crop safe. The rule is in code, not in my head: when a crop would lose more than 45% of a clip it is placed over a blurred copy of itself instead. With square clips that rule never fires, but it protects the film if a clip comes back in another shape.
+I chose the square master (1024 x 1024). Every keyframe prompt puts the subject in the centre, and the style block says so, which is what makes a centre crop safe from side to side. From top to bottom it was not: the wide film keeps the middle band of the square, and a standing figure lost its head there. So a shot can say where its subject sits (`keyframe.focus_y`, 0 for the top, 1 for the bottom), and the crop keeps that part. The rule is in code, not in my head: when a crop would lose more than 45% of a clip it is placed over a blurred copy of itself instead. With square clips that rule never fires, but it protects the film if a clip comes back in another shape.
 
 The price is sharpness: the vertical export enlarges a 576-pixel-wide crop to 1080. A painted, grainy look hides that better than a photographic one would, which is one reason for the style. Whether viewers notice is an open question, and it is on the experiment list.
 
