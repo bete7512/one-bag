@@ -183,7 +183,7 @@ What I think the cause is, from the order of the script and not from a measureme
 
 What was done:
 
-1. The clip that was lost was sent again as a job of its own, which is the order that had just worked. [Result to be added when the run ends.]
+1. The clip that was lost was sent again as a job of its own, which is the order that had just worked. It ran: 890.4 s, the same 13.45 GB at the peak (`runs.jsonl`, unit `s05_wan`, run `20261125T190635Z-9cb56a`).
 2. For a job of several clips the script now encodes every prompt before the first clip and then drops the text encoder for good (`kaggle/wan22_i2v.py`). This is not proven yet: no job of several clips has run since.
 
 What it cost: the 14 minutes of the second clip were never spent. The cost is the second trip through Kaggle's queue.

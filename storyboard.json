@@ -167,7 +167,7 @@
         "prompt": "An abstract painting of night city lights far out of focus, with no person, no figure and no object in it. The lights themselves are the subject: large soft round glows of amber, white, red and teal scattered over the whole frame on a dark blue-black ground, a few of them stretched sideways into short streaks by movement.",
         "seed": 105
       },
-      "motion": {"backend": "wan", "camera": "pan_right", "prompt": "City lights streak slowly past the window and reflections slide across the glass.", "seed": 205},
+      "motion": {"backend": "kenburns", "camera": "pan_right", "prompt": "City lights streak slowly past the window and reflections slide across the glass.", "seed": 205},
       "narration": null,
       "review": {"confirmed": false, "note": "To check with Bete: that he and his friend went on from Lamberet to Autobus Tera the same night. He was not sure about the taxi, so no vehicle is named or shown from outside."}
     },

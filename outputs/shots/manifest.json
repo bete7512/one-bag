@@ -183,6 +183,28 @@
     "latency_s": 820.7
    },
    "created": "2026-11-25T18:43:31Z"
+  },
+  "s05_wan": {
+   "key": "311b7a4f6fccfd01",
+   "file": "s05_wan__311b7a4f6fccfd01.mp4",
+   "fingerprint": {
+    "v": 1,
+    "keyframe": "bc3a749532d55645",
+    "prompt": "City lights streak slowly past the window and reflections slide across the glass.",
+    "negative": "text, letters, signs with writing, watermark, logo, photorealistic, extra fingers",
+    "seed": 205,
+    "model": "Wan-AI/Wan2.2-TI2V-5B-Diffusers",
+    "max_area": 399360,
+    "num_frames": 81,
+    "steps": 30,
+    "guidance": 5.0
+   },
+   "meta": {
+    "seconds": 3.375,
+    "source": "kaggle",
+    "latency_s": 890.4
+   },
+   "created": "2026-11-25T19:06:44Z"
   }
  },
  "entries": {
@@ -265,6 +287,15 @@
     "seconds": 3.375,
     "source": "kaggle",
     "latency_s": 820.7
+   }
+  },
+  "311b7a4f6fccfd01": {
+   "unit": "s05_wan",
+   "file": "s05_wan__311b7a4f6fccfd01.mp4",
+   "meta": {
+    "seconds": 3.375,
+    "source": "kaggle",
+    "latency_s": 890.4
    }
   }
  }
