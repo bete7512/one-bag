@@ -1,137 +1,137 @@
 {
  "units": {
   "s01_subtitle_check": {
-   "key": "deaa0de5516ef046",
-   "file": "s01_subtitle_check__deaa0de5516ef046.json",
+   "key": "96d681f5f73515ca",
+   "file": "s01_subtitle_check__96d681f5f73515ca.json",
    "fingerprint": {
     "v": 1,
     "check": 2,
-    "text": "ጉዞዬ የተጀመረው ከአንኮበር ነው፤ አንድ የጀርባ ቦርሳ እና በጥያቄ የተሞላ ሐሳብ ብቻ ይዤ።",
-    "subtitle": "My journey began in Ankober; with only one backpack and a mind full of questions.",
+    "text": "አሥራ ሁለተኛ ክፍልን እንደጨረስኩ ባሕር ዳር ዩኒቨርሲቲ ተመደብኩ። እኩለ ቀን ላይ፣ አንድ የጀርባ ቦርሳ ብቻ ይዤ፣ ጓደኛዬ ሸኝቶኝ ከአንኮበር ተነሳሁ።",
+    "subtitle": "When I finished twelfth grade, I was assigned to Bahir Dar University. At midday, with just one backpack, seen off by my friend, I left Ankober.",
     "from": "am",
     "to": "en",
     "model": "claude-opus-5-5"
    },
    "meta": {
-    "literal": "My journey began from Ankober, carrying only one backpack and a mind filled with questions.",
+    "literal": "As soon as I finished twelfth grade, I was assigned to Bahir Dar University. At midday, carrying only one backpack, with my friend seeing me off, I set out from Ankober.",
     "faithful": true,
     "differences": []
    },
-   "created": "2026-11-25T23:22:27Z"
+   "created": "2026-11-25T23:49:58Z"
   },
   "s03_subtitle_check": {
-   "key": "49a2e3c387653d8b",
-   "file": "s03_subtitle_check__49a2e3c387653d8b.json",
+   "key": "3d344bb100b01963",
+   "file": "s03_subtitle_check__3d344bb100b01963.json",
    "fingerprint": {
     "v": 1,
     "check": 2,
-    "text": "በመስኮት ስመለከት መንገዱና መልክአ ምድሩ እየተቀያየረ ሄደ፤ ደንና ተራሮች፣ ሸለቆዎች እና የሚዘረጉ መንገዶች።",
-    "subtitle": "As I looked out of the window, the road and the landscape kept changing; forest and mountains, valleys and roads stretching away.",
+    "text": "መስኮት ዳር ተቀምጬ ደኑንና ተራራውን በመደነቅ እመለከት ነበር።",
+    "subtitle": "Sitting by the window, I watched the forest and the mountain in wonder.",
     "from": "am",
     "to": "en",
     "model": "claude-opus-5-5"
    },
    "meta": {
-    "literal": "As I looked through the window, the road and the landscape kept changing; forest and mountains, valleys and stretching roads.",
+    "literal": "Sitting by the window, I was watching the forest and the mountain in wonder.",
     "faithful": true,
     "differences": []
    },
-   "created": "2026-11-25T23:22:32Z"
+   "created": "2026-11-25T23:50:04Z"
   },
   "s04_subtitle_check": {
-   "key": "c3977ada78011881",
-   "file": "s04_subtitle_check__c3977ada78011881.json",
+   "key": "59f2f576dffe3ef7",
+   "file": "s04_subtitle_check__59f2f576dffe3ef7.json",
    "fingerprint": {
     "v": 1,
     "check": 2,
-    "text": "አውቶቡስ ተራ ስደርስ አመሻሽ ነበር፤ ጓደኛዬ እዚያው ተቀበለኝ።",
-    "subtitle": "It was dusk when I reached Autobus Tera; my friend met me there.",
+    "text": "ከመሸ በኋላ ላምበረት ስደርስ ሌላ ጓደኛዬ ይጠብቀኝ ነበር። አዲስ አበባ በሰው፣ በመብራትና በመኪና ተጥለቅልቃ ተቀበለችኝ፤ ወዴት እንደምመለከት ጠፋኝ።",
+    "subtitle": "When I reached Lamberet after dark, another friend was waiting for me. Addis Ababa met me flooded with people, lights and cars; I did not know where to look.",
     "from": "am",
     "to": "en",
     "model": "claude-opus-5-5"
    },
    "meta": {
-    "literal": "When I arrived at Autobus Tera it was dusk; my friend met me right there.",
+    "literal": "When I arrived at Lamberet after it got dark, another friend of mine was waiting for me. Addis Ababa received me flooded with people, lights and cars; I lost track of where to look.",
     "faithful": true,
     "differences": []
    },
-   "created": "2026-11-25T23:22:35Z"
+   "created": "2026-11-25T23:50:07Z"
   },
   "s05_subtitle_check": {
-   "key": "7fe5dc38f08c577a",
-   "file": "s05_subtitle_check__7fe5dc38f08c577a.json",
+   "key": "4173b53d1963f8e3",
+   "file": "s05_subtitle_check__4173b53d1963f8e3.json",
    "fingerprint": {
     "v": 1,
     "check": 2,
-    "text": "ሰው በየአቅጣጫው ይንቀሳቀሳል፣ መኪኖች ያልፋሉ፣ ደላሎችም «አልጋ ትፈልጋላችሁ?» እያሉ ይጠይቃሉ።",
-    "subtitle": "People move every way, cars pass, and brokers ask, \"Do you want a bed?\"",
+    "text": "አውቶቡስ ተራ ስንደርስ ደግሞ ደላሎች ከበቡን።",
+    "subtitle": "And when we reached Autobus Tera, brokers surrounded us.",
     "from": "am",
     "to": "en",
     "model": "claude-opus-5-5"
    },
    "meta": {
-    "literal": "People move in every direction, cars pass by, and brokers ask, saying, \"Do you want a bed?\"",
+    "literal": "And when we reached Autobus Tera, brokers surrounded us.",
     "faithful": true,
     "differences": []
    },
-   "created": "2026-11-25T23:22:38Z"
+   "created": "2026-11-25T23:50:08Z"
   },
   "s06_subtitle_check": {
-   "key": "9f01142cfd456ba6",
-   "file": "s06_subtitle_check__9f01142cfd456ba6.json",
+   "key": "c2ce562bb8dad7e8",
+   "file": "s06_subtitle_check__c2ce562bb8dad7e8.json",
    "fingerprint": {
     "v": 1,
     "check": 2,
-    "text": "ለአፍታ ሁሉም ነገር በአንድ ጊዜ የበዛና ግራ የሚያጋባ መሰለኝ።",
-    "subtitle": "For a moment everything seemed too much at once, and confusing.",
+    "text": "«አልጋ ትፈልጋላችሁ? አልጋ?» ማንን እንደምንሰማ ግራ ገባን። በመጨረሻ አንዱን ተከተልን።",
+    "subtitle": "\"Do you want a bed? A bed?\" We were confused about whom to hear. In the end we followed one.",
     "from": "am",
     "to": "en",
     "model": "claude-opus-5-5"
    },
    "meta": {
-    "literal": "For a moment, it seemed to me that everything was too much all at once and confusing.",
+    "literal": "\"Do you want a bed? A bed?\" We were confused about whom to listen to. In the end we followed one of them.",
     "faithful": true,
     "differences": []
    },
-   "created": "2026-11-25T23:22:41Z"
+   "created": "2026-11-25T23:50:11Z"
   },
   "s07_subtitle_check": {
-   "key": "46af66793f790c03",
-   "file": "s07_subtitle_check__46af66793f790c03.json",
+   "key": "feecc4849bcdfd97",
+   "file": "s07_subtitle_check__feecc4849bcdfd97.json",
    "fingerprint": {
     "v": 1,
     "check": 2,
-    "text": "በመጨረሻ ባለ አንድ አልጋ ክፍል መረጥን፤ በጣም ምርጥ አልነበረም፣ መጥፎም አልነበረም—ግን ለማረፍ የሚበቃ ንጹሕ ነበር።",
-    "subtitle": "In the end we chose a room with one bed; it was not the best, and not bad, but clean enough to rest.",
+    "text": "ክፍሉ ባለ አንድ አልጋ ነበር፤ ጥሩም መጥፎም አልነበረም፤ ግን ንጹሕ ነበር።",
+    "subtitle": "The room had one bed; it was neither good nor bad; but it was clean.",
     "from": "am",
     "to": "en",
     "model": "claude-opus-5-5"
    },
    "meta": {
-    "literal": "In the end we chose a one-bed room; it was not the very best, and it was not bad either, but it was clean enough to rest.",
+    "literal": "The room was a single-bed room; it was neither good nor bad; but it was clean.",
     "faithful": true,
     "differences": []
    },
-   "created": "2026-11-25T23:22:44Z"
+   "created": "2026-11-25T23:50:13Z"
   },
   "s08_subtitle_check": {
-   "key": "1fd0af1469e33b32",
-   "file": "s08_subtitle_check__1fd0af1469e33b32.json",
+   "key": "6f5ef4731e0b9605",
+   "file": "s08_subtitle_check__6f5ef4731e0b9605.json",
    "fingerprint": {
     "v": 1,
     "check": 2,
-    "text": "በማግስቱ ጠዋት ጉዞውን ለመቀጠል ረጅም ሰልፍ ተሰልፈን ትኬት ቆረጥን።",
-    "subtitle": "Next morning, to continue the journey, we stood in a long queue and bought a ticket.",
+    "text": "በማግስቱ ጠዋት ረጅም ሰልፍ ተሰልፈን የባሕር ዳር ትኬት ቆረጥን።",
+    "subtitle": "Next morning we stood in a long queue and bought the ticket to Bahir Dar.",
     "from": "am",
     "to": "en",
     "model": "claude-opus-5-5"
    },
    "meta": {
-    "literal": "The next morning, to continue the journey, we lined up in a long queue and bought tickets.",
+    "literal": "The next morning, having lined up in a long queue, we bought a ticket for Bahir Dar.",
     "faithful": true,
     "differences": []
    },
-   "created": "2026-11-25T23:22:47Z"
+   "created": "2026-11-25T23:50:17Z"
   },
   "s10_subtitle_check": {
    "key": "f04e8fa959ee6463",
@@ -153,61 +153,61 @@
    "created": "2026-11-25T13:19:39Z"
   },
   "s02_subtitle_check": {
-   "key": "0958f7084212c05e",
-   "file": "s02_subtitle_check__0958f7084212c05e.json",
+   "key": "1a3a8a12f41caed7",
+   "file": "s02_subtitle_check__1a3a8a12f41caed7.json",
    "fingerprint": {
     "v": 1,
     "check": 2,
-    "text": "መጀመሪያ ወደ ደብረ ብርሃን፣ ቀጥሎ ወደ አዲስ አበባ፣ በመጨረሻም ወደ ባሕር ዳር።",
-    "subtitle": "First to Debre Birhan, then to Addis Ababa, and finally to Bahir Dar.",
+    "text": "መንገዱ እስከ ደብረ ብርሃን ፒስታ፣ ከዚያ አስፋልት ነበር።",
+    "subtitle": "The road was gravel as far as Debre Birhan, then asphalt.",
     "from": "am",
     "to": "en",
     "model": "claude-opus-5-5"
    },
    "meta": {
-    "literal": "First to Debre Birhan, next to Addis Ababa, and finally to Bahir Dar.",
+    "literal": "The road was gravel (dirt) as far as Debre Birhan, then it was asphalt.",
     "faithful": true,
     "differences": []
    },
-   "created": "2026-11-25T23:22:29Z"
+   "created": "2026-11-25T23:50:01Z"
   },
   "s09_subtitle_check": {
-   "key": "6cc802cea8eed2be",
-   "file": "s09_subtitle_check__6cc802cea8eed2be.json",
+   "key": "ffdc6c5a198e5b02",
+   "file": "s09_subtitle_check__ffdc6c5a198e5b02.json",
    "fingerprint": {
     "v": 1,
     "check": 2,
-    "text": "ያንን ከቤት የወጣሁበትን የመጀመሪያ ሌሊት ሳስታውስ፣ ከተለመደው ዓለም ወጥቶ አዲስ ጉዞ ለሚጀምር ሁሉ የምለው አንድ ነገር አለ፦ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። አትሸሽ። አጣጥመው።",
-    "subtitle": "When I remember that first night away from home, I say one thing to all who leave the familiar world and start a new journey: the first night is always confusing. Do not run. Savour it.",
+    "text": "ዛሬ፣ ከሰባት ዓመት በኋላ፣ ከቤቱ ለሚወጣ ሁሉ የምለው አንድ ነገር አለኝ፦ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። ግራ መጋባቱ ግን የጉዞው አካል ነው። አትሽሸው፤ አጣጥመው።",
+    "subtitle": "Today, seven years later, I have one thing to say to all who leave home: the first night is always confusing. But the confusion is part of the journey. Do not run from it; savour it.",
     "from": "am",
     "to": "en",
     "model": "claude-opus-5-5"
    },
    "meta": {
-    "literal": "When I remember that first night I left home, there is one thing I say to everyone who leaves the familiar world and begins a new journey: the first night is always confusing. Do not flee. Savour it.",
+    "literal": "Today, seven years later, I have one thing I say to everyone who leaves home: the first night is always confusing. But the confusion is part of the journey. Do not flee from it; savour it.",
     "faithful": true,
     "differences": []
    },
-   "created": "2026-11-25T23:22:50Z"
+   "created": "2026-11-25T23:50:21Z"
   },
   "s00_subtitle_check": {
-   "key": "80c41c555938d044",
-   "file": "s00_subtitle_check__80c41c555938d044.json",
+   "key": "9bd2704fbfcde66c",
+   "file": "s00_subtitle_check__9bd2704fbfcde66c.json",
    "fingerprint": {
     "v": 1,
     "check": 2,
-    "text": "አሥራ ሁለተኛ ክፍልን እንደጨረስኩ ባሕር ዳር ዩኒቨርሲቲ ተመደብኩ፤ ያኔውኑ አዲስ ምዕራፍ ተጀመረ።",
-    "subtitle": "When I finished twelfth grade, I was assigned to Bahir Dar University; right then a new chapter began.",
+    "text": "ከቤቴ ርቄ ያሳለፍኩትን የመጀመሪያ ሌሊት መቼም አልረሳውም። ጊዜው መስከረም ሁለት ሺህ አሥራ ሁለት ነበር።",
+    "subtitle": "I will never forget the first night I spent far from home. It was Meskerem 2012 (late 2019).",
     "from": "am",
     "to": "en",
     "model": "claude-opus-5-5"
    },
    "meta": {
-    "literal": "As soon as I finished twelfth grade, I was assigned to Bahir Dar University; right then a new chapter began.",
+    "literal": "I will never forget the first night I spent far from my home. The time was Meskerem 2012.",
     "faithful": true,
     "differences": []
    },
-   "created": "2026-11-25T23:22:25Z"
+   "created": "2026-11-25T23:49:56Z"
   }
  },
  "entries": {
@@ -681,6 +681,96 @@
    "file": "s09_subtitle_check__6cc802cea8eed2be.json",
    "meta": {
     "literal": "When I remember that first night I left home, there is one thing I say to everyone who leaves the familiar world and begins a new journey: the first night is always confusing. Do not flee. Savour it.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "9bd2704fbfcde66c": {
+   "unit": "s00_subtitle_check",
+   "file": "s00_subtitle_check__9bd2704fbfcde66c.json",
+   "meta": {
+    "literal": "I will never forget the first night I spent far from my home. The time was Meskerem 2012.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "96d681f5f73515ca": {
+   "unit": "s01_subtitle_check",
+   "file": "s01_subtitle_check__96d681f5f73515ca.json",
+   "meta": {
+    "literal": "As soon as I finished twelfth grade, I was assigned to Bahir Dar University. At midday, carrying only one backpack, with my friend seeing me off, I set out from Ankober.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "1a3a8a12f41caed7": {
+   "unit": "s02_subtitle_check",
+   "file": "s02_subtitle_check__1a3a8a12f41caed7.json",
+   "meta": {
+    "literal": "The road was gravel (dirt) as far as Debre Birhan, then it was asphalt.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "3d344bb100b01963": {
+   "unit": "s03_subtitle_check",
+   "file": "s03_subtitle_check__3d344bb100b01963.json",
+   "meta": {
+    "literal": "Sitting by the window, I was watching the forest and the mountain in wonder.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "59f2f576dffe3ef7": {
+   "unit": "s04_subtitle_check",
+   "file": "s04_subtitle_check__59f2f576dffe3ef7.json",
+   "meta": {
+    "literal": "When I arrived at Lamberet after it got dark, another friend of mine was waiting for me. Addis Ababa received me flooded with people, lights and cars; I lost track of where to look.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "4173b53d1963f8e3": {
+   "unit": "s05_subtitle_check",
+   "file": "s05_subtitle_check__4173b53d1963f8e3.json",
+   "meta": {
+    "literal": "And when we reached Autobus Tera, brokers surrounded us.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "c2ce562bb8dad7e8": {
+   "unit": "s06_subtitle_check",
+   "file": "s06_subtitle_check__c2ce562bb8dad7e8.json",
+   "meta": {
+    "literal": "\"Do you want a bed? A bed?\" We were confused about whom to listen to. In the end we followed one of them.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "feecc4849bcdfd97": {
+   "unit": "s07_subtitle_check",
+   "file": "s07_subtitle_check__feecc4849bcdfd97.json",
+   "meta": {
+    "literal": "The room was a single-bed room; it was neither good nor bad; but it was clean.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "6f5ef4731e0b9605": {
+   "unit": "s08_subtitle_check",
+   "file": "s08_subtitle_check__6f5ef4731e0b9605.json",
+   "meta": {
+    "literal": "The next morning, having lined up in a long queue, we bought a ticket for Bahir Dar.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "ffdc6c5a198e5b02": {
+   "unit": "s09_subtitle_check",
+   "file": "s09_subtitle_check__ffdc6c5a198e5b02.json",
+   "meta": {
+    "literal": "Today, seven years later, I have one thing I say to everyone who leaves home: the first night is always confusing. But the confusion is part of the journey. Do not flee from it; savour it.",
     "faithful": true,
     "differences": []
    }

@@ -22,7 +22,7 @@ import wave
 from array import array
 from typing import Any
 
-from .core import Ctx, PipelineError, ProviderError, ff, model_call, sha
+from .core import SYLLABLES_A_SECOND, Ctx, PipelineError, ProviderError, ff, model_call, sha
 
 GEMINI = "https://generativelanguage.googleapis.com/v1beta"
 CLOUDFLARE = "https://api.cloudflare.com/client/v4/accounts/{account}/ai/run/{model}"
@@ -168,7 +168,7 @@ def _as_wav(data: str, mime: str | None) -> bytes:
 def _mock_speech(text: str) -> bytes:
     """A beep pattern about as long as the line would take to say. Deterministic."""
     letters = sum(1 for ch in text if ch.isalnum())
-    seconds = max(1.0, letters / (14.0 if text.isascii() else 6.0))  # Ethiopic letters are syllables
+    seconds = max(1.0, letters / (14.0 if text.isascii() else SYLLABLES_A_SECOND))  # Ethiopic letters are syllables
     rate, burst, gap = 24000, int(0.17 * 24000), int(0.06 * 24000)
     out, k = array("h"), 0
     while len(out) < seconds * rate:
@@ -253,17 +253,30 @@ def words(ctx: Ctx, stage: str, unit: str, wav: bytes, *, language: str, model: 
                       fn=mock if ctx.mock else (lambda: _addis_words(wav, language)))
 
 
+def speech_text(model: str, text: str) -> str:
+    """The text as it is sent to the speech model.
+
+    A voice of Addis AI leaves out the first word of a text when a comma follows it: the line that begins
+    "Today, seven years later" came back three times without its "today" (E29). Sent without that one comma
+    the word is spoken. The storyboard, the subtitles and the listening check keep the author's text as he wrote it.
+    """
+    if model.startswith("addis-"):
+        return re.sub(r"^(\S+)[,\u1363]\s+", r"\1 ", text.strip())
+    return text
+
+
 def tts(ctx: Ctx, stage: str, unit: str, text: str, *, voice: str, style: str, model: str | None = None,
         seed: int | None = None) -> tuple[bytes, dict]:
     """Text to speech. Returns WAV bytes. A model id that starts with `addis-` goes to Addis AI, any other to the Gemini API."""
     model = model or ctx.sb["models"]["tts"]
     params = {"voice": voice, "style": style, "chars": len(text), "text_sha": sha(text)[:12]}
     if model.startswith("addis-"):
-        params = {"voice": voice, "chars": len(text), "text_sha": sha(text)[:12], "language": ctx.narration_lang}  # this API takes no style and no seed
+        sent = speech_text(model, text)
+        params = {"voice": voice, "chars": len(sent), "text_sha": sha(sent)[:12], "language": ctx.narration_lang}  # this API takes no style and no seed
         language = ctx.narration_lang
         return model_call(ctx, stage=stage, unit=unit, provider="mock" if ctx.mock else "addis", model=model, params=params, seed=None,
                           fn=(lambda: (pcm_to_wav(_mock_speech(text), note=text), {"audio_seconds": None})) if ctx.mock
-                          else (lambda: _addis_tts(text, voice, language)))
+                          else (lambda: _addis_tts(sent, voice, language)))
 
     def real() -> tuple[bytes, dict]:
         body = {

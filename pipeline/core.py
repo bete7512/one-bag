@@ -542,11 +542,23 @@ def sentences(text: str) -> list[str]:
 
     A full stop, a colon and a semicolon end one, in Latin and in Ethiopic script, and so do a question mark and an
     exclamation mark. A closing quotation mark stays with its sentence. A question inside quotation marks does not end
-    the sentence around it ("Do you want a bed?" they ask.), and a comma never does. The semicolon counts because a
+    the sentence around it ("Do you want a bed?" they ask.), nor does one in the middle of what is quoted, and a comma never does. The semicolon counts because a
     line and its subtitle then fall into the same number of pieces, and each piece of the subtitle can take the time
     of its spoken piece.
     """
-    return [m.group(0).strip() for m in _SENTENCE.finditer(text.strip()) if m.group(0).strip()]
+    pieces: list[str] = []
+    for piece in (m.group(0).strip() for m in _SENTENCE.finditer(text.strip())):
+        if not piece:
+            continue
+        if pieces and _quote_is_open(pieces[-1]):  # "Do you want a bed? A bed?" is one thing said, however many questions are in it
+            pieces[-1] += " " + piece
+        else:
+            pieces.append(piece)
+    return pieces
+
+
+def _quote_is_open(text: str) -> bool:
+    return text.count("\u00ab") > text.count("\u00bb") or text.count("\u201c") > text.count("\u201d") or text.count('"') % 2 == 1
 
 
 def cue_parts(sentence: str, max_chars: int = 40, max_lines: int = 2) -> list[str]:
@@ -583,7 +595,7 @@ def wrap_cue(text: str, max_chars: int = 40) -> list[str]:
     for i in range(1, len(words)):
         first, second = " ".join(words[:i]), " ".join(words[i:])
         if len(first) <= max_chars and len(second) <= max_chars:
-            score = abs(len(first) - len(second)) - (8 if first[-1] in ".,!?:;\"\u201d" else 0)
+            score = abs(len(first) - len(second)) - (12 if first[-1] in ".,!?:;\"\u201d" else 0)
             if best is None or score < best[0]:
                 best = (score, [first, second])
     return best[1] if best else lines
@@ -671,6 +683,31 @@ def sentence_ends_heard(spoken: str, words: list[dict], duration: float) -> list
             return None
         ends.append((round(stop, 3), round(go, 3)))
     return ends
+
+
+def unheard_edges(spoken: str, words: list[dict]) -> list[str]:
+    """The first and the last word of a line, when a listening model did not hear them.
+
+    A speech model can leave out a word at the very start of a text, or stop before the last one, and the
+    match over the whole line stays high: one word of fifteen. So the two ends are looked at on their own.
+    A word counts as heard when the heard word at that end is at least half like it, or holds it.
+    """
+    script = fold(spoken).split()
+    heard = [fold(w.get("text", "")) for w in words]
+    heard = [w for w in heard if w]
+    if not script or not heard:
+        return []
+
+    def said(word: str, at: list[str]) -> bool:
+        joined = "".join(at)
+        return any(SequenceMatcher(None, word, h).ratio() >= 0.5 for h in at) or word in joined
+
+    missing = []
+    if not said(script[0], heard[:1]):
+        missing.append(f"first word {script[0]}")
+    if not said(script[-1], heard[-1:]):
+        missing.append(f"last word {script[-1]}")
+    return missing
 
 
 def subtitle_cues(text: str, start: float, duration: float, max_chars: int = 40, max_lines: int = 2,
@@ -813,10 +850,13 @@ def get_index(ctx: Ctx, state: dict, stage: str, per_lang: bool = False, require
     return {}
 
 
+SYLLABLES_A_SECOND = 6.7  # Ethiopic letters are syllables. Measured on the voice in the film: 468 letters in 70.2 s (26 Nov)
+
+
 def estimate_seconds(text: str) -> float:
     """Rough speaking time, used only before the real narration exists."""
     letters = sum(1 for ch in text if ch.isalnum())
-    return round(max(1.0, letters / (14.0 if text.isascii() else 6.0)), 2)
+    return round(max(1.0, letters / (14.0 if text.isascii() else SYLLABLES_A_SECOND)), 2)
 
 
 def rel(ctx: Ctx, path: Path) -> str:

@@ -3,115 +3,115 @@
  "subtitles": "en",
  "lines": {
   "s00": {
-   "text": "አሥራ ሁለተኛ ክፍልን እንደጨረስኩ ባሕር ዳር ዩኒቨርሲቲ ተመደብኩ፤ ያኔውኑ አዲስ ምዕራፍ ተጀመረ።",
-   "subtitle": "When I finished twelfth grade, I was assigned to Bahir Dar University; right then a new chapter began.",
+   "text": "ከቤቴ ርቄ ያሳለፍኩትን የመጀመሪያ ሌሊት መቼም አልረሳውም። ጊዜው መስከረም ሁለት ሺህ አሥራ ሁለት ነበር።",
+   "subtitle": "I will never forget the first night I spent far from home. It was Meskerem 2012 (late 2019).",
    "machine_translated": false,
-   "estimate_s": 8.17,
+   "estimate_s": 7.76,
    "subtitle_check": {
     "faithful": true,
-    "literal": "As soon as I finished twelfth grade, I was assigned to Bahir Dar University; right then a new chapter began.",
+    "literal": "I will never forget the first night I spent far from my home. The time was Meskerem 2012.",
     "differences": []
    }
   },
   "s01": {
-   "text": "ጉዞዬ የተጀመረው ከአንኮበር ነው፤ አንድ የጀርባ ቦርሳ እና በጥያቄ የተሞላ ሐሳብ ብቻ ይዤ።",
-   "subtitle": "My journey began in Ankober; with only one backpack and a mind full of questions.",
+   "text": "አሥራ ሁለተኛ ክፍልን እንደጨረስኩ ባሕር ዳር ዩኒቨርሲቲ ተመደብኩ። እኩለ ቀን ላይ፣ አንድ የጀርባ ቦርሳ ብቻ ይዤ፣ ጓደኛዬ ሸኝቶኝ ከአንኮበር ተነሳሁ።",
+   "subtitle": "When I finished twelfth grade, I was assigned to Bahir Dar University. At midday, with just one backpack, seen off by my friend, I left Ankober.",
    "machine_translated": false,
-   "estimate_s": 7.33,
+   "estimate_s": 10.9,
    "subtitle_check": {
     "faithful": true,
-    "literal": "My journey began from Ankober, carrying only one backpack and a mind filled with questions.",
+    "literal": "As soon as I finished twelfth grade, I was assigned to Bahir Dar University. At midday, carrying only one backpack, with my friend seeing me off, I set out from Ankober.",
     "differences": []
    }
   },
   "s02": {
-   "text": "መጀመሪያ ወደ ደብረ ብርሃን፣ ቀጥሎ ወደ አዲስ አበባ፣ በመጨረሻም ወደ ባሕር ዳር።",
-   "subtitle": "First to Debre Birhan, then to Addis Ababa, and finally to Bahir Dar.",
+   "text": "መንገዱ እስከ ደብረ ብርሃን ፒስታ፣ ከዚያ አስፋልት ነበር።",
+   "subtitle": "The road was gravel as far as Debre Birhan, then asphalt.",
    "machine_translated": false,
-   "estimate_s": 6.33,
+   "estimate_s": 4.18,
    "subtitle_check": {
     "faithful": true,
-    "literal": "First to Debre Birhan, next to Addis Ababa, and finally to Bahir Dar.",
+    "literal": "The road was gravel (dirt) as far as Debre Birhan, then it was asphalt.",
     "differences": []
    }
   },
   "s03": {
-   "text": "በመስኮት ስመለከት መንገዱና መልክአ ምድሩ እየተቀያየረ ሄደ፤ ደንና ተራሮች፣ ሸለቆዎች እና የሚዘረጉ መንገዶች።",
-   "subtitle": "As I looked out of the window, the road and the landscape kept changing; forest and mountains, valleys and roads stretching away.",
+   "text": "መስኮት ዳር ተቀምጬ ደኑንና ተራራውን በመደነቅ እመለከት ነበር።",
+   "subtitle": "Sitting by the window, I watched the forest and the mountain in wonder.",
    "machine_translated": false,
-   "estimate_s": 9.17,
+   "estimate_s": 4.78,
    "subtitle_check": {
     "faithful": true,
-    "literal": "As I looked through the window, the road and the landscape kept changing; forest and mountains, valleys and stretching roads.",
+    "literal": "Sitting by the window, I was watching the forest and the mountain in wonder.",
     "differences": []
    }
   },
   "s04": {
-   "text": "አውቶቡስ ተራ ስደርስ አመሻሽ ነበር፤ ጓደኛዬ እዚያው ተቀበለኝ።",
-   "subtitle": "It was dusk when I reached Autobus Tera; my friend met me there.",
+   "text": "ከመሸ በኋላ ላምበረት ስደርስ ሌላ ጓደኛዬ ይጠብቀኝ ነበር። አዲስ አበባ በሰው፣ በመብራትና በመኪና ተጥለቅልቃ ተቀበለችኝ፤ ወዴት እንደምመለከት ጠፋኝ።",
+   "subtitle": "When I reached Lamberet after dark, another friend was waiting for me. Addis Ababa met me flooded with people, lights and cars; I did not know where to look.",
    "machine_translated": false,
-   "estimate_s": 5.17,
+   "estimate_s": 11.04,
    "subtitle_check": {
     "faithful": true,
-    "literal": "When I arrived at Autobus Tera it was dusk; my friend met me right there.",
+    "literal": "When I arrived at Lamberet after it got dark, another friend of mine was waiting for me. Addis Ababa received me flooded with people, lights and cars; I lost track of where to look.",
     "differences": []
    }
   },
   "s05": {
-   "text": "ሰው በየአቅጣጫው ይንቀሳቀሳል፣ መኪኖች ያልፋሉ፣ ደላሎችም «አልጋ ትፈልጋላችሁ?» እያሉ ይጠይቃሉ።",
-   "subtitle": "People move every way, cars pass, and brokers ask, \"Do you want a bed?\"",
+   "text": "አውቶቡስ ተራ ስንደርስ ደግሞ ደላሎች ከበቡን።",
+   "subtitle": "And when we reached Autobus Tera, brokers surrounded us.",
    "machine_translated": false,
-   "estimate_s": 7.83,
+   "estimate_s": 3.43,
    "subtitle_check": {
     "faithful": true,
-    "literal": "People move in every direction, cars pass by, and brokers ask, saying, \"Do you want a bed?\"",
+    "literal": "And when we reached Autobus Tera, brokers surrounded us.",
     "differences": []
    }
   },
   "s06": {
-   "text": "ለአፍታ ሁሉም ነገር በአንድ ጊዜ የበዛና ግራ የሚያጋባ መሰለኝ።",
-   "subtitle": "For a moment everything seemed too much at once, and confusing.",
+   "text": "«አልጋ ትፈልጋላችሁ? አልጋ?» ማንን እንደምንሰማ ግራ ገባን። በመጨረሻ አንዱን ተከተልን።",
+   "subtitle": "\"Do you want a bed? A bed?\" We were confused about whom to hear. In the end we followed one.",
    "machine_translated": false,
-   "estimate_s": 5.17,
+   "estimate_s": 6.27,
    "subtitle_check": {
     "faithful": true,
-    "literal": "For a moment, it seemed to me that everything was too much all at once and confusing.",
+    "literal": "\"Do you want a bed? A bed?\" We were confused about whom to listen to. In the end we followed one of them.",
     "differences": []
    }
   },
   "s07": {
-   "text": "በመጨረሻ ባለ አንድ አልጋ ክፍል መረጥን፤ በጣም ምርጥ አልነበረም፣ መጥፎም አልነበረም—ግን ለማረፍ የሚበቃ ንጹሕ ነበር።",
-   "subtitle": "In the end we chose a room with one bed; it was not the best, and not bad, but clean enough to rest.",
+   "text": "ክፍሉ ባለ አንድ አልጋ ነበር፤ ጥሩም መጥፎም አልነበረም፤ ግን ንጹሕ ነበር።",
+   "subtitle": "The room had one bed; it was neither good nor bad; but it was clean.",
    "machine_translated": false,
-   "estimate_s": 9.67,
+   "estimate_s": 5.22,
    "subtitle_check": {
     "faithful": true,
-    "literal": "In the end we chose a one-bed room; it was not the very best, and it was not bad either, but it was clean enough to rest.",
+    "literal": "The room was a single-bed room; it was neither good nor bad; but it was clean.",
     "differences": []
    }
   },
   "s08": {
-   "text": "በማግስቱ ጠዋት ጉዞውን ለመቀጠል ረጅም ሰልፍ ተሰልፈን ትኬት ቆረጥን።",
-   "subtitle": "Next morning, to continue the journey, we stood in a long queue and bought a ticket.",
+   "text": "በማግስቱ ጠዋት ረጅም ሰልፍ ተሰልፈን የባሕር ዳር ትኬት ቆረጥን።",
+   "subtitle": "Next morning we stood in a long queue and bought the ticket to Bahir Dar.",
    "machine_translated": false,
-   "estimate_s": 5.83,
+   "estimate_s": 4.78,
    "subtitle_check": {
     "faithful": true,
-    "literal": "The next morning, to continue the journey, we lined up in a long queue and bought tickets.",
+    "literal": "The next morning, having lined up in a long queue, we bought a ticket for Bahir Dar.",
     "differences": []
    }
   },
   "s09": {
-   "text": "ያንን ከቤት የወጣሁበትን የመጀመሪያ ሌሊት ሳስታውስ፣ ከተለመደው ዓለም ወጥቶ አዲስ ጉዞ ለሚጀምር ሁሉ የምለው አንድ ነገር አለ፦ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። አትሸሽ። አጣጥመው።",
-   "subtitle": "When I remember that first night away from home, I say one thing to all who leave the familiar world and start a new journey: the first night is always confusing. Do not run. Savour it.",
+   "text": "ዛሬ፣ ከሰባት ዓመት በኋላ፣ ከቤቱ ለሚወጣ ሁሉ የምለው አንድ ነገር አለኝ፦ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። ግራ መጋባቱ ግን የጉዞው አካል ነው። አትሽሸው፤ አጣጥመው።",
+   "subtitle": "Today, seven years later, I have one thing to say to all who leave home: the first night is always confusing. But the confusion is part of the journey. Do not run from it; savour it.",
    "machine_translated": false,
-   "estimate_s": 15.17,
+   "estimate_s": 11.94,
    "subtitle_check": {
     "faithful": true,
-    "literal": "When I remember that first night I left home, there is one thing I say to everyone who leaves the familiar world and begins a new journey: the first night is always confusing. Do not flee. Savour it.",
+    "literal": "Today, seven years later, I have one thing I say to everyone who leaves home: the first night is always confusing. But the confusion is part of the journey. Do not flee from it; savour it.",
     "differences": []
    }
   }
  },
- "estimate_total_s": 79.8
+ "estimate_total_s": 70.3
 }

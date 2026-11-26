@@ -320,7 +320,29 @@ class TimingTests(unittest.TestCase):
                          ["ሰው፣ መብራት፣ መኪና፤", "ሁሉም በአንድ ጊዜ።", "ደላሎችም «አልጋ ትፈልጋላችሁ?» እያሉ ይጠይቃሉ።", "አንድ ነገር እላለሁ፦", "አትሽሽ።"])
         self.assertEqual(core.sentences('It is 3.5 km; we walk. Brokers ask, "A bed?" Is it far? I tell them one thing: stay.'),
                          ["It is 3.5 km;", "we walk.", 'Brokers ask, "A bed?" Is it far?', "I tell them one thing:", "stay."])
+        self.assertEqual(core.sentences('"Do you want a bed? A bed?" We were lost. In the end we followed one.'),
+                         ['"Do you want a bed? A bed?" We were lost.', "In the end we followed one."])        # two questions, one thing said
+        self.assertEqual(len(core.sentences("«አልጋ ትፈልጋላችሁ? አልጋ?» ማንን እንደምንሰማ ግራ ገባን። በመጨረሻ አንዱን ተከተልን።")), 2)
         self.assertEqual(core.fold("አሥራ ሁለት፤ ተነሣሁ ፀሐይ"), core.fold("አስራ ሁለት ተነሳሁ ጸሀይ"))            # written differently, said the same
+
+    def test_a_word_missing_at_either_end_of_a_line_is_reported(self):
+        line = "ዛሬ፣ ከሰባት ዓመት በኋላ፣ አንድ ነገር አለኝ፦ አትሽሸው፤ አጣጥመው።"
+        def heard(*said):
+            return [{"text": w, "start": i * 0.5, "end": i * 0.5 + 0.5} for i, w in enumerate(said)]
+        self.assertEqual(core.unheard_edges(line, heard("ዛሬ", "ከሰባት", "ዓመት", "በኋላ", "አንድ", "ነገር", "አለኝ", "አትሸው", "አጣጥመውም")), [])   # heard a little differently is heard
+        self.assertEqual(core.unheard_edges(line, heard("ከሰባት", "ዓመት", "በኋላ", "አንድ", "ነገር", "አለኝ", "አትሸው", "አጣጥመው")), ["first word ዛሬ"])
+        self.assertEqual(core.unheard_edges(line, heard("ዛሬ", "ከሰባት", "ዓመት", "በኋላ", "አንድ", "ነገር", "አለኝ", "አት")), ["last word አጣጥመው"])
+        self.assertEqual(core.unheard_edges(line, heard("ዛሬከሰባት", "ዓመት", "በኋላ", "አንድ", "ነገር", "አለኝ", "አትሸው", "አጣጥመው")), [])          # two words written as one
+        self.assertEqual(core.unheard_edges(line, []), [])                                                                    # nothing heard: the score says so
+
+    def test_an_addis_voice_is_sent_its_line_without_a_comma_after_the_first_word(self):
+        line = "ዛሬ፣ ከሰባት ዓመት በኋላ፣ ከቤቱ ለሚወጣ ሁሉ የምለው አንድ ነገር አለኝ፦ አትሽሸው፤ አጣጥመው።"
+        sent = providers.speech_text("addis-voices-2", line)
+        self.assertEqual(sent, line.replace("ዛሬ፣ ", "ዛሬ ", 1))                       # one comma less: the voice left the word out with it (E29)
+        self.assertEqual(sent.count("፣"), line.count("፣") - 1)
+        self.assertEqual(providers.speech_text("gemini-3.8-flash-tts", line), line)   # another model gets the line as it is
+        other = "እኩለ ቀን ላይ፣ አንድ የጀርባ ቦርሳ ብቻ ይዤ።"
+        self.assertEqual(providers.speech_text("addis-voices-2", other), other)       # a comma further in is left alone
 
     def test_two_lines_of_a_cue_are_balanced(self):
         self.assertEqual(core.wrap_cue("At Autobus Tera the brokers closed in on us."), ["At Autobus Tera the", "brokers closed in on us."])   # not "... in on / us."

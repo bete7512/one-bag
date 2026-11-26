@@ -38,8 +38,9 @@ from pathlib import Path
 
 from . import providers
 from .core import (STAGE_VERSION, Ctx, PipelineError, Unit, estimate_seconds, ff, ff_capture, file_sha, fold, free_tier_use, get_index,
-                   is_cached, now, run_units, sha, wav_seconds, write_index)
+                   is_cached, now, run_units, sha, unheard_edges, wav_seconds, write_index)
 
+LISTEN_PAD = (0.6, 0.8)  # seconds of silence put before and after a line for a speech model that listens: without them it lost the last word of a line that ends at once (E27)
 SILENCE = {"noise_db": -38, "min_s": 0.25}  # what counts as a pause when a take is cut
 MIN_CUT_MARGIN = 1.5                        # the pauses used as cuts must be this many times longer than any pause left inside a line
 MIN_WORD_MATCH = 0.5                        # a line's phrases, read together, must match its text at least this well to count as found
@@ -282,6 +283,12 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
     seeded = {"seed": voice["seed"]} if voice.get("seed") is not None else {}  # left out when unset, so lines spoken before the seed existed stay cached
     fingerprints = {sid: {"v": STAGE_VERSION["narration"], "text": line["text"], "lang": lang, "voice": voice["name"],
                           "style": voice["style"], "model": model, **seeded} for sid, line in script["lines"].items()}
+    for sid, fp in fingerprints.items():  # what is sent can differ from the line by a comma (see providers.speech_text): then it is part of the fingerprint
+        sent = providers.speech_text(model, script["lines"][sid]["text"])
+        if sent != script["lines"][sid]["text"]:
+            fp["sent"] = sent
+        if voice.get("takes", {}).get(sid):  # a further take of this line: a new request, and the earlier takes stay in the cache
+            fp["take"] = voice["takes"][sid]
     missing = [sid for sid, fp in fingerprints.items() if not is_cached(ctx, Unit("narration", sid, fp, "wav"))]
     if missing:
         use = None if ctx.mock else free_tier_use(ctx, model)
@@ -349,14 +356,26 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
             prompt = LISTEN_PROMPT.format(language=LANGUAGE_NAMES.get(lang, lang))
             fp = {"v": STAGE_VERSION["narration"], "audio": file_sha(res.path), "text": text, "model": listener}  # the sound itself
             if listener.startswith("addis-"):
-                fp["lang"] = lang
+                fp["lang"], fp["pad"], fp["edges"] = lang, list(LISTEN_PAD), 1
             else:
                 fp["question"] = sha(prompt)[:12]
 
             def produce(tmp: Path, sid: str = sid, text: str = text, wav: Path = res.path, prompt: str = prompt) -> dict:
                 if listener.startswith("addis-"):
-                    got, _ = providers.words(ctx, "narration", f"{sid}_listen", wav.read_bytes(), language=lang, model=listener)
-                    result = {"heard": got["text"], "score": similarity(text, got["text"]), "words": got["words"]}
+                    lead, total = (0.0, wav_seconds(wav))
+                    audio = wav.read_bytes()
+                    if not ctx.mock:  # the mock listener reads the line from a private chunk of the file, which a filter would drop
+                        lead = LISTEN_PAD[0]
+                        padded = tmp.with_name(tmp.stem + "-padded.wav")
+                        try:
+                            ff(["-i", str(wav), "-af", f"adelay={int(lead * 1000)}:all=1,apad=pad_dur={LISTEN_PAD[1]}", str(padded)])
+                            audio = padded.read_bytes()
+                        finally:
+                            padded.unlink(missing_ok=True)
+                    got, _ = providers.words(ctx, "narration", f"{sid}_listen", audio, language=lang, model=listener)
+                    timed = [{"text": w["text"], "start": round(min(total, max(0.0, w["start"] - lead)), 3),
+                              "end": round(min(total, max(0.0, w["end"] - lead)), 3)} for w in got["words"]]
+                    result = {"heard": got["text"], "score": similarity(text, got["text"]), "words": timed, "unheard": unheard_edges(text, timed)}
                 else:
                     heard, _ = providers.text(ctx, "narration", f"{sid}_listen", prompt, kind="transcribe",
                                               parts=[("audio/wav", wav.read_bytes())], temperature=0.0)
@@ -383,6 +402,10 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
             entry.update(heard=check.meta["heard"], roundtrip=check.meta["score"], heard_by=listener)
             if check.meta.get("words"):
                 entry["words"] = check.meta["words"]
+            if check.meta.get("unheard"):
+                entry["unheard"] = check.meta["unheard"]
+                if not plan_only:
+                    ctx.say(f"  listen to {sid}: the model did not hear the {' and the '.join(check.meta['unheard'])}")
             if check.meta["score"] < floor and not plan_only:
                 ctx.say(f"  listen to {sid}: the model heard \"{check.meta['heard'][:70]}\" (match {check.meta['score']:.2f}, floor {floor})")
         elif check and not plan_only:

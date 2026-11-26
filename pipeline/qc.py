@@ -59,7 +59,10 @@ def run(ctx: Ctx, state: dict | None = None) -> dict:
         check("must", f"{name}: length within {lo:.0f} to {hi:.0f} s", lo <= info["duration"] <= hi + 0.1, f"{info['duration']:.2f} s")
         check("must", f"{name}: size {exp['width']}x{exp['height']}", (info.get("width"), info.get("height")) == (exp["width"], exp["height"]),
               f"{info.get('width')}x{info.get('height')}")
-        check("must", f"{name}: constant {fps} fps", info.get("r_frame_rate") == info.get("avg_frame_rate") and abs(info.get("fps", 0) - fps) < 0.01,
+        # The nominal rate must be exactly the film's, and the measured average within a hundredth of it. The average is
+        # frames over the container's duration: on another FFmpeg build that duration came out two ticks of 1/12288 s short
+        # of 919 frames, an average of 24.0001, and an exact comparison of the two called a constant film variable (F11).
+        check("must", f"{name}: constant {fps} fps", info.get("r_frame_rate") == f"{fps}/1" and abs(info.get("fps", 0) - fps) < 0.01,
               f"{info.get('avg_frame_rate')}")
         check("must", f"{name}: H.264 video with AAC audio", info.get("vcodec") == "h264" and info.get("acodec") == "aac",
               f"{info.get('vcodec')} + {info.get('acodec')}")
@@ -102,6 +105,8 @@ def run(ctx: Ctx, state: dict | None = None) -> dict:
     music = get_index(ctx, state, "music", required=False)
     check("note", "music: a generated score is chosen", music.get("source") == "acestep", music.get("source", "?"))
     narration = get_index(ctx, state, "narration", per_lang=True, required=False)
+    edges = [f"{sid} ({', '.join(n['unheard'])})" for sid, n in narration.items() if n.get("unheard")]
+    check("note", "narration: the first and the last word of every line were heard", not edges, "; ".join(edges) or "none missing")
     floor = sb.get("qa", {}).get("roundtrip_min", 0.6)
     weak = [f"{sid} ({n['roundtrip']:.2f})" for sid, n in narration.items() if n.get("roundtrip") is not None and n["roundtrip"] < floor]
     if sb.get("qa", {}).get("roundtrip"):

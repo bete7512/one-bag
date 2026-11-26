@@ -232,6 +232,12 @@
           "type": "boolean",
           "description": "True: the lines that are missing are first spoken in one request and cut apart, which costs fewer requests when the cut is clean. False: each line is spoken in a request of its own and needs no cutting. Default true."
         },
+        "takes": {
+          "type": "object",
+          "additionalProperties": {"type": "integer", "minimum": 2, "maximum": 9},
+          "propertyNames": {"pattern": "^s[0-9]{2}$"},
+          "description": "Which take of a line is used, by shot id, when it is not the first: {\"s09\": 2} asks the voice for that line once more. For a voice that takes no seed, each take comes out a little differently. The earlier takes stay in the cache."
+        },
         "max_pause_s": {
           "type": "number",
           "minimum": 0.2,
