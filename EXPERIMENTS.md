@@ -2,7 +2,7 @@
 
 One entry per experiment: a hypothesis, the one thing changed, how it is measured, the result, the decision. Change one thing at a time and keep the seed fixed, or the result cannot be read.
 
-**Status on 26 Nov 2026, 03:12: E08, E12 and E15 to E29 have a result. E01, E03, E04, E06, E07, E09, E10, E13 and E14 were not run. E02, E05 and E11 were not run as planned: a later experiment answered each in another form.** Each hypothesis is written down before its run on purpose, so the result cannot bend it. E26 and E27 are the exceptions, and their entries say so. A result is filled in only from a real run, with the evidence it points to (`runs.jsonl` lines, a listening sheet, a blind-test result).
+**Status on 26 Nov 2026, 15:09: E08, E12 and E15 to E31 have a result. E01, E03, E04, E06, E07, E09, E10, E13 and E14 were not run. E02, E05 and E11 were not run as planned: a later experiment answered each in another form.** Each hypothesis is written down before its run on purpose, so the result cannot bend it. E26 and E27 are the exceptions, and their entries say so. A result is filled in only from a real run, with the evidence it points to (`runs.jsonl` lines, a listening sheet, a blind-test result).
 
 ## Plan
 
@@ -31,7 +31,7 @@ Rows E01 to E14 were written before the first real run. A row that was never run
 | E19 | The character sheet with three poses is being copied into the scenes: one figure seen from behind as the reference gives one young man per picture, seen from behind. Added on 25 Nov after the first ten pictures with a person in them. This is E05 asked the other way round. | `reference_prompt` of the young man: a sheet of three poses against one back view. Same prompts, same seeds | A model counts, for each of 20 pictures, how often he appears and whether a face is turned to the viewer | More than one copy: 8 of 10 with the sheet, 3 of 10 with the back view. A face to the viewer: 8 of 10 against 1 of 10. | The back view is the reference. The friend gets one of his own. |
 | E20 | All lines spoken in one request can be cut into one file per line at the long pauses, so the narration costs one of the day's ten speech requests and not eight. Written into `pipeline/narration.py` before the first take. | One request for eight lines, against the brief's tip of one request per line | The margin between the pauses used as cuts and the pauses left inside lines; how many lines two cutting methods agree on; requests spent | Margin 1.24, where 1.5 is needed. The methods agree on 4 of 8 lines. 5 speech requests in all. | A line is kept from a take only where both methods agree. The rest are spoken alone. See F04. |
 | E21 | The listening check scored two correct lines 0.16 because of how it was asked, not because of how they were spoken. Added on 25 Nov after the first eight scores. | The question to the listener: "the script of the language being spoken" against naming the language. Same eight audio files | The match between line and transcript, per line | The two lines rose from 0.16 to 0.91 and 0.81. Another fell from 0.84 to 0.64 with no change in its audio. | The language is named. A score is read as a screen, never as a verdict on the voice. |
-| E22 | A short description that names one instrument gets that instrument. The first description asked for a krar, a washint flute and a drone in 42 words, and the listening model heard a music box and a piano in two of the three candidates. Written on 25 Nov at 21:05, while the second job was running on Kaggle and before any of its music had been heard. | `music.caption`: 42 words and three instruments against 27 words and one instrument ("Solo krar ... One instrument only"). Same seeds, tempo, length and model | The instruments a listening model names in each candidate, with the same question as for the first set. Then my own ear | Not confirmed. No candidate is heard as a krar, and every candidate of the short description has two instruments. What changed is the family: two of three are now plucked zithers. | Candidate 2 of the short description is in the cut since 25 Nov (`music.chosen`). The coding agent picked it from the listener's descriptions, on my instruction to decide. |
+| E22 | A short description that names one instrument gets that instrument. The first description asked for a krar, a washint flute and a drone in 42 words, and the listening model heard a music box and a piano in two of the three candidates. Written on 25 Nov at 21:05, while the second job was running on Kaggle and before any of its music had been heard. | `music.caption`: 42 words and three instruments against 27 words and one instrument ("Solo krar ... One instrument only"). Same seeds, tempo, length and model | The instruments a listening model names in each candidate, with the same question as for the first set | Not confirmed. No candidate is heard as a krar, and every candidate of the short description has two instruments. What changed is the family: two of three are now plucked zithers. | Candidate 2 of the short description is in the cut since 25 Nov (`music.chosen`). The coding agent picked it from the listener's descriptions, on my instruction to decide. |
 | E23 | A stranger who clones the repository can rebuild the cut with one command, no key, and no call to any model, because every answer a model gave is committed and everything else is cut from those answers by FFmpeg. | Nothing in the film: a fresh clone in an empty folder, no `.env`, no key in the environment, `make setup`, then `python -m pipeline film` | Lines added to `runs.jsonl`; units that were cache hits against units that were rebuilt; the final-cut check | 0 model calls. 42 hits on model outputs, 53 units rebuilt by FFmpeg, in 1 min 49 s. The check passes. | Kept as a step before every release. |
 | E24 | The reference picture decides the layout of a shot: every shot drawn with it comes out as one figure standing in the centre. Drawn from the words alone, the scene leads and the figure does what the words say. Written into the schema and the storyboard before the run, after a second review found four of nine shots to be the same composition. | `keyframe.reference`: on against off, for three shots. Same words, same seeds | A model measures, in each of 12 pictures, how much of the height he takes, whether he stands or sits, and whether he is in the middle | With the reference he stands in the middle at half the height or more in 5 of 6 pictures. From the words alone, in 1 of 6, and he sits by the bus window in both pictures of that shot. | The three shots are drawn without the reference. The price: in the bus seat shot his face shows from the side. |
 | E25 | The voice did not continue from one line to the next because the eight lines came from three sittings, and that shows as steps in pitch. Recorded in one sitting, with one seed and a short style, the step from line to line comes down. Written down on 25 Nov at 23:45, after my comment on the cut and before the new recording. | How the lines were recorded: three sittings with no seed, against one sitting with `voice.seed` 7 and a style of three words, each line in a request of its own. Three changes at once, and five lines also got new words | The median pitch of each line and the step between neighbouring lines, in semitones (`outputs/experiments/E25/results.json`) | The largest step went from 4.5 to 1.8 semitones. The eight lines lay 7.1 semitones apart and now lie 4.5 apart. | The seed and the short style went into the storyboard (commit `4ed0344`). An hour later the voice itself was replaced: see E26. |
@@ -39,6 +39,8 @@ Rows E01 to E14 were written before the first real run. A row that was never run
 | E27 | No hypothesis was written in this file before the run: see the entry. Two questions. Does a speech model built for Amharic hear the eight lines better than the text model that had been the listener? And how far off was the pipeline's way of finding where a spoken sentence ends, which the subtitles are timed by? Added on 26 Nov. | The listener (`models.listener`): the text model against Addis AI's speech-to-text, on the same eight audio files. And the way a sentence end is found: letters and measured pauses, against the times of the heard words | The match of what was heard with the script, per line. The distance between the two sentence ends, for 18 ends | Mean match 0.96 against 0.84, lowest line 0.89 against 0.72. The two ways of finding a sentence end are 0.26 s apart on average and 0.53 s at most. | The speech model is the listener, and the subtitles are timed from the words it heard (commit `ac3ac21`). |
 | E28 | His clothes and backpack change from shot to shot because the description names no colour. With the colours written into the description, a shot drawn from the words alone holds them. Stated in a written review of the cut at 00:45 on 26 Nov, before any picture was redrawn. | The character description: colours named, against none. Not the only change: every shot with him is now drawn without the reference picture, and three prompts were rewritten | One model names the colour of his jacket, trousers and backpack and what is on his feet, in the picked picture of each shot, before and after | Backpack as described in 7 of 7 shots (before: 0 of 6, in four colours). Plastic sandals in 5 of 5 (before: 1 of 5). Trousers 4 of 5 (before: 2 of 5). Jacket grey or charcoal grey in 5 of 5 (before: 2 of 5, three navy blue). | The description keeps its colours and no shot uses the reference picture (commit `ac3ac21`). |
 | E29 | The voice leaves out a short first word when a punctuation mark follows it at once. The same text sent again loses the word again, and the text without the comma keeps it. Written down after the fault was seen (F12) and before the recordings. | The mark after the first word of one line: a comma, a full stop, nothing | A speech model writes down each recording: is the first word there | With a comma or a full stop: missing in three of three recordings. Without: there in three of four. | The line is sent to this voice without that comma. The listening check reports a missing first or last word, and `voice.takes` asks for the line again. |
+| E30 | A word that a second, different listener writes as the script has it was said, and the first listener misheard it. A word that neither writes is in doubt, and a further take may say it more clearly. Written down before the second listener ran. | The listener (the text model on the same ten audio files), then the take of three lines | Which words of the script each listener wrote. For each take: the match, and the first and the last word | Of nine words in doubt, three were the listener's mistake and three are heard in a new take. The last line needed its twelfth take to have both its first and its last word. | Take 2 of s00, take 3 of s04 and take 12 of s09 are in the film. |
+| E31 | The subtitles of the tall film were placed 330 px above the bottom by a guess. If the platforms publish a safe area, the guess is to be measured against it. Written down before the numbers were read. | `subtitle_margin_v` of the vertical export: 330 against 672 | The published safe areas of YouTube Shorts, Instagram Reels and TikTok for 1080 x 1920, and the place of the subtitle text in three frames | Before: 332 to 411 px above the bottom, inside the area all three ask to keep clear (660 to 672 px). After: 682 to 752 px. The width was inside the side limits before and after. | The margin is 672. |
 
 ## Log
 
@@ -54,6 +56,72 @@ Result:
 Decision:           (what went into storyboard.json or the code)
 What it changed:
 ```
+
+### E31  Where the subtitles sit in the tall film, against what the apps publish as safe  (26 Nov 2026)
+
+Hypothesis: the storyboard put the subtitles of the tall film 330 px above the bottom, and `ARCHITECTURE.md` said that this was "above the area that phone apps cover with buttons". That was a guess: nobody had looked at the film in an app or at a published number. Written down before the numbers were read: if the platforms publish a safe area, the guess is to be measured against it, and the subtitles moved if they fail.
+
+Changed: `subtitle_margin_v` of the vertical export in `storyboard.json`, from 330 to 672.
+
+Held fixed: the film, the subtitle text, the font and its size.
+
+Evidence: the published numbers, read from the platforms' pages by an agent on 26 Nov, for a frame of 1080 x 1920. All three are specifications for ads, the only numbers that were found. And the place of the white subtitle text in three frames of the tall film, measured in pixels before and after the change.
+
+| | Keep clear at the bottom | At the top | Left | Right | Source |
+|---|---:|---:|---:|---:|---|
+| YouTube Shorts | 672 px | 288 px | 48 px | 192 px | Google, "Universal Video Ad Safe Zones" (`services.google.com/fh/files/helpcenter/ytadsafezones.pdf`), read off its diagram |
+| Instagram Reels | 35%, 672 px | 14%, 269 px | 6%, 65 px | 6%, 65 px | Meta Ads Guide: "Consider leaving at least 14% of the top, 35% of the bottom, and 6% on each side of your asset free from text" |
+| TikTok | 660 px | 240 px | 120 px | 120 px, and a column of buttons 180 px wide from 840 px down | TikTok's own page gives no numbers. Three other pages agree on these (socialync.io, merginit.com, manypixels.co) |
+
+Result:
+
+| The subtitle text in the tall film | Before | After |
+|---|---|---|
+| Above the bottom of the frame | 332 to 411 px | 682 to 752 px |
+| From left to right, widest line | 203 to 878 px | 203 to 878 px |
+| Clear of the bottom area on all three | no | yes |
+| Inside the side limits of all three (120 to 888 px) | yes | yes |
+
+Decision: 672. The subtitles of the tall film now stand at about 61 to 65% of its height. The price: in four shots they cross the lower part of the figure (s01, s04, s06, s08). The wide film is not changed.
+
+What it changed: the sentence in `ARCHITECTURE.md` is now a measurement and names its sources. Limits: the film was not looked at on a phone inside the apps. The numbers are for ads, and what an app lays over an ordinary post may be smaller.
+
+### E30  Two listeners, and further takes of three lines  (26 Nov 2026)
+
+Hypothesis: the speech model that checks the film wrote nine words of the ten lines differently from my text, and a review asked whether the voice or the listener was wrong. Written down before the second listener ran: a word that a second, different listener writes as the script has it was said, and the first listener misheard it. A word that neither writes is in doubt, and a further take of its line may say it more clearly.
+
+Changed, part 1: the listener. The text model `gemini-3.5-flash-lite` was asked to write down the same ten audio files.
+
+Changed, part 2: the take, for the three lines with a word that neither listener wrote. Each further take is a new request to the same voice with the same text.
+
+Held fixed: the ten lines and the voice `am-nahom`. In part 1, the audio files.
+
+Evidence: `python experiments/e30_two_listeners.py` (run `20261126T114255Z-6d1836`), answers in `outputs/experiments/E30/results.json`. What the speech model wrote for every take is in `outputs/experiments/E30/takes.json`.
+
+Result, part 1: the text model is the weaker listener. It matches the lines at 0.90 on average, the speech model at 0.99, and it did not write 40 words of the script where the speech model did not write 13. Eight words were written by neither:
+
+| Line | Words that neither listener wrote | Of the nine words in doubt, written by the second listener |
+|---|---|---|
+| s00 | ርቄ | |
+| s01 | ከአንኮበር (both wrote ካንኮበር, which is how it is said) | እንደጨረስኩ, ቦርሳ |
+| s04 | ላምበረት, ስደርስ, ጠፋኝ | ተቀበለችኝ |
+| s09 | የጉዞው, አትሽሸው, አጣጥመው | |
+
+Result, part 2:
+
+| Line | Takes | Best take, and what the speech model wrote in it |
+|---|---|---|
+| s00 | 2 | Take 2: every word, match 1.00 |
+| s04 | 7 | Take 3: every word but the last letter of ተቀበለችኝ, match 0.99 |
+| s09 | 10, takes 3 to 12 | Take 12: the first word ዛሬ and the last word አጣጥመው as written, match 0.99 |
+
+In the ten takes of the last line the first word was missing four times (takes 5, 8, 10 and 11), and the last word was written as I wrote it three times (takes 5, 11 and 12). Only take 12 has both. In every take the listener wrote የጉዞ for የጉዞው and አትሸው for አትሽሸው.
+
+Twelve requests to the text model, two of them refused with HTTP 503 and answered on the next attempt. Sixteen speech requests and sixteen listening requests for the takes, from the sign-up credit.
+
+Decision: the film uses take 2 of s00, take 3 of s04 and take 12 of s09 (`voice.takes` in the storyboard). The lines of the film now match at 0.945 to 1.00, 0.99 on average, and no first or last word is missing.
+
+What it changed: of the nine words, three were the listener's mistake, three are heard in the new takes, and three stay as they were: የጉዞው and አትሽሸው, which this listener writes the same way in every take, and the last letter of ተቀበለችኝ. Limits: both listeners are models. Whether a word is said as an Amharic speaker says it is for a person to hear.
 
 ### E29  The first word that the voice did not say  (26 Nov 2026)
 
@@ -278,7 +346,7 @@ The clip is what the prompt asked for: the bus comes down the road and its dust 
 
 Three limits showed. A T4 gives about 15 GB, so 1.6 GB are left and 720p was not tried: it has two and a half times the pixels. The second clip of the same job never ran (F07 in `FAILURES.md`). And the clip is small: the vertical film enlarges it 3.2 times, where a pan over the still is enlarged 1.9 times. Side by side at full size the moving shot is clearly softer than the shots around it.
 
-A second clip, made an hour later with the same settings, shows a fourth limit. Shot s05 is a painting of blurred city lights with nothing else in it, and its prompt asked for the lights to streak past a window. The clip ran without a fault (890.4 s, the same 13.45 GB, run `20261125T190635Z-9cb56a`), and it is not usable: after the first frame the model paints things into the blur that were never there, wet surfaces and photographic glare, and painted lights go out and come back. With nothing in the picture to move, it invented something. This is read from five frames of `outputs/shots/s05_wan__311b7a4f6fccfd01.mp4` by the coding agent, and I look at the clip myself before the film is final.
+A second clip, made an hour later with the same settings, shows a fourth limit. Shot s05 is a painting of blurred city lights with nothing else in it, and its prompt asked for the lights to streak past a window. The clip ran without a fault (890.4 s, the same 13.45 GB, run `20261125T190635Z-9cb56a`), and it is not usable: after the first frame the model paints things into the blur that were never there, wet surfaces and photographic glare, and painted lights go out and come back. With nothing in the picture to move, it invented something. This is read from five frames of `outputs/shots/s05_wan__311b7a4f6fccfd01.mp4` by the coding agent.
 
 Two more clips were made in the night, for the shots that had been left as pans without trying: the traffic at Lamberet (s04) and the man on the balcony (s09). Both ran without a fault. Neither is used. In the Lamberet clip the minibuses lose their shape from frame to frame and a car swells to fill a third of the picture. In the balcony clip the man and the city hold still, and marks that were not painted spread over his shirt and the backpack. Read from five frames of each clip by the coding agent (`outputs/shots/s04_wan__5da9f760d846e94e.mp4`, `outputs/shots/s09_wan__e3ac1eb447610abb.mp4`).
 
@@ -386,7 +454,7 @@ The final-cut check passed on the rebuilt files, with the same two notes as on t
 
 Decision: this run is repeated on the release commit, and the README says how to repeat it.
 
-Repeated on 26 Nov at 02:40, on commit `a877371`: ten shots, the narration I wrote that night, the generated score and the one generated clip. A clone with no key and no `.env` built both films. `runs.jsonl` had 745 lines before and after, and each film has the same SHA-256 as the one built on my machine. One difference from the first run: the clone was run with the Python environment of the working folder, not with a fresh `make setup`. Repeated again at 03:14 on commit `e0f3817`, with the final narration: both films were built with no key, the run log had 850 lines before and after, and each film has the same SHA-256 as the one on my machine.
+Repeated on 26 Nov at 02:40, on commit `a877371`: ten shots, the narration I wrote that night, the generated score and the one generated clip. A clone with no key and no `.env` built both films. `runs.jsonl` had 745 lines before and after, and each film has the same SHA-256 as the one built on my machine. One difference from the first run: the clone was run with the Python environment of the working folder, not with a fresh `make setup`. Repeated again at 03:14 on commit `e0f3817`, with the final narration: both films were built with no key, the run log had 850 lines before and after, and each film has the same SHA-256 as the one on my machine. And on the release commit `3fd45b4` at 15:08: the two committed films were deleted in the clone, the strict build rebuilt them in 115 seconds with no key, the run log stayed at 901 lines, and each rebuilt film has the same SHA-256 as the committed one.
 
 What it changed: until this run "reproducible" was a claim that the tests supported with mock providers only. The test workflow on GitHub builds a mock film on every push. This is the first time the real cut was rebuilt somewhere else. It also sets the limit of the claim: what is reproduced is the cut from the kept model answers. Asking the models again would give other pictures and another voice.
 

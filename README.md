@@ -8,30 +8,41 @@ make film        # or: python -m pipeline film
 
 That one command validates the storyboard, runs every stage, regenerates only what changed, writes `outputs/film_vertical.mp4` (9:16) and `outputs/film_horizontal.mp4` (16:9), and then measures the result against the brief.
 
+## Watch it
+
+| | Link |
+|---|---|
+| The film, tall (9:16, the main format) | https://bete7512.github.io/one-bag/media/film_vertical.mp4 |
+| The film, wide (16:9) | https://bete7512.github.io/one-bag/media/film_horizontal.mp4 |
+| The page of the film: both formats, every shot, what was measured | https://bete7512.github.io/one-bag/ |
+| The same two files in this repository | [`outputs/film_vertical.mp4`](outputs/film_vertical.mp4), [`outputs/film_horizontal.mp4`](outputs/film_horizontal.mp4) |
+
+85 seconds, narrated in Amharic, English subtitles, made with AI. The page is built from this repository by a workflow on every push.
+
 ## Status
 
-Be clear about what is proven and what is not. Last updated 26 November 2026, 03:25 East Africa Time.
+Be clear about what is proven and what is not. Last updated 26 November 2026, 15:09 East Africa Time.
 
 | Part | Tested offline with mock providers | Run against the real model |
 |---|---|---|
 | Storyboard schema and checks | yes | not applicable |
 | Cache, run log, retries, free-tier guard | yes | yes: the retries and the guard both met a real quota (F01, F09) |
 | Script (subtitle translation) | yes | not yet: every line has a written subtitle |
-| Narration (a voice of Addis AI, before it Gemini TTS) | yes | yes: ten lines, each spoken in a request of its own by the Addis AI voice `am-nahom` since 26 Nov (E26). The words are my own since that night (`DESIGN.md`). In one line the voice left out the first word: that line is in its third take (F12, E29). Before that a Gemini voice spoke them: a take that gave four clean lines (F04, E20), then lines that did not sound like one voice (F10, E25) |
+| Narration (a voice of Addis AI, before it Gemini TTS) | yes | yes: ten lines, each spoken in a request of its own by the Addis AI voice `am-nahom` since 26 Nov (E26). The words are my own since that night (`DESIGN.md`). In one line the voice left out the first word (F12, E29). Three lines are in a later take, kept by what two listening models wrote (E30). Before that a Gemini voice spoke them: a take that gave four clean lines (F04, E20), then lines that did not sound like one voice (F10, E25) |
 | Narration listening check | yes | yes: all ten lines of the cut at or above the floor, the lowest at 0.945, and the first and last word of each line heard. Since 26 Nov the listener is Addis AI's speech-to-text model for Amharic, which also gives the time of each word (E27). Before it the text model listened, and gave 0.16 to lines that it wrote down in Latin letters (E21, E26). Either listener is a model: its score is a screen and not a verdict |
-| Keyframes (FLUX.2 klein on Workers AI) | yes | yes: all ten shots, after a reference sheet that copied itself into the scenes (E19) and two shots that had to be redesigned (F05). On 26 Nov seven shots were drawn again from the words alone, with the colours of his clothes and backpack written into the description (E28). Since the night of 25 Nov the account is on a paid plan, and pictures beyond the free daily allowance are paid for (`COSTS.md`) |
+| Keyframes (FLUX.2 klein on Workers AI) | yes | yes: all ten shots, after a reference sheet that copied itself into the scenes (E19) and two shots that had to be redesigned (F05). On 26 Nov seven shots were drawn again from the words alone, with the colours of his clothes and backpack written into the description (E28). In one picture four small boxes with marks like letters are blurred when the keyframe is cut. Since the night of 25 Nov the account is on a paid plan, and pictures beyond the free daily allowance are paid for (`COSTS.md`) |
 | Keyframe judge | yes | yes, on three models (E15, E17) |
 | Subtitle check | yes | yes: it found two mismatches in the first draft (E18). The ten current subtitles pass |
 | Keyframe border check | yes | yes: it caught the white border on the first pictures (E16) |
 | Shots: Ken Burns (FFmpeg) | yes, real FFmpeg | not applicable |
 | Shots: Wan 2.2 on Kaggle | export, upload and ingest | yes: four clips of 3.4 s, 13 to 15 minutes each at about 13.5 GB of GPU memory (E08). Only the road shot uses its clip. The three other clips were made and rejected. The first job was killed after one clip (F07) |
 | Music: ACE-Step on Kaggle | export, upload and ingest | yes: two sets of three candidates from two descriptions, each described by a listening model (F02, F06, E22). Candidate 2 of the second set is in the cut. The coding agent chose it from those descriptions, on my instruction to decide |
-| Assembly, ducking, loudness, both ratios | yes, real FFmpeg | yes: a rough cut of 85 s in both ratios, from the real narration and pictures. The mix was measured and rewritten twice (E12) |
-| Final-cut check | yes | yes, on the rough cut of 26 Nov, 03:00: every measured check passes. Its one note says what a person still has to look at: three picked pictures that the judge scored under 3 (s03, s05, s06) |
+| Assembly, ducking, loudness, both ratios | yes, real FFmpeg | yes: the released film, 85 s in both ratios. The mix was measured and rewritten twice (E12). The subtitles of the tall film stand above the area that YouTube, TikTok and Instagram ask to keep clear (E31) |
+| Final-cut check | yes | yes, on the released film: every measured check passes. Its one note says what a person still has to look at: three picked pictures that the judge scored under 3 (s03, s05, s06) |
 
-`runs.jsonl` holds one line per attempt of a real model call: 850 at 03:02 on 26 Nov. Mock runs write to `outputs_mock/`, which is git-ignored and is never evidence.
+`runs.jsonl` holds one line per attempt of a real model call: 901 at 15:09 on 26 Nov. Mock runs write to `outputs_mock/`, which is git-ignored and is never evidence.
 
-**The film is not released yet.** What exists is a cut on my machine: the voice of Addis AI, real pictures, a generated score, one shot with generated motion (the road) and a slow pan on the others. The narration is my own text, and I confirmed its English subtitles on 26 Nov. The coding agent placed the sentences on the shots and picked the pictures, the voice and the score from the candidates: `DESIGN.md` says how each was chosen. User test 1 has happened: three people heard the radio cut on 25 Nov, and what they wrote changed the lines of that cut (`DESIGN.md`). User test 2 has not happened. The rough cut is not committed: `.gitignore` keeps it out until the release, so that nothing unapproved is published by a push. It was committed once by mistake and taken out again (F08).
+**The film is released.** Both formats are in `outputs/` and on the public page: the voice of Addis AI, real pictures, a generated score, one shot with generated motion (the road) and a slow pan on the others. The narration is my own text, and I confirmed its English subtitles on 26 Nov. The coding agent placed the sentences on the shots and picked the pictures, the voice and the score from the candidates: `DESIGN.md` says how each was chosen. User test 1 has happened: three people heard the radio cut on 25 Nov, and what they wrote changed the lines of that cut (`DESIGN.md`). User test 2 was not done: `DESIGN.md` says what stood in its place. A rough cut was committed once by mistake, before the release, and taken out again (F08).
 
 ## Run it
 
@@ -148,17 +159,17 @@ ETHICS.md            consent records, licences, labelling plan
 
 Model outputs are kept in `outputs/`, because they cost quota or GPU time and are the evidence: the original pictures, the narration lines, ingested Wan clips, score candidates, and the `manifest.json` and index files of the five stages that call a model or a GPU. Files that FFmpeg rebuilds from those without calling a model (keyframes cut from their originals, scene files, the mix, Ken Burns clips, the placeholder drone) are git-ignored.
 
-The two films are not committed yet. They are committed with the release, and not before. Until then `.gitignore` keeps `outputs/film_*.mp4`, `outputs/radio_cut.mp4`, `outputs/qc_report.json` and `outputs/assemble/` out of the repository, because a push publishes them on the public page. A rough cut was committed once by mistake and taken out again. That commit stays in the history (F08 in `FAILURES.md`).
+The two films are committed: `outputs/film_vertical.mp4` and `outputs/film_horizontal.mp4`, with the index of the cut (`outputs/assemble/index.film.am.json`) and the final-cut report (`outputs/qc_report.json`). The sound-only cut is not: `make radio` rebuilds it. A rough cut was committed once by mistake, before the release, and taken out again. That commit stays in the history (F08 in `FAILURES.md`).
 
-To check this yourself: clone the repository into an empty folder, add no key, run `make setup` and then `python -m pipeline film`. Nothing may be added to `runs.jsonl`. On 25 November this rebuilt the cut of that evening in 1 minute 49 seconds: 42 cache hits on model outputs, 53 units rebuilt by FFmpeg, no call to any model (E23 in `EXPERIMENTS.md`). It was repeated twice on 26 November, the second time on the cut with my own narration (commit `e0f3817`): both films came out with the same SHA-256 as on my machine, and the run log did not grow. What is reproduced is the cut from the kept answers of the models. Asking the models again gives other pictures and another voice.
+To check this yourself: clone the repository into an empty folder, add no key, run `make setup` and then `python -m pipeline film`. Nothing may be added to `runs.jsonl`. On 25 November this rebuilt the cut of that evening in 1 minute 49 seconds: 42 cache hits on model outputs, 53 units rebuilt by FFmpeg, no call to any model (E23 in `EXPERIMENTS.md`). It was repeated three times on 26 November, the last time on the release commit `3fd45b4` with the two films deleted first: the strict build rebuilt both in 115 seconds, each with the same SHA-256 as the committed file, and the run log stayed at 901 lines. A build updates the manifests and the event log under `outputs/`, so `git status` shows them as changed afterwards. What is reproduced is the cut from the kept answers of the models. Asking the models again gives other pictures and another voice.
 
 ## What it costs
 
-Money, by the run log as it stood on 26 November at 03:02:
+Money, by the run log as it stood on 26 November at 15:09:
 
-- The picture judge and the subtitle check run on Claude Opus 5.5, which is paid for every call: 4.23 USD so far.
+- The picture judge and the subtitle check run on Claude Opus 5.5, which is paid for every call: 4.38 USD so far.
 - The pictures run on Cloudflare Workers AI. Since the night of 25 Nov the account is on the Workers Paid plan: 5 USD a month, plus what goes over the free daily allowance, 0.06 USD so far.
-- The narration voice and the listening check of Addis AI run on a sign-up credit of 3.17 USD (500 ETB). Nothing is paid, and 0.41 USD of the credit is used at list price.
+- The narration voice and the listening check of Addis AI run on a sign-up credit of 3.17 USD (500 ETB). Nothing is paid, and 0.53 USD of the credit is used at list price.
 - The light checks (Gemini) and the GPU (Kaggle) run on free tiers.
 
 The limits that shape the work are quota and GPU time: ten speech requests a day on the Gemini free tier, about 96 free pictures a day, 30 GPU hours a week. `make costs` reads `runs.jsonl` and writes the measured table into `COSTS.md`, with the list price of every call. `COSTS.md` also says what was really paid, and that a second free Gemini key was put in during the night of 25 to 26 Nov (F09).

@@ -203,7 +203,7 @@ What was done:
 1. Commit `683cfae` (23:44, twenty minutes later) took the seven files out of the repository and added ignore rules for `outputs/film_*.mp4`, `outputs/radio_cut.mp4`, `outputs/qc_report.json` and `outputs/assemble/`. The files stay on my machine.
 2. That commit was pushed at 00:33 on 26 Nov, with the push of `434f5de` (`git reflog show origin/main`). On my machine `origin/main` holds `683cfae` since then.
 
-What is not undone: commit `9935183` stays in the history, so the three video files can still be read from it. The history of the pushed branch was not rewritten. Whether the public page was built again without the films after the push of 00:33 was not checked for this entry.
+What is not undone: commit `9935183` stays in the history, so the three video files can still be read from it. The history of the pushed branch was not rewritten. The `site` workflow ran again on each later push.
 
 What it cost: a rough cut with lines I had not confirmed was the newest state of the branch on GitHub for 67 minutes, and it stays in the history.
 
@@ -231,7 +231,7 @@ What the message shows: the second key is a free-tier key too, with the same lim
 
 Speech requests by key, from `runs.jsonl`: with 21:10 UTC as the boundary, as `pricing.json` has it, 11 requests lie before it, all answered, and 9 after it, 8 answered and 1 refused. That time is approximate. The take of 21:06:30 UTC lies before it, but it was sent in the same run as the seven lines after 21:10 (`20261125T210610Z-743eb1`), and a run reads the key once, when it starts (`load_env` in `pipeline/core.py`). Counted by run, 10 requests went to the first key and 10 to the second: 9 answered, 1 refused.
 
-What has not been checked: whether Google's terms for the free tier allow a second key to be used when the first has reached its daily limit. The licence table in `ETHICS.md` quotes those terms on ownership and on data only.
+What the provider's pages say, read by an agent on 26 Nov: "Rate limits are applied per project, not per API key" (the rate limits page of the Gemini API), so the second key belongs to another project. And the Google APIs Terms of Service, section 2(d): "You agree to, and will not attempt to circumvent, such limitations documented with each API." Read plainly, a second project that is used to get past a daily limit is what that sentence is about. Whose project the second key belongs to is not recorded here. No audio made with either Gemini key is in the film: every line is spoken by the Addis AI voice.
 
 What fixed it: nothing fixed the quota. Since 01:10 on 26 Nov the narration is spoken by a voice of Addis AI (E26 in `EXPERIMENTS.md`), which runs on a sign-up credit and states no daily limit on requests (`pricing.json`). The storyboard no longer names the Gemini speech model.
 
@@ -276,7 +276,7 @@ Cause, in two layers:
 1. The final-cut check compared the film's nominal frame rate and its average frame rate as two strings. 1882112/78421 is 24.0001. Worked out from the fraction: 919 frames in a file whose duration is two ticks of 1/12288 s shorter than 919 frames. That is a rounding in the container, not a film with a changing frame rate. The same commit, tested again in a scratch clone on my machine (FFmpeg 6.1.1), gives 24/1 and passes. Why the FFmpeg on GitHub writes the shorter duration was not found.
 2. The coding agent had run the suite with `HERITAGE_FAST_TESTS=1` all night. That switch skips the three slowest tests, and this is one of them. So "the tests pass" had been said of a suite that did not build the offline film at all. Run in full on the next state of the storyboard, the same test failed on my machine too, for another reason: the offline film was 94.5 s long, over the limit of 90. The stand-in voice spoke 6.0 Ethiopic letters a second, and the real voice in the film speaks 6.7 (468 letters in 70.2 s).
 
-What fixed it: the check asks for the nominal rate exactly and for the average within 0.01 of it (`pipeline/qc.py`). The stand-in voice and the estimate of a line's length use the measured pace (`SYLLABLES_A_SECOND` in `pipeline/core.py`). The full suite, 114 tests with none skipped, passes on my machine on the commit that holds this entry. Whether GitHub is green again is known only when that commit has been pushed and run there.
+What fixed it: the check asks for the nominal rate exactly and for the average within 0.01 of it (`pipeline/qc.py`). The stand-in voice and the estimate of a line's length use the measured pace (`SYLLABLES_A_SECOND` in `pipeline/core.py`). The full suite, 114 tests with none skipped, passes on my machine on the commit that holds this entry. GitHub ran the suite on the next two pushed commits, `e0f3817` and `a2bd126`, and both passed.
 
 What it cost: one failed run on a public repository, and a claim of passing tests in the working notes that was not true of the whole suite.
 

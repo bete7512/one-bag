@@ -1,12 +1,12 @@
 # Costs
 
-Money is spent in two places, and one provider runs on a credit. The amounts are from the run log as it stood on 26 November 2026 at 03:02 East Africa Time, with 850 lines.
+Money is spent in two places, and one provider runs on a credit. The amounts are from the run log as it stood on 26 November 2026 at 15:09 East Africa Time, with 901 lines.
 
 | Provider | What is paid | Amount |
 |---|---|---|
-| Claude Opus 5.5: the picture judge, the subtitle check, four experiments | Every call. It has no free tier, and the calls are paid from prepaid credit (`pricing.json`) | 4.23 USD: the sum of `cost_usd` over provider `anthropic` in `runs.jsonl` |
+| Claude Opus 5.5: the picture judge, the subtitle check, four experiments | Every call. It has no free tier, and the calls are paid from prepaid credit (`pricing.json`) | 4.38 USD: the sum of `cost_usd` over provider `anthropic` in `runs.jsonl` |
 | Cloudflare Workers AI: the pictures | The Workers Paid plan, 5 USD a month, since about 23:50 on 25 Nov (`pricing.json`). On top of it, the part of each UTC day that goes over the free allowance of 10,000 neurons, which is 0.11 USD at list price | 5 USD a month for the plan. Over the allowance so far: 0.06 USD, on 25 Nov UTC, as `over_allowance` in `pipeline/costs.py` counts it from the log |
-| Addis AI: the narration voice and the listening check | Nothing so far. It runs on a sign-up credit of 3.17 USD (`pricing.json`) | 0 USD paid. 79 speech requests gave 571.3 s of audio: 0.30 USD at the list price of 0.000533 USD a second, taken from the credit. 77 requests to its speech-to-text model, `addis-scribe`, add 0.103 USD at list price. The API reports its balance with every answer: 64.14 of the 500 ETB credit are used |
+| Addis AI: the narration voice and the listening check | Nothing so far. It runs on a sign-up credit of 3.17 USD (`pricing.json`) | 0 USD paid. 95 speech requests gave 745.4 s of audio: 0.40 USD at the list price of 0.000533 USD a second, taken from the credit. 93 requests to its speech-to-text model, `addis-scribe`, add 0.14 USD at list price. The API reports its balance with every answer: 83.91 of the 500 ETB credit are used |
 
 Two limits of these amounts. The Cloudflare figure is what the log adds up to, not a bill: no invoice is in the repository. And it leaves out the seven picture calls that were logged before the `cost_usd` field existed, 0.007 USD at list price.
 
@@ -19,12 +19,12 @@ The table between the markers is written by `make costs` from `runs.jsonl`: one 
 <!-- costs:begin (written by `python -m pipeline costs --write`) -->
 | Stage | Provider | Model | Calls | Failed | Total latency (s) | Mean latency (s) | GPU minutes | List price (USD) |
 |---|---|---|---:|---:|---:|---:|---:|---:|
-| script | anthropic | `claude-opus-5-5` | 61 | 0 | 232.9 | 3.8 | 0.0 | 0.4486 |
-| narration | addis | `addis-scribe` | 70 | 0 | 131.6 | 1.9 | 0.0 | 0.0926 |
-| narration | addis | `addis-voices-2` | 76 | 0 | 572.8 | 7.5 | 0.0 | 0.2863 |
+| script | anthropic | `claude-opus-5-5` | 62 | 0 | 240.7 | 3.9 | 0.0 | 0.4546 |
+| narration | addis | `addis-scribe` | 86 | 0 | 173.2 | 2.0 | 0.0 | 0.1262 |
+| narration | addis | `addis-voices-2` | 92 | 0 | 691.8 | 7.5 | 0.0 | 0.3791 |
 | narration | gemini | `gemini-3.5-flash-lite` | 157 | 16 | 897.8 | 5.7 | 0.0 | 0.0136 |
 | narration | gemini | `gemini-3.8-flash-tts` | 19 | 1 | 140.4 | 7.4 | 0.0 | 0.0630 |
-| keyframes | anthropic | `claude-opus-5-5` | 141 | 0 | 1091.6 | 7.7 | 0.0 | 3.0172 |
+| keyframes | anthropic | `claude-opus-5-5` | 147 | 0 | 1148.9 | 7.8 | 0.0 | 3.1649 |
 | keyframes | cloudflare | `@cf/black-forest-labs/flux-2-klein-4b` | 154 | 0 | 1768.1 | 11.5 | 0.0 | 0.1811 |
 | keyframes | gemini | `gemini-3.5-flash-lite` | 16 | 4 | 66.2 | 4.1 | 0.0 | 0.0069 |
 | keyframes | gemini | `gemini-3.8-flash` | 22 | 20 | 1072.7 | 48.8 | 0.0 | 0.0000 + 2 n/a |
@@ -34,15 +34,15 @@ The table between the markers is written by `make costs` from `runs.jsonl`: one 
 | experiment | addis | `addis-scribe` | 7 | 0 | 18.0 | 2.6 | 0.0 | 0.0132 |
 | experiment | addis | `addis-voices-2` | 3 | 0 | 23.3 | 7.8 | 0.0 | 0.0182 |
 | experiment | anthropic | `claude-opus-5-5` | 70 | 12 | 315.8 | 4.5 | 0.0 | 0.7603 |
-| experiment | gemini | `gemini-3.5-flash-lite` | 23 | 7 | 87.1 | 3.8 | 0.0 | 0.0139 |
+| experiment | gemini | `gemini-3.5-flash-lite` | 35 | 9 | 142.2 | 4.1 | 0.0 | 0.0156 |
 | smoke | anthropic | `claude-opus-5-5` | 4 | 3 | 11.1 | 2.8 | 0.0 | 0.0002 |
 | smoke | cloudflare | `@cf/black-forest-labs/flux-2-klein-4b` | 1 | 0 | 4.5 | 4.5 | 0.0 | 0.0003 |
 | smoke | gemini | `gemini-3.5-flash-lite` | 2 | 0 | 3.9 | 2.0 | 0.0 | 0.0000 |
 | smoke | gemini | `gemini-3.8-flash` | 2 | 0 | 180.0 | 90.0 | 0.0 | n/a |
 | smoke | gemini | `gemini-3.8-flash-tts` | 1 | 0 | 4.7 | 4.7 | 0.0 | n/a |
-| **Total** | | | 850 | 68 | 10009.9 | | 56.0 | 5.5740 + 5 n/a |
+| **Total** | | | 901 | 70 | 10290.7 | | 56.0 | 5.8559 + 5 n/a |
 
-Source: `runs.jsonl`, 850 model calls. List price is what the calls would cost without the free tiers. Really paid: 4.2904 USD, for the calls to models that have no free tier. Everything else ran free. 5 call(s) are n/a and not in the sums: their price, or the usage it applies to, was not known when they were logged.
+Source: `runs.jsonl`, 901 model calls. List price is what the calls would cost without the free tiers. Really paid: 4.4441 USD, for the calls to models that have no free tier. Everything else ran free. 5 call(s) are n/a and not in the sums: their price, or the usage it applies to, was not known when they were logged.
 <!-- costs:end -->
 
 The list-price column answers "what would the same calls cost without the free tier". It uses `pricing.json`, where a price is only filled in from the provider's own pricing page, with the date. Until then it shows n/a.
@@ -59,8 +59,8 @@ The brief warns that free tiers change often. One row per model: the limit as it
 | `gemini-3.5-flash-lite` (text and listening) | 15 requests a minute, 500 a day | Not reached on either key: 206 requests in all, 176 answered in 1.4 to 53 s and 30 refused with HTTP 503. 160 of them came before the key was replaced and 46 after. A request that held many audio clips was refused every time, twelve times in a row (F04). | 2026-11-26 |
 | `gemini-3.8-flash-tts` (speech), first key | 3 requests a minute, 10 a day | Reached: 10 requests between 13:22 and 23:16 on 25 Nov, all answered. One request for all eight lines gave 70 s of audio in 19 s, and a single line took 4.8 to 7.6 s. Ten a day is why the lines were first spoken in one request (E20). | 2026-11-25 |
 | `gemini-3.8-flash-tts` (speech), second key | The same. It is a free-tier key too: the provider's message on a refused request says "limit: 10 requests per day on Free Tier" | 10 attempts between 00:06 and 00:15 on 26 Nov: 9 answered, 1 refused with HTTP 429 (F09). Not called since: the narration moved to Addis AI. | 2026-11-26 |
-| `addis-voices-2` (speech, Addis AI) | Pay as you go: 0.032 USD a generated minute, given as an indicative price. A new account has a credit of 3.17 USD. No daily limit on requests is stated | 79 requests, none failed, 5.3 to 11.0 s each. 0.30 USD of the credit used, at list price. | 2026-11-26 |
-| `addis-scribe` (speech to text, Addis AI) | Pay as you go: each answer reports 3.5 ETB per 1,000 characters written down, about 0.022 USD. Paid from the same credit. The documentation gives ten transcriptions at a time as the limit | 77 requests, none failed, 1.1 to 5.0 s each. 0.103 USD of the credit used, at list price. | 2026-11-26 |
+| `addis-voices-2` (speech, Addis AI) | Pay as you go: 0.032 USD a generated minute, given as an indicative price. A new account has a credit of 3.17 USD. No daily limit on requests is stated | 95 requests, none failed, 5.3 to 11.0 s each. 0.40 USD of the credit used, at list price. | 2026-11-26 |
+| `addis-scribe` (speech to text, Addis AI) | Pay as you go: each answer reports 3.5 ETB per 1,000 characters written down, about 0.022 USD. Paid from the same credit. The documentation gives ten transcriptions at a time as the limit | 93 requests, none failed, 1.1 to 5.0 s each. 0.14 USD of the credit used, at list price. | 2026-11-26 |
 | FLUX.2 klein 4B on Cloudflare Workers AI | 10,000 neurons a day are free: about 96 pictures of 1024 x 1024, fewer when reference pictures are sent along. On the Workers Paid plan, since about 23:50 on 25 Nov, the rest is billed at 0.011 USD per 1,000 neurons | Passed on 25 Nov UTC: 151 picture calls, 161% of the day's allowance at list price, 4.0 to 37 s each. By the log the allowance was passed at 23:56 East Africa Time, after the account had moved to the paid plan. | 2026-11-26 |
 | Kaggle GPU | 30 hours a week | Not known today. `kaggle quota` said 1.13 hours when it was last read, which was written into this file at 23:24 on 25 Nov (commit `9935183`). Two more Wan jobs ran after that: one in which both clips failed in under a minute, and one that took 29.9 minutes to load the model and make two clips. Part of the time made nothing new: a job that was sent twice (F06), a job that was killed after its first clip (F07), and the job that failed. | 2026-11-25 |
 | `claude-opus-5-5` (judge, subtitle check) | No free tier: 4 USD per million tokens in, 20 out | 211 answers in 2.7 to 34.1 s. A judged picture costs 0.012 to 0.030 USD, 0.021 on average: more when reference pictures are sent with it. 15 earlier attempts were refused for billing reasons and cost nothing (F03). | 2026-11-26 |
@@ -73,7 +73,7 @@ By 23:16 on 25 Nov the first key had used its ten speech requests for the day. A
 
 Speech requests in `runs.jsonl`, with 21:10 UTC on 25 Nov as the boundary, as `pricing.json` has it: 11 before it, all answered, and 9 after it, 8 answered and 1 refused. The boundary is approximate. The take of 21:06 UTC lies before it, but it was sent in the same run as the seven lines after it, and a run reads the key once. Counted by run, 10 requests went to the first key and 10 to the second: 9 answered, 1 refused.
 
-Whether the provider's terms allow a second free key to be used when the first has reached its daily limit has not been checked.
+What the provider's pages say, read by an agent on 26 November: "Rate limits are applied per project, not per API key" (the rate limits page of the Gemini API), so the second key belongs to another project. And the Google APIs Terms of Service, section 2(d): "You agree to, and will not attempt to circumvent, such limitations documented with each API." Read plainly, a second project that is used to get past a daily limit is what that sentence is about. Whose project the second key belongs to is not recorded here. No audio made with either Gemini key is in the film: every line is spoken by the Addis AI voice. See F09 in `FAILURES.md`.
 
 ## GPU time
 
@@ -104,4 +104,4 @@ No access to a frontier model for pictures, video or music: those are behind pai
 | Pictures with a border, of 9 | 8 found | 9 found |
 | Different totals over 12 pictures | 5 | 9 |
 
-Sixteen times the price bought one more border found, no failed calls, and notes that say what to change in the prompt. For a film of ten shots with two candidates each that is about 0.43 USD a pass, so it is the judge in use. Claude has cost 4.23 USD in all, by the run log at the time given at the top of this file: 3.02 USD for 141 judged pictures in the keyframes stage, 0.76 USD for the experiments E17, E19, E24 and E28, and 0.45 USD for 61 subtitle checks.
+Sixteen times the price bought one more border found, no failed calls, and notes that say what to change in the prompt. For a film of ten shots with two candidates each that is about 0.43 USD a pass, so it is the judge in use. Claude has cost 4.38 USD in all, by the run log at the time given at the top of this file: 3.16 USD for 147 judged pictures in the keyframes stage, 0.76 USD for the experiments E17, E19, E24 and E28, and 0.45 USD for 62 subtitle checks.

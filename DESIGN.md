@@ -84,7 +84,7 @@ They did not answer question by question. They wrote what they thought, and this
 
 Two more comments reached the working session a few minutes later, in these words: "also one last comment about last word ኑረው would be nice to change with other", and "in general the story it tells would be nicer if improved to send message for audience".
 
-What is missing from this record: who the three are to me, and whether the two later comments are a listener's or mine. I passed the answers to the coding agent as they stand above and told it to decide the changes itself. The changes below are its work. I confirm them when I confirm the lines.
+Not recorded: who the three are to me, and whether the two later comments are a listener's or mine. I passed the answers to the coding agent as they stand above and told it to decide the changes itself. The changes below are its work.
 
 **What I learned:**
 
@@ -96,22 +96,16 @@ What is missing from this record: who the three are to me, and whether the two l
 
 ## User test 2: the near-final cut
 
-Not done yet. Same people if possible, plus at least one new viewer who has not heard the radio cut.
+Not done. No answers from a second group of viewers are recorded, so the second of the two tests is missing.
+
+What stood in its place is not a user test and is not counted as one: a second coding session reviewed the cut against the brief, frame by frame, in five passes on 25 and 26 November. What it found, and what changed, is in "Changes made after a review of the cut" below.
+
+The questions that were prepared for the viewers:
 
 1. Did the pictures match what you imagined from the voice?
 2. Is the young man the same person in every shot?
 3. Could you read the subtitles in time? Was the music ever in the way of the voice?
 4. What is the one thing you would cut or change?
-
-| # | Who (relation, not name) | Date | Watched vertical or horizontal | What they said, in their words | Where they reacted |
-|---|---|---|---|---|---|
-| 1 | | | | | |
-| 2 | | | | | |
-| 3 | | | | | |
-
-**What I learned:**
-
-**What I changed:**
 
 ## Changes made because of the tests
 
@@ -131,7 +125,7 @@ One row per change, so the storyboard's history can be read against what people 
 
 ## Changes made after a review of the cut
 
-On 26 November at 00:45 a second coding session reviewed the cut of that hour against the brief, frame by frame, and wrote down what was wrong. I read its list and passed it to the coding agent that builds the film. The fixes below are the agent's work, done the same night. It looked at every new picture before pinning it. I confirm them when I confirm the film.
+On 26 November at 00:45 a second coding session reviewed the cut of that hour against the brief, frame by frame, and wrote down what was wrong. I read its list and passed it to the coding agent that builds the film. The fixes below are the agent's work, done the same night. It looked at every new picture before pinning it.
 
 | What the review found | What changed | Measured | Commit |
 |---|---|---|---|
@@ -145,7 +139,17 @@ On 26 November at 00:45 a second coding session reviewed the cut of that hour ag
 | The road shot moves for 3.4 seconds and then stands on its last frame | The shot lasts as long as its voice needs, 4.8 seconds. The clip, slowed by a quarter, fills 4.2 of them | The final-cut check no longer lists it | `ac3ac21` |
 | The last words of the film are on screen for 1.3 seconds | The last shot is 1.5 seconds longer, and "Do not run from it. Savour it." stays for 2.8 | Film length 70.9 s | `ac3ac21` |
 
-Not changed: the bus station seen from far (s05) keeps its picture, which the judge scores 1.6 and I picked by eye.
+Not changed: the bus station seen from far (s05) keeps its picture, which the judge scores 1.6 and the coding agent picked by eye.
+
+A last pass of the same review, on 26 November at 14:26, looked at the cut with my own narration. What changed after it:
+
+| What the review found | What changed | Measured | Commit |
+|---|---|---|---|
+| Nine words that the listening model wrote differently from my text, among them the last word of the film | A second listener wrote down the same recordings, and three lines were recorded again. The take in which the most words are heard is kept: take 2 of the first line, take 3 of the Lamberet line, take 12 of the last line | E30: three of the nine were the listener's mistake, three are heard in the new takes, three stay as they were | `3fd45b4` |
+| Small marks like letters on shop signs in the night street (s04) | Four small boxes of that picture are blurred when the keyframe is cut (`keyframe.soften`). The image model is not asked again | The judge's total for the picture went from 3.4 to 4.0 | `3fd45b4` |
+| One subtitle said "whom to hear" | "We did not know whom to listen to." | Subtitle check: faithful | `3fd45b4` |
+| Nobody had checked the tall film against what the apps lay over it | The subtitles of the tall film stand 672 px above the bottom, the line that YouTube and Meta publish as safe for text | E31: 332 to 411 px above the bottom before, 682 to 752 px after | `3fd45b4` |
+| The record said the film was not released | Both films, the index of the cut and the final-cut report are in the repository and on the public page | The strict build passes | `3fd45b4` |
 
 The numbers in this table are those of commit `ac3ac21`. The review's last point, that the story did not say why I left Ankober or what the ticket was for, is answered in the next section.
 
@@ -161,6 +165,6 @@ What the agent did with it:
 |---|---|
 | Ten lines for ten shots | Each sentence stays whole and goes on the picture it fits. The first two sentences play over a new first shot, the town seen from far (s00). The pictures did not have to change: this version names the midday, the gravel road, Lamberet and the queue for a ticket, which are what the pictures show. |
 | The English subtitles | Written by the agent. The first one adds "(late 2019)" after "Meskerem 2012", for a reader who does not know the Ethiopian calendar. A second model checks each subtitle against its line and finds all ten faithful. I read them and confirmed them on 26 November. |
-| The voice | The same Addis AI voice, each line in a request of its own. In the last line it left out the first word, ዛሬ, "today": the listening model did not write it, a second listening model did not either, and the match of the whole line was still 0.96. The agent found that the voice drops a first word that is followed by a comma, sends that line without the comma, asks for a further take when a word at either end is missing (`voice.takes`), and added a check of the first and last word of every line (E29). The take in the film is the third. Each line now matches at 0.945 to 1.00. |
+| The voice | The same Addis AI voice, each line in a request of its own. In the last line it left out the first word, ዛሬ, "today": the listening model did not write it, a second listening model did not either, and the match of the whole line was still 0.96. The agent found that the voice drops a first word that is followed by a comma, sends that line without the comma, asks for a further take when a word at either end is missing (`voice.takes`), and added a check of the first and last word of every line (E29). A second listener and further takes followed (E30): the film has take 2 of the first line, take 3 of the Lamberet line and take 12 of the last line, the first take in which both ዛሬ and the last word, አጣጥመው, are heard. Each line matches at 0.945 to 1.00. |
 | The road shot | Its line is 4.1 s long and its generated clip 3.4 s, so the clip is played one and a half times slower with its frames blended (`motion.slow_max`). It moves for the whole shot. |
 | The score | The film is 85.2 s and the score is 80 s. Instead of starting again under the last words, the score is played 6% slower at the same pitch. |
