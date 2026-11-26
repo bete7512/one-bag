@@ -20,13 +20,13 @@ Around midday in 2019 I left Ankober with one backpack, in the plastic sandals t
 
 Five beats, as the narration now tells them:
 
-1. **Leaving.** I have finished twelfth grade and am assigned to Bahir Dar University. The journey starts in Ankober, with one backpack and a mind full of questions.
-2. **The road.** Debre Birhan, then Addis Ababa, then Bahir Dar. From the window the land keeps changing.
-3. **The city at dusk.** Autobus Tera: my friend meets me, people move every way, cars pass, brokers ask if we want a bed.
-4. **Too much at once.** A moment of confusion, and then a room with one bed, clean enough to rest.
-5. **The morning, and now.** The queue for a ticket to go on, and what I say today to everyone who leaves the world they know.
+1. **Leaving.** The first night far from home is the one I will never forget. Meskerem 2012: I have finished twelfth grade and am assigned to Bahir Dar University. At midday I leave Ankober with one backpack, and a friend sees me off.
+2. **The road.** Gravel as far as Debre Birhan, then asphalt. From the window seat, forest and mountain.
+3. **The city at night.** Lamberet after dark: another friend is waiting, and Addis Ababa is people, lights and cars. I do not know where to look.
+4. **The confusion.** At Autobus Tera the brokers surround us, and we do not know whom to listen to. We follow one, to a room with one bed, neither good nor bad, but clean.
+5. **The morning, and now.** A long queue and the ticket to Bahir Dar. Seven years later, what I say to everyone who leaves home.
 
-What the film says to them: the first night is always confusing. Do not run. Savour it. The first cut ended on one word to my younger self, and a listener's comment asked whom the story was for.
+What the film says to them: the first night is always confusing. But the confusion is part of the journey. Do not run from it; savour it. The first cut ended on one word to my younger self, and a listener's comment asked whom the story was for.
 
 ## Choices and why
 
@@ -38,8 +38,8 @@ Rewritten with the storyboard on 25 November, after the story was told in full. 
 | One object runs through the film: the backpack | It is on my shoulders at the start, on the seat beside me on the bus, on the floor of the room, and at my feet at the end. An object stays the same across shots more easily than a face, but only once its colour is written down. Until 26 November the description said "one simple backpack", and it came out sage green, tan, charcoal and brown. Now it says "olive green canvas", and one model's reading of the seven pictures gives olive green seven times (E28 in `EXPERIMENTS.md`). |
 | The plastic sandals | I arrived in the moulded plastic sandals that are everywhere at home. The first pictures had me in leather boots. In the cut of 26 November, 01:13, one picture of five had the sandals and the others had leather sandals or shoes. After the redraw the same reading finds plastic sandals in all five pictures of me in 2019 (E28). My friend has them too in the brokers' picture. That is the model's choice: I did not ask for it. |
 | Nobody's likeness is in the film | My friend is drawn from behind only, as he agreed. I am drawn from behind in every shot. On the bus seat I am seen from behind and a little from the side, turned to the window, and part of a cheek shows. That cheek is the model's invention. No photo of me, of him or of anyone was ever given to a model. |
-| My friend is drawn in one shot only, with the brokers | He agreed to one scene. After I told the story in full, the storyboard had him in three: at Lamberet, with the brokers, and in the queue. Two things brought it back to one. It was more than he had said yes to. And the image model could not draw two people from behind in a crowd: of eight pictures for Lamberet and eight for the queue, over four runs, none was usable (F05 in `FAILURES.md`). So in the city at dusk and in the queue I am alone in the frame, and the voice says he met me there. |
-| The friend who said goodbye in Ankober is not in the film | He is in my telling of 25 November and not in the narration I wrote. Showing him would put a third real person in the film. |
+| My friend is drawn in one shot only, with the brokers | He agreed to one scene. After I told the story in full, the storyboard had him in three: at Lamberet, with the brokers, and in the queue. Two things brought it back to one. It was more than he had said yes to. And the image model could not draw two people from behind in a crowd: of eight pictures for Lamberet and eight for the queue, over four runs, none was usable (F05 in `FAILURES.md`). So at Lamberet and in the queue I am alone in the frame, and the voice says he was waiting there. |
+| The friend who saw me off in Ankober is heard about, not shown | Showing him would put a third real person in the film. The voice says he saw me off. |
 | The brokers are nobody | They are strangers, and the shot is about how many they were. I asked for their faces in shadow or turned away. In the picture that was kept the model lit them all the same. They are its invention and no real person's. |
 | One shot moves, the road | Four shots were made as real video on a free GPU. The bus on the gravel road works: something in the picture can move, and it does. The other three do not: in the blurred city lights the model painted things that were not there, at Lamberet the minibuses melt from frame to frame, and on the balcony stains spread over my shirt. Those three stay as slow pans over their stills (E08 in `EXPERIMENTS.md`). |
 | Day, then night, then morning | Midday and mountains for the road, night and electric light for the city, gold morning light for the queue. The light tells the time, so the voice does not have to. |
@@ -54,16 +54,16 @@ The source of truth is the `reason` field of each shot in `storyboard.json`. The
 
 | Shot | Size | Reason |
 |---|---|---|
-| s00 Ankober, from far | extreme wide | Where he comes from, before he is in the picture: the town on its ridge, on the morning a new chapter begins. The voice says why he is leaving. |
-| s01 Midday, Ankober | medium | Where the journey starts: a small highland town, a country bus with its door open, and one backpack. |
-| s02 The gravel road | extreme wide | The journey itself, and the scale of it: one small bus on a gravel road under forested mountains, while the voice names the three places ahead. |
+| s00 Ankober, from far | extreme wide | Where he comes from, before he is in the picture: the town on its ridge. The voice says what he will never forget, and when it was. |
+| s01 Midday, Ankober | medium | Where the journey starts: a small highland town at midday, a country bus with its door open, and one backpack. The friend who saw him off is in the voice, not in the picture. |
+| s02 The gravel road | extreme wide | The journey itself, and the scale of it: one small bus on a gravel road under forested mountains, as the voice names the road. |
 | s03 The window seat | medium | The same journey from where he sat. Nobody travelled with him, so the shot is his alone: he at the window, his backpack on the seat beside him, and the mountains outside. |
-| s04 The city at dusk | wide | The arrival, and the turn of the film: daylight and mountains give way to dusk, crowds, lit buildings and cars. He is alone in the frame, facing all of it. His friend met him there, and the voice says so. |
-| s05 Autobus Tera, from far | extreme wide | The big bus station, seen whole and from far: people moving every way between the buses, as the voice says, before we are in the middle of it. |
-| s06 Too much at once | medium | The heart of the story as he tells it: not fear but confusion. Brokers on every side, and two friends in the middle of them. |
-| s07 The room | wide | Quiet after the noise, and as he tells it: one bed, not the best, not bad, clean enough to rest. The backpack is the only thing of his in it. |
-| s08 The queue | wide | The morning after: the city is ordinary again, a long line of people waiting for a ticket to go on. He is the last one in it, seen from behind. |
-| s09 Now | medium | The answer to the whole night. The same city, seen calmly by the man that boy became, with the old backpack on the floor beside him. |
+| s04 Lamberet at night | wide | The arrival, and the turn of the film: daylight and mountains give way to night, crowds, lights and cars. He is alone in the frame and does not know where to look. The friend who waited for him is in the voice. |
+| s05 Autobus Tera, from far | extreme wide | The big bus station, seen whole and from far, as the voice says they reached it and the brokers closed in. |
+| s06 Do you want a bed? | medium | The heart of the story as he tells it: not fear but confusion. Brokers on every side offering a bed, and two friends who do not know whom to listen to. |
+| s07 The room | wide | Quiet after the noise, and as he tells it: one bed, neither good nor bad, clean. The backpack is the only thing of his in it. |
+| s08 The queue | wide | The morning after: the city is ordinary again, a long line of people waiting for a ticket. His is to Bahir Dar. He is the last one in the line, seen from behind. |
+| s09 Now | medium | The answer to the whole night, seven years later. The same city, seen calmly by the man that boy became, with the old backpack on the floor beside him. |
 
 ## User test 1: the radio cut
 
@@ -151,18 +151,16 @@ The numbers in this table are those of commit `ac3ac21`. The review's last point
 
 ## The narration I wrote myself
 
-The review also asked whether the eight lines were what I would say. They were not mine: the coding agent had written them from my telling and from the listeners' comments. On 26 November I wrote the whole narration in Amharic and sent it to the agent at about 02:20 as the text to be spoken. It is in `storyboard.json` word for word: when the agent made the edit it checked that the ten lines, joined together, are the text I sent.
+The review also asked whether the eight lines were what I would say. They were not mine: the coding agent had written them from my telling and from the listeners' comments. On the night of 26 November I wrote the narration myself, in Amharic, twice. The first version reached the agent at about 02:20 and was in the film for half an hour (commit `c368f40`). It left out the midday, the friend who saw me off, the gravel road and Lamberet. At about 02:50 I sent a second version to replace it, with these words: "content change we would like to make this one instead of the one already added ... hope this is our last one". That second version is the narration of the film. It is in `storyboard.json` word for word: when the agent made the edit it checked that the ten lines, joined together, are the text I sent.
 
-In English it says: When I finished twelfth grade, I was assigned to Bahir Dar University; right then a new chapter began. My journey began in Ankober; with only one backpack and a mind full of questions. First to Debre Birhan, then to Addis Ababa, and finally to Bahir Dar. As I looked out of the window, the road and the landscape kept changing; forest and mountains, valleys and roads stretching away. It was dusk when I reached Autobus Tera; my friend met me there. People move every way, cars pass, and brokers ask, "Do you want a bed?" For a moment everything seemed too much at once, and confusing. In the end we chose a room with one bed; it was not the best, and not bad, but clean enough to rest. Next morning, to continue the journey, we stood in a long queue and bought a ticket. When I remember that first night away from home, I say one thing to all who leave the familiar world and start a new journey: the first night is always confusing. Do not run. Savour it.
+In English it says: I will never forget the first night I spent far from home. It was Meskerem 2012. When I finished twelfth grade, I was assigned to Bahir Dar University. At midday, with just one backpack, seen off by my friend, I left Ankober. The road was gravel as far as Debre Birhan, then asphalt. Sitting by the window, I watched the forest and the mountain in wonder. When I reached Lamberet after dark, another friend was waiting for me. Addis Ababa met me flooded with people, lights and cars; I did not know where to look. And when we reached Autobus Tera, brokers surrounded us. "Do you want a bed? A bed?" We were confused about whom to hear. In the end we followed one. The room had one bed; it was neither good nor bad; but it was clean. Next morning we stood in a long queue and bought the ticket to Bahir Dar. Today, seven years later, I have one thing to say to all who leave home: the first night is always confusing. But the confusion is part of the journey. Do not run from it; savour it.
 
 What the agent did with it, and what is still mine to check:
 
 | What | How |
 |---|---|
-| Ten lines for ten shots | Each sentence stays whole and goes on the picture it fits. The first sentence had no picture, so a new first shot was added: the town seen from far in the morning (s00). The sentence about people, cars and brokers plays over the bus station seen from far (s05), which had no words before, and "too much at once" plays over the two friends among the brokers (s06). |
-| The English subtitles | Written by the agent. A second model checks each against its line, and finds all ten faithful. I have not read them yet. |
-| The voice | The same Addis AI voice, each line in a request of its own. The speech model that listens matches each line at 0.93 to 1.00. In the line about confusion it did not write the end of the last word, መሰለኝ. I have to hear whether the voice says it. |
-| The road shot | Its line is longer than its generated clip, so the clip is played at about half speed with its frames blended (`motion.slow_max` in the storyboard). It now moves for the whole shot. |
-| The score | The film is 85.9 s and the score is 80 s. Instead of starting again under the last words, the score is played 7% slower at the same pitch. |
-| Lamberet | My narration does not name it. The picture of the avenue at dusk stays, under the sentence about reaching Autobus Tera. Whether that picture is right for that sentence is mine to say. |
-
+| Ten lines for ten shots | Each sentence stays whole and goes on the picture it fits. The first two sentences play over a new first shot, the town seen from far (s00). The pictures did not have to change: this version names the midday, the gravel road, Lamberet and the queue for a ticket, which are what the pictures show. |
+| The English subtitles | Written by the agent. The first one adds "(late 2019)" after "Meskerem 2012", for a reader who does not know the Ethiopian calendar. A second model checks each subtitle against its line and finds all ten faithful. I have not read them yet. |
+| The voice | The same Addis AI voice, each line in a request of its own. In the last line it left out the first word, ዛሬ, "today": the listening model did not write it, a second listening model did not either, and the match of the whole line was still 0.96. The agent found that the voice drops a first word that is followed by a comma, sends that line without the comma, asks for a further take when a word at either end is missing (`voice.takes`), and added a check of the first and last word of every line (E29). The take in the film is the third. Each line now matches at 0.945 to 1.00. Whether it sounds right is mine to hear. |
+| The road shot | Its line is 4.1 s long and its generated clip 3.4 s, so the clip is played one and a half times slower with its frames blended (`motion.slow_max`). It moves for the whole shot. |
+| The score | The film is 85.2 s and the score is 80 s. Instead of starting again under the last words, the score is played 6% slower at the same pitch. |

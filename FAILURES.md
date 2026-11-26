@@ -1,6 +1,6 @@
 # Failures
 
-What broke, what was tried, what fixed it. An entry is added the moment something breaks, while the error text is still on the screen. F08 to F10 are the exception: the coding agent wrote them on 26 Nov, some hours after they happened, from the commits, the run log and the kept files.
+What broke, what was tried, what fixed it. An entry is added the moment something breaks, while the error text is still on the screen. F08 to F10 are the exception: the coding agent wrote them on 26 Nov, some hours after they happened, from the commits, the run log and the kept files. F11 and F12 were written by the coding agent within the hour.
 
 ## From real runs
 
@@ -258,6 +258,48 @@ What fixed it: not confirmed. The largest step came down from 4.5 to 1.8 and 1.7
 What it cost: the ten speech attempts on the second free key (F09), and 32 requests to Addis AI, 0.11 USD at list price, taken from the sign-up credit.
 
 What would be done differently: record all lines of a film in one sitting from the first day, and measure the pitch of each line before a person has to hear the fault. The plan to save speech requests with a take and single re-takes (E20) is what put three sittings into one film.
+
+### F11  The tests failed on GitHub and passed on my machine  (26 Nov 2026)
+
+Stage: the `tests` workflow on GitHub, on commit `38fa348`, pushed at 02:20.
+
+What happened: 110 tests ran and one failed, `test_one_command_makes_the_film_and_only_changed_shots_regenerate`, with:
+
+```
+AssertionError: False is not true : [{'level': 'must', 'check': 'vertical: constant 24 fps', 'ok': False, 'detail': '1882112/78421'}, {'level': 'must', 'check': 'horizontal: constant 24 fps', 'ok': False, 'detail': '1882112/78421'}, ...
+```
+
+The commit before it on GitHub, `434f5de`, had passed. On my machine every run of the suite that night had passed.
+
+Cause, in two layers:
+
+1. The final-cut check compared the film's nominal frame rate and its average frame rate as two strings. 1882112/78421 is 24.0001. Worked out from the fraction: 919 frames in a file whose duration is two ticks of 1/12288 s shorter than 919 frames. That is a rounding in the container, not a film with a changing frame rate. The same commit, tested again in a scratch clone on my machine (FFmpeg 6.1.1), gives 24/1 and passes. Why the FFmpeg on GitHub writes the shorter duration was not found.
+2. The coding agent had run the suite with `HERITAGE_FAST_TESTS=1` all night. That switch skips the three slowest tests, and this is one of them. So "the tests pass" had been said of a suite that did not build the offline film at all. Run in full on the next state of the storyboard, the same test failed on my machine too, for another reason: the offline film was 94.5 s long, over the limit of 90. The stand-in voice spoke 6.0 Ethiopic letters a second, and the real voice in the film speaks 6.7 (468 letters in 70.2 s).
+
+What fixed it: the check asks for the nominal rate exactly and for the average within 0.01 of it (`pipeline/qc.py`). The stand-in voice and the estimate of a line's length use the measured pace (`SYLLABLES_A_SECOND` in `pipeline/core.py`). The full suite, 114 tests with none skipped, passes on my machine on the commit that holds this entry. Whether GitHub is green again is known only when that commit has been pushed and run there.
+
+What it cost: one failed run on a public repository, and a claim of passing tests in the working notes that was not true of the whole suite.
+
+What would be done differently: before a commit that changes the pipeline, run what GitHub runs, `make test`, not the short form.
+
+### F12  The voice left out the first word of a line  (26 Nov 2026)
+
+Stage and model: narration. Addis Voices 2 with the voice `am-nahom`.
+
+What happened: the last line of my narration begins ዛሬ፣ ከሰባት ዓመት በኋላ፣ ("Today, seven years later,"). The recording began at ከሰባት. The listening check did not catch it: the speech model wrote the line down without its first word, and the match of the whole line was 0.96, far above the floor of 0.6. One word of fifteen does not move that number. The coding agent saw it when it read what the listener had written.
+
+What was tried, in order:
+
+1. Silence around the audio for the listener, 0.6 s before and 0.8 s after (run `20261125T235334Z-429c80`). In another line the listener had written ተከ for the last word ተከተልን, and with the silence it wrote the word in full: that one was the listener's fault. The first word of the last line was still missing.
+2. A second listener, the text model (run `20261125T235356Z-e6490f`). It also wrote the line from ከሰባት. So the word is not in the audio.
+3. Three new recordings of the line (E29 in `EXPERIMENTS.md`): the same text again, the first word as a sentence of its own, and the text without the comma after the first word. Only the third has the word.
+4. In the pipeline the line is now sent to this voice without that one comma. The first take has ዛሬ, and its last word, አጣጥመው, was written as አታጥሞ. The second take is without ዛሬ again. The third has both ends.
+
+What fixed it: for this film, the third take (`"takes": {"s09": 3}` in the storyboard). In general it is not fixed: of four recordings sent without the comma, one still lacks the first word. What changed is that it is now seen. The listening check looks at the first and the last word of every line on their own (`unheard_edges` in `pipeline/core.py`), the final-cut check lists a line where one was not heard, and `voice.takes` asks the voice for that line again.
+
+What it cost: six extra speech requests and about twenty listening requests, a few cents of the sign-up credit. And it could have cost the film its "today": I had not heard this cut yet.
+
+What would be done differently: a score over a whole line cannot see one missing word. The two ends of a line are where a speech model cuts, so they are checked on their own from the first recording on.
 
 ## From the offline build (coding agent, 25 Nov 2026)
 

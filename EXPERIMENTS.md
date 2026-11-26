@@ -2,7 +2,7 @@
 
 One entry per experiment: a hypothesis, the one thing changed, how it is measured, the result, the decision. Change one thing at a time and keep the seed fixed, or the result cannot be read.
 
-**Status on 26 Nov 2026, 02:37: E08, E12 and E15 to E28 have a result. E01, E03, E04, E06, E07, E09, E10, E13 and E14 were not run. E02, E05 and E11 were not run as planned: a later experiment answered each in another form.** Each hypothesis is written down before its run on purpose, so the result cannot bend it. E26 and E27 are the exceptions, and their entries say so. A result is filled in only from a real run, with the evidence it points to (`runs.jsonl` lines, a listening sheet, a blind-test result).
+**Status on 26 Nov 2026, 03:12: E08, E12 and E15 to E29 have a result. E01, E03, E04, E06, E07, E09, E10, E13 and E14 were not run. E02, E05 and E11 were not run as planned: a later experiment answered each in another form.** Each hypothesis is written down before its run on purpose, so the result cannot bend it. E26 and E27 are the exceptions, and their entries say so. A result is filled in only from a real run, with the evidence it points to (`runs.jsonl` lines, a listening sheet, a blind-test result).
 
 ## Plan
 
@@ -38,6 +38,7 @@ Rows E01 to E14 were written before the first real run. A row that was never run
 | E26 | No hypothesis was written before the run: see the entry. The question: does a voice of Addis AI, a provider built for Ethiopian languages, say the eight lines as well as the Gemini voice, and do its lines sit as close together in pitch? Added on 26 Nov. | `models.tts` and `voice.name`: three voices of Addis AI against the Gemini voice `Charon`, on the same eight lines | The match of the listening check for each line, where the listener is a model, and the largest step in pitch between neighbouring lines | Mean match 0.78, 0.87 and 0.81 for the three voices, against 0.80 for the Gemini voice, which has one line at 0.16. Largest step 2.2, 1.7 and 1.6 semitones, against 1.8. | `am-nahom` is in the cut, picked from these numbers by the coding agent. The choice by ear is mine and is not made yet. |
 | E27 | No hypothesis was written in this file before the run: see the entry. Two questions. Does a speech model built for Amharic hear the eight lines better than the text model that had been the listener? And how far off was the pipeline's way of finding where a spoken sentence ends, which the subtitles are timed by? Added on 26 Nov. | The listener (`models.listener`): the text model against Addis AI's speech-to-text, on the same eight audio files. And the way a sentence end is found: letters and measured pauses, against the times of the heard words | The match of what was heard with the script, per line. The distance between the two sentence ends, for 18 ends | Mean match 0.96 against 0.84, lowest line 0.89 against 0.72. The two ways of finding a sentence end are 0.26 s apart on average and 0.53 s at most. | The speech model is the listener, and the subtitles are timed from the words it heard (commit `ac3ac21`). |
 | E28 | His clothes and backpack change from shot to shot because the description names no colour. With the colours written into the description, a shot drawn from the words alone holds them. Stated in a written review of the cut at 00:45 on 26 Nov, before any picture was redrawn. | The character description: colours named, against none. Not the only change: every shot with him is now drawn without the reference picture, and three prompts were rewritten | One model names the colour of his jacket, trousers and backpack and what is on his feet, in the picked picture of each shot, before and after | Backpack as described in 7 of 7 shots (before: 0 of 6, in four colours). Plastic sandals in 5 of 5 (before: 1 of 5). Trousers 4 of 5 (before: 2 of 5). Jacket grey or charcoal grey in 5 of 5 (before: 2 of 5, three navy blue). | The description keeps its colours and no shot uses the reference picture (commit `ac3ac21`). |
+| E29 | The voice leaves out a short first word when a punctuation mark follows it at once. The same text sent again loses the word again, and the text without the comma keeps it. Written down after the fault was seen (F12) and before the recordings. | The mark after the first word of one line: a comma, a full stop, nothing | A speech model writes down each recording: is the first word there | With a comma or a full stop: missing in three of three recordings. Without: there in three of four. | The line is sent to this voice without that comma. The listening check reports a missing first or last word, and `voice.takes` asks for the line again. |
 
 ## Log
 
@@ -53,6 +54,32 @@ Result:
 Decision:           (what went into storyboard.json or the code)
 What it changed:
 ```
+
+### E29  The first word that the voice did not say  (26 Nov 2026)
+
+Hypothesis: the last line of the narration begins ዛሬ፣ ("Today,") and came back without that word (F12 in `FAILURES.md`). Written down before the three recordings below: the voice leaves out a short first word when a punctuation mark follows it at once. If so, the same text sent again loses the word again, and the text without the comma keeps it.
+
+Changed: the mark after the first word of the line. A comma, as I wrote it. A full stop, which makes the word a sentence of its own. Nothing.
+
+Held fixed: the other words of the line, the voice `am-nahom`, the provider. This voice takes no seed, so no two recordings are the same.
+
+Evidence: run `20261125T235426Z-7dc4e7`, three speech requests and three listening requests. The three recordings and what the speech model heard in each are in `outputs/experiments/E29/`. Each recording was sent to the listener with silence before and after it.
+
+Result:
+
+| Sent to the voice | First words heard | Is ዛሬ there |
+|---|---|---|
+| ዛሬ፣ ከሰባት ዓመት በኋላ፣ ... (as written, again) | ከሰባት ዓመት በኋላ | no |
+| ዛሬ። ከሰባት ዓመት በኋላ፣ ... | ከሰባት ዓመት በኋላ | no |
+| ዛሬ ከሰባት ዓመት በኋላ፣ ... | ዛሬ ከሰባት ዓመት | yes |
+
+With the first recording in the pipeline, the word is missing in three of three recordings where a mark follows it. After the change it was sent without the comma three more times in the pipeline: the word is there in the first and the third take and missing in the second. So without the comma it is there in three of four.
+
+Six answers, 11.2 to 11.7 s of audio each, a few cents of the sign-up credit.
+
+Decision: a voice of Addis AI is sent its line without a comma after the first word (`speech_text` in `pipeline/providers.py`). The storyboard, the subtitles and the listening check keep my text as I wrote it. Because one recording in four still lost the word, two more things went in: the listening check reports a first or last word that was not heard, and `voice.takes` asks for a further take of one line. The film uses the third take of this line.
+
+What it changed: the hypothesis holds as far as three recordings can show, and it is not the whole cause. Limits: one line, one voice, seven recordings in all. I do not know why the voice does it, and nobody has heard these recordings but two models.
 
 ### E28  The colours written down, and no reference picture  (26 Nov 2026)
 
@@ -121,7 +148,7 @@ Ten answers in 1.7 to 5.0 s. Each answer reports its own price: 3.5 ETB for 1,00
 
 Decision: `models.listener` is `addis-scribe`. A subtitle is shown sentence by sentence, each while its sentence is spoken, by the heard words. Short sentences share a cue until it has been up for 1.5 s. The film has 23 cues where it had 13, and no cue is one left-over word. Without a speech model as listener the letters and the pauses are still used.
 
-An hour later the narration was replaced by ten lines that I wrote myself. On those the speech model matches each line at 0.93 to 1.00, 0.97 on average (`outputs/narration/index.am.json`), and the film has 19 cues.
+Later that night the narration was replaced by ten lines that I wrote myself. On an early recording of them the speech model wrote ተከ for the last word of a line, ተከተልን. With 0.6 s of silence put before the audio and 0.8 s after, it wrote the word in full (run `20261125T235334Z-429c80`): the listener lost a last word when the audio ended at once. The check now sends every line with that silence. On the ten lines of the film it matches each line at 0.945 to 1.00, 0.99 on average (`outputs/narration/index.am.json`), and the film has 19 cues.
 
 What it changed: the listening check no longer raises a false alarm on a line because of the script its listener chose to write in. Limits: the listener and the voice now come from one provider, and a model that hears its own provider's voice well may hear another voice less well. The match is still a model's. Whether each word is said as an Amharic speaker says it is for a person to hear, and that is me.
 
@@ -358,6 +385,8 @@ Result: the cut was rebuilt in 1 minute 49 seconds and the run log has 351 lines
 The final-cut check passed on the rebuilt files, with the same two notes as on the working machine: a placeholder score, and no generated motion yet. Both films are 79.96 s, as there.
 
 Decision: this run is repeated on the release commit, and the README says how to repeat it.
+
+Repeated on 26 Nov at 02:40, on commit `a877371`: ten shots, the narration I wrote that night, the generated score and the one generated clip. A clone with no key and no `.env` built both films. `runs.jsonl` had 745 lines before and after, and each film has the same SHA-256 as the one built on my machine. One difference from the first run: the clone was run with the Python environment of the working folder, not with a fresh `make setup`. The repeat on the release commit is still to come.
 
 What it changed: until this run "reproducible" was a claim that the tests supported with mock providers only. The test workflow on GitHub builds a mock film on every push. This is the first time the real cut was rebuilt somewhere else. It also sets the limit of the claim: what is reproduced is the cut from the kept model answers. Asking the models again would give other pictures and another voice.
 
