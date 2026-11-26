@@ -16,6 +16,7 @@ That one command validates the storyboard, runs every stage, regenerates only wh
 | The film, wide (16:9) | https://bete7512.github.io/one-bag/media/film_horizontal.mp4 |
 | The page of the film: both formats, every shot, what was measured | https://bete7512.github.io/one-bag/ |
 | The same two files in this repository | [`outputs/film_vertical.mp4`](outputs/film_vertical.mp4), [`outputs/film_horizontal.mp4`](outputs/film_horizontal.mp4) |
+| The report | [`REPORT.pdf`](REPORT.pdf), and the same text as [`REPORT.md`](REPORT.md) |
 
 85 seconds, narrated in Amharic, English subtitles, made with AI. The page is built from this repository by a workflow on every push.
 
@@ -147,7 +148,8 @@ experiments/         scripts for the experiments that are not a plain pipeline r
 runs.jsonl           one line per real model call (created by the first one)
 outputs/             generated images, audio and video, kept for inspection
 pricing.json         list prices and free-tier limits per model, each with its source and the date it was read
-DESIGN.md            audience, intent, a reason for every shot, the two user tests
+REPORT.md            the report: what was made, what the audience said, what was hard, what it cost (also REPORT.pdf)
+DESIGN.md            audience, intent, a reason for every shot, the user test, the changes after each review
 ARCHITECTURE.md      stages, contracts, caching, failure handling, one hard decision
 EXPERIMENTS.md       hypothesis, change, result
 FAILURES.md          what broke, what was tried, what fixed it

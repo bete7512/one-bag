@@ -151,7 +151,7 @@ A last pass of the same review, on 26 November at 14:26, looked at the cut with 
 | Nobody had checked the tall film against what the apps lay over it | The subtitles of the tall film stand 672 px above the bottom, the line that YouTube and Meta publish as safe for text | E31: 332 to 411 px above the bottom before, 682 to 752 px after | `3fd45b4` |
 | The record said the film was not released | Both films, the index of the cut and the final-cut report are in the repository and on the public page | The strict build passes | `3fd45b4` |
 
-The numbers in this table are those of commit `ac3ac21`. The review's last point, that the story did not say why I left Ankober or what the ticket was for, is answered in the next section.
+The numbers in the first of these two tables are those of commit `ac3ac21`. The review's last point of that night, that the story did not say why I left Ankober or what the ticket was for, is answered in the next section.
 
 ## The narration I wrote myself
 
