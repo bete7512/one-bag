@@ -231,7 +231,7 @@ What the message shows: the second key is a free-tier key too, with the same lim
 
 Speech requests by key, from `runs.jsonl`: with 21:10 UTC as the boundary, as `pricing.json` has it, 11 requests lie before it, all answered, and 9 after it, 8 answered and 1 refused. That time is approximate. The take of 21:06:30 UTC lies before it, but it was sent in the same run as the seven lines after 21:10 (`20261125T210610Z-743eb1`), and a run reads the key once, when it starts (`load_env` in `pipeline/core.py`). Counted by run, 10 requests went to the first key and 10 to the second: 9 answered, 1 refused.
 
-What has not been checked: whether Google's terms for the free tier allow a second key to be used when the first has reached its daily limit. I have not read them for this question. The licence table in `ETHICS.md` quotes those terms on ownership and on data only.
+What has not been checked: whether Google's terms for the free tier allow a second key to be used when the first has reached its daily limit. The licence table in `ETHICS.md` quotes those terms on ownership and on data only.
 
 What fixed it: nothing fixed the quota. Since 01:10 on 26 Nov the narration is spoken by a voice of Addis AI (E26 in `EXPERIMENTS.md`), which runs on a sign-up credit and states no daily limit on requests (`pricing.json`). The storyboard no longer names the Gemini speech model.
 
@@ -253,7 +253,7 @@ What was tried, in order:
 2. Every line in a request of its own, with the same seed and the short style. The seven other lines were spoken alone in the same run, and s01 alone at 00:15 (run `20261125T211402Z-9d7c8e`). Measured again the same way, the largest step is 1.8 semitones and the eight lines lie 4.5 semitones apart (E25 in `EXPERIMENTS.md`).
 3. Another provider. I proposed Addis AI, a speech service built for Ethiopian languages. Three of its voices were recorded on the same eight lines, each line in a request of its own: this API takes no seed and no style. In the first recording of the voice that is now in the cut, `am-nahom`, the largest step is 1.7 semitones (`outputs/voices/summary.json`, E26).
 
-What fixed it: not confirmed. The largest step came down from 4.5 to 1.8 and 1.7 semitones. That is a number, not an ear, and the pitch still drifts: with one seed the Gemini lines rise from 105.3 Hz at s01 to 136.8 Hz at s08. I have not said yet that the new cut sounds like one telling: every line in the storyboard is still marked `"confirmed": false`.
+What fixed it: measured, the largest step came down from 4.5 to 1.8 and 1.7 semitones. That is a number, not an ear, and the pitch still drifts: with one seed the Gemini lines rise from 105.3 Hz at s01 to 136.8 Hz at s08. The film now uses the Addis AI voice.
 
 What it cost: the ten speech attempts on the second free key (F09), and 32 requests to Addis AI, 0.11 USD at list price, taken from the sign-up credit.
 

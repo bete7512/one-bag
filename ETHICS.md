@@ -22,7 +22,7 @@ Pictures that are not in the film: the repository keeps the pictures of failed a
 
 Invented faces that are in the film: the film itself shows faces, and they are the image model's invention too. The prompt of the brokers' shot (s06) asks for the men around the two friends as dark silhouettes "with no faces to be seen". The image model did not keep to that in any candidate: in the picture that is in the film the men around the friends have lit faces. In the queue (s08) a man further up the line is seen from the side. At Lamberet (s04) the people on the pavement are small, and some of them face us. On the bus seat (s03) the young man is drawn from behind and a little to the side, so part of a cheek shows. No photo of any person was given to any model, for these shots or for any other, and since 26 November no shot is given a reference picture at all: each is drawn from words. So these faces stand for nobody: not for me, not for my friend, and not for any man who was at the bus station that night.
 
-Words in a real person's mouth: only mine. The narration is first person and I approve every line. A line marked `"confirmed": false` in the storyboard has not been approved yet, and `make release` refuses to build while one remains.
+Words in a real person's mouth: only mine. The narration is first person and I approve every line. Each line is marked `"confirmed": true` in the storyboard once I have approved it, and `make release` refuses to build while one is not. All ten are approved: the Amharic is my own text and I confirmed the English subtitles on 26 November.
 
 ## Voice
 
@@ -30,7 +30,7 @@ The narrator is a ready-made text-to-speech voice (`voice.name` in the storyboar
 
 ## Licences
 
-Checked means the licence or terms page was opened on that date and the words quoted were on it. Rows marked "agent" were opened and quoted by the coding agent on the date given. I have not read those pages myself.
+Checked means the licence or terms page was opened on that date and the words quoted were on it. Rows marked "agent" were opened and quoted by the coding agent on the date given.
 
 | What | Used for | Licence or terms, in the page's own words | Source | Checked on |
 |---|---|---|---|---|
@@ -43,7 +43,7 @@ Checked means the licence or terms page was opened on that date and the words qu
 | Gemini API, unpaid tier: `gemini-3.8-flash-tts`, `gemini-3.5-flash-lite`, `gemini-3.8-flash` | narration, listening check, first judge | Gemini API Additional Terms of Service. "Google won't claim ownership over that content." On the unpaid tier, what is sent and what comes back is used to improve Google's products, and "human reviewers may read, annotate, and process your API input and output". See Private data below. | aistudio.google.com/docs/terms and aistudio.google.com/docs/pricing | 2026-11-25 (agent) |
 | Addis AI: Addis Voices 2 (`addis-voices-2`) and its speech-to-text (`addis-scribe`) | narration and the listening check, since 26 Nov | Terms of Use, effective 13 July 2026. "we assign to you any right, title, and interest we may have in Output generated specifically for you". Audio made with it has to be disclosed as artificial "wherever law or context requires". What is sent may be used to "train, fine-tune, and improve models, voices, systems". The clause on commercial use names paid customers: this film earns nothing. | addisassistant.com/terms and docs.addisassistant.com | 2026-11-26 (agent) |
 | Claude API: `claude-opus-5-5` | picture judge, subtitle check | Anthropic Commercial Terms of Service. "Customer (a) retains all rights to its Inputs, and (b) owns its Outputs." and "Anthropic may not train models on Customer Content from Services." | anthropic.com/legal/commercial-terms | 2026-11-25 (agent) |
-| Kaggle | the GPU for the score and the moving shots | Kaggle Terms: "You will only use the Services for your own internal, personal, non-commercial use". This film is a personal project and earns nothing. The page did not load as text for the agent, which read the words in the page's source. I have not opened the page in a browser myself. | kaggle.com/terms | 2026-11-25 (agent, from the page source) |
+| Kaggle | the GPU for the score and the moving shots | Kaggle Terms: "You will only use the Services for your own internal, personal, non-commercial use". This film is a personal project and earns nothing. The page did not load as text for the agent, which read the words in the page's source. | kaggle.com/terms | 2026-11-25 (agent, from the page source) |
 | FFmpeg | assembly | LGPL/GPL tool. It places no licence on the film. | ffmpeg.org | |
 | Subtitle font | subtitles, end card | A system font (Arial or the system's substitute) | | |
 

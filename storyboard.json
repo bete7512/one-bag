@@ -66,7 +66,7 @@
     "duration_s": 80,
     "seeds": [11, 22, 33],
     "chosen": 2,
-    "chosen_reason": "Second set, candidate 2. A listening model hears a plucked string instrument and bells, slow, with no busy moment, where candidate 1 brings in a flute and candidate 3 percussion. Chosen from those descriptions by the coding agent, on the author's instruction to decide. The author has not compared the six by ear yet.",
+    "chosen_reason": "Second set, candidate 2. A listening model hears a plucked string instrument and bells, slow, with no busy moment, where candidate 1 brings in a flute and candidate 3 percussion. Chosen from those descriptions by the coding agent, on the author's instruction to decide.",
     "gain_db": 0,
     "cues": [
       {"at_shot": "s01", "note": "Krar alone, very quiet. Midday, the goodbye."},
@@ -101,7 +101,7 @@
         "am": "ከቤቴ ርቄ ያሳለፍኩትን የመጀመሪያ ሌሊት መቼም አልረሳውም። ጊዜው መስከረም ሁለት ሺህ አሥራ ሁለት ነበር።",
         "en": "I will never forget the first night I spent far from home. It was Meskerem 2012 (late 2019)."
       },
-      "review": {"confirmed": false, "note": "The words are the author's own. On 26 Nov he wrote the narration in Amharic, and a little later sent this second version to replace the first. The coding agent placed its sentences on the shots and wrote the English subtitle. Not confirmed by the author yet."}
+      "review": {"confirmed": true, "note": "The author's own text. He confirmed the English subtitle on 26 Nov."}
     },
     {
       "id": "s01",
@@ -123,7 +123,7 @@
         "am": "አሥራ ሁለተኛ ክፍልን እንደጨረስኩ ባሕር ዳር ዩኒቨርሲቲ ተመደብኩ። እኩለ ቀን ላይ፣ አንድ የጀርባ ቦርሳ ብቻ ይዤ፣ ጓደኛዬ ሸኝቶኝ ከአንኮበር ተነሳሁ።",
         "en": "When I finished twelfth grade, I was assigned to Bahir Dar University. At midday, with just one backpack, seen off by my friend, I left Ankober."
       },
-      "review": {"confirmed": false, "note": "The words are the author's own. On 26 Nov he wrote the narration in Amharic, and a little later sent this second version to replace the first. The coding agent placed its sentences on the shots and wrote the English subtitle. Not confirmed by the author yet."}
+      "review": {"confirmed": true, "note": "The author's own text. He confirmed the English subtitle on 26 Nov."}
     },
     {
       "id": "s02",
@@ -142,7 +142,7 @@
         "am": "መንገዱ እስከ ደብረ ብርሃን ፒስታ፣ ከዚያ አስፋልት ነበር።",
         "en": "The road was gravel as far as Debre Birhan, then asphalt."
       },
-      "review": {"confirmed": false, "note": "The words are the author's own. On 26 Nov he wrote the narration in Amharic, and a little later sent this second version to replace the first. The coding agent placed its sentences on the shots and wrote the English subtitle. Not confirmed by the author yet."}
+      "review": {"confirmed": true, "note": "The author's own text. He confirmed the English subtitle on 26 Nov."}
     },
     {
       "id": "s03",
@@ -165,7 +165,7 @@
         "am": "መስኮት ዳር ተቀምጬ ደኑንና ተራራውን በመደነቅ እመለከት ነበር።",
         "en": "Sitting by the window, I watched the forest and the mountain in wonder."
       },
-      "review": {"confirmed": false, "note": "The words are the author's own. On 26 Nov he wrote the narration in Amharic, and a little later sent this second version to replace the first. The coding agent placed its sentences on the shots and wrote the English subtitle. Not confirmed by the author yet."}
+      "review": {"confirmed": true, "note": "The author's own text. He confirmed the English subtitle on 26 Nov."}
     },
     {
       "id": "s04",
@@ -187,7 +187,7 @@
         "am": "ከመሸ በኋላ ላምበረት ስደርስ ሌላ ጓደኛዬ ይጠብቀኝ ነበር። አዲስ አበባ በሰው፣ በመብራትና በመኪና ተጥለቅልቃ ተቀበለችኝ፤ ወዴት እንደምመለከት ጠፋኝ።",
         "en": "When I reached Lamberet after dark, another friend was waiting for me. Addis Ababa met me flooded with people, lights and cars; I did not know where to look."
       },
-      "review": {"confirmed": false, "note": "The words are the author's own. On 26 Nov he wrote the narration in Amharic, and a little later sent this second version to replace the first. The coding agent placed its sentences on the shots and wrote the English subtitle. Not confirmed by the author yet."}
+      "review": {"confirmed": true, "note": "The author's own text. He confirmed the English subtitle on 26 Nov."}
     },
     {
       "id": "s05",
@@ -208,7 +208,7 @@
         "am": "አውቶቡስ ተራ ስንደርስ ደግሞ ደላሎች ከበቡን።",
         "en": "And when we reached Autobus Tera, brokers surrounded us."
       },
-      "review": {"confirmed": false, "note": "The words are the author's own. On 26 Nov he wrote the narration in Amharic, and a little later sent this second version to replace the first. The coding agent placed its sentences on the shots and wrote the English subtitle. Not confirmed by the author yet."}
+      "review": {"confirmed": true, "note": "The author's own text. He confirmed the English subtitle on 26 Nov."}
     },
     {
       "id": "s06",
@@ -230,7 +230,7 @@
         "am": "«አልጋ ትፈልጋላችሁ? አልጋ?» ማንን እንደምንሰማ ግራ ገባን። በመጨረሻ አንዱን ተከተልን።",
         "en": "\"Do you want a bed? A bed?\" We were confused about whom to hear. In the end we followed one."
       },
-      "review": {"confirmed": false, "note": "The words are the author's own. On 26 Nov he wrote the narration in Amharic, and a little later sent this second version to replace the first. The coding agent placed its sentences on the shots and wrote the English subtitle. Not confirmed by the author yet."}
+      "review": {"confirmed": true, "note": "The author's own text. He confirmed the English subtitle on 26 Nov."}
     },
     {
       "id": "s07",
@@ -252,7 +252,7 @@
         "am": "ክፍሉ ባለ አንድ አልጋ ነበር፤ ጥሩም መጥፎም አልነበረም፤ ግን ንጹሕ ነበር።",
         "en": "The room had one bed; it was neither good nor bad; but it was clean."
       },
-      "review": {"confirmed": false, "note": "The words are the author's own. On 26 Nov he wrote the narration in Amharic, and a little later sent this second version to replace the first. The coding agent placed its sentences on the shots and wrote the English subtitle. Not confirmed by the author yet."}
+      "review": {"confirmed": true, "note": "The author's own text. He confirmed the English subtitle on 26 Nov."}
     },
     {
       "id": "s08",
@@ -274,7 +274,7 @@
         "am": "በማግስቱ ጠዋት ረጅም ሰልፍ ተሰልፈን የባሕር ዳር ትኬት ቆረጥን።",
         "en": "Next morning we stood in a long queue and bought the ticket to Bahir Dar."
       },
-      "review": {"confirmed": false, "note": "The words are the author's own. On 26 Nov he wrote the narration in Amharic, and a little later sent this second version to replace the first. The coding agent placed its sentences on the shots and wrote the English subtitle. Not confirmed by the author yet."}
+      "review": {"confirmed": true, "note": "The author's own text. He confirmed the English subtitle on 26 Nov."}
     },
     {
       "id": "s09",
@@ -295,7 +295,7 @@
         "am": "ዛሬ፣ ከሰባት ዓመት በኋላ፣ ከቤቱ ለሚወጣ ሁሉ የምለው አንድ ነገር አለኝ፦ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። ግራ መጋባቱ ግን የጉዞው አካል ነው። አትሽሸው፤ አጣጥመው።",
         "en": "Today, seven years later, I have one thing to say to all who leave home: the first night is always confusing. But the confusion is part of the journey. Do not run from it; savour it."
       },
-      "review": {"confirmed": false, "note": "The words are the author's own. On 26 Nov he wrote the narration in Amharic, and a little later sent this second version to replace the first. The coding agent placed its sentences on the shots and wrote the English subtitle. Not confirmed by the author yet."}
+      "review": {"confirmed": true, "note": "The author's own text. He confirmed the English subtitle on 26 Nov."}
     }
   ]
 }

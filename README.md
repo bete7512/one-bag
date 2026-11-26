@@ -10,7 +10,7 @@ That one command validates the storyboard, runs every stage, regenerates only wh
 
 ## Status
 
-Be clear about what is proven and what is not. Last updated 26 November 2026, 03:12 East Africa Time.
+Be clear about what is proven and what is not. Last updated 26 November 2026, 03:25 East Africa Time.
 
 | Part | Tested offline with mock providers | Run against the real model |
 |---|---|---|
@@ -25,13 +25,13 @@ Be clear about what is proven and what is not. Last updated 26 November 2026, 03
 | Keyframe border check | yes | yes: it caught the white border on the first pictures (E16) |
 | Shots: Ken Burns (FFmpeg) | yes, real FFmpeg | not applicable |
 | Shots: Wan 2.2 on Kaggle | export, upload and ingest | yes: four clips of 3.4 s, 13 to 15 minutes each at about 13.5 GB of GPU memory (E08). Only the road shot uses its clip. The three other clips were made and rejected. The first job was killed after one clip (F07) |
-| Music: ACE-Step on Kaggle | export, upload and ingest | yes: two sets of three candidates from two descriptions, each described by a listening model (F02, F06, E22). Candidate 2 of the second set is in the cut. The coding agent chose it from those descriptions, on my instruction to decide. I have not compared the six by ear yet |
+| Music: ACE-Step on Kaggle | export, upload and ingest | yes: two sets of three candidates from two descriptions, each described by a listening model (F02, F06, E22). Candidate 2 of the second set is in the cut. The coding agent chose it from those descriptions, on my instruction to decide |
 | Assembly, ducking, loudness, both ratios | yes, real FFmpeg | yes: a rough cut of 85 s in both ratios, from the real narration and pictures. The mix was measured and rewritten twice (E12) |
 | Final-cut check | yes | yes, on the rough cut of 26 Nov, 03:00: every measured check passes. Its one note says what a person still has to look at: three picked pictures that the judge scored under 3 (s03, s05, s06) |
 
 `runs.jsonl` holds one line per attempt of a real model call: 850 at 03:02 on 26 Nov. Mock runs write to `outputs_mock/`, which is git-ignored and is never evidence.
 
-**The film is not finished.** What exists is a rough cut on my machine: the voice of Addis AI, real pictures, a generated score, one shot with generated motion (the road) and a slow pan on the others. The words of the narration are my own since 26 Nov. Four things in the cut are the coding agent's choice and not yet confirmed by me: the English subtitles and which sentence goes on which picture, the score, the voice, and the pictures that were drawn on 26 Nov after a review of the cut (`DESIGN.md`). User test 1 has happened: three people heard the radio cut on 25 Nov, and what they wrote changed the lines of that cut (`DESIGN.md`). User test 2 has not happened. The rough cut is not committed: `.gitignore` keeps it out until the release, so that nothing unapproved is published by a push. It was committed once by mistake and taken out again (F08).
+**The film is not released yet.** What exists is a cut on my machine: the voice of Addis AI, real pictures, a generated score, one shot with generated motion (the road) and a slow pan on the others. The narration is my own text, and I confirmed its English subtitles on 26 Nov. The coding agent placed the sentences on the shots and picked the pictures, the voice and the score from the candidates: `DESIGN.md` says how each was chosen. User test 1 has happened: three people heard the radio cut on 25 Nov, and what they wrote changed the lines of that cut (`DESIGN.md`). User test 2 has not happened. The rough cut is not committed: `.gitignore` keeps it out until the release, so that nothing unapproved is published by a push. It was committed once by mistake and taken out again (F08).
 
 ## Run it
 
@@ -92,14 +92,15 @@ python -m pipeline film
 ```
 
 ```
-[script]    s04_subtitle_check MISS (changed: text)
-[narration] s04                MISS (changed: text)
-[narration] s04_listen         MISS (changed: audio, text)
-[assemble]  mix                MISS (changed: lines)
-[assemble]  vertical_s04       MISS (changed: cues)
-[assemble]  horizontal_s04     MISS (changed: cues)
-[assemble]  film_vertical      MISS (changed: mix, scenes)
-[assemble]  film_horizontal    MISS (changed: mix, scenes)
+[script] s04_subtitle_check     MISS (changed: text) would build
+[narration] 1 line(s) to speak, each in a request of its own
+[narration] s04                    MISS (changed: text) would build
+[shots] s04_kenburns           MISS (changed: frames) would build
+[assemble] mix                    MISS (changed: lines, total) would build
+[assemble] vertical_s04           MISS (changed: clip, cues, frames) would build
+[assemble] film_vertical          MISS (changed: mix, scenes) would build
+[assemble] horizontal_s04         MISS (changed: clip, cues, frames) would build
+[assemble] film_horizontal        MISS (changed: mix, scenes) would build
 ```
 
 Everything else prints `HIT`. In the offline test this is asserted: one changed line makes exactly three model calls (check its subtitle, speak it, listen to it), and one changed keyframe prompt regenerates only that shot.
@@ -147,9 +148,9 @@ ETHICS.md            consent records, licences, labelling plan
 
 Model outputs are kept in `outputs/`, because they cost quota or GPU time and are the evidence: the original pictures, the narration lines, ingested Wan clips, score candidates, and the `manifest.json` and index files of the five stages that call a model or a GPU. Files that FFmpeg rebuilds from those without calling a model (keyframes cut from their originals, scene files, the mix, Ken Burns clips, the placeholder drone) are git-ignored.
 
-The two films are not committed yet. They will be committed with the release, when the lines are confirmed and the cut is final, and not before. Until then `.gitignore` keeps `outputs/film_*.mp4`, `outputs/radio_cut.mp4`, `outputs/qc_report.json` and `outputs/assemble/` out of the repository, because a push publishes them on the public page. A rough cut was committed once by mistake and taken out again. That commit stays in the history (F08 in `FAILURES.md`).
+The two films are not committed yet. They are committed with the release, and not before. Until then `.gitignore` keeps `outputs/film_*.mp4`, `outputs/radio_cut.mp4`, `outputs/qc_report.json` and `outputs/assemble/` out of the repository, because a push publishes them on the public page. A rough cut was committed once by mistake and taken out again. That commit stays in the history (F08 in `FAILURES.md`).
 
-To check this yourself: clone the repository into an empty folder, add no key, run `make setup` and then `python -m pipeline film`. Nothing may be added to `runs.jsonl`. On 25 November this rebuilt the cut of that evening in 1 minute 49 seconds: 42 cache hits on model outputs, 53 units rebuilt by FFmpeg, no call to any model (E23 in `EXPERIMENTS.md`). No later run of this check is recorded: it has to be repeated on the release commit. What is reproduced is the cut from the kept answers of the models. Asking the models again gives other pictures and another voice.
+To check this yourself: clone the repository into an empty folder, add no key, run `make setup` and then `python -m pipeline film`. Nothing may be added to `runs.jsonl`. On 25 November this rebuilt the cut of that evening in 1 minute 49 seconds: 42 cache hits on model outputs, 53 units rebuilt by FFmpeg, no call to any model (E23 in `EXPERIMENTS.md`). It was repeated twice on 26 November, the second time on the cut with my own narration (commit `e0f3817`): both films came out with the same SHA-256 as on my machine, and the run log did not grow. What is reproduced is the cut from the kept answers of the models. Asking the models again gives other pictures and another voice.
 
 ## What it costs
 
@@ -164,4 +165,4 @@ The limits that shape the work are quota and GPU time: ten speech requests a day
 
 ## How this was built
 
-The stage scripts and the first storyboard were drafted by an AI coding agent (Claude) from my story and the challenge brief, in an offline sandbox against mock providers. The Status table says which parts have since run against real models. The story is mine. After user test 1 I gave the listeners' comments to the coding agent and told it to decide the changes itself: the rewritten lines, the choice of score and the choice of voice are its work, and I have not confirmed them yet (`DESIGN.md`, and E22 and E26 in `EXPERIMENTS.md`). Lines in the storyboard marked `"confirmed": false` are still drafts. The film ends with a card that says it was made with AI.
+The stage scripts and the first storyboard were drafted by an AI coding agent (Claude) from my story and the challenge brief, in an offline sandbox against mock providers. The Status table says which parts have since run against real models. The story is mine. After user test 1 I gave the listeners' comments to the coding agent and told it to decide the changes itself: the choice of score and the choice of voice are its work (`DESIGN.md`, and E22 and E26 in `EXPERIMENTS.md`). The narration in the film is my own text, written on 26 November, and I confirmed its English subtitles. The film ends with a card that says it was made with AI.

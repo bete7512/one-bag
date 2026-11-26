@@ -104,4 +104,4 @@ No access to a frontier model for pictures, video or music: those are behind pai
 | Pictures with a border, of 9 | 8 found | 9 found |
 | Different totals over 12 pictures | 5 | 9 |
 
-Sixteen times the price bought one more border found, no failed calls, and notes that say what to change in the prompt. For a film of nine shots with two candidates each that is about 0.39 USD a pass, so it is the judge in use. Claude has cost 4.23 USD in all, by the run log at the time given at the top of this file: 3.02 USD for 141 judged pictures in the keyframes stage, 0.76 USD for the experiments E17, E19, E24 and E28, and 0.45 USD for 61 subtitle checks.
+Sixteen times the price bought one more border found, no failed calls, and notes that say what to change in the prompt. For a film of ten shots with two candidates each that is about 0.43 USD a pass, so it is the judge in use. Claude has cost 4.23 USD in all, by the run log at the time given at the top of this file: 3.02 USD for 141 judged pictures in the keyframes stage, 0.76 USD for the experiments E17, E19, E24 and E28, and 0.45 USD for 61 subtitle checks.
