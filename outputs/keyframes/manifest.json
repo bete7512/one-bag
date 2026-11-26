@@ -698,8 +698,8 @@
    "created": "2026-11-25T22:41:52Z"
   },
   "s04_c1": {
-   "key": "489b8287671cc0ff",
-   "file": "s04_c1__489b8287671cc0ff.png",
+   "key": "a454c6eb5c57fcee",
+   "file": "s04_c1__a454c6eb5c57fcee.png",
    "fingerprint": {
     "v": 1,
     "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. The painting fills the whole frame from edge to edge. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture: number plates, shop signs and screens are plain blank shapes. A wide night view of a busy avenue on the edge of Addis Ababa, Ethiopia, painted from the roadside: dense traffic of cars and blue and white minibus taxis with white headlights and red tail lights, pavements packed with people as dark shapes, tall concrete buildings with hundreds of lit windows, street lamps. Small in the lower part of the frame, seen from behind, one young man with his backpack on his shoulders stands at the roadside and looks at it all. A slim Ethiopian young man of about nineteen with dark brown skin and short black curly hair. He wears a charcoal grey jacket over a white shirt, olive green trousers rolled at the ankle, and dark blue moulded plastic sandals with a closed toe and a buckle strap on bare feet. He carries one olive green canvas backpack.",
@@ -708,18 +708,44 @@
     "w": 1024,
     "h": 1024,
     "refs": [],
-    "trim": 0.035
+    "trim": 0.035,
+    "soften": [
+     [
+      0.244,
+      0.326,
+      0.032,
+      0.036
+     ],
+     [
+      0.283,
+      0.335,
+      0.03,
+      0.033
+     ],
+     [
+      0.328,
+      0.358,
+      0.044,
+      0.02
+     ],
+     [
+      0.391,
+      0.343,
+      0.022,
+      0.035
+     ]
+    ]
    },
    "meta": {
     "seed": 104,
     "seed_applied": true,
     "original": "s04_c1__d6392d0efd236b84.jpg"
    },
-   "created": "2026-11-25T22:42:29Z"
+   "created": "2026-11-26T11:52:55Z"
   },
   "s04_c2": {
-   "key": "a18bdfb13ba91b09",
-   "file": "s04_c2__a18bdfb13ba91b09.png",
+   "key": "2024204808074abb",
+   "file": "s04_c2__2024204808074abb.png",
    "fingerprint": {
     "v": 1,
     "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. The painting fills the whole frame from edge to edge. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture: number plates, shop signs and screens are plain blank shapes. A wide night view of a busy avenue on the edge of Addis Ababa, Ethiopia, painted from the roadside: dense traffic of cars and blue and white minibus taxis with white headlights and red tail lights, pavements packed with people as dark shapes, tall concrete buildings with hundreds of lit windows, street lamps. Small in the lower part of the frame, seen from behind, one young man with his backpack on his shoulders stands at the roadside and looks at it all. A slim Ethiopian young man of about nineteen with dark brown skin and short black curly hair. He wears a charcoal grey jacket over a white shirt, olive green trousers rolled at the ankle, and dark blue moulded plastic sandals with a closed toe and a buckle strap on bare feet. He carries one olive green canvas backpack.",
@@ -728,14 +754,40 @@
     "w": 1024,
     "h": 1024,
     "refs": [],
-    "trim": 0.035
+    "trim": 0.035,
+    "soften": [
+     [
+      0.244,
+      0.326,
+      0.032,
+      0.036
+     ],
+     [
+      0.283,
+      0.335,
+      0.03,
+      0.033
+     ],
+     [
+      0.328,
+      0.358,
+      0.044,
+      0.02
+     ],
+     [
+      0.391,
+      0.343,
+      0.022,
+      0.035
+     ]
+    ]
    },
    "meta": {
     "seed": 105,
     "seed_applied": true,
     "original": "s04_c2__441d46c747ac4fa3.jpg"
    },
-   "created": "2026-11-25T22:42:41Z"
+   "created": "2026-11-26T11:52:55Z"
   },
   "s06_c1": {
    "key": "419e871789f5995d",
@@ -1138,80 +1190,12 @@
    "created": "2026-11-25T22:46:20Z"
   },
   "s04_c1_judge": {
-   "key": "f2c4e1a2f2c67a2e",
-   "file": "s04_c1_judge__f2c4e1a2f2c67a2e.json",
+   "key": "e7c23a5007057fe6",
+   "file": "s04_c1_judge__e7c23a5007057fe6.json",
    "fingerprint": {
     "v": 1,
     "judge": 2,
-    "image": "489b8287671cc0ff",
-    "refs": [],
-    "shot": "A wide night view of a busy avenue on the edge of Addis Ababa, Ethiopia, painted from the roadside: dense traffic of cars and blue and white minibus taxis with white headlights and red tail lights, pavements packed with people as dark shapes, tall concrete buildings with hundreds of lit windows, street lamps. Small in the lower part of the frame, seen from behind, one young man with his backpack on his shoulders stands at the roadside and looks at it all.",
-    "who": "A slim Ethiopian young man of about nineteen with dark brown skin and short black curly hair. He wears a charcoal grey jacket over a white shirt, olive green trousers rolled at the ankle, and dark blue moulded plastic sandals with a closed toe and a buckle strap on bare feet. He carries one olive green canvas backpack.",
-    "style": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. The painting fills the whole frame from edge to edge. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture: number plates, shop signs and screens are plain blank shapes.",
-    "model": "claude-opus-5-5"
-   },
-   "meta": {
-    "elements": [
-     {
-      "name": "wide night view of busy avenue",
-      "visible": true
-     },
-     {
-      "name": "dense traffic of cars",
-      "visible": true
-     },
-     {
-      "name": "blue and white minibus taxis",
-      "visible": true
-     },
-     {
-      "name": "white headlights",
-      "visible": true
-     },
-     {
-      "name": "red tail lights",
-      "visible": true
-     },
-     {
-      "name": "pavements packed with people as dark shapes",
-      "visible": true
-     },
-     {
-      "name": "tall concrete buildings with many lit windows",
-      "visible": true
-     },
-     {
-      "name": "street lamps",
-      "visible": true
-     },
-     {
-      "name": "one young man seen from behind at the roadside",
-      "visible": true
-     },
-     {
-      "name": "backpack on his shoulders",
-      "visible": true
-     }
-    ],
-    "border": false,
-    "text_in_image": false,
-    "wrong_setting": "",
-    "anatomy": "",
-    "character_match": 3,
-    "prompt_adherence": 2,
-    "artifacts": 3,
-    "notes": "Remove the duplicate second young man without a backpack so only one figure with the olive backpack stands at the roadside, and paint him smaller in the frame.",
-    "total": 2.4
-   },
-   "created": "2026-11-25T22:47:11Z"
-  },
-  "s04_c2_judge": {
-   "key": "d6a1069e13a1463d",
-   "file": "s04_c2_judge__d6a1069e13a1463d.json",
-   "fingerprint": {
-    "v": 1,
-    "judge": 2,
-    "image": "a18bdfb13ba91b09",
+    "image": "a454c6eb5c57fcee",
     "refs": [],
     "shot": "A wide night view of a busy avenue on the edge of Addis Ababa, Ethiopia, painted from the roadside: dense traffic of cars and blue and white minibus taxis with white headlights and red tail lights, pavements packed with people as dark shapes, tall concrete buildings with hundreds of lit windows, street lamps. Small in the lower part of the frame, seen from behind, one young man with his backpack on his shoulders stands at the roadside and looks at it all.",
     "who": "A slim Ethiopian young man of about nineteen with dark brown skin and short black curly hair. He wears a charcoal grey jacket over a white shirt, olive green trousers rolled at the ankle, and dark blue moulded plastic sandals with a closed toe and a buckle strap on bare feet. He carries one olive green canvas backpack.",
@@ -1253,7 +1237,7 @@
       "visible": true
      },
      {
-      "name": "young man seen from behind at the roadside",
+      "name": "one young man seen from behind at the roadside",
       "visible": true
      },
      {
@@ -1261,21 +1245,93 @@
       "visible": true
      },
      {
-      "name": "man small in the lower part of the frame",
+      "name": "young man small in the lower part of the frame",
       "visible": false
+     }
+    ],
+    "border": false,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 2,
+    "artifacts": 3,
+    "notes": "Remove the duplicated second young man without a backpack, leaving only the one with the olive backpack, and shrink him so he is small in the lower part of the frame rather than dominating the foreground.",
+    "total": 2.4
+   },
+   "created": "2026-11-26T11:53:06Z"
+  },
+  "s04_c2_judge": {
+   "key": "67f1ef95fdcb8b0d",
+   "file": "s04_c2_judge__67f1ef95fdcb8b0d.json",
+   "fingerprint": {
+    "v": 1,
+    "judge": 2,
+    "image": "2024204808074abb",
+    "refs": [],
+    "shot": "A wide night view of a busy avenue on the edge of Addis Ababa, Ethiopia, painted from the roadside: dense traffic of cars and blue and white minibus taxis with white headlights and red tail lights, pavements packed with people as dark shapes, tall concrete buildings with hundreds of lit windows, street lamps. Small in the lower part of the frame, seen from behind, one young man with his backpack on his shoulders stands at the roadside and looks at it all.",
+    "who": "A slim Ethiopian young man of about nineteen with dark brown skin and short black curly hair. He wears a charcoal grey jacket over a white shirt, olive green trousers rolled at the ankle, and dark blue moulded plastic sandals with a closed toe and a buckle strap on bare feet. He carries one olive green canvas backpack.",
+    "style": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. The painting fills the whole frame from edge to edge. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture: number plates, shop signs and screens are plain blank shapes.",
+    "model": "claude-opus-5-5"
+   },
+   "meta": {
+    "elements": [
+     {
+      "name": "wide night view of a busy avenue",
+      "visible": true
+     },
+     {
+      "name": "dense traffic of cars",
+      "visible": true
+     },
+     {
+      "name": "blue and white minibus taxis",
+      "visible": true
+     },
+     {
+      "name": "white headlights",
+      "visible": true
+     },
+     {
+      "name": "red tail lights",
+      "visible": true
+     },
+     {
+      "name": "pavements packed with people as dark shapes",
+      "visible": true
+     },
+     {
+      "name": "tall concrete buildings with many lit windows",
+      "visible": true
+     },
+     {
+      "name": "street lamps",
+      "visible": true
+     },
+     {
+      "name": "young man seen from behind, small in lower part of frame",
+      "visible": false
+     },
+     {
+      "name": "backpack on his shoulders",
+      "visible": true
+     },
+     {
+      "name": "man standing at the roadside looking at the scene",
+      "visible": true
      }
     ],
     "border": true,
     "text_in_image": false,
     "wrong_setting": "",
     "anatomy": "",
-    "character_match": 5,
+    "character_match": 4,
     "prompt_adherence": 3,
     "artifacts": 4,
-    "notes": "Repaint so the painting runs fully to all four edges with no ragged paper margin, and shrink the young man to a small figure low in the frame instead of filling the centre, with the avenue dominating the composition.",
+    "notes": "Shrink the young man so he reads as small against the avenue, paint the top corners out to the edge so no white paper shows, and turn the nearby traffic into flowing lanes with some red tail lights instead of cloned stopped minibuses facing the viewer.",
     "total": 1.9
    },
-   "created": "2026-11-25T22:47:21Z"
+   "created": "2026-11-26T11:53:18Z"
   },
   "s06_c1_judge": {
    "key": "7839e6861fd680f0",
@@ -2145,8 +2201,8 @@
    "created": "2026-11-25T22:42:18Z"
   },
   "s04_c3": {
-   "key": "d3b3f4b37d55f24d",
-   "file": "s04_c3__d3b3f4b37d55f24d.png",
+   "key": "69bf12293df20f66",
+   "file": "s04_c3__69bf12293df20f66.png",
    "fingerprint": {
     "v": 1,
     "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. The painting fills the whole frame from edge to edge. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture: number plates, shop signs and screens are plain blank shapes. A wide night view of a busy avenue on the edge of Addis Ababa, Ethiopia, painted from the roadside: dense traffic of cars and blue and white minibus taxis with white headlights and red tail lights, pavements packed with people as dark shapes, tall concrete buildings with hundreds of lit windows, street lamps. Small in the lower part of the frame, seen from behind, one young man with his backpack on his shoulders stands at the roadside and looks at it all. A slim Ethiopian young man of about nineteen with dark brown skin and short black curly hair. He wears a charcoal grey jacket over a white shirt, olive green trousers rolled at the ankle, and dark blue moulded plastic sandals with a closed toe and a buckle strap on bare feet. He carries one olive green canvas backpack.",
@@ -2155,14 +2211,40 @@
     "w": 1024,
     "h": 1024,
     "refs": [],
-    "trim": 0.035
+    "trim": 0.035,
+    "soften": [
+     [
+      0.244,
+      0.326,
+      0.032,
+      0.036
+     ],
+     [
+      0.283,
+      0.335,
+      0.03,
+      0.033
+     ],
+     [
+      0.328,
+      0.358,
+      0.044,
+      0.02
+     ],
+     [
+      0.391,
+      0.343,
+      0.022,
+      0.035
+     ]
+    ]
    },
    "meta": {
     "seed": 106,
     "seed_applied": true,
     "original": "s04_c3__3b9870df1f475949.jpg"
    },
-   "created": "2026-11-25T22:42:51Z"
+   "created": "2026-11-26T11:52:56Z"
   },
   "s06_c3": {
    "key": "85362ab3fcb69b2b",
@@ -2405,12 +2487,12 @@
    "created": "2026-11-25T22:47:04Z"
   },
   "s04_c3_judge": {
-   "key": "fbfd7252d34d7058",
-   "file": "s04_c3_judge__fbfd7252d34d7058.json",
+   "key": "d17e8398841793a1",
+   "file": "s04_c3_judge__d17e8398841793a1.json",
    "fingerprint": {
     "v": 1,
     "judge": 2,
-    "image": "d3b3f4b37d55f24d",
+    "image": "69bf12293df20f66",
     "refs": [],
     "shot": "A wide night view of a busy avenue on the edge of Addis Ababa, Ethiopia, painted from the roadside: dense traffic of cars and blue and white minibus taxis with white headlights and red tail lights, pavements packed with people as dark shapes, tall concrete buildings with hundreds of lit windows, street lamps. Small in the lower part of the frame, seen from behind, one young man with his backpack on his shoulders stands at the roadside and looks at it all.",
     "who": "A slim Ethiopian young man of about nineteen with dark brown skin and short black curly hair. He wears a charcoal grey jacket over a white shirt, olive green trousers rolled at the ankle, and dark blue moulded plastic sandals with a closed toe and a buckle strap on bare feet. He carries one olive green canvas backpack.",
@@ -2441,10 +2523,10 @@
      },
      {
       "name": "pavements packed with people as dark shapes",
-      "visible": false
+      "visible": true
      },
      {
-      "name": "tall concrete buildings with hundreds of lit windows",
+      "name": "tall concrete buildings with many lit windows",
       "visible": true
      },
      {
@@ -2452,7 +2534,7 @@
       "visible": true
      },
      {
-      "name": "young man seen from behind, small in the lower part of the frame",
+      "name": "young man small in the lower part of the frame, seen from behind",
       "visible": false
      },
      {
@@ -2460,7 +2542,7 @@
       "visible": true
      },
      {
-      "name": "young man standing at the roadside looking at the scene",
+      "name": "standing at the roadside looking at the scene",
       "visible": true
      }
     ],
@@ -2469,12 +2551,12 @@
     "wrong_setting": "",
     "anatomy": "",
     "character_match": 5,
-    "prompt_adherence": 3,
+    "prompt_adherence": 4,
     "artifacts": 4,
-    "notes": "Shrink the young man so he sits small in the lower part of the frame instead of filling the centre, render the pavement crowds as dark silhouettes rather than detailed lit figures, and deepen the dusky sky to a true night with more lit windows.",
-    "total": 3.4
+    "notes": "The young man fills most of the lower-centre height instead of being a small figure; shrink him to roughly a quarter of the frame height so the avenue dominates, and darken the twilight sky toward true night.",
+    "total": 4.0
    },
-   "created": "2026-11-25T22:47:31Z"
+   "created": "2026-11-26T11:53:27Z"
   },
   "s06_c3_judge": {
    "key": "7a45f970d412022a",
@@ -12378,6 +12460,426 @@
     "artifacts": 4,
     "notes": "Repaint the houses with rusty corrugated tin roofs, swap the poplar and cypress shapes for tall wispy eucalyptus, and move the town onto the crest of a ridge in the centre of the frame.",
     "total": 2.4
+   }
+  },
+  "6ccde1c5ab3ec8d6": {
+   "unit": "s04_c1",
+   "file": "s04_c1__6ccde1c5ab3ec8d6.png",
+   "meta": {
+    "seed": 104,
+    "seed_applied": true,
+    "original": "s04_c1__d6392d0efd236b84.jpg"
+   }
+  },
+  "c5a470a28e449670": {
+   "unit": "s04_c2",
+   "file": "s04_c2__c5a470a28e449670.png",
+   "meta": {
+    "seed": 105,
+    "seed_applied": true,
+    "original": "s04_c2__441d46c747ac4fa3.jpg"
+   }
+  },
+  "633927f5184f0c0a": {
+   "unit": "s04_c3",
+   "file": "s04_c3__633927f5184f0c0a.png",
+   "meta": {
+    "seed": 106,
+    "seed_applied": true,
+    "original": "s04_c3__3b9870df1f475949.jpg"
+   }
+  },
+  "710f90c41ce80f20": {
+   "unit": "s04_c1_judge",
+   "file": "s04_c1_judge__710f90c41ce80f20.json",
+   "meta": {
+    "elements": [
+     {
+      "name": "wide night view of a busy avenue",
+      "visible": true
+     },
+     {
+      "name": "dense traffic of cars",
+      "visible": true
+     },
+     {
+      "name": "blue and white minibus taxis",
+      "visible": true
+     },
+     {
+      "name": "white headlights",
+      "visible": true
+     },
+     {
+      "name": "red tail lights",
+      "visible": true
+     },
+     {
+      "name": "pavements packed with people as dark shapes",
+      "visible": true
+     },
+     {
+      "name": "tall concrete buildings with many lit windows",
+      "visible": true
+     },
+     {
+      "name": "street lamps",
+      "visible": true
+     },
+     {
+      "name": "one young man seen from behind at the roadside",
+      "visible": true
+     },
+     {
+      "name": "backpack on his shoulders",
+      "visible": true
+     },
+     {
+      "name": "young man small in the lower part of the frame",
+      "visible": false
+     }
+    ],
+    "border": false,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "The character is duplicated: two near-identical young men stand side by side, and only the left one wears the backpack.",
+    "character_match": 3,
+    "prompt_adherence": 2,
+    "artifacts": 3,
+    "notes": "Remove the second, backpack-less twin. Keep one young man with the olive backpack, and paint him smaller in the lower centre so the avenue dominates the frame.",
+    "total": 1.4
+   }
+  },
+  "a60a1b276f8f5be6": {
+   "unit": "s04_c2_judge",
+   "file": "s04_c2_judge__a60a1b276f8f5be6.json",
+   "meta": {
+    "elements": [
+     {
+      "name": "wide night view of a busy avenue",
+      "visible": true
+     },
+     {
+      "name": "dense traffic of cars",
+      "visible": true
+     },
+     {
+      "name": "blue and white minibus taxis",
+      "visible": true
+     },
+     {
+      "name": "white headlights",
+      "visible": true
+     },
+     {
+      "name": "red tail lights",
+      "visible": true
+     },
+     {
+      "name": "pavements packed with people as dark shapes",
+      "visible": true
+     },
+     {
+      "name": "tall concrete buildings with many lit windows",
+      "visible": true
+     },
+     {
+      "name": "street lamps",
+      "visible": true
+     },
+     {
+      "name": "young man seen from behind, small in lower part of frame",
+      "visible": false
+     },
+     {
+      "name": "young man standing at the roadside looking at the scene",
+      "visible": true
+     },
+     {
+      "name": "backpack on his shoulders",
+      "visible": true
+     }
+    ],
+    "border": true,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 5,
+    "prompt_adherence": 3,
+    "artifacts": 4,
+    "notes": "Paint the top corners and edges out to the full frame so no paper shows, and shrink the young man so he reads small against the avenue instead of filling the lower half.",
+    "total": 1.9
+   }
+  },
+  "138ad09a25c9a2fb": {
+   "unit": "s04_c3_judge",
+   "file": "s04_c3_judge__138ad09a25c9a2fb.json",
+   "meta": {
+    "elements": [
+     {
+      "name": "wide night view of a busy avenue",
+      "visible": true
+     },
+     {
+      "name": "dense traffic of cars",
+      "visible": true
+     },
+     {
+      "name": "blue and white minibus taxis",
+      "visible": true
+     },
+     {
+      "name": "white headlights",
+      "visible": true
+     },
+     {
+      "name": "red tail lights",
+      "visible": true
+     },
+     {
+      "name": "pavements packed with people as dark shapes",
+      "visible": true
+     },
+     {
+      "name": "tall concrete buildings with many lit windows",
+      "visible": true
+     },
+     {
+      "name": "street lamps",
+      "visible": true
+     },
+     {
+      "name": "young man seen from behind, small in the lower part of the frame",
+      "visible": false
+     },
+     {
+      "name": "backpack on his shoulders",
+      "visible": true
+     },
+     {
+      "name": "man standing at the roadside looking at the scene",
+      "visible": true
+     }
+    ],
+    "border": false,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 4,
+    "prompt_adherence": 3,
+    "artifacts": 4,
+    "notes": "The young man fills more than half the frame height when he should be small in the lower part, so shrink him to roughly a quarter of the height to restore the wide view, and paint the pavement crowd as dark silhouettes rather than detailed figures.",
+    "total": 3.4
+   }
+  },
+  "a454c6eb5c57fcee": {
+   "unit": "s04_c1",
+   "file": "s04_c1__a454c6eb5c57fcee.png",
+   "meta": {
+    "seed": 104,
+    "seed_applied": true,
+    "original": "s04_c1__d6392d0efd236b84.jpg"
+   }
+  },
+  "2024204808074abb": {
+   "unit": "s04_c2",
+   "file": "s04_c2__2024204808074abb.png",
+   "meta": {
+    "seed": 105,
+    "seed_applied": true,
+    "original": "s04_c2__441d46c747ac4fa3.jpg"
+   }
+  },
+  "69bf12293df20f66": {
+   "unit": "s04_c3",
+   "file": "s04_c3__69bf12293df20f66.png",
+   "meta": {
+    "seed": 106,
+    "seed_applied": true,
+    "original": "s04_c3__3b9870df1f475949.jpg"
+   }
+  },
+  "e7c23a5007057fe6": {
+   "unit": "s04_c1_judge",
+   "file": "s04_c1_judge__e7c23a5007057fe6.json",
+   "meta": {
+    "elements": [
+     {
+      "name": "wide night view of a busy avenue",
+      "visible": true
+     },
+     {
+      "name": "dense traffic of cars",
+      "visible": true
+     },
+     {
+      "name": "blue and white minibus taxis",
+      "visible": true
+     },
+     {
+      "name": "white headlights",
+      "visible": true
+     },
+     {
+      "name": "red tail lights",
+      "visible": true
+     },
+     {
+      "name": "pavements packed with people as dark shapes",
+      "visible": true
+     },
+     {
+      "name": "tall concrete buildings with many lit windows",
+      "visible": true
+     },
+     {
+      "name": "street lamps",
+      "visible": true
+     },
+     {
+      "name": "one young man seen from behind at the roadside",
+      "visible": true
+     },
+     {
+      "name": "backpack on his shoulders",
+      "visible": true
+     },
+     {
+      "name": "young man small in the lower part of the frame",
+      "visible": false
+     }
+    ],
+    "border": false,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 3,
+    "prompt_adherence": 2,
+    "artifacts": 3,
+    "notes": "Remove the duplicated second young man without a backpack, leaving only the one with the olive backpack, and shrink him so he is small in the lower part of the frame rather than dominating the foreground.",
+    "total": 2.4
+   }
+  },
+  "67f1ef95fdcb8b0d": {
+   "unit": "s04_c2_judge",
+   "file": "s04_c2_judge__67f1ef95fdcb8b0d.json",
+   "meta": {
+    "elements": [
+     {
+      "name": "wide night view of a busy avenue",
+      "visible": true
+     },
+     {
+      "name": "dense traffic of cars",
+      "visible": true
+     },
+     {
+      "name": "blue and white minibus taxis",
+      "visible": true
+     },
+     {
+      "name": "white headlights",
+      "visible": true
+     },
+     {
+      "name": "red tail lights",
+      "visible": true
+     },
+     {
+      "name": "pavements packed with people as dark shapes",
+      "visible": true
+     },
+     {
+      "name": "tall concrete buildings with many lit windows",
+      "visible": true
+     },
+     {
+      "name": "street lamps",
+      "visible": true
+     },
+     {
+      "name": "young man seen from behind, small in lower part of frame",
+      "visible": false
+     },
+     {
+      "name": "backpack on his shoulders",
+      "visible": true
+     },
+     {
+      "name": "man standing at the roadside looking at the scene",
+      "visible": true
+     }
+    ],
+    "border": true,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 4,
+    "prompt_adherence": 3,
+    "artifacts": 4,
+    "notes": "Shrink the young man so he reads as small against the avenue, paint the top corners out to the edge so no white paper shows, and turn the nearby traffic into flowing lanes with some red tail lights instead of cloned stopped minibuses facing the viewer.",
+    "total": 1.9
+   }
+  },
+  "d17e8398841793a1": {
+   "unit": "s04_c3_judge",
+   "file": "s04_c3_judge__d17e8398841793a1.json",
+   "meta": {
+    "elements": [
+     {
+      "name": "wide night view of a busy avenue on the edge of Addis Ababa",
+      "visible": true
+     },
+     {
+      "name": "dense traffic of cars",
+      "visible": true
+     },
+     {
+      "name": "blue and white minibus taxis",
+      "visible": true
+     },
+     {
+      "name": "white headlights",
+      "visible": true
+     },
+     {
+      "name": "red tail lights",
+      "visible": true
+     },
+     {
+      "name": "pavements packed with people as dark shapes",
+      "visible": true
+     },
+     {
+      "name": "tall concrete buildings with many lit windows",
+      "visible": true
+     },
+     {
+      "name": "street lamps",
+      "visible": true
+     },
+     {
+      "name": "young man small in the lower part of the frame, seen from behind",
+      "visible": false
+     },
+     {
+      "name": "backpack on his shoulders",
+      "visible": true
+     },
+     {
+      "name": "standing at the roadside looking at the scene",
+      "visible": true
+     }
+    ],
+    "border": false,
+    "text_in_image": false,
+    "wrong_setting": "",
+    "anatomy": "",
+    "character_match": 5,
+    "prompt_adherence": 4,
+    "artifacts": 4,
+    "notes": "The young man fills most of the lower-centre height instead of being a small figure; shrink him to roughly a quarter of the frame height so the avenue dominates, and darken the twilight sky toward true night.",
+    "total": 4.0
    }
   }
  }

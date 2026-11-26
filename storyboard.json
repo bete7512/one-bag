@@ -9,7 +9,7 @@
     "master": {"width": 1024, "height": 1024},
     "edge_trim": 0.035,
     "exports": [
-      {"name": "vertical", "width": 1080, "height": 1920, "subtitle_margin_v": 330},
+      {"name": "vertical", "width": 1080, "height": 1920, "subtitle_margin_v": 672},
       {"name": "horizontal", "width": 1920, "height": 1080, "subtitle_margin_v": 70}
     ],
     "min_total_s": 60,
@@ -58,7 +58,7 @@
     }
   ],
   "video": {"max_area": 399360, "num_frames": 81, "steps": 30, "guidance": 5.0},
-  "voice": {"name": "am-nahom", "style": "not used by this voice", "max_pause_s": 0.6, "one_take": false, "takes": {"s09": 3}},
+  "voice": {"name": "am-nahom", "style": "not used by this voice", "max_pause_s": 0.6, "one_take": false, "takes": {"s00": 2, "s04": 3, "s09": 12}},
   "qa": {"keyframe_candidates": 2, "judge": true, "roundtrip": true, "roundtrip_min": 0.6, "subtitle_check": true},
   "music": {
     "caption": "Solo krar, the Ethiopian six-string lyre, plucked slowly. A sparse pentatonic melody in the tizita mood. One instrument only, in a quiet room. No drums, no vocals.",
@@ -179,6 +179,7 @@
         "seed": 104,
         "candidates": 3,
         "pick": 3,
+        "soften": [[0.244, 0.326, 0.032, 0.036], [0.283, 0.335, 0.03, 0.033], [0.328, 0.358, 0.044, 0.02], [0.391, 0.343, 0.022, 0.035]],
         "reference": false,
         "focus_y": 0.5
       },
@@ -228,7 +229,7 @@
       "motion": {"backend": "kenburns", "camera": "push_in", "prompt": "The men around them gesture and step closer. Slow push in."},
       "narration": {
         "am": "«አልጋ ትፈልጋላችሁ? አልጋ?» ማንን እንደምንሰማ ግራ ገባን። በመጨረሻ አንዱን ተከተልን።",
-        "en": "\"Do you want a bed? A bed?\" We were confused about whom to hear. In the end we followed one."
+        "en": "\"Do you want a bed? A bed?\" We did not know whom to listen to. In the end we followed one."
       },
       "review": {"confirmed": true, "note": "The author's own text. He confirmed the English subtitle on 26 Nov."}
     },

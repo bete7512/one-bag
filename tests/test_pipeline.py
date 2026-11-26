@@ -993,6 +993,30 @@ class BorderTests(Project):
         self.assertEqual((index[sid]["candidate"], index[sid]["border"], index[sid]["paper_sides"]), (2, False, {"1": 4, "2": 0}))
 
 
+class SoftenTests(Project):
+    """Marks that read like writing are blurred where they are, and the rest of the picture is not touched."""
+
+    def test_only_the_named_box_is_blurred(self):
+        from pipeline import keyframes
+        src, dst = self.root / "sharp.png", self.root / "soft.png"
+        core.ff(["-f", "lavfi", "-i", "testsrc2=size=200x200:rate=1:duration=1", "-frames:v", "1", str(src)])
+        keyframes.soften(src, dst, [[0.5, 0.5, 0.25, 0.25]], 200, 200)          # the box from (100, 100) to (150, 150)
+
+        def gray(path: Path, crop: str) -> bytes:
+            raw = self.root / "part.raw"
+            core.ff(["-i", str(path), "-vf", f"crop={crop}", "-frames:v", "1", "-f", "rawvideo", "-pix_fmt", "gray", str(raw)])
+            return raw.read_bytes()
+
+        def roughness(data: bytes) -> float:
+            return sum(abs(a - b) for a, b in zip(data, data[1:])) / len(data)
+
+        self.assertEqual(gray(src, "100:100:0:0"), gray(dst, "100:100:0:0"))      # outside the box: the same pixels
+        self.assertEqual(gray(src, "40:200:160:0"), gray(dst, "40:200:160:0"))
+        inside = "40:40:105:105"
+        self.assertLess(roughness(gray(dst, inside)), roughness(gray(src, inside)) / 2)   # inside: the fine marks are gone
+        self.assertEqual(core.media_info(dst)["width"], 200)
+
+
 class SceneTests(Project):
     """A generated clip lasts a few seconds. A shot lasts as long as its narration."""
 

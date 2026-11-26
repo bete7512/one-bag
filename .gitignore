@@ -43,12 +43,10 @@ plan.md
 # the two test mixes of E12: rebuilt by `python experiments/e12_ducking.py`, 15 MB each
 outputs/experiments/E12/*.wav
 
-# The cut is not committed while it is a rough cut: a push publishes it on the public page.
-# Remove these five lines for the release commit, when the lines are confirmed and the films are final.
-outputs/film_*.mp4
+# The two released films, their index and the final-cut report are committed. The sound-only cut is
+# rebuilt by `make radio` and is not.
 outputs/radio_cut.mp4
-outputs/qc_report.json
-outputs/assemble/
+outputs/assemble/index.radio.*.json
 
 # radio cuts made to compare voices by ear: not evidence, rebuilt from the kept lines
 outputs/voices/

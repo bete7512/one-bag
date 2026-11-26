@@ -52,21 +52,22 @@
    "created": "2026-11-25T23:50:49Z"
   },
   "s04": {
-   "key": "4c2e40d628dd12be",
-   "file": "s04__4c2e40d628dd12be.wav",
+   "key": "9de6b4437050a5bf",
+   "file": "s04__9de6b4437050a5bf.wav",
    "fingerprint": {
     "v": 2,
     "text": "ከመሸ በኋላ ላምበረት ስደርስ ሌላ ጓደኛዬ ይጠብቀኝ ነበር። አዲስ አበባ በሰው፣ በመብራትና በመኪና ተጥለቅልቃ ተቀበለችኝ፤ ወዴት እንደምመለከት ጠፋኝ።",
     "lang": "am",
     "voice": "am-nahom",
     "style": "not used by this voice",
-    "model": "addis-voices-2"
+    "model": "addis-voices-2",
+    "take": 7
    },
    "meta": {
-    "seconds": 11.1,
+    "seconds": 11.56,
     "from_take": false
    },
-   "created": "2026-11-25T23:50:58Z"
+   "created": "2026-11-26T11:47:13Z"
   },
   "s06": {
    "key": "ff130c637ea29c4a",
@@ -120,8 +121,8 @@
    "created": "2026-11-25T23:51:21Z"
   },
   "s09": {
-   "key": "2514f150f438d8a0",
-   "file": "s09__2514f150f438d8a0.wav",
+   "key": "e3b90deeefebc316",
+   "file": "s09__e3b90deeefebc316.wav",
    "fingerprint": {
     "v": 2,
     "text": "ዛሬ፣ ከሰባት ዓመት በኋላ፣ ከቤቱ ለሚወጣ ሁሉ የምለው አንድ ነገር አለኝ፦ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። ግራ መጋባቱ ግን የጉዞው አካል ነው። አትሽሸው፤ አጣጥመው።",
@@ -130,13 +131,13 @@
     "style": "not used by this voice",
     "model": "addis-voices-2",
     "sent": "ዛሬ ከሰባት ዓመት በኋላ፣ ከቤቱ ለሚወጣ ሁሉ የምለው አንድ ነገር አለኝ፦ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። ግራ መጋባቱ ግን የጉዞው አካል ነው። አትሽሸው፤ አጣጥመው።",
-    "take": 3
+    "take": 12
    },
    "meta": {
-    "seconds": 11.01,
+    "seconds": 11.44,
     "from_take": false
    },
-   "created": "2026-11-25T23:58:26Z"
+   "created": "2026-11-26T11:48:10Z"
   },
   "s01_listen": {
    "key": "257e97be2c0bcbbe",
@@ -391,11 +392,11 @@
    "created": "2026-11-25T23:56:39Z"
   },
   "s04_listen": {
-   "key": "9d80ea7cc2e77395",
-   "file": "s04_listen__9d80ea7cc2e77395.json",
+   "key": "054c328aa9684985",
+   "file": "s04_listen__054c328aa9684985.json",
    "fingerprint": {
     "v": 2,
-    "audio": "45152e0d5dbc9ec1",
+    "audio": "f117138ee7a6d40d",
     "text": "ከመሸ በኋላ ላምበረት ስደርስ ሌላ ጓደኛዬ ይጠብቀኝ ነበር። አዲስ አበባ በሰው፣ በመብራትና በመኪና ተጥለቅልቃ ተቀበለችኝ፤ ወዴት እንደምመለከት ጠፋኝ።",
     "model": "addis-scribe",
     "lang": "am",
@@ -406,43 +407,43 @@
     "edges": 1
    },
    "meta": {
-    "heard": "ከመሸ በኋላ ላምበለት ስደስ ሌላ ጓደኛዬ ይጠብቀኝ ነበር አዲስ አበባ በሰው በመብራትና በመኪና ተጥለቅልቃ ተቀበለች ወዴት እንደምመለከት ተፋኝ",
-    "score": 0.967,
+    "heard": "ከመሼ በኋላ ላምበረት ስደርስ ሌላ ጓደኛዬ ጠብቀኝ ነበር አዲስ አበባ በሰው በመብራትና በመኪና ተትለክልካ ተከበለች ወዴት እንደምመለከት ጠፋኝ",
+    "score": 0.933,
     "words": [
      {
-      "text": "ከመሸ",
+      "text": "ከመሼ",
       "start": 0.3,
       "end": 0.92
      },
      {
       "text": "በኋላ",
-      "start": 0.7,
-      "end": 1.08
+      "start": 0.86,
+      "end": 1.24
      },
      {
-      "text": "ላምበለት",
-      "start": 1.34,
-      "end": 2.12
+      "text": "ላምበረት",
+      "start": 1.5,
+      "end": 2.36
      },
      {
-      "text": "ስደስ",
-      "start": 1.98,
+      "text": "ስደርስ",
+      "start": 2.14,
       "end": 2.68
      },
      {
       "text": "ሌላ",
-      "start": 2.46,
-      "end": 2.84
+      "start": 2.7,
+      "end": 3.08
      },
      {
       "text": "ጓደኛዬ",
-      "start": 2.94,
-      "end": 3.88
+      "start": 3.1,
+      "end": 3.96
      },
      {
-      "text": "ይጠብቀኝ",
-      "start": 3.74,
-      "end": 4.52
+      "text": "ጠብቀኝ",
+      "start": 3.9,
+      "end": 4.6
      },
      {
       "text": "ነበር",
@@ -456,8 +457,8 @@
      },
      {
       "text": "አበባ",
-      "start": 5.02,
-      "end": 5.4
+      "start": 5.1,
+      "end": 5.48
      },
      {
       "text": "በሰው",
@@ -466,43 +467,43 @@
      },
      {
       "text": "በመብራትና",
-      "start": 6.46,
-      "end": 7.48
+      "start": 6.38,
+      "end": 7.4
      },
      {
       "text": "በመኪና",
-      "start": 7.58,
-      "end": 8.36
+      "start": 7.26,
+      "end": 7.96
      },
      {
-      "text": "ተጥለቅልቃ",
-      "start": 8.22,
-      "end": 9.24
+      "text": "ተትለክልካ",
+      "start": 8.06,
+      "end": 9.16
      },
      {
-      "text": "ተቀበለች",
-      "start": 9.02,
-      "end": 9.72
+      "text": "ተከበለች",
+      "start": 9.18,
+      "end": 9.88
      },
      {
       "text": "ወዴት",
-      "start": 9.66,
-      "end": 10.28
+      "start": 9.74,
+      "end": 10.44
      },
      {
       "text": "እንደምመለከት",
-      "start": 10.06,
-      "end": 11.0
+      "start": 10.3,
+      "end": 11.08
      },
      {
-      "text": "ተፋኝ",
-      "start": 10.78,
-      "end": 11.1
+      "text": "ጠፋኝ",
+      "start": 10.94,
+      "end": 11.56
      }
     ],
     "unheard": []
    },
-   "created": "2026-11-25T23:56:41Z"
+   "created": "2026-11-26T11:47:16Z"
   },
   "s06_listen": {
    "key": "25b66612414e3446",
@@ -722,11 +723,11 @@
    "created": "2026-11-25T23:56:49Z"
   },
   "s09_listen": {
-   "key": "8e19ce20fcfcee7a",
-   "file": "s09_listen__8e19ce20fcfcee7a.json",
+   "key": "88f86a6f8192a89f",
+   "file": "s09_listen__88f86a6f8192a89f.json",
    "fingerprint": {
     "v": 2,
-    "audio": "68fe3827871f74b2",
+    "audio": "5b75f106141e2539",
     "text": "ዛሬ፣ ከሰባት ዓመት በኋላ፣ ከቤቱ ለሚወጣ ሁሉ የምለው አንድ ነገር አለኝ፦ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። ግራ መጋባቱ ግን የጉዞው አካል ነው። አትሽሸው፤ አጣጥመው።",
     "model": "addis-scribe",
     "lang": "am",
@@ -737,13 +738,13 @@
     "edges": 1
    },
    "meta": {
-    "heard": "ዛሬ ከሰባት ዓመት በኋላ ከቤቱ ለሚወጣ ሁሉ የምለው አንድ ነገር አለኝ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል ግራ መጋባቱ ግን የጉዞ አካል ነው አትሸው አታጥመው",
-    "score": 0.98,
+    "heard": "ዛሬ ከሰባት ዓመት በኋላ ከቤቱ ለሚወጣው ሁሉ የምለው አንድ ነገር አለኝ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል ግራ መጋባቱ ግን የጉዞው አካል ነው አትሸው አጣጥመው",
+    "score": 0.99,
     "words": [
      {
       "text": "ዛሬ",
-      "start": 0.22,
-      "end": 0.6
+      "start": 0.3,
+      "end": 0.68
      },
      {
       "text": "ከሰባት",
@@ -752,33 +753,33 @@
      },
      {
       "text": "ዓመት",
-      "start": 1.02,
+      "start": 1.1,
       "end": 1.56
      },
      {
       "text": "በኋላ",
-      "start": 1.34,
-      "end": 1.72
+      "start": 1.42,
+      "end": 1.8
      },
      {
       "text": "ከቤቱ",
-      "start": 1.82,
-      "end": 2.52
+      "start": 1.98,
+      "end": 2.68
      },
      {
-      "text": "ለሚወጣ",
-      "start": 2.38,
-      "end": 3.0
-     },
-     {
-      "text": "ሁሉ",
-      "start": 2.94,
+      "text": "ለሚወጣው",
+      "start": 2.46,
       "end": 3.32
      },
      {
+      "text": "ሁሉ",
+      "start": 3.1,
+      "end": 3.48
+     },
+     {
       "text": "የምለው",
-      "start": 3.58,
-      "end": 4.12
+      "start": 3.42,
+      "end": 4.04
      },
      {
       "text": "አንድ",
@@ -792,78 +793,78 @@
      },
      {
       "text": "አለኝ",
-      "start": 4.54,
-      "end": 5.08
+      "start": 4.62,
+      "end": 5.24
      },
      {
       "text": "የመጀመሪያው",
-      "start": 5.02,
-      "end": 5.4
+      "start": 5.34,
+      "end": 5.72
      },
      {
       "text": "ሌሊት",
-      "start": 5.5,
-      "end": 6.2
+      "start": 5.82,
+      "end": 6.44
      },
      {
       "text": "ሁሌም",
-      "start": 6.06,
-      "end": 6.68
+      "start": 6.22,
+      "end": 6.92
      },
      {
       "text": "ግራ",
-      "start": 6.38,
-      "end": 6.76
+      "start": 6.62,
+      "end": 7.0
      },
      {
       "text": "ያጋባል",
-      "start": 6.7,
-      "end": 7.4
-     },
-     {
-      "text": "ግራ",
-      "start": 7.26,
+      "start": 6.94,
       "end": 7.64
      },
      {
+      "text": "ግራ",
+      "start": 7.58,
+      "end": 7.96
+     },
+     {
       "text": "መጋባቱ",
-      "start": 7.66,
-      "end": 8.44
+      "start": 7.9,
+      "end": 8.76
      },
      {
       "text": "ግን",
-      "start": 8.22,
-      "end": 8.6
+      "start": 8.46,
+      "end": 8.84
      },
      {
-      "text": "የጉዞ",
-      "start": 8.62,
-      "end": 9.32
+      "text": "የጉዞው",
+      "start": 8.78,
+      "end": 9.64
      },
      {
       "text": "አካል",
-      "start": 9.18,
-      "end": 9.8
+      "start": 9.42,
+      "end": 10.04
      },
      {
       "text": "ነው",
-      "start": 9.5,
-      "end": 9.88
+      "start": 9.74,
+      "end": 10.12
      },
      {
       "text": "አትሸው",
-      "start": 9.82,
-      "end": 10.68
+      "start": 10.14,
+      "end": 11.0
      },
      {
-      "text": "አታጥመው",
-      "start": 10.54,
-      "end": 11.01
+      "text": "አጣጥመው",
+      "start": 10.78,
+      "end": 11.44
      }
     ],
     "unheard": []
    },
-   "created": "2026-11-25T23:58:28Z"
+   "created": "2026-11-26T11:48:14Z"
   },
   "s01_tight": {
    "key": "1dd4c2f698430efb",
@@ -923,11 +924,11 @@
    "created": "2026-11-25T23:51:33Z"
   },
   "s04_tight": {
-   "key": "ee6b90651e01fa67",
-   "file": "s04_tight__ee6b90651e01fa67.wav",
+   "key": "46f0324535fe70aa",
+   "file": "s04_tight__46f0324535fe70aa.wav",
    "fingerprint": {
     "v": 2,
-    "audio": "45152e0d5dbc9ec1",
+    "audio": "f117138ee7a6d40d",
     "max_pause_s": 0.6,
     "silence": {
      "noise_db": -38,
@@ -935,11 +936,11 @@
     }
    },
    "meta": {
-    "seconds": 11.1,
+    "seconds": 11.56,
     "shortened": 0,
     "removed_s": 0.0
    },
-   "created": "2026-11-25T23:51:33Z"
+   "created": "2026-11-26T11:47:13Z"
   },
   "s06_tight": {
    "key": "b1c6ebc0db474de4",
@@ -999,11 +1000,11 @@
    "created": "2026-11-25T23:51:33Z"
   },
   "s09_tight": {
-   "key": "e121c0bde4682eac",
-   "file": "s09_tight__e121c0bde4682eac.wav",
+   "key": "c9dd3e97a0ae7713",
+   "file": "s09_tight__c9dd3e97a0ae7713.wav",
    "fingerprint": {
     "v": 2,
-    "audio": "68fe3827871f74b2",
+    "audio": "5b75f106141e2539",
     "max_pause_s": 0.6,
     "silence": {
      "noise_db": -38,
@@ -1011,28 +1012,29 @@
     }
    },
    "meta": {
-    "seconds": 11.01,
+    "seconds": 11.44,
     "shortened": 0,
     "removed_s": 0.0
    },
-   "created": "2026-11-25T23:58:26Z"
+   "created": "2026-11-26T11:48:11Z"
   },
   "s00": {
-   "key": "3d86b8dafb47f6c0",
-   "file": "s00__3d86b8dafb47f6c0.wav",
+   "key": "031554b1aceba48a",
+   "file": "s00__031554b1aceba48a.wav",
    "fingerprint": {
     "v": 2,
     "text": "ከቤቴ ርቄ ያሳለፍኩትን የመጀመሪያ ሌሊት መቼም አልረሳውም። ጊዜው መስከረም ሁለት ሺህ አሥራ ሁለት ነበር።",
     "lang": "am",
     "voice": "am-nahom",
     "style": "not used by this voice",
-    "model": "addis-voices-2"
+    "model": "addis-voices-2",
+    "take": 2
    },
    "meta": {
-    "seconds": 6.95,
+    "seconds": 6.98,
     "from_take": false
    },
-   "created": "2026-11-25T23:50:28Z"
+   "created": "2026-11-26T11:47:23Z"
   },
   "s05": {
    "key": "53e3216960eb67f3",
@@ -1052,11 +1054,11 @@
    "created": "2026-11-25T23:51:03Z"
   },
   "s00_tight": {
-   "key": "228b535fbdb7604e",
-   "file": "s00_tight__228b535fbdb7604e.wav",
+   "key": "de39fd7c131dec5a",
+   "file": "s00_tight__de39fd7c131dec5a.wav",
    "fingerprint": {
     "v": 2,
-    "audio": "71066d958859c132",
+    "audio": "75b50c45315c2d22",
     "max_pause_s": 0.6,
     "silence": {
      "noise_db": -38,
@@ -1064,11 +1066,11 @@
     }
    },
    "meta": {
-    "seconds": 6.95,
+    "seconds": 6.98,
     "shortened": 0,
     "removed_s": 0.0
    },
-   "created": "2026-11-25T23:51:33Z"
+   "created": "2026-11-26T11:47:24Z"
   },
   "s05_tight": {
    "key": "7fcb759260765c40",
@@ -1090,11 +1092,11 @@
    "created": "2026-11-25T23:51:33Z"
   },
   "s00_listen": {
-   "key": "84ab621fbde8d4cc",
-   "file": "s00_listen__84ab621fbde8d4cc.json",
+   "key": "b8d5a233c038f11e",
+   "file": "s00_listen__b8d5a233c038f11e.json",
    "fingerprint": {
     "v": 2,
-    "audio": "71066d958859c132",
+    "audio": "75b50c45315c2d22",
     "text": "ከቤቴ ርቄ ያሳለፍኩትን የመጀመሪያ ሌሊት መቼም አልረሳውም። ጊዜው መስከረም ሁለት ሺህ አሥራ ሁለት ነበር።",
     "model": "addis-scribe",
     "lang": "am",
@@ -1105,8 +1107,8 @@
     "edges": 1
    },
    "meta": {
-    "heard": "ከቤቴ ርኬ ያሳለፍኩትን የመጀመሪያ ሌሊት መቼም አልረሳውም ጊዜው መስከረም ሁለት ሺህ አስራ ሁለት ነበር",
-    "score": 0.985,
+    "heard": "ከቤቴ ርቄ ያሳለፍኩትን የመጀመሪያ ሌሊት መቼም አልረሳውም ጊዜው መስከረም ሁለት ሺህ አስራ ሁለት ነበር",
+    "score": 1.0,
     "words": [
      {
       "text": "ከቤቴ",
@@ -1114,74 +1116,74 @@
       "end": 0.84
      },
      {
-      "text": "ርኬ",
-      "start": 0.62,
+      "text": "ርቄ",
+      "start": 0.7,
       "end": 1.16
      },
      {
       "text": "ያሳለፍኩትን",
       "start": 1.02,
-      "end": 2.04
+      "end": 1.96
      },
      {
       "text": "የመጀመሪያ",
-      "start": 2.3,
-      "end": 2.68
+      "start": 2.38,
+      "end": 2.76
      },
      {
       "text": "ሌሊት",
-      "start": 2.62,
-      "end": 3.24
+      "start": 2.7,
+      "end": 3.48
      },
      {
       "text": "መቼም",
-      "start": 3.02,
-      "end": 3.64
+      "start": 3.26,
+      "end": 4.04
      },
      {
       "text": "አልረሳውም",
-      "start": 3.42,
-      "end": 4.2
+      "start": 3.82,
+      "end": 4.52
      },
      {
       "text": "ጊዜው",
-      "start": 4.06,
-      "end": 4.76
+      "start": 4.46,
+      "end": 5.08
      },
      {
       "text": "መስከረም",
-      "start": 4.54,
-      "end": 5.32
-     },
-     {
-      "text": "ሁለት",
-      "start": 5.26,
+      "start": 4.94,
       "end": 5.64
      },
      {
-      "text": "ሺህ",
-      "start": 5.58,
-      "end": 5.96
+      "text": "ሁለት",
+      "start": 5.82,
+      "end": 6.2
      },
      {
-      "text": "አስራ",
+      "text": "ሺህ",
       "start": 6.06,
       "end": 6.44
      },
      {
+      "text": "አስራ",
+      "start": 6.22,
+      "end": 6.6
+     },
+     {
       "text": "ሁለት",
-      "start": 6.46,
-      "end": 6.84
+      "start": 6.54,
+      "end": 6.92
      },
      {
       "text": "ነበር",
-      "start": 6.86,
-      "end": 6.95
+      "start": 6.94,
+      "end": 6.98
      }
     ],
     "unheard": []
    },
-   "created": "2026-11-25T23:56:34Z"
+   "created": "2026-11-26T11:47:26Z"
   },
   "s05_listen": {
    "key": "7c70ebf215848716",
@@ -7878,6 +7880,2138 @@
       "text": "አታጥመው",
       "start": 10.54,
       "end": 11.01
+     }
+    ],
+    "unheard": []
+   }
+  },
+  "4a1492daf6fa3f3c": {
+   "unit": "s09",
+   "file": "s09__4a1492daf6fa3f3c.wav",
+   "meta": {
+    "seconds": 11.01,
+    "from_take": false
+   }
+  },
+  "c4ae1d97a995ad60": {
+   "unit": "s09_tight",
+   "file": "s09_tight__c4ae1d97a995ad60.wav",
+   "meta": {
+    "seconds": 11.01,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "95b9f4ba61b534cb": {
+   "unit": "s09_listen",
+   "file": "s09_listen__95b9f4ba61b534cb.json",
+   "meta": {
+    "heard": "ዛሬ ከሰባት ዓመት በኋላ ከቤቱ ለሚወጣ ሁሉ የምለው አንድ ነገር አለኝ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል ግራ መጋባቱ ግን የጉዞ አካል ነው አትሸው አታጥ",
+    "score": 0.97,
+    "words": [
+     {
+      "text": "ዛሬ",
+      "start": 0.22,
+      "end": 0.6
+     },
+     {
+      "text": "ከሰባት",
+      "start": 0.54,
+      "end": 1.24
+     },
+     {
+      "text": "ዓመት",
+      "start": 1.02,
+      "end": 1.56
+     },
+     {
+      "text": "በኋላ",
+      "start": 1.34,
+      "end": 1.72
+     },
+     {
+      "text": "ከቤቱ",
+      "start": 1.82,
+      "end": 2.52
+     },
+     {
+      "text": "ለሚወጣ",
+      "start": 2.46,
+      "end": 3.08
+     },
+     {
+      "text": "ሁሉ",
+      "start": 2.94,
+      "end": 3.32
+     },
+     {
+      "text": "የምለው",
+      "start": 3.18,
+      "end": 3.8
+     },
+     {
+      "text": "አንድ",
+      "start": 3.66,
+      "end": 4.04
+     },
+     {
+      "text": "ነገር",
+      "start": 3.98,
+      "end": 4.36
+     },
+     {
+      "text": "አለኝ",
+      "start": 4.38,
+      "end": 4.92
+     },
+     {
+      "text": "የመጀመሪያው",
+      "start": 5.02,
+      "end": 5.4
+     },
+     {
+      "text": "ሌሊት",
+      "start": 5.9,
+      "end": 6.6
+     },
+     {
+      "text": "ሁሌም",
+      "start": 6.46,
+      "end": 7.16
+     },
+     {
+      "text": "ግራ",
+      "start": 6.94,
+      "end": 7.32
+     },
+     {
+      "text": "ያጋባል",
+      "start": 7.18,
+      "end": 7.8
+     },
+     {
+      "text": "ግራ",
+      "start": 7.66,
+      "end": 8.04
+     },
+     {
+      "text": "መጋባቱ",
+      "start": 8.06,
+      "end": 8.84
+     },
+     {
+      "text": "ግን",
+      "start": 8.54,
+      "end": 8.92
+     },
+     {
+      "text": "የጉዞ",
+      "start": 8.86,
+      "end": 9.64
+     },
+     {
+      "text": "አካል",
+      "start": 9.42,
+      "end": 10.04
+     },
+     {
+      "text": "ነው",
+      "start": 9.74,
+      "end": 10.12
+     },
+     {
+      "text": "አትሸው",
+      "start": 10.14,
+      "end": 11.0
+     },
+     {
+      "text": "አታጥ",
+      "start": 10.78,
+      "end": 11.01
+     }
+    ],
+    "unheard": []
+   }
+  },
+  "ad94606071cd5b72": {
+   "unit": "s09",
+   "file": "s09__ad94606071cd5b72.wav",
+   "meta": {
+    "seconds": 10.78,
+    "from_take": false
+   }
+  },
+  "2a681dc4a67d4504": {
+   "unit": "s09_tight",
+   "file": "s09_tight__2a681dc4a67d4504.wav",
+   "meta": {
+    "seconds": 10.78,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "ea4eb352d4a450f8": {
+   "unit": "s09_listen",
+   "file": "s09_listen__ea4eb352d4a450f8.json",
+   "meta": {
+    "heard": "ከሰባት ዓመት በኋላ ከቤቱ ለሚወጣ ሁሌ የምለው አንድ ነገር አለኝ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል ግራ መጋባቱ ግን የጉዞ አካል ነው አትሸው አጣጥመው",
+    "score": 0.965,
+    "words": [
+     {
+      "text": "ከሰባት",
+      "start": 0.22,
+      "end": 0.84
+     },
+     {
+      "text": "ዓመት",
+      "start": 0.7,
+      "end": 1.24
+     },
+     {
+      "text": "በኋላ",
+      "start": 1.02,
+      "end": 1.4
+     },
+     {
+      "text": "ከቤቱ",
+      "start": 1.58,
+      "end": 2.28
+     },
+     {
+      "text": "ለሚወጣ",
+      "start": 2.06,
+      "end": 2.68
+     },
+     {
+      "text": "ሁሌ",
+      "start": 2.54,
+      "end": 3.08
+     },
+     {
+      "text": "የምለው",
+      "start": 2.86,
+      "end": 3.4
+     },
+     {
+      "text": "አንድ",
+      "start": 3.18,
+      "end": 3.56
+     },
+     {
+      "text": "ነገር",
+      "start": 3.5,
+      "end": 3.88
+     },
+     {
+      "text": "አለኝ",
+      "start": 3.74,
+      "end": 4.36
+     },
+     {
+      "text": "የመጀመሪያው",
+      "start": 4.38,
+      "end": 4.76
+     },
+     {
+      "text": "ሌሊት",
+      "start": 4.86,
+      "end": 5.56
+     },
+     {
+      "text": "ሁሌም",
+      "start": 5.42,
+      "end": 6.04
+     },
+     {
+      "text": "ግራ",
+      "start": 5.98,
+      "end": 6.36
+     },
+     {
+      "text": "ያጋባል",
+      "start": 6.38,
+      "end": 7.08
+     },
+     {
+      "text": "ግራ",
+      "start": 7.02,
+      "end": 7.4
+     },
+     {
+      "text": "መጋባቱ",
+      "start": 7.34,
+      "end": 8.28
+     },
+     {
+      "text": "ግን",
+      "start": 7.98,
+      "end": 8.36
+     },
+     {
+      "text": "የጉዞ",
+      "start": 8.22,
+      "end": 9.0
+     },
+     {
+      "text": "አካል",
+      "start": 8.86,
+      "end": 9.4
+     },
+     {
+      "text": "ነው",
+      "start": 9.1,
+      "end": 9.48
+     },
+     {
+      "text": "አትሸው",
+      "start": 9.5,
+      "end": 10.36
+     },
+     {
+      "text": "አጣጥመው",
+      "start": 10.3,
+      "end": 10.78
+     }
+    ],
+    "unheard": [
+     "first word ዛሬ"
+    ]
+   }
+  },
+  "4edf066a06a35314": {
+   "unit": "s09",
+   "file": "s09__4edf066a06a35314.wav",
+   "meta": {
+    "seconds": 11.69,
+    "from_take": false
+   }
+  },
+  "b948376d4862ae8c": {
+   "unit": "s09_tight",
+   "file": "s09_tight__b948376d4862ae8c.wav",
+   "meta": {
+    "seconds": 11.69,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "5fe7a86f4da2f0e4": {
+   "unit": "s09_listen",
+   "file": "s09_listen__5fe7a86f4da2f0e4.json",
+   "meta": {
+    "heard": "ዛሬ ከሰባት ዓመት በኋላ ከቤቱ ለሚወጣ ሁሉ የምለው አንድ ነገር አለኝ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል ግራ መጋባቱ ግን የጉዞ አካል ነው አትሸው አታምጥም",
+    "score": 0.961,
+    "words": [
+     {
+      "text": "ዛሬ",
+      "start": 0.22,
+      "end": 0.6
+     },
+     {
+      "text": "ከሰባት",
+      "start": 0.54,
+      "end": 1.24
+     },
+     {
+      "text": "ዓመት",
+      "start": 1.1,
+      "end": 1.56
+     },
+     {
+      "text": "በኋላ",
+      "start": 1.34,
+      "end": 1.72
+     },
+     {
+      "text": "ከቤቱ",
+      "start": 1.9,
+      "end": 2.6
+     },
+     {
+      "text": "ለሚወጣ",
+      "start": 2.46,
+      "end": 3.08
+     },
+     {
+      "text": "ሁሉ",
+      "start": 2.94,
+      "end": 3.32
+     },
+     {
+      "text": "የምለው",
+      "start": 3.18,
+      "end": 3.8
+     },
+     {
+      "text": "አንድ",
+      "start": 3.74,
+      "end": 4.12
+     },
+     {
+      "text": "ነገር",
+      "start": 4.06,
+      "end": 4.44
+     },
+     {
+      "text": "አለኝ",
+      "start": 4.38,
+      "end": 5.0
+     },
+     {
+      "text": "የመጀመሪያው",
+      "start": 5.02,
+      "end": 5.4
+     },
+     {
+      "text": "ሌሊት",
+      "start": 5.5,
+      "end": 6.2
+     },
+     {
+      "text": "ሁሌም",
+      "start": 5.98,
+      "end": 6.6
+     },
+     {
+      "text": "ግራ",
+      "start": 6.46,
+      "end": 6.84
+     },
+     {
+      "text": "ያጋባል",
+      "start": 7.02,
+      "end": 7.88
+     },
+     {
+      "text": "ግራ",
+      "start": 7.82,
+      "end": 8.2
+     },
+     {
+      "text": "መጋባቱ",
+      "start": 8.22,
+      "end": 9.08
+     },
+     {
+      "text": "ግን",
+      "start": 8.86,
+      "end": 9.24
+     },
+     {
+      "text": "የጉዞ",
+      "start": 9.18,
+      "end": 9.96
+     },
+     {
+      "text": "አካል",
+      "start": 9.82,
+      "end": 10.44
+     },
+     {
+      "text": "ነው",
+      "start": 10.14,
+      "end": 10.52
+     },
+     {
+      "text": "አትሸው",
+      "start": 10.46,
+      "end": 11.4
+     },
+     {
+      "text": "አታምጥም",
+      "start": 11.18,
+      "end": 11.69
+     }
+    ],
+    "unheard": [
+     "last word አጣጥመው"
+    ]
+   }
+  },
+  "d8fb02e96d8c08f8": {
+   "unit": "s09",
+   "file": "s09__d8fb02e96d8c08f8.wav",
+   "meta": {
+    "seconds": 11.13,
+    "from_take": false
+   }
+  },
+  "7fc1406626ac9cbb": {
+   "unit": "s09_tight",
+   "file": "s09_tight__7fc1406626ac9cbb.wav",
+   "meta": {
+    "seconds": 11.13,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "71fcdf4162e393a4": {
+   "unit": "s09_listen",
+   "file": "s09_listen__71fcdf4162e393a4.json",
+   "meta": {
+    "heard": "ዛሬ ከሰባት ዓመት በኋላ ከቤቱ ለሚወጣው ሁሉ የምለው አንድ ነገር አለኝ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል ግራ መጋባቱ ግን የጉዞ አካል ነው አትሸው አጣትማው",
+    "score": 0.966,
+    "words": [
+     {
+      "text": "ዛሬ",
+      "start": 0.22,
+      "end": 0.6
+     },
+     {
+      "text": "ከሰባት",
+      "start": 0.54,
+      "end": 1.24
+     },
+     {
+      "text": "ዓመት",
+      "start": 1.1,
+      "end": 1.56
+     },
+     {
+      "text": "በኋላ",
+      "start": 1.34,
+      "end": 1.72
+     },
+     {
+      "text": "ከቤቱ",
+      "start": 1.9,
+      "end": 2.6
+     },
+     {
+      "text": "ለሚወጣው",
+      "start": 2.46,
+      "end": 3.16
+     },
+     {
+      "text": "ሁሉ",
+      "start": 2.86,
+      "end": 3.24
+     },
+     {
+      "text": "የምለው",
+      "start": 3.1,
+      "end": 3.72
+     },
+     {
+      "text": "አንድ",
+      "start": 3.5,
+      "end": 3.88
+     },
+     {
+      "text": "ነገር",
+      "start": 3.74,
+      "end": 4.12
+     },
+     {
+      "text": "አለኝ",
+      "start": 4.06,
+      "end": 4.6
+     },
+     {
+      "text": "የመጀመሪያው",
+      "start": 4.7,
+      "end": 5.08
+     },
+     {
+      "text": "ሌሊት",
+      "start": 5.1,
+      "end": 5.8
+     },
+     {
+      "text": "ሁሌም",
+      "start": 5.66,
+      "end": 6.36
+     },
+     {
+      "text": "ግራ",
+      "start": 6.06,
+      "end": 6.44
+     },
+     {
+      "text": "ያጋባል",
+      "start": 6.54,
+      "end": 7.4
+     },
+     {
+      "text": "ግራ",
+      "start": 7.26,
+      "end": 7.64
+     },
+     {
+      "text": "መጋባቱ",
+      "start": 7.66,
+      "end": 8.44
+     },
+     {
+      "text": "ግን",
+      "start": 8.22,
+      "end": 8.6
+     },
+     {
+      "text": "የጉዞ",
+      "start": 8.62,
+      "end": 9.4
+     },
+     {
+      "text": "አካል",
+      "start": 9.26,
+      "end": 9.8
+     },
+     {
+      "text": "ነው",
+      "start": 9.5,
+      "end": 9.88
+     },
+     {
+      "text": "አትሸው",
+      "start": 9.9,
+      "end": 10.68
+     },
+     {
+      "text": "አጣትማው",
+      "start": 10.46,
+      "end": 11.13
+     }
+    ],
+    "unheard": []
+   }
+  },
+  "82bfb7cc999a41df": {
+   "unit": "s09",
+   "file": "s09__82bfb7cc999a41df.wav",
+   "meta": {
+    "seconds": 11.08,
+    "from_take": false
+   }
+  },
+  "685300ef6c5bb335": {
+   "unit": "s09_tight",
+   "file": "s09_tight__685300ef6c5bb335.wav",
+   "meta": {
+    "seconds": 11.08,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "8defafe341634fff": {
+   "unit": "s09_listen",
+   "file": "s09_listen__8defafe341634fff.json",
+   "meta": {
+    "heard": "ከሰባት ዓመት በኋላ ከቤቱ ለሚወጣ ሁሉ የምለው አንድ ነገር አለኝ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል ግራ መጋባቱ ግን የጉዞ አካል ነው አትሸው አታጥመው",
+    "score": 0.965,
+    "words": [
+     {
+      "text": "ከሰባት",
+      "start": 0.22,
+      "end": 0.84
+     },
+     {
+      "text": "ዓመት",
+      "start": 0.7,
+      "end": 1.24
+     },
+     {
+      "text": "በኋላ",
+      "start": 1.02,
+      "end": 1.4
+     },
+     {
+      "text": "ከቤቱ",
+      "start": 1.5,
+      "end": 2.2
+     },
+     {
+      "text": "ለሚወጣ",
+      "start": 2.06,
+      "end": 2.68
+     },
+     {
+      "text": "ሁሉ",
+      "start": 2.62,
+      "end": 3.0
+     },
+     {
+      "text": "የምለው",
+      "start": 2.86,
+      "end": 3.48
+     },
+     {
+      "text": "አንድ",
+      "start": 3.26,
+      "end": 3.64
+     },
+     {
+      "text": "ነገር",
+      "start": 3.5,
+      "end": 3.88
+     },
+     {
+      "text": "አለኝ",
+      "start": 3.82,
+      "end": 4.44
+     },
+     {
+      "text": "የመጀመሪያው",
+      "start": 4.38,
+      "end": 4.76
+     },
+     {
+      "text": "ሌሊት",
+      "start": 4.86,
+      "end": 5.56
+     },
+     {
+      "text": "ሁሌም",
+      "start": 5.42,
+      "end": 6.12
+     },
+     {
+      "text": "ግራ",
+      "start": 5.9,
+      "end": 6.28
+     },
+     {
+      "text": "ያጋባል",
+      "start": 6.38,
+      "end": 7.24
+     },
+     {
+      "text": "ግራ",
+      "start": 7.18,
+      "end": 7.56
+     },
+     {
+      "text": "መጋባቱ",
+      "start": 7.5,
+      "end": 8.44
+     },
+     {
+      "text": "ግን",
+      "start": 8.14,
+      "end": 8.52
+     },
+     {
+      "text": "የጉዞ",
+      "start": 8.54,
+      "end": 9.16
+     },
+     {
+      "text": "አካል",
+      "start": 9.02,
+      "end": 9.64
+     },
+     {
+      "text": "ነው",
+      "start": 9.34,
+      "end": 9.72
+     },
+     {
+      "text": "አትሸው",
+      "start": 9.74,
+      "end": 10.6
+     },
+     {
+      "text": "አታጥመው",
+      "start": 10.46,
+      "end": 11.08
+     }
+    ],
+    "unheard": [
+     "first word ዛሬ"
+    ]
+   }
+  },
+  "33632c678a0b94ae": {
+   "unit": "s09",
+   "file": "s09__33632c678a0b94ae.wav",
+   "meta": {
+    "seconds": 12.08,
+    "from_take": false
+   }
+  },
+  "9a59652471e13b47": {
+   "unit": "s09_tight",
+   "file": "s09_tight__9a59652471e13b47.wav",
+   "meta": {
+    "seconds": 12.08,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "e9bbf69973896d61": {
+   "unit": "s09_listen",
+   "file": "s09_listen__e9bbf69973896d61.json",
+   "meta": {
+    "heard": "ዛሬ ከሰባት ዓመት በኋላ ከቤቱ ለሚወጣ ሁሉ የምለው አንድ ነገር አለኝ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል ግራ መጋባቱ ግን የጉዞ አካል ነው አትሸው አታጥሞ",
+    "score": 0.966,
+    "words": [
+     {
+      "text": "ዛሬ",
+      "start": 0.22,
+      "end": 0.6
+     },
+     {
+      "text": "ከሰባት",
+      "start": 0.62,
+      "end": 1.32
+     },
+     {
+      "text": "ዓመት",
+      "start": 1.18,
+      "end": 1.64
+     },
+     {
+      "text": "በኋላ",
+      "start": 1.42,
+      "end": 1.8
+     },
+     {
+      "text": "ከቤቱ",
+      "start": 1.98,
+      "end": 2.68
+     },
+     {
+      "text": "ለሚወጣ",
+      "start": 2.54,
+      "end": 3.24
+     },
+     {
+      "text": "ሁሉ",
+      "start": 3.1,
+      "end": 3.48
+     },
+     {
+      "text": "የምለው",
+      "start": 3.5,
+      "end": 4.12
+     },
+     {
+      "text": "አንድ",
+      "start": 4.06,
+      "end": 4.44
+     },
+     {
+      "text": "ነገር",
+      "start": 4.38,
+      "end": 4.76
+     },
+     {
+      "text": "አለኝ",
+      "start": 4.78,
+      "end": 5.48
+     },
+     {
+      "text": "የመጀመሪያው",
+      "start": 5.82,
+      "end": 6.2
+     },
+     {
+      "text": "ሌሊት",
+      "start": 6.06,
+      "end": 6.76
+     },
+     {
+      "text": "ሁሌም",
+      "start": 6.7,
+      "end": 7.32
+     },
+     {
+      "text": "ግራ",
+      "start": 7.1,
+      "end": 7.48
+     },
+     {
+      "text": "ያጋባል",
+      "start": 7.58,
+      "end": 8.44
+     },
+     {
+      "text": "ግራ",
+      "start": 8.38,
+      "end": 8.76
+     },
+     {
+      "text": "መጋባቱ",
+      "start": 8.7,
+      "end": 9.56
+     },
+     {
+      "text": "ግን",
+      "start": 9.34,
+      "end": 9.72
+     },
+     {
+      "text": "የጉዞ",
+      "start": 9.58,
+      "end": 10.28
+     },
+     {
+      "text": "አካል",
+      "start": 10.14,
+      "end": 10.68
+     },
+     {
+      "text": "ነው",
+      "start": 10.3,
+      "end": 10.68
+     },
+     {
+      "text": "አትሸው",
+      "start": 10.7,
+      "end": 11.64
+     },
+     {
+      "text": "አታጥሞ",
+      "start": 11.5,
+      "end": 12.08
+     }
+    ],
+    "unheard": [
+     "last word አጣጥመው"
+    ]
+   }
+  },
+  "dc21c8c0fd76b455": {
+   "unit": "s04",
+   "file": "s04__dc21c8c0fd76b455.wav",
+   "meta": {
+    "seconds": 10.24,
+    "from_take": false
+   }
+  },
+  "8806772ac38845ba": {
+   "unit": "s04_tight",
+   "file": "s04_tight__8806772ac38845ba.wav",
+   "meta": {
+    "seconds": 10.24,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "f86dd24c9d6213e2": {
+   "unit": "s04_listen",
+   "file": "s04_listen__f86dd24c9d6213e2.json",
+   "meta": {
+    "heard": "ከመሸ በኋላ ላምበረት ስደርስ ሌላ ጓደኛዬ ይጠብቀኝ ነበር አዲስ አበባ በሰው በመብራትና በመኪና ተጥለቅልቃ ተቀበለች ወዴት እንደምመለከት ከፋኝ",
+    "score": 0.983,
+    "words": [
+     {
+      "text": "ከመሸ",
+      "start": 0.22,
+      "end": 0.92
+     },
+     {
+      "text": "በኋላ",
+      "start": 0.78,
+      "end": 1.16
+     },
+     {
+      "text": "ላምበረት",
+      "start": 1.34,
+      "end": 2.2
+     },
+     {
+      "text": "ስደርስ",
+      "start": 2.06,
+      "end": 2.52
+     },
+     {
+      "text": "ሌላ",
+      "start": 2.46,
+      "end": 2.84
+     },
+     {
+      "text": "ጓደኛዬ",
+      "start": 2.78,
+      "end": 3.56
+     },
+     {
+      "text": "ይጠብቀኝ",
+      "start": 3.34,
+      "end": 4.2
+     },
+     {
+      "text": "ነበር",
+      "start": 3.9,
+      "end": 4.28
+     },
+     {
+      "text": "አዲስ",
+      "start": 4.3,
+      "end": 4.68
+     },
+     {
+      "text": "አበባ",
+      "start": 4.62,
+      "end": 5.0
+     },
+     {
+      "text": "በሰው",
+      "start": 5.18,
+      "end": 5.72
+     },
+     {
+      "text": "በመብራትና",
+      "start": 5.82,
+      "end": 6.76
+     },
+     {
+      "text": "በመኪና",
+      "start": 6.78,
+      "end": 7.4
+     },
+     {
+      "text": "ተጥለቅልቃ",
+      "start": 7.26,
+      "end": 8.2
+     },
+     {
+      "text": "ተቀበለች",
+      "start": 7.98,
+      "end": 8.68
+     },
+     {
+      "text": "ወዴት",
+      "start": 8.54,
+      "end": 9.16
+     },
+     {
+      "text": "እንደምመለከት",
+      "start": 9.02,
+      "end": 9.96
+     },
+     {
+      "text": "ከፋኝ",
+      "start": 9.9,
+      "end": 10.24
+     }
+    ],
+    "unheard": []
+   }
+  },
+  "1bce46b79095203e": {
+   "unit": "s04",
+   "file": "s04__1bce46b79095203e.wav",
+   "meta": {
+    "seconds": 11.16,
+    "from_take": false
+   }
+  },
+  "848982c557cfed27": {
+   "unit": "s04_tight",
+   "file": "s04_tight__848982c557cfed27.wav",
+   "meta": {
+    "seconds": 11.16,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "20f3cd2229808dc1": {
+   "unit": "s04_listen",
+   "file": "s04_listen__20f3cd2229808dc1.json",
+   "meta": {
+    "heard": "ከመሸ በኋላ ላምበረት ስደርስ ሌላ ጓደኛዬ ይጠብቀኝ ነበር አዲስ አበባ በሰው በመብራትና በመኪና ተጥለቅልቃ ተቀበለች ወዴት እንደምመለከት ጠፋኝ",
+    "score": 0.994,
+    "words": [
+     {
+      "text": "ከመሸ",
+      "start": 0.3,
+      "end": 0.92
+     },
+     {
+      "text": "በኋላ",
+      "start": 0.78,
+      "end": 1.16
+     },
+     {
+      "text": "ላምበረት",
+      "start": 1.34,
+      "end": 2.2
+     },
+     {
+      "text": "ስደርስ",
+      "start": 2.06,
+      "end": 2.6
+     },
+     {
+      "text": "ሌላ",
+      "start": 2.54,
+      "end": 2.92
+     },
+     {
+      "text": "ጓደኛዬ",
+      "start": 3.02,
+      "end": 3.88
+     },
+     {
+      "text": "ይጠብቀኝ",
+      "start": 3.74,
+      "end": 4.6
+     },
+     {
+      "text": "ነበር",
+      "start": 4.38,
+      "end": 4.76
+     },
+     {
+      "text": "አዲስ",
+      "start": 4.94,
+      "end": 5.32
+     },
+     {
+      "text": "አበባ",
+      "start": 5.18,
+      "end": 5.56
+     },
+     {
+      "text": "በሰው",
+      "start": 5.98,
+      "end": 6.52
+     },
+     {
+      "text": "በመብራትና",
+      "start": 6.46,
+      "end": 7.48
+     },
+     {
+      "text": "በመኪና",
+      "start": 7.26,
+      "end": 7.96
+     },
+     {
+      "text": "ተጥለቅልቃ",
+      "start": 7.82,
+      "end": 8.92
+     },
+     {
+      "text": "ተቀበለች",
+      "start": 8.78,
+      "end": 9.48
+     },
+     {
+      "text": "ወዴት",
+      "start": 9.5,
+      "end": 10.12
+     },
+     {
+      "text": "እንደምመለከት",
+      "start": 9.9,
+      "end": 10.76
+     },
+     {
+      "text": "ጠፋኝ",
+      "start": 10.54,
+      "end": 11.16
+     }
+    ],
+    "unheard": []
+   }
+  },
+  "66c1ae27df84c805": {
+   "unit": "s04",
+   "file": "s04__66c1ae27df84c805.wav",
+   "meta": {
+    "seconds": 9.94,
+    "from_take": false
+   }
+  },
+  "7568d8ebf619b7e9": {
+   "unit": "s04_tight",
+   "file": "s04_tight__7568d8ebf619b7e9.wav",
+   "meta": {
+    "seconds": 9.94,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "9b4bcd92ca14a627": {
+   "unit": "s04_listen",
+   "file": "s04_listen__9b4bcd92ca14a627.json",
+   "meta": {
+    "heard": "ከመሸ በኋላ ላምበረት ስደስ ሌላ ጓደኛዬ ይጠብቀኝ ነበር አዲስ አበባ በሰው በመብራትና በመኪና ተጥለቅልቃ ተቀምበለች ወዴት እንደምመለከት ጠፋኝ",
+    "score": 0.983,
+    "words": [
+     {
+      "text": "ከመሸ",
+      "start": 0.22,
+      "end": 0.92
+     },
+     {
+      "text": "በኋላ",
+      "start": 0.78,
+      "end": 1.16
+     },
+     {
+      "text": "ላምበረት",
+      "start": 1.34,
+      "end": 2.04
+     },
+     {
+      "text": "ስደስ",
+      "start": 1.82,
+      "end": 2.44
+     },
+     {
+      "text": "ሌላ",
+      "start": 2.22,
+      "end": 2.6
+     },
+     {
+      "text": "ጓደኛዬ",
+      "start": 2.62,
+      "end": 3.4
+     },
+     {
+      "text": "ይጠብቀኝ",
+      "start": 3.18,
+      "end": 3.96
+     },
+     {
+      "text": "ነበር",
+      "start": 3.74,
+      "end": 4.12
+     },
+     {
+      "text": "አዲስ",
+      "start": 4.14,
+      "end": 4.52
+     },
+     {
+      "text": "አበባ",
+      "start": 4.46,
+      "end": 4.84
+     },
+     {
+      "text": "በሰው",
+      "start": 4.94,
+      "end": 5.48
+     },
+     {
+      "text": "በመብራትና",
+      "start": 5.42,
+      "end": 6.44
+     },
+     {
+      "text": "በመኪና",
+      "start": 6.22,
+      "end": 6.92
+     },
+     {
+      "text": "ተጥለቅልቃ",
+      "start": 6.86,
+      "end": 7.8
+     },
+     {
+      "text": "ተቀምበለች",
+      "start": 7.58,
+      "end": 8.28
+     },
+     {
+      "text": "ወዴት",
+      "start": 8.14,
+      "end": 8.76
+     },
+     {
+      "text": "እንደምመለከት",
+      "start": 8.62,
+      "end": 9.56
+     },
+     {
+      "text": "ጠፋኝ",
+      "start": 9.58,
+      "end": 9.94
+     }
+    ],
+    "unheard": []
+   }
+  },
+  "1e6913659a6e6f30": {
+   "unit": "s04",
+   "file": "s04__1e6913659a6e6f30.wav",
+   "meta": {
+    "seconds": 11.27,
+    "from_take": false
+   }
+  },
+  "591396517fe51139": {
+   "unit": "s04_tight",
+   "file": "s04_tight__591396517fe51139.wav",
+   "meta": {
+    "seconds": 11.27,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "b64bdcf489d6ff78": {
+   "unit": "s04_listen",
+   "file": "s04_listen__b64bdcf489d6ff78.json",
+   "meta": {
+    "heard": "ከምሼ በኋላ ላምበረት ስደስ ሌላ ጓደኛዬ ይጠብቀኝ ነበር አዲስ አበባ በሰው በመብራትና በመኪና ተጥለቅንካ ተቀበለችኝ ወዴት እንደምመለከት ጠፋኝ",
+    "score": 0.95,
+    "words": [
+     {
+      "text": "ከምሼ",
+      "start": 0.22,
+      "end": 0.84
+     },
+     {
+      "text": "በኋላ",
+      "start": 0.7,
+      "end": 1.08
+     },
+     {
+      "text": "ላምበረት",
+      "start": 1.18,
+      "end": 1.96
+     },
+     {
+      "text": "ስደስ",
+      "start": 1.74,
+      "end": 2.36
+     },
+     {
+      "text": "ሌላ",
+      "start": 2.22,
+      "end": 2.6
+     },
+     {
+      "text": "ጓደኛዬ",
+      "start": 2.54,
+      "end": 3.4
+     },
+     {
+      "text": "ይጠብቀኝ",
+      "start": 3.34,
+      "end": 4.2
+     },
+     {
+      "text": "ነበር",
+      "start": 3.98,
+      "end": 4.36
+     },
+     {
+      "text": "አዲስ",
+      "start": 4.46,
+      "end": 4.84
+     },
+     {
+      "text": "አበባ",
+      "start": 4.78,
+      "end": 5.16
+     },
+     {
+      "text": "በሰው",
+      "start": 5.42,
+      "end": 5.96
+     },
+     {
+      "text": "በመብራትና",
+      "start": 5.98,
+      "end": 7.08
+     },
+     {
+      "text": "በመኪና",
+      "start": 7.18,
+      "end": 7.96
+     },
+     {
+      "text": "ተጥለቅንካ",
+      "start": 8.06,
+      "end": 9.0
+     },
+     {
+      "text": "ተቀበለችኝ",
+      "start": 8.86,
+      "end": 9.8
+     },
+     {
+      "text": "ወዴት",
+      "start": 9.58,
+      "end": 10.2
+     },
+     {
+      "text": "እንደምመለከት",
+      "start": 9.98,
+      "end": 10.84
+     },
+     {
+      "text": "ጠፋኝ",
+      "start": 10.62,
+      "end": 11.27
+     }
+    ],
+    "unheard": [
+     "first word ከመሸ"
+    ]
+   }
+  },
+  "65624dd233431e0a": {
+   "unit": "s04",
+   "file": "s04__65624dd233431e0a.wav",
+   "meta": {
+    "seconds": 11.54,
+    "from_take": false
+   }
+  },
+  "25decb2fc3b6cc89": {
+   "unit": "s04_tight",
+   "file": "s04_tight__25decb2fc3b6cc89.wav",
+   "meta": {
+    "seconds": 11.54,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "dd77009695eb4f52": {
+   "unit": "s04_listen",
+   "file": "s04_listen__dd77009695eb4f52.json",
+   "meta": {
+    "heard": "ከመሸ በኋላ ላምበረት ስደርስ ሌላ ጓደኛዬ ይጠብቀኝ ነበር አዲስ አበባ በሰው በመብራትና በመኪና ተተከልካ ተከበለችኝ ወዴት እንደምመለከት ጠፋኝ",
+    "score": 0.95,
+    "words": [
+     {
+      "text": "ከመሸ",
+      "start": 0.22,
+      "end": 0.84
+     },
+     {
+      "text": "በኋላ",
+      "start": 0.7,
+      "end": 1.08
+     },
+     {
+      "text": "ላምበረት",
+      "start": 1.18,
+      "end": 1.96
+     },
+     {
+      "text": "ስደርስ",
+      "start": 1.82,
+      "end": 2.28
+     },
+     {
+      "text": "ሌላ",
+      "start": 2.3,
+      "end": 2.68
+     },
+     {
+      "text": "ጓደኛዬ",
+      "start": 2.62,
+      "end": 3.48
+     },
+     {
+      "text": "ይጠብቀኝ",
+      "start": 3.34,
+      "end": 4.2
+     },
+     {
+      "text": "ነበር",
+      "start": 3.9,
+      "end": 4.28
+     },
+     {
+      "text": "አዲስ",
+      "start": 4.46,
+      "end": 4.84
+     },
+     {
+      "text": "አበባ",
+      "start": 4.7,
+      "end": 5.08
+     },
+     {
+      "text": "በሰው",
+      "start": 5.34,
+      "end": 5.88
+     },
+     {
+      "text": "በመብራትና",
+      "start": 5.82,
+      "end": 6.76
+     },
+     {
+      "text": "በመኪና",
+      "start": 6.94,
+      "end": 7.64
+     },
+     {
+      "text": "ተተከልካ",
+      "start": 7.66,
+      "end": 8.76
+     },
+     {
+      "text": "ተከበለችኝ",
+      "start": 8.62,
+      "end": 9.56
+     },
+     {
+      "text": "ወዴት",
+      "start": 9.58,
+      "end": 10.28
+     },
+     {
+      "text": "እንደምመለከት",
+      "start": 10.3,
+      "end": 11.08
+     },
+     {
+      "text": "ጠፋኝ",
+      "start": 10.94,
+      "end": 11.54
+     }
+    ],
+    "unheard": []
+   }
+  },
+  "9de6b4437050a5bf": {
+   "unit": "s04",
+   "file": "s04__9de6b4437050a5bf.wav",
+   "meta": {
+    "seconds": 11.56,
+    "from_take": false
+   }
+  },
+  "46f0324535fe70aa": {
+   "unit": "s04_tight",
+   "file": "s04_tight__46f0324535fe70aa.wav",
+   "meta": {
+    "seconds": 11.56,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "054c328aa9684985": {
+   "unit": "s04_listen",
+   "file": "s04_listen__054c328aa9684985.json",
+   "meta": {
+    "heard": "ከመሼ በኋላ ላምበረት ስደርስ ሌላ ጓደኛዬ ጠብቀኝ ነበር አዲስ አበባ በሰው በመብራትና በመኪና ተትለክልካ ተከበለች ወዴት እንደምመለከት ጠፋኝ",
+    "score": 0.933,
+    "words": [
+     {
+      "text": "ከመሼ",
+      "start": 0.3,
+      "end": 0.92
+     },
+     {
+      "text": "በኋላ",
+      "start": 0.86,
+      "end": 1.24
+     },
+     {
+      "text": "ላምበረት",
+      "start": 1.5,
+      "end": 2.36
+     },
+     {
+      "text": "ስደርስ",
+      "start": 2.14,
+      "end": 2.68
+     },
+     {
+      "text": "ሌላ",
+      "start": 2.7,
+      "end": 3.08
+     },
+     {
+      "text": "ጓደኛዬ",
+      "start": 3.1,
+      "end": 3.96
+     },
+     {
+      "text": "ጠብቀኝ",
+      "start": 3.9,
+      "end": 4.6
+     },
+     {
+      "text": "ነበር",
+      "start": 4.3,
+      "end": 4.68
+     },
+     {
+      "text": "አዲስ",
+      "start": 4.78,
+      "end": 5.16
+     },
+     {
+      "text": "አበባ",
+      "start": 5.1,
+      "end": 5.48
+     },
+     {
+      "text": "በሰው",
+      "start": 5.82,
+      "end": 6.36
+     },
+     {
+      "text": "በመብራትና",
+      "start": 6.38,
+      "end": 7.4
+     },
+     {
+      "text": "በመኪና",
+      "start": 7.26,
+      "end": 7.96
+     },
+     {
+      "text": "ተትለክልካ",
+      "start": 8.06,
+      "end": 9.16
+     },
+     {
+      "text": "ተከበለች",
+      "start": 9.18,
+      "end": 9.88
+     },
+     {
+      "text": "ወዴት",
+      "start": 9.74,
+      "end": 10.44
+     },
+     {
+      "text": "እንደምመለከት",
+      "start": 10.3,
+      "end": 11.08
+     },
+     {
+      "text": "ጠፋኝ",
+      "start": 10.94,
+      "end": 11.56
+     }
+    ],
+    "unheard": []
+   }
+  },
+  "031554b1aceba48a": {
+   "unit": "s00",
+   "file": "s00__031554b1aceba48a.wav",
+   "meta": {
+    "seconds": 6.98,
+    "from_take": false
+   }
+  },
+  "de39fd7c131dec5a": {
+   "unit": "s00_tight",
+   "file": "s00_tight__de39fd7c131dec5a.wav",
+   "meta": {
+    "seconds": 6.98,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "b8d5a233c038f11e": {
+   "unit": "s00_listen",
+   "file": "s00_listen__b8d5a233c038f11e.json",
+   "meta": {
+    "heard": "ከቤቴ ርቄ ያሳለፍኩትን የመጀመሪያ ሌሊት መቼም አልረሳውም ጊዜው መስከረም ሁለት ሺህ አስራ ሁለት ነበር",
+    "score": 1.0,
+    "words": [
+     {
+      "text": "ከቤቴ",
+      "start": 0.22,
+      "end": 0.84
+     },
+     {
+      "text": "ርቄ",
+      "start": 0.7,
+      "end": 1.16
+     },
+     {
+      "text": "ያሳለፍኩትን",
+      "start": 1.02,
+      "end": 1.96
+     },
+     {
+      "text": "የመጀመሪያ",
+      "start": 2.38,
+      "end": 2.76
+     },
+     {
+      "text": "ሌሊት",
+      "start": 2.7,
+      "end": 3.48
+     },
+     {
+      "text": "መቼም",
+      "start": 3.26,
+      "end": 4.04
+     },
+     {
+      "text": "አልረሳውም",
+      "start": 3.82,
+      "end": 4.52
+     },
+     {
+      "text": "ጊዜው",
+      "start": 4.46,
+      "end": 5.08
+     },
+     {
+      "text": "መስከረም",
+      "start": 4.94,
+      "end": 5.64
+     },
+     {
+      "text": "ሁለት",
+      "start": 5.82,
+      "end": 6.2
+     },
+     {
+      "text": "ሺህ",
+      "start": 6.06,
+      "end": 6.44
+     },
+     {
+      "text": "አስራ",
+      "start": 6.22,
+      "end": 6.6
+     },
+     {
+      "text": "ሁለት",
+      "start": 6.54,
+      "end": 6.92
+     },
+     {
+      "text": "ነበር",
+      "start": 6.94,
+      "end": 6.98
+     }
+    ],
+    "unheard": []
+   }
+  },
+  "7d884bd2549e27c1": {
+   "unit": "s09",
+   "file": "s09__7d884bd2549e27c1.wav",
+   "meta": {
+    "seconds": 10.74,
+    "from_take": false
+   }
+  },
+  "4ee7d356e62bf2a1": {
+   "unit": "s09_tight",
+   "file": "s09_tight__4ee7d356e62bf2a1.wav",
+   "meta": {
+    "seconds": 10.74,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "a1c1592fd622d4f2": {
+   "unit": "s09_listen",
+   "file": "s09_listen__a1c1592fd622d4f2.json",
+   "meta": {
+    "heard": "ከሰባት ዓመት በኋላ ከቤቱ ለሚወጣ ሁሉ የምለው አንድ ነገር አለኝ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል ግራ መጋባቱ ግን የጉዞው አካል ነው አትሸው አታጥመው",
+    "score": 0.97,
+    "words": [
+     {
+      "text": "ከሰባት",
+      "start": 0.22,
+      "end": 0.92
+     },
+     {
+      "text": "ዓመት",
+      "start": 0.7,
+      "end": 1.16
+     },
+     {
+      "text": "በኋላ",
+      "start": 1.02,
+      "end": 1.4
+     },
+     {
+      "text": "ከቤቱ",
+      "start": 1.5,
+      "end": 2.2
+     },
+     {
+      "text": "ለሚወጣ",
+      "start": 1.98,
+      "end": 2.6
+     },
+     {
+      "text": "ሁሉ",
+      "start": 2.46,
+      "end": 2.84
+     },
+     {
+      "text": "የምለው",
+      "start": 2.78,
+      "end": 3.4
+     },
+     {
+      "text": "አንድ",
+      "start": 3.18,
+      "end": 3.56
+     },
+     {
+      "text": "ነገር",
+      "start": 3.5,
+      "end": 3.88
+     },
+     {
+      "text": "አለኝ",
+      "start": 3.74,
+      "end": 4.36
+     },
+     {
+      "text": "የመጀመሪያው",
+      "start": 4.7,
+      "end": 5.08
+     },
+     {
+      "text": "ሌሊት",
+      "start": 4.94,
+      "end": 5.72
+     },
+     {
+      "text": "ሁሌም",
+      "start": 5.58,
+      "end": 6.2
+     },
+     {
+      "text": "ግራ",
+      "start": 5.98,
+      "end": 6.36
+     },
+     {
+      "text": "ያጋባል",
+      "start": 6.3,
+      "end": 7.0
+     },
+     {
+      "text": "ግራ",
+      "start": 6.94,
+      "end": 7.32
+     },
+     {
+      "text": "መጋባቱ",
+      "start": 7.18,
+      "end": 8.04
+     },
+     {
+      "text": "ግን",
+      "start": 7.82,
+      "end": 8.2
+     },
+     {
+      "text": "የጉዞው",
+      "start": 8.22,
+      "end": 9.08
+     },
+     {
+      "text": "አካል",
+      "start": 8.86,
+      "end": 9.4
+     },
+     {
+      "text": "ነው",
+      "start": 9.1,
+      "end": 9.48
+     },
+     {
+      "text": "አትሸው",
+      "start": 9.42,
+      "end": 10.36
+     },
+     {
+      "text": "አታጥመው",
+      "start": 10.3,
+      "end": 10.74
+     }
+    ],
+    "unheard": [
+     "first word ዛሬ"
+    ]
+   }
+  },
+  "5af5ca7cb3e6e4e7": {
+   "unit": "s09",
+   "file": "s09__5af5ca7cb3e6e4e7.wav",
+   "meta": {
+    "seconds": 11.52,
+    "from_take": false
+   }
+  },
+  "1e172cab78a212b9": {
+   "unit": "s09_tight",
+   "file": "s09_tight__1e172cab78a212b9.wav",
+   "meta": {
+    "seconds": 11.52,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "6744a8248655f279": {
+   "unit": "s09_listen",
+   "file": "s09_listen__6744a8248655f279.json",
+   "meta": {
+    "heard": "ከሰባት ዓመት በኋላ ከቤቱ ለሚወጣ ሁሉ የምለው አንድ ነገር አለኝ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል ግራ መጋባቱ ግን የጉዞው አካል ነው አትሸው አጣጥመው",
+    "score": 0.98,
+    "words": [
+     {
+      "text": "ከሰባት",
+      "start": 0.22,
+      "end": 0.92
+     },
+     {
+      "text": "ዓመት",
+      "start": 0.78,
+      "end": 1.32
+     },
+     {
+      "text": "በኋላ",
+      "start": 1.1,
+      "end": 1.48
+     },
+     {
+      "text": "ከቤቱ",
+      "start": 1.74,
+      "end": 2.52
+     },
+     {
+      "text": "ለሚወጣ",
+      "start": 2.3,
+      "end": 3.0
+     },
+     {
+      "text": "ሁሉ",
+      "start": 2.86,
+      "end": 3.24
+     },
+     {
+      "text": "የምለው",
+      "start": 3.26,
+      "end": 3.88
+     },
+     {
+      "text": "አንድ",
+      "start": 3.74,
+      "end": 4.12
+     },
+     {
+      "text": "ነገር",
+      "start": 4.06,
+      "end": 4.44
+     },
+     {
+      "text": "አለኝ",
+      "start": 4.38,
+      "end": 5.0
+     },
+     {
+      "text": "የመጀመሪያው",
+      "start": 5.02,
+      "end": 5.4
+     },
+     {
+      "text": "ሌሊት",
+      "start": 5.5,
+      "end": 6.2
+     },
+     {
+      "text": "ሁሌም",
+      "start": 6.06,
+      "end": 6.68
+     },
+     {
+      "text": "ግራ",
+      "start": 6.46,
+      "end": 6.84
+     },
+     {
+      "text": "ያጋባል",
+      "start": 6.86,
+      "end": 7.56
+     },
+     {
+      "text": "ግራ",
+      "start": 7.5,
+      "end": 7.88
+     },
+     {
+      "text": "መጋባቱ",
+      "start": 8.06,
+      "end": 8.92
+     },
+     {
+      "text": "ግን",
+      "start": 8.7,
+      "end": 9.08
+     },
+     {
+      "text": "የጉዞው",
+      "start": 9.1,
+      "end": 9.96
+     },
+     {
+      "text": "አካል",
+      "start": 9.66,
+      "end": 10.2
+     },
+     {
+      "text": "ነው",
+      "start": 9.98,
+      "end": 10.36
+     },
+     {
+      "text": "አትሸው",
+      "start": 10.38,
+      "end": 11.08
+     },
+     {
+      "text": "አጣጥመው",
+      "start": 10.86,
+      "end": 11.52
+     }
+    ],
+    "unheard": [
+     "first word ዛሬ"
+    ]
+   }
+  },
+  "e3b90deeefebc316": {
+   "unit": "s09",
+   "file": "s09__e3b90deeefebc316.wav",
+   "meta": {
+    "seconds": 11.44,
+    "from_take": false
+   }
+  },
+  "c9dd3e97a0ae7713": {
+   "unit": "s09_tight",
+   "file": "s09_tight__c9dd3e97a0ae7713.wav",
+   "meta": {
+    "seconds": 11.44,
+    "shortened": 0,
+    "removed_s": 0.0
+   }
+  },
+  "88f86a6f8192a89f": {
+   "unit": "s09_listen",
+   "file": "s09_listen__88f86a6f8192a89f.json",
+   "meta": {
+    "heard": "ዛሬ ከሰባት ዓመት በኋላ ከቤቱ ለሚወጣው ሁሉ የምለው አንድ ነገር አለኝ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል ግራ መጋባቱ ግን የጉዞው አካል ነው አትሸው አጣጥመው",
+    "score": 0.99,
+    "words": [
+     {
+      "text": "ዛሬ",
+      "start": 0.3,
+      "end": 0.68
+     },
+     {
+      "text": "ከሰባት",
+      "start": 0.54,
+      "end": 1.24
+     },
+     {
+      "text": "ዓመት",
+      "start": 1.1,
+      "end": 1.56
+     },
+     {
+      "text": "በኋላ",
+      "start": 1.42,
+      "end": 1.8
+     },
+     {
+      "text": "ከቤቱ",
+      "start": 1.98,
+      "end": 2.68
+     },
+     {
+      "text": "ለሚወጣው",
+      "start": 2.46,
+      "end": 3.32
+     },
+     {
+      "text": "ሁሉ",
+      "start": 3.1,
+      "end": 3.48
+     },
+     {
+      "text": "የምለው",
+      "start": 3.42,
+      "end": 4.04
+     },
+     {
+      "text": "አንድ",
+      "start": 3.9,
+      "end": 4.28
+     },
+     {
+      "text": "ነገር",
+      "start": 4.22,
+      "end": 4.6
+     },
+     {
+      "text": "አለኝ",
+      "start": 4.62,
+      "end": 5.24
+     },
+     {
+      "text": "የመጀመሪያው",
+      "start": 5.34,
+      "end": 5.72
+     },
+     {
+      "text": "ሌሊት",
+      "start": 5.82,
+      "end": 6.44
+     },
+     {
+      "text": "ሁሌም",
+      "start": 6.22,
+      "end": 6.92
+     },
+     {
+      "text": "ግራ",
+      "start": 6.62,
+      "end": 7.0
+     },
+     {
+      "text": "ያጋባል",
+      "start": 6.94,
+      "end": 7.64
+     },
+     {
+      "text": "ግራ",
+      "start": 7.58,
+      "end": 7.96
+     },
+     {
+      "text": "መጋባቱ",
+      "start": 7.9,
+      "end": 8.76
+     },
+     {
+      "text": "ግን",
+      "start": 8.46,
+      "end": 8.84
+     },
+     {
+      "text": "የጉዞው",
+      "start": 8.78,
+      "end": 9.64
+     },
+     {
+      "text": "አካል",
+      "start": 9.42,
+      "end": 10.04
+     },
+     {
+      "text": "ነው",
+      "start": 9.74,
+      "end": 10.12
+     },
+     {
+      "text": "አትሸው",
+      "start": 10.14,
+      "end": 11.0
+     },
+     {
+      "text": "አጣጥመው",
+      "start": 10.78,
+      "end": 11.44
      }
     ],
     "unheard": []

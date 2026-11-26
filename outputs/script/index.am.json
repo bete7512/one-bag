@@ -70,12 +70,12 @@
   },
   "s06": {
    "text": "«አልጋ ትፈልጋላችሁ? አልጋ?» ማንን እንደምንሰማ ግራ ገባን። በመጨረሻ አንዱን ተከተልን።",
-   "subtitle": "\"Do you want a bed? A bed?\" We were confused about whom to hear. In the end we followed one.",
+   "subtitle": "\"Do you want a bed? A bed?\" We did not know whom to listen to. In the end we followed one.",
    "machine_translated": false,
    "estimate_s": 6.27,
    "subtitle_check": {
     "faithful": true,
-    "literal": "\"Do you want a bed? A bed?\" We were confused about whom to listen to. In the end we followed one of them.",
+    "literal": "\"Do you want a bed? A bed?\" We were confused about whom to listen to. Finally we followed one.",
     "differences": []
    }
   },

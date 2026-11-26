@@ -22,6 +22,7 @@ from pathlib import Path
 from . import pricing
 from .narration import LANGUAGE_NAMES
 from .core import STAGES, Ctx, ff, get_index, now, read_jsonl, sha
+from .keyframes import CUT_KEYS, SOFTEN_SIGMA, soften
 
 CSS = """
 :root{--ink:#f2ece1;--soft:#b9ae9d;--bg:#17130f;--card:#221c16;--line:#3a3027;--amber:#e0a34a;--teal:#5fb3a8;--bad:#e2725b}
@@ -99,15 +100,22 @@ def picture(ctx: Ctx, sid: str, key: dict, media: Path) -> str | None:
     folder = ctx.out / "keyframes"
     unit_id = f"{sid}_c{key['candidate']}"
     manifest = json.loads((folder / "manifest.json").read_text(encoding="utf-8")) if (folder / "manifest.json").exists() else {"units": {}}
-    sent = {k: v for k, v in manifest["units"].get(unit_id, {}).get("fingerprint", {}).items() if k != "trim"}
+    sent = {k: v for k, v in manifest["units"].get(unit_id, {}).get("fingerprint", {}).items() if k not in CUT_KEYS}
     source = next(iter(sorted((folder / "original").glob(f"{unit_id}__{sha(sent)[:16]}.*"))), None) if sent else None
     if source is None:
         return None
     trim = ctx.sb["format"].get("edge_trim", 0.0)
     side = 720
     grown = round(side * (1 + 2 * trim))
-    ff(["-i", str(source), "-vf", f"scale={grown}:{grown}:force_original_aspect_ratio=increase:flags=lanczos,crop={side}:{side}",
-        "-frames:v", "1", "-q:v", "4", str(media / f"{sid}.jpg")])
+    cut = f"scale={grown}:{grown}:force_original_aspect_ratio=increase:flags=lanczos,crop={side}:{side}"
+    boxes = next((s["keyframe"].get("soften") for s in ctx.sb["shots"] if s["id"] == sid), None)
+    if boxes:  # the page shows the picture as the film has it: with the same boxes blurred
+        plain = media / f"{sid}-plain.png"
+        ff(["-i", str(source), "-vf", cut, "-frames:v", "1", str(plain)])
+        soften(plain, media / f"{sid}.jpg", boxes, side, side, sigma=SOFTEN_SIGMA * side / ctx.sb["format"]["master"]["width"])
+        plain.unlink()
+    else:
+        ff(["-i", str(source), "-vf", cut, "-frames:v", "1", "-q:v", "4", str(media / f"{sid}.jpg")])
     return f"media/{sid}.jpg"
 
 

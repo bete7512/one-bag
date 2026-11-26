@@ -67,7 +67,29 @@ def cleared(ctx: Ctx, character: dict) -> bool:
     return ctx.mock or not character["real_person"] or character["consent"]["status"] == "recorded"
 
 
-def draw(ctx: Ctx, unit: str, raw_fp: dict, tmp: Path, *, prompt: str, seed: int, refs: list[bytes] | None = None, trim: float = 0.0) -> dict:
+SOFTEN_SIGMA = 3  # how strongly a box named in `keyframe.soften` is blurred, at the master size
+CUT_KEYS = ("trim", "soften")  # the parts of a candidate's fingerprint that say how it is cut, not what the model was sent
+
+
+def soften(src: Path, dst: Path, boxes: list, width: int, height: int, sigma: float = SOFTEN_SIGMA) -> None:
+    """Blur the named boxes of a picture and leave every other pixel as it is.
+
+    A box is [x, y, width, height] as shares of the frame. It is for marks that read like writing, on a shop
+    sign or a number plate, in a picture that is right in every other way: the film may not show writing,
+    and asking the model again changes the whole picture.
+    """
+    graph, last = "[0:v]format=gbrp[rgb];", "[rgb]"  # planar RGB all the way: no colour conversion touches the pixels outside a box
+    for n, (x, y, w, h) in enumerate(boxes):
+        pw, ph = max(2, round(w * width)), max(2, round(h * height))
+        px, py = min(width - pw, round(x * width)), min(height - ph, round(y * height))
+        graph += (f"{last}split[a{n}][b{n}];[b{n}]crop={pw}:{ph}:{px}:{py},gblur=sigma={sigma:.2f}[c{n}];"
+                  f"[a{n}][c{n}]overlay={px}:{py}:format=gbrp[s{n}];")
+        last = f"[s{n}]"
+    ff(["-i", str(src), "-filter_complex", graph.rstrip(";"), "-map", last, "-frames:v", "1", "-q:v", "4", str(dst)])
+
+
+def draw(ctx: Ctx, unit: str, raw_fp: dict, tmp: Path, *, prompt: str, seed: int, refs: list[bytes] | None = None, trim: float = 0.0,
+         soften_boxes: list | None = None) -> dict:
     """One generated picture at the master size.
 
     The model's untouched answer is kept in keyframes/original/ under a hash of what was sent to the
@@ -95,6 +117,13 @@ def draw(ctx: Ctx, unit: str, raw_fp: dict, tmp: Path, *, prompt: str, seed: int
     grown = f"{round(width * (1 + 2 * trim))}:{round(height * (1 + 2 * trim))}"
     ff(["-i", str(original), "-vf", f"scale={grown}:force_original_aspect_ratio=increase:flags=lanczos,crop={width}:{height}",
         "-frames:v", "1", str(tmp)])
+    if soften_boxes:
+        sharp = tmp.with_name(tmp.stem + "-sharp" + tmp.suffix)
+        tmp.replace(sharp)
+        try:
+            soften(sharp, tmp, soften_boxes, width, height)
+        finally:
+            sharp.unlink(missing_ok=True)
     return {"seed": seed, "seed_applied": seed_applied, "original": original.name}
 
 
@@ -219,6 +248,9 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
         # a shot whose pictures come back with a wider paper margin can be cut closer than the others, from the kept originals
         shot_trim = s["keyframe"].get("edge_trim", trim)
         shot_cut = {"trim": shot_trim} if shot_trim else {}
+        boxes = s["keyframe"].get("soften")
+        if boxes:  # part of the cut, like the trim: the model is not asked again
+            shot_cut["soften"] = boxes
         for i in range(1, n + 1):
             seed = s["keyframe"]["seed"] + i - 1
             # the references are named by their untouched originals, so a change to the cut does not redraw every character shot
@@ -226,10 +258,10 @@ def run(ctx: Ctx, state: dict, plan_only: bool = False) -> dict:
                       "refs": [refs[r].meta.get("original", refs[r].key) for r in ref_ids]}
 
             def produce(tmp: Path, sid: str = s["id"], i: int = i, prompt: str = prompt, seed: int = seed, ref_ids: list = ref_ids,
-                        raw_fp: dict = raw_fp, trim: float = shot_trim) -> dict:
+                        raw_fp: dict = raw_fp, trim: float = shot_trim, boxes: list | None = boxes) -> dict:
                 ref_bytes = [small_jpeg(ctx, ctx.out / "keyframes" / "original" / refs[r].meta["original"] if refs[r].meta.get("original")
                                         else refs[r].path) for r in ref_ids]
-                return draw(ctx, f"{sid}_c{i}", raw_fp, tmp, prompt=prompt, seed=seed, refs=ref_bytes, trim=trim)
+                return draw(ctx, f"{sid}_c{i}", raw_fp, tmp, prompt=prompt, seed=seed, refs=ref_bytes, trim=trim, soften_boxes=boxes)
 
             units.append(Unit("keyframes", f"{s['id']}_c{i}", {**raw_fp, **shot_cut}, "png", produce))
     made = run_units(ctx, units, plan_only)

@@ -40,7 +40,7 @@ from urllib.parse import urlsplit
 
 from . import cli
 from .core import STAGES, Ctx, PipelineError, check_storyboard, consent_rows, ff, get_index, make_ctx, sha
-from .keyframes import BORDER_SIDES
+from .keyframes import BORDER_SIDES, CUT_KEYS
 from .site import CSS as SITE_CSS, e
 
 # Everything the page may change, as paths into the storyboard. A shot is named by its id. Any other path is refused.
@@ -232,7 +232,7 @@ def original(ctx: Ctx, units: dict, unit_id: str) -> str | None:
     Found the way `picture` in site.py finds it: under the hash of what was sent to the model. The
     keyframe cut from it is git-ignored, so a clean clone has the original and nothing else.
     """
-    sent = {k: v for k, v in units.get(unit_id, {}).get("fingerprint", {}).items() if k != "trim"}
+    sent = {k: v for k, v in units.get(unit_id, {}).get("fingerprint", {}).items() if k not in CUT_KEYS}
     stem = f"{unit_id}__{sha(sent)[:16]}"
     return stem if sent and any((ctx.out / "keyframes" / "original").glob(f"{stem}.*")) else None
 

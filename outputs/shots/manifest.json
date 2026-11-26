@@ -55,22 +55,22 @@
    "created": "2026-11-25T23:25:49Z"
   },
   "s04_kenburns": {
-   "key": "aacfee2ede629254",
-   "file": "s04_kenburns__aacfee2ede629254.mp4",
+   "key": "61031c0f8f33c248",
+   "file": "s04_kenburns__61031c0f8f33c248.mp4",
    "fingerprint": {
     "v": 1,
-    "keyframe": "d3b3f4b37d55f24d",
+    "keyframe": "69bf12293df20f66",
     "camera": "pull_out",
-    "frames": 288,
+    "frames": 289,
     "fps": 24,
     "w": 1024,
     "h": 1024
    },
    "meta": {
-    "seconds": 12.0,
+    "seconds": 12.042,
     "source": "kenburns"
    },
-   "created": "2026-11-25T23:52:08Z"
+   "created": "2026-11-26T11:53:37Z"
   },
   "s05_kenburns": {
    "key": "a00a892f530cb5ab",
@@ -251,22 +251,22 @@
    "created": "2026-11-25T21:08:19Z"
   },
   "s00_kenburns": {
-   "key": "530e7648b28f7e15",
-   "file": "s00_kenburns__530e7648b28f7e15.mp4",
+   "key": "2cda221314c3a3a9",
+   "file": "s00_kenburns__2cda221314c3a3a9.mp4",
    "fingerprint": {
     "v": 1,
     "keyframe": "b5862525b12b5fb1",
     "camera": "push_in",
-    "frames": 188,
+    "frames": 189,
     "fps": 24,
     "w": 1024,
     "h": 1024
    },
    "meta": {
-    "seconds": 7.833,
+    "seconds": 7.875,
     "source": "kenburns"
    },
-   "created": "2026-11-25T23:51:57Z"
+   "created": "2026-11-26T11:50:00Z"
   }
  },
  "entries": {
@@ -735,6 +735,38 @@
    "file": "s09_kenburns__31142ca88aa55b54.mp4",
    "meta": {
     "seconds": 14.0,
+    "source": "kenburns"
+   }
+  },
+  "2cda221314c3a3a9": {
+   "unit": "s00_kenburns",
+   "file": "s00_kenburns__2cda221314c3a3a9.mp4",
+   "meta": {
+    "seconds": 7.875,
+    "source": "kenburns"
+   }
+  },
+  "509c73e4a9b15b18": {
+   "unit": "s04_kenburns",
+   "file": "s04_kenburns__509c73e4a9b15b18.mp4",
+   "meta": {
+    "seconds": 12.042,
+    "source": "kenburns"
+   }
+  },
+  "73677dfa012b9dbf": {
+   "unit": "s04_kenburns",
+   "file": "s04_kenburns__73677dfa012b9dbf.mp4",
+   "meta": {
+    "seconds": 12.042,
+    "source": "kenburns"
+   }
+  },
+  "61031c0f8f33c248": {
+   "unit": "s04_kenburns",
+   "file": "s04_kenburns__61031c0f8f33c248.mp4",
+   "meta": {
+    "seconds": 12.042,
     "source": "kenburns"
    }
   }

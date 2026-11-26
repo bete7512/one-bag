@@ -788,8 +788,8 @@
   "prompt": "Hand-painted gouache illustration with soft visible brush strokes and warm paper grain. The painting fills the whole frame from edge to edge. Muted earth palette with amber and teal accents. Gentle rim light, simple shapes, picture-book composition with the subject in the centre of the frame. No writing or lettering anywhere in the picture: number plates, shop signs and screens are plain blank shapes. Inside an old country bus, the view runs along its left wall: a row of large side windows and, under them, the worn backs of passenger seats one behind another, getting smaller toward the far end of the bus. In the nearest seat a young passenger sits by the window, seen from behind and a little to the side: the back of his head, his shoulders and his arm above the worn back of his seat. He is turned to the window beside him, so his face cannot be seen. His backpack rests on the empty seat beside him. Through the windows, steep forested mountain slopes of the Ethiopian highlands in afternoon light. A slim Ethiopian young man of about nineteen with dark brown skin and short black curly hair. He wears a charcoal grey jacket over a white shirt, olive green trousers rolled at the ankle, and dark blue moulded plastic sandals with a closed toe and a buckle strap on bare feet. He carries one olive green canvas backpack."
  },
  "s04": {
-  "file": "s04_c3__d3b3f4b37d55f24d.png",
-  "key": "d3b3f4b37d55f24d",
+  "file": "s04_c3__69bf12293df20f66.png",
+  "key": "69bf12293df20f66",
   "blocked": [],
   "candidate": 3,
   "picked_by": "human",
@@ -797,7 +797,7 @@
    "1": {
     "elements": [
      {
-      "name": "wide night view of busy avenue",
+      "name": "wide night view of a busy avenue",
       "visible": true
      },
      {
@@ -835,6 +835,10 @@
      {
       "name": "backpack on his shoulders",
       "visible": true
+     },
+     {
+      "name": "young man small in the lower part of the frame",
+      "visible": false
      }
     ],
     "border": false,
@@ -844,7 +848,7 @@
     "character_match": 3,
     "prompt_adherence": 2,
     "artifacts": 3,
-    "notes": "Remove the duplicate second young man without a backpack so only one figure with the olive backpack stands at the roadside, and paint him smaller in the frame.",
+    "notes": "Remove the duplicated second young man without a backpack, leaving only the one with the olive backpack, and shrink him so he is small in the lower part of the frame rather than dominating the foreground.",
     "total": 2.4
    },
    "2": {
@@ -882,26 +886,26 @@
       "visible": true
      },
      {
-      "name": "young man seen from behind at the roadside",
-      "visible": true
+      "name": "young man seen from behind, small in lower part of frame",
+      "visible": false
      },
      {
       "name": "backpack on his shoulders",
       "visible": true
      },
      {
-      "name": "man small in the lower part of the frame",
-      "visible": false
+      "name": "man standing at the roadside looking at the scene",
+      "visible": true
      }
     ],
     "border": true,
     "text_in_image": false,
     "wrong_setting": "",
     "anatomy": "",
-    "character_match": 5,
+    "character_match": 4,
     "prompt_adherence": 3,
     "artifacts": 4,
-    "notes": "Repaint so the painting runs fully to all four edges with no ragged paper margin, and shrink the young man to a small figure low in the frame instead of filling the centre, with the avenue dominating the composition.",
+    "notes": "Shrink the young man so he reads as small against the avenue, paint the top corners out to the edge so no white paper shows, and turn the nearby traffic into flowing lanes with some red tail lights instead of cloned stopped minibuses facing the viewer.",
     "total": 1.9
    },
    "3": {
@@ -928,10 +932,10 @@
      },
      {
       "name": "pavements packed with people as dark shapes",
-      "visible": false
+      "visible": true
      },
      {
-      "name": "tall concrete buildings with hundreds of lit windows",
+      "name": "tall concrete buildings with many lit windows",
       "visible": true
      },
      {
@@ -939,7 +943,7 @@
       "visible": true
      },
      {
-      "name": "young man seen from behind, small in the lower part of the frame",
+      "name": "young man small in the lower part of the frame, seen from behind",
       "visible": false
      },
      {
@@ -947,7 +951,7 @@
       "visible": true
      },
      {
-      "name": "young man standing at the roadside looking at the scene",
+      "name": "standing at the roadside looking at the scene",
       "visible": true
      }
     ],
@@ -956,10 +960,10 @@
     "wrong_setting": "",
     "anatomy": "",
     "character_match": 5,
-    "prompt_adherence": 3,
+    "prompt_adherence": 4,
     "artifacts": 4,
-    "notes": "Shrink the young man so he sits small in the lower part of the frame instead of filling the centre, render the pavement crowds as dark silhouettes rather than detailed lit figures, and deepen the dusky sky to a true night with more lit windows.",
-    "total": 3.4
+    "notes": "The young man fills most of the lower-centre height instead of being a small figure; shrink him to roughly a quarter of the frame height so the avenue dominates, and darken the twilight sky toward true night.",
+    "total": 4.0
    }
   },
   "unscored": [],

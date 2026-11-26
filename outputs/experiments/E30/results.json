@@ -1,0 +1,181 @@
+{
+ "s00": {
+  "file": "s00_tight__228b535fbdb7604e.wav",
+  "text_model_heard": "ከቤተሰቦቼ ጋር ያሳለፍኩትን የመጀመሪያ ሌሊት መቼም አልረሳውም ። ጊዜውም አስከሬም 2012 ነበር ።",
+  "speech_model_heard": "ከቤቴ ርኬ ያሳለፍኩትን የመጀመሪያ ሌሊት መቼም አልረሳውም ጊዜው መስከረም ሁለት ሺህ አስራ ሁለት ነበር",
+  "speech_model_match": 0.985,
+  "text_model_match": 0.758,
+  "not_written_by_speech_model": [
+   "ርቄ"
+  ],
+  "not_written_by_text_model": [
+   "ከቤቴ",
+   "ርቄ",
+   "ጊዜው",
+   "መስከረም",
+   "ሁለት",
+   "ሺህ",
+   "አስራ",
+   "ሁለት"
+  ],
+  "not_written_by_either": [
+   "ርቄ"
+  ]
+ },
+ "s01": {
+  "file": "s01_tight__1dd4c2f698430efb.wav",
+  "text_model_heard": "አስራ ሁለተኛ ክፍልን እንደጨረስኩ፣ በባህር ዳር ዩኒቨርሲቲ ተመደብኩ። በቁሌቃን ላይ አንድ ዜሮ አራት ቦርሳ ብቻ ይዤ፣ ጓደኜ ሸኝቶኝ ካንኮበር ተነሳሁ።",
+  "speech_model_heard": "አሥራ ሁለተኛ ክፍልን እንደቻልኩ ባህር ዳር ዩኒቨርሲቲ ተመደብኩ እኩለ ቀን ላይ አንድ የጀርባ ቦልሳ ብቻ ይዤ ጓደኛዬ ሸኝቶኝ ካንኮበር ተነሳሁ",
+  "speech_model_match": 0.945,
+  "text_model_match": 0.859,
+  "not_written_by_speech_model": [
+   "እንደጨረስኩ",
+   "ቦርሳ",
+   "ከአንኮበር"
+  ],
+  "not_written_by_text_model": [
+   "ባህር",
+   "እኩለ",
+   "ቀን",
+   "የጀርባ",
+   "ጓደኛዬ",
+   "ከአንኮበር"
+  ],
+  "not_written_by_either": [
+   "ከአንኮበር"
+  ]
+ },
+ "s02": {
+  "file": "s02_tight__eb8034f96b281561.wav",
+  "text_model_heard": "መንገዱ እስከ ድብረ ብርሃን ፒስታ፣ ከዚያ አስፋልት ነበር።",
+  "speech_model_heard": "መንገዱ እስከ ደብረ ብርሃን ፒስታ ከዚያ አስፋልት ነበር",
+  "speech_model_match": 1.0,
+  "text_model_match": 0.971,
+  "not_written_by_speech_model": [],
+  "not_written_by_text_model": [
+   "ደብረ"
+  ],
+  "not_written_by_either": []
+ },
+ "s03": {
+  "file": "s03_tight__cd73864c1361ad73.wav",
+  "text_model_heard": "ማስኮት ዳርት ተቀሚጬ ደኑንና ተራራውን በመደነቅ እመለከት ነበር።",
+  "speech_model_heard": "መስኮት ዳር ተቀምጬ ደኑንና ተራራውን በመደነቅ እመለከት ነበር",
+  "speech_model_match": 1.0,
+  "text_model_match": 0.937,
+  "not_written_by_speech_model": [],
+  "not_written_by_text_model": [
+   "መስኮት",
+   "ዳር",
+   "ተቀምጬ"
+  ],
+  "not_written_by_either": []
+ },
+ "s04": {
+  "file": "s04_tight__ee6b90651e01fa67.wav",
+  "text_model_heard": "ቀመሽ ቡሀላ ላንበለች ሰደስ ሌላጓደኛይ ይጠብቀኝ ነበር። አዲስ አበባ በሰዉ በመብራትና በመኪና ተትለቀልካ ተቀበለችኝ ወዴት እንደምመለከት አፋኝ።",
+  "speech_model_heard": "ከመሸ በኋላ ላምበለት ስደስ ሌላ ጓደኛዬ ይጠብቀኝ ነበር አዲስ አበባ በሰው በመብራትና በመኪና ተጥለቅልቃ ተቀበለች ወዴት እንደምመለከት ተፋኝ",
+  "speech_model_match": 0.967,
+  "text_model_match": 0.833,
+  "not_written_by_speech_model": [
+   "ላምበረት",
+   "ስደርስ",
+   "ተቀበለችኝ",
+   "ጠፋኝ"
+  ],
+  "not_written_by_text_model": [
+   "ከመሸ",
+   "በኋላ",
+   "ላምበረት",
+   "ስደርስ",
+   "ሌላ",
+   "ጓደኛዬ",
+   "በሰው",
+   "ተጥለቅልቃ",
+   "ጠፋኝ"
+  ],
+  "not_written_by_either": [
+   "ላምበረት",
+   "ስደርስ",
+   "ጠፋኝ"
+  ]
+ },
+ "s05": {
+  "file": "s05_tight__7fcb759260765c40.wav",
+  "text_model_heard": "አውቶቡስ ተራ ስንደርስ ደግሞ ድላሎች ከበቡል።",
+  "speech_model_heard": "አውቶቡስ ተራ ስንደርስ ደግሞ ደላሎች ከበቡን",
+  "speech_model_match": 1.0,
+  "text_model_match": 0.929,
+  "not_written_by_speech_model": [],
+  "not_written_by_text_model": [
+   "ደላሎች",
+   "ከበቡን"
+  ],
+  "not_written_by_either": []
+ },
+ "s06": {
+  "file": "s06_tight__b1c6ebc0db474de4.wav",
+  "text_model_heard": "አልጋ ትፈልጋላችሁ? አልጋ ማንን እንደምንሰማ ግራ ገባን? በመጨረሻ አንዱን ተከተልን።",
+  "speech_model_heard": "አልጋ ትፈልጋላችሁአልጋ ማንን እንደምንሰማ ግራ ገባን በመጨረሻ አንዱን ተከተልን",
+  "speech_model_match": 0.99,
+  "text_model_match": 1.0,
+  "not_written_by_speech_model": [
+   "ትፈልጋላችሁ",
+   "አልጋ"
+  ],
+  "not_written_by_text_model": [],
+  "not_written_by_either": []
+ },
+ "s07": {
+  "file": "s07_tight__ffefc6ec495753e7.wav",
+  "text_model_heard": "ቁፍሩ፡ መለአንዳልጋ፡ነበር፡ጥሩም፡መጥፎም፡አልነበረም፡ግን፡ንፁህ፡ነበር።",
+  "speech_model_heard": "ክፍሉ ባለ አንድ አልጋ ነበር ጥሩም መጥፎም አልነበረም ግን ንጹህ ነበር",
+  "speech_model_match": 1.0,
+  "text_model_match": 0.874,
+  "not_written_by_speech_model": [],
+  "not_written_by_text_model": [
+   "ክፍሉ",
+   "ባለ",
+   "አንድ",
+   "አልጋ"
+  ],
+  "not_written_by_either": []
+ },
+ "s08": {
+  "file": "s08_tight__3bf368858d260905.wav",
+  "text_model_heard": "በማዶስቱ 3 ረጅም ሰንፍ ሰንፈን የባህር ዳር ትኬት ቆረጥን።",
+  "speech_model_heard": "በማግስቱ ጠዋት ረጅም ሰልፍ ተሰልፈን የባሕር ዳር ትኬት ቆረጥን",
+  "speech_model_match": 1.0,
+  "text_model_match": 0.857,
+  "not_written_by_speech_model": [],
+  "not_written_by_text_model": [
+   "በማግስቱ",
+   "ጠዋት",
+   "ሰልፍ",
+   "ተሰልፈን"
+  ],
+  "not_written_by_either": []
+ },
+ "s09": {
+  "file": "s09_tight__e121c0bde4682eac.wav",
+  "text_model_heard": "ዛሬ ከሰባት ዓመት በኋላ ከቤቱ ለሚወጣ ሁሉ የምለው አንድ ነገር አለኝ። የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል። ግራ መጋባቱ ግን የጉዞ አካል ነው። አትሸው አታጥመው።",
+  "speech_model_heard": "ዛሬ ከሰባት ዓመት በኋላ ከቤቱ ለሚወጣ ሁሉ የምለው አንድ ነገር አለኝ የመጀመሪያው ሌሊት ሁሌም ግራ ያጋባል ግራ መጋባቱ ግን የጉዞ አካል ነው አትሸው አታጥመው",
+  "speech_model_match": 0.98,
+  "text_model_match": 0.98,
+  "not_written_by_speech_model": [
+   "የጉዞው",
+   "አትሽሸው",
+   "አጣጥመው"
+  ],
+  "not_written_by_text_model": [
+   "የጉዞው",
+   "አትሽሸው",
+   "አጣጥመው"
+  ],
+  "not_written_by_either": [
+   "የጉዞው",
+   "አትሽሸው",
+   "አጣጥመው"
+  ]
+ }
+}

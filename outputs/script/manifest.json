@@ -77,23 +77,23 @@
    "created": "2026-11-25T23:50:08Z"
   },
   "s06_subtitle_check": {
-   "key": "c2ce562bb8dad7e8",
-   "file": "s06_subtitle_check__c2ce562bb8dad7e8.json",
+   "key": "4bfe960916edcad9",
+   "file": "s06_subtitle_check__4bfe960916edcad9.json",
    "fingerprint": {
     "v": 1,
     "check": 2,
     "text": "«አልጋ ትፈልጋላችሁ? አልጋ?» ማንን እንደምንሰማ ግራ ገባን። በመጨረሻ አንዱን ተከተልን።",
-    "subtitle": "\"Do you want a bed? A bed?\" We were confused about whom to hear. In the end we followed one.",
+    "subtitle": "\"Do you want a bed? A bed?\" We did not know whom to listen to. In the end we followed one.",
     "from": "am",
     "to": "en",
     "model": "claude-opus-5-5"
    },
    "meta": {
-    "literal": "\"Do you want a bed? A bed?\" We were confused about whom to listen to. In the end we followed one of them.",
+    "literal": "\"Do you want a bed? A bed?\" We were confused about whom to listen to. Finally we followed one.",
     "faithful": true,
     "differences": []
    },
-   "created": "2026-11-25T23:50:11Z"
+   "created": "2026-11-26T11:49:48Z"
   },
   "s07_subtitle_check": {
    "key": "feecc4849bcdfd97",
@@ -771,6 +771,15 @@
    "file": "s09_subtitle_check__ffdc6c5a198e5b02.json",
    "meta": {
     "literal": "Today, seven years later, I have one thing I say to everyone who leaves home: the first night is always confusing. But the confusion is part of the journey. Do not flee from it; savour it.",
+    "faithful": true,
+    "differences": []
+   }
+  },
+  "4bfe960916edcad9": {
+   "unit": "s06_subtitle_check",
+   "file": "s06_subtitle_check__4bfe960916edcad9.json",
+   "meta": {
+    "literal": "\"Do you want a bed? A bed?\" We were confused about whom to listen to. Finally we followed one.",
     "faithful": true,
     "differences": []
    }

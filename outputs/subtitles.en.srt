@@ -1,89 +1,89 @@
 1
-00:00:00,400 --> 00:00:04,530
+00:00:00,400 --> 00:00:04,890
 I will never forget the first
 night I spent far from home.
 
 2
-00:00:04,530 --> 00:00:07,533
+00:00:04,890 --> 00:00:07,575
 It was Meskerem 2012 (late 2019).
 
 3
-00:00:08,233 --> 00:00:12,363
+00:00:08,275 --> 00:00:12,405
 When I finished twelfth grade,
 I was assigned to Bahir Dar University.
 
 4
-00:00:12,363 --> 00:00:18,617
+00:00:12,405 --> 00:00:18,658
 At midday, with just one backpack,
 seen off by my friend, I left Ankober.
 
 5
-00:00:19,317 --> 00:00:23,617
+00:00:19,358 --> 00:00:23,658
 The road was gravel as far as
 Debre Birhan, then asphalt.
 
 6
-00:00:24,317 --> 00:00:30,617
+00:00:24,358 --> 00:00:30,658
 Sitting by the window, I watched the
 forest and the mountain in wonder.
 
 7
-00:00:31,317 --> 00:00:36,017
+00:00:31,358 --> 00:00:36,218
 When I reached Lamberet after dark,
 another friend was waiting for me.
 
 8
-00:00:36,017 --> 00:00:41,007
+00:00:36,218 --> 00:00:40,838
 Addis Ababa met me flooded
 with people, lights and cars;
 
 9
-00:00:41,007 --> 00:00:42,617
+00:00:40,838 --> 00:00:42,700
 I did not know where to look.
 
 10
-00:00:43,317 --> 00:00:47,242
+00:00:43,400 --> 00:00:47,325
 And when we reached Autobus Tera,
 brokers surrounded us.
 
 11
-00:00:47,942 --> 00:00:52,192
+00:00:48,025 --> 00:00:52,275
 "Do you want a bed? A bed?"
-We were confused about whom to hear.
+We did not know whom to listen to.
 
 12
-00:00:52,192 --> 00:00:53,658
+00:00:52,275 --> 00:00:53,742
 In the end we followed one.
 
 13
-00:00:54,358 --> 00:00:57,008
+00:00:54,442 --> 00:00:57,092
 The room had one bed;
 
 14
-00:00:57,008 --> 00:01:01,658
+00:00:57,092 --> 00:01:01,742
 it was neither good nor bad;
 but it was clean.
 
 15
-00:01:02,358 --> 00:01:07,867
+00:01:02,442 --> 00:01:07,950
 Next morning we stood in a long queue
 and bought the ticket to Bahir Dar.
 
 16
-00:01:08,567 --> 00:01:13,617
+00:01:08,650 --> 00:01:13,910
 Today, seven years later, I have one
 thing to say to all who leave home:
 
 17
-00:01:13,617 --> 00:01:15,897
+00:01:13,910 --> 00:01:16,260
 the first night is always confusing.
 
 18
-00:01:15,897 --> 00:01:18,417
+00:01:16,260 --> 00:01:18,770
 But the confusion is
 part of the journey.
 
 19
-00:01:18,417 --> 00:01:21,867
+00:01:18,770 --> 00:01:21,950
 Do not run from it; savour it.
 
